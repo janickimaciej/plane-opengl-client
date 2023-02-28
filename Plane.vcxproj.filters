@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\models\airplane.cpp" />
+    <ClCompile Include="src\models\airport.cpp" />
+    <ClCompile Include="src\cameras\camera.cpp" />
+    <ClCompile Include="src\day_night_cycle.cpp" />
+    <ClCompile Include="src\lights\directional_light.cpp" />
+    <ClCompile Include="src\models\directional_light_model.cpp" />
+    <ClCompile Include="dep\glad.c" />
+    <ClCompile Include="src\global_shading.cpp" />
+    <ClCompile Include="src\lights\light.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\structs\material.cpp" />
+    <ClCompile Include="src\mesh.cpp" />
+    <ClCompile Include="src\mesh_instance.cpp" />
+    <ClCompile Include="src\lights\mesh_light.cpp" />
+    <ClCompile Include="src\models\model.cpp" />
+    <ClCompile Include="src\cameras\model_camera.cpp" />
+    <ClCompile Include="src\movable.cpp" />
+    <ClCompile Include="src\obj_parser.cpp" />
+    <ClCompile Include="src\cameras\perspective_camera.cpp" />
+    <ClCompile Include="src\shader_program.cpp" />
+    <ClCompile Include="src\lights\spot_light.cpp" />
+    <ClCompile Include="dep\stb_image.cpp" />
+    <ClCompile Include="src\time.cpp" />
+    <ClCompile Include="src\cameras\tracking_camera.cpp" />
+    <ClCompile Include="src\models\zeppelin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\models\airplane.hpp" />
+    <ClInclude Include="src\models\airport.hpp" />
+    <ClInclude Include="src\cameras\camera.hpp" />
+    <ClInclude Include="src\day_night_cycle.hpp" />
+    <ClInclude Include="src\lights\directional_light.hpp" />
+    <ClInclude Include="src\models\directional_light_model.hpp" />
+    <ClInclude Include="src\global_shading.hpp" />
+    <ClInclude Include="src\lights\light.hpp" />
+    <ClInclude Include="src\structs\material.hpp" />
+    <ClInclude Include="src\mesh.hpp" />
+    <ClInclude Include="src\mesh_instance.hpp" />
+    <ClInclude Include="src\lights\mesh_light.hpp" />
+    <ClInclude Include="src\models\model.hpp" />
+    <ClInclude Include="src\cameras\model_camera.hpp" />
+    <ClInclude Include="src\movable.hpp" />
+    <ClInclude Include="src\obj_parser.hpp" />
+    <ClInclude Include="src\cameras\perspective_camera.hpp" />
+    <ClInclude Include="src\shader_program.hpp" />
+    <ClInclude Include="src\lights\spot_light.hpp" />
+    <ClInclude Include="dep\stb_image.h" />
+    <ClInclude Include="src\time.hpp" />
+    <ClInclude Include="src\cameras\tracking_camera.hpp" />
+    <ClInclude Include="src\structs\vertex.hpp" />
+    <ClInclude Include="src\structs\window_payload.hpp" />
+    <ClInclude Include="src\models\zeppelin.hpp" />
+    <ClInclude Include="src\paths.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\lightFragmentShader.glsl" />
+    <None Include="src\shaders\lightVertexShader.glsl" />
+    <None Include="src\shaders\surfaceFragmentShader.glsl" />
+    <None Include="src\shaders\surfaceVertexShader.glsl" />
+    <None Include=".gitignore" />
+  </ItemGroup>
+</Project>
