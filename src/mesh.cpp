@@ -8,7 +8,7 @@
 const std::string meshDirectoryPath = "Meshes/";
 const std::string textureDirectoryPath = "Textures/";
 
-void Mesh::createBuffers() {
+void Mesh::createBuffers(const std::vector<Vertex>& vertices) {
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	glGenVertexArrays(1, &VAO);
@@ -60,8 +60,10 @@ void Mesh::updateShaderValues() const {
 Mesh::Mesh(const ShaderProgram& shaderProgram, std::string objPath, Material material,
 	std::string texturePath) :
 	shaderProgram(shaderProgram), material(material) {
+	std::vector<Vertex> vertices;
 	ObjParser::parse(meshDirectoryPath + objPath, vertices);
-	createBuffers();
+	vertexCount = vertices.size();
+	createBuffers(vertices);
 	if(texturePath != "") {
 		createTextureBuffer();
 		loadTexture(textureDirectoryPath + texturePath);
@@ -72,7 +74,7 @@ void Mesh::render() const {
 	updateShaderValues();
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	glBindVertexArray(0);
 }
 

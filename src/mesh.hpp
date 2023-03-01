@@ -9,13 +9,13 @@
 
 class Mesh {
 	const ShaderProgram& shaderProgram;
-	std::vector<Vertex> vertices;
+	unsigned int vertexCount;
 	Material material;
 	unsigned int VAO;
 	bool isTextureEnabled = false;
 	unsigned int texture;
 
-	void createBuffers();
+	void createBuffers(const std::vector<Vertex>& vertices);
 	void createTextureBuffer();
 	void loadTexture(std::string texturePath);
 	void updateShaderValues() const;

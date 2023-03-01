@@ -2,13 +2,13 @@
 #include <glm/gtc/constants.hpp>
 
 constexpr float pi = glm::pi<float>();
-constexpr float transitionLength = 0.1;
+constexpr float transitionLength = 0.1f;
 constexpr glm::vec3 nightBackgroundColor = glm::vec3(0, 0, 0.1);
 constexpr glm::vec3 dayBackgroundColor = glm::vec3(0.6, 0.6, 1);
-constexpr float nightAmbient = 0.2;
-constexpr float dayAmbient = 0.7;
-constexpr float lowFogDensity = 0.003;
-constexpr float highFogDensity = 0.01;
+constexpr float nightAmbient = 0.2f;
+constexpr float dayAmbient = 0.7f;
+constexpr float lowFogDensity = 0.003f;
+constexpr float highFogDensity = 0.01f;
 constexpr glm::vec3 sunLight = glm::vec3(1, 1, 1);
 constexpr glm::vec3 moonLight = glm::vec3(0.2, 0.2, 0.2);
 
