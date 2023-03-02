@@ -26,6 +26,7 @@
     <ClCompile Include="src\time.cpp" />
     <ClCompile Include="src\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\models\zeppelin.cpp" />
+    <ClCompile Include="src\scenes\airport_scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="src\structs\window_payload.hpp" />
     <ClInclude Include="src\models\zeppelin.hpp" />
     <ClInclude Include="src\paths.hpp" />
+    <ClInclude Include="src\scenes\airport_scene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\lightFragmentShader.glsl" />

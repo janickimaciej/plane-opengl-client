@@ -1,7 +1,6 @@
 #ifndef DAY_NIGHT_CYCLE
 #define DAY_NIGHT_CYCLE
 
-#include "time.hpp"
 #include "global_shading.hpp"
 #include "models/directional_light_model.hpp"
 

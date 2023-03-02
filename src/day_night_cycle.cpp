@@ -1,5 +1,6 @@
 #include "day_night_cycle.hpp"
 #include <glm/gtc/constants.hpp>
+#include "time.hpp"
 
 constexpr float pi = glm::pi<float>();
 constexpr float transitionLength = 0.1f;
@@ -27,12 +28,15 @@ void DayNightCycle::updateTimeOfDay() {
 }
 
 void DayNightCycle::updateGlobalShading() {
+	const float fogGradient = 1.5f;
+
 	float dayCoefficient = getDayCoefficient();
 	float fogCoefficient = getFogCoefficient();
 
 	GlobalShading::setBackgroundColor(dayCoefficient*dayBackgroundColor +
 		(1 - dayCoefficient)*nightBackgroundColor);
 	GlobalShading::setAmbient(dayCoefficient*dayAmbient + (1 - dayCoefficient)*nightAmbient);
+	GlobalShading::setFogGradient(fogGradient);
 	GlobalShading::setFogDensity(fogCoefficient*highFogDensity + (1 - fogCoefficient)*lowFogDensity);
 	moon->setLightColor(dayCoefficient*sunLight + (1 - dayCoefficient)*moonLight);
 }

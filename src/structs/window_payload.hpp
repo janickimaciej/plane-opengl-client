@@ -3,11 +3,10 @@
 
 #include "../cameras/perspective_camera.hpp"
 #include "../models/airplane.hpp"
+#include "../scenes/airport_scene.hpp"
 
 struct WindowPayload {
-	PerspectiveCamera* cameras[3];
-	PerspectiveCamera* usedCamera;
-	Airplane* controlledModel;
+	AirportScene* airportScene;
 };
 
 #endif

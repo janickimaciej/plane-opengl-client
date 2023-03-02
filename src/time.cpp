@@ -3,6 +3,10 @@
 float Time::time;
 float Time::deltaTime;
 
+void Time::initializeTime() {
+	updateTime();
+}
+
 void Time::updateTime() {
 	float currentTime = glfwGetTime();
 	deltaTime = currentTime - time;

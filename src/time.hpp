@@ -9,6 +9,7 @@ class Time {
 
 	Time() { }
 public:
+	static void initializeTime();
 	static void updateTime();
 	static float getDeltaTime();
 };
