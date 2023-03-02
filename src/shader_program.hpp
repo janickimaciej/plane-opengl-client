@@ -17,6 +17,7 @@ public:
 	void setUniform1f(const std::string& name, float value) const;
 	void setUniform3f(const std::string& name, glm::vec3 value) const;
 	void setUniformMatrix4f(const std::string& name, glm::mat4 value) const;
+	~ShaderProgram();
 };
 
 #endif

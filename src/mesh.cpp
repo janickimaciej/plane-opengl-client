@@ -9,7 +9,6 @@ const std::string meshDirectoryPath = "Meshes/";
 const std::string textureDirectoryPath = "Textures/";
 
 void Mesh::createBuffers(const std::vector<Vertex>& vertices) {
-	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -80,4 +79,10 @@ void Mesh::render() const {
 
 const ShaderProgram& Mesh::getShaderProgram() const {
 	return shaderProgram;
+}
+
+Mesh::~Mesh() {
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteTextures(1, &texture);
 }

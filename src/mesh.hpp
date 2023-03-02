@@ -11,6 +11,7 @@ class Mesh {
 	const ShaderProgram& shaderProgram;
 	unsigned int vertexCount;
 	Material material;
+	unsigned int VBO;
 	unsigned int VAO;
 	bool isTextureEnabled = false;
 	unsigned int texture;
@@ -24,8 +25,7 @@ public:
 		std::string texturePath = "");
 	void render() const;
 	const ShaderProgram& getShaderProgram() const;
-
-	virtual ~Mesh() { }
+	~Mesh();
 };
 
 #endif
