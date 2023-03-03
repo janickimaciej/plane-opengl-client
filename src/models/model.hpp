@@ -30,8 +30,7 @@ public:
 	virtual void pitch(float angleDeg) override; // locally
 	virtual void yaw(float angleDeg) override; // locally
 	virtual void roll(float angleDeg) override; // locally
-	virtual void moveForwards(float distance) override; // locally
-	virtual void moveBackwards(float distance) override; // locally
+	virtual void moveAlongZ(float distance) override; // locally
 
 	virtual ~Model() { }
 };

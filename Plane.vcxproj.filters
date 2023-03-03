@@ -56,6 +56,7 @@
     <ClInclude Include="src\models\zeppelin.hpp" />
     <ClInclude Include="src\paths.hpp" />
     <ClInclude Include="src\scenes\airport_scene.hpp" />
+    <ClInclude Include="src\structs\state.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\lightFragmentShader.glsl" />

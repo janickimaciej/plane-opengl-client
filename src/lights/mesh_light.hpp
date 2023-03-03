@@ -24,8 +24,7 @@ public:
 	void pitch(float angleDeg); // locally
 	void yaw(float angleDeg); // locally
 	void roll(float angleDeg); // locally
-	void moveForwards(float distance); // locally
-	void moveBackwards(float distance); // locally
+	void moveAlongZ(float distance); // locally
 
 	virtual ~MeshLight() { }
 };

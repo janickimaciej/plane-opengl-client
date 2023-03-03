@@ -39,12 +39,7 @@ void MeshLight::roll(float angleDeg) {
 	updateShaderLightMeshMatrix();
 }
 
-void MeshLight::moveForwards(float distance) {
-	meshInstance.moveForwards(distance);
-	updateShaderLightMeshMatrix();
-}
-
-void MeshLight::moveBackwards(float distance) {
-	meshInstance.moveBackwards(distance);
+void MeshLight::moveAlongZ(float distance) {
+	meshInstance.moveAlongZ(distance);
 	updateShaderLightMeshMatrix();
 }

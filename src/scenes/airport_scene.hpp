@@ -53,14 +53,14 @@ public:
 	void setAspectRatio(float aspectRatio);
 	void setActiveCamera(unsigned int cameraId);
 
-	void controlForwards();
-	void controlBackwards();
-	void controlYawNegative();
-	void controlYawPositive();
-	void controlPitchNegative();
-	void controlPitchPositive();
-	void controlRollNegative();
-	void controlRollPositive();
+	void ctrlMoveAlongZNegative();
+	void ctrlMoveAlongZPositive();
+	void ctrlYawNegative();
+	void ctrlYawPositive();
+	void ctrlPitchNegative();
+	void ctrlPitchPositive();
+	void ctrlRollNegative();
+	void ctrlRollPositive();
 
 	~AirportScene();
 };

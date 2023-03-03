@@ -9,7 +9,8 @@ protected:
 	const Model& model;
 	void aimAtModel();
 public:
-	TrackingCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane, const Model& model);
+	TrackingCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane,
+		const Model& model);
 	virtual void use(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) override;
 	
 	virtual ~TrackingCamera() { }

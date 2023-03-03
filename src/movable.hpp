@@ -1,16 +1,13 @@
 #ifndef MOVABLE
 #define MOVABLE
 
-#include <glm/glm.hpp>
+#include "structs/state.hpp"
 #include "shader_program.hpp"
 
 class Movable {
 protected:
 	float scaleRatio = 1;
-	glm::vec4 direction = glm::vec4(0, 0, 1, 0);
-	glm::vec4 right = glm::vec4(1, 0, 0, 0);
-	glm::vec4 up = glm::vec4(0, 1, 0, 0);
-	glm::vec3 position = glm::vec3(0, 0, 0);
+	State state;
 	glm::mat4 matrix;
 
 	void updateMatrix();
@@ -23,8 +20,7 @@ public:
 	virtual void pitch(float angleDeg); // locally
 	virtual void yaw(float angleDeg); // locally
 	virtual void roll(float angleDeg); // locally
-	virtual void moveForwards(float distance); // locally
-	virtual void moveBackwards(float distance); // locally
+	virtual void moveAlongZ(float distance); // locally
 
 	virtual ~Movable() { }
 };

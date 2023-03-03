@@ -4,9 +4,9 @@
 #include "../time.hpp"
 
 constexpr int airplanesCount = 5;
-constexpr float velocity = 50.f;
-constexpr float angVelocityDeg = 60.f;
-constexpr float propellerAngVelocityDeg = 360.f;
+constexpr float velocity = 50;
+constexpr float angVelocityDeg = 60;
+constexpr float propellerAngVelocityDeg = 360;
 
 void AirportScene::createMeshes() {
 	Material defaultMaterial = Material(glm::vec3(1, 0, 0), 0.75, 0.25, 10); // dummy color
@@ -50,9 +50,9 @@ void AirportScene::createModels() {
 }
 
 void AirportScene::createCameras(float aspectRatio) {
-	airplaneCamera = new ModelCamera(60.f, aspectRatio, 0.01f, 1000.f, airplanes[0]);
-	trackingCamera = new TrackingCamera(60.f, aspectRatio, 0.01f, 1000.f, airplanes[0]);
-	stationaryCamera = new PerspectiveCamera(100.f, aspectRatio, 0.01f, 1000.f);
+	airplaneCamera = new ModelCamera(60, aspectRatio, 0.01f, 1000, airplanes[0]);
+	trackingCamera = new TrackingCamera(60, aspectRatio, 0.01f, 1000, airplanes[0]);
+	stationaryCamera = new PerspectiveCamera(100, aspectRatio, 0.01f, 1000);
 }
 
 void AirportScene::setModels() {
@@ -139,42 +139,42 @@ void AirportScene::setActiveCamera(unsigned int cameraId) {
 	}
 }
 
-void AirportScene::controlForwards() {
+void AirportScene::ctrlMoveAlongZNegative() {
 	float deltaTime = Time::getDeltaTime();
-	airplanes[0].moveForwards(velocity*deltaTime);
+	airplanes[0].moveAlongZ(-velocity*deltaTime);
 }
 
-void AirportScene::controlBackwards() {
+void AirportScene::ctrlMoveAlongZPositive() {
 	float deltaTime = Time::getDeltaTime();
-	airplanes[0].moveBackwards(velocity*deltaTime);
+	airplanes[0].moveAlongZ(velocity*deltaTime);
 }
 
-void AirportScene::controlYawNegative() {
+void AirportScene::ctrlYawNegative() {
 	float deltaTime = Time::getDeltaTime();
 	airplanes[0].yaw(-angVelocityDeg*deltaTime);
 }
 
-void AirportScene::controlYawPositive() {
+void AirportScene::ctrlYawPositive() {
 	float deltaTime = Time::getDeltaTime();
 	airplanes[0].yaw(angVelocityDeg*deltaTime);
 }
 
-void AirportScene::controlPitchNegative() {
+void AirportScene::ctrlPitchNegative() {
 	float deltaTime = Time::getDeltaTime();
 	airplanes[0].pitch(-angVelocityDeg*deltaTime);
 }
 
-void AirportScene::controlPitchPositive() {
+void AirportScene::ctrlPitchPositive() {
 	float deltaTime = Time::getDeltaTime();
 	airplanes[0].pitch(angVelocityDeg*deltaTime);
 }
 
-void AirportScene::controlRollNegative() {
+void AirportScene::ctrlRollNegative() {
 	float deltaTime = Time::getDeltaTime();
 	airplanes[0].roll(-angVelocityDeg*deltaTime);
 }
 
-void AirportScene::controlRollPositive() {
+void AirportScene::ctrlRollPositive() {
 	float deltaTime = Time::getDeltaTime();
 	airplanes[0].roll(angVelocityDeg*deltaTime);
 }

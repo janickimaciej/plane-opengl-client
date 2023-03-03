@@ -83,28 +83,28 @@ void processInput(GLFWwindow* window) {
 	}
 
 	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		windowPayload->airportScene->controlForwards();
+		windowPayload->airportScene->ctrlMoveAlongZNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		windowPayload->airportScene->controlBackwards();
+		windowPayload->airportScene->ctrlMoveAlongZPositive();
 	}
 	if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		windowPayload->airportScene->controlYawNegative();
+		windowPayload->airportScene->ctrlYawNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		windowPayload->airportScene->controlYawPositive();
+		windowPayload->airportScene->ctrlYawPositive();
 	}
 	
 	if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		windowPayload->airportScene->controlPitchNegative();
+		windowPayload->airportScene->ctrlPitchNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		windowPayload->airportScene->controlPitchPositive();
+		windowPayload->airportScene->ctrlPitchPositive();
 	}
 	if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		windowPayload->airportScene->controlRollNegative();
+		windowPayload->airportScene->ctrlRollNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		windowPayload->airportScene->controlRollPositive();
+		windowPayload->airportScene->ctrlRollPositive();
 	}
 }

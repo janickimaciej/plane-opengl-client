@@ -26,7 +26,7 @@ glm::mat4 Model::getModelMatrix() const {
 }
 
 glm::vec3 Model::getPosition() const {
-	return position;
+	return state.position;
 }
 
 void Model::scale(float scaleRatio) {
@@ -59,12 +59,7 @@ void Model::roll(float angleDeg) {
 	updateShaderLightModelMatrix();
 }
 
-void Model::moveForwards(float distance) {
-	Movable::moveForwards(distance);
-	updateShaderLightModelMatrix();
-}
-
-void Model::moveBackwards(float distance) {
-	Movable::moveBackwards(distance);
+void Model::moveAlongZ(float distance) {
+	Movable::moveAlongZ(distance);
 	updateShaderLightModelMatrix();
 }
