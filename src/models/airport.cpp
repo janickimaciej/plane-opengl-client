@@ -4,8 +4,8 @@
 
 constexpr int hangarsCount = 3;
 constexpr int lightsCount = 8;
-constexpr float lightsAttenuationQuadratic = 0.0001;
-constexpr float lightsAttenuationLinear = 0.0005;
+constexpr float lightsAttenuationQuadratic = 0.0001f;
+constexpr float lightsAttenuationLinear = 0.0005f;
 constexpr float lightsAttenuationConstant = 1;
 constexpr glm::vec3 lightsColor = glm::vec3(1, 1, 0.6);
 constexpr float lightsCutoffInnerDeg = 25;

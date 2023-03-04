@@ -3,8 +3,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 constexpr float rotateLightsConstraintDeg = 30;
-constexpr float lightsAttenuationQuadratic = 0.0001;
-constexpr float lightsAttenuationLinear = 0.0005;
+constexpr float lightsAttenuationQuadratic = 0.0001f;
+constexpr float lightsAttenuationLinear = 0.0005f;
 constexpr float lightsAttenuationConstant = 1;
 constexpr glm::vec3 lightsColor = glm::vec3(1, 1, 1);
 constexpr float lightsCutoffInnerDeg = 8;
