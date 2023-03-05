@@ -45,11 +45,11 @@ float DayNightCycle::getDayCoefficient() {
 	if(timeOfDay <= (1 - 2*transitionLength)/4) {
 		return 0;
 	} else if(timeOfDay <= (1 + 2*transitionLength)/4) {
-		return (glm::sin((timeOfDay - 0.25)/transitionLength*pi) + 1)/2;
+		return (glm::sin((timeOfDay - 0.25f)/transitionLength*pi) + 1)/2;
 	} else if(timeOfDay <= (3 - 2*transitionLength)/4) {
 		return 1;
 	} else if(timeOfDay <= (3 + 2*transitionLength)/4) {
-		return (-glm::sin((timeOfDay - 0.75)/transitionLength*pi) + 1)/2;
+		return (-glm::sin((timeOfDay - 0.75f)/transitionLength*pi) + 1)/2;
 	} else {
 		return 0;
 	}
@@ -59,9 +59,9 @@ float DayNightCycle::getFogCoefficient() {
 	if(timeOfDay <= (1 - 2*transitionLength)/4) {
 		return 0;
 	} else if(timeOfDay <= (1 + 2*transitionLength)/4) {
-		return (glm::sin((timeOfDay - 0.25)/transitionLength*pi) + 1)/2;
+		return (glm::sin((timeOfDay - 0.25f)/transitionLength*pi) + 1)/2;
 	} else if(timeOfDay <= (1 + 6*transitionLength)/4) {
-		return (-glm::sin((timeOfDay - (0.25 + transitionLength))/transitionLength*pi) + 1)/2;
+		return (-glm::sin((timeOfDay - (0.25f + transitionLength))/transitionLength*pi) + 1)/2;
 	} else {
 		return 0;
 	}

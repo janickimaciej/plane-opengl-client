@@ -3,9 +3,9 @@
 
 void TrackingCamera::aimAtModel() {
 	glm::vec3 modelPosition = model.getPosition();
-	state.direction = glm::vec4(glm::normalize(state.position - modelPosition), 0);
-	state.right = glm::vec4(glm::normalize(glm::cross(glm::vec3(0, 1, 0), glm::vec3(state.direction))), 0);
-	state.up = glm::vec4(glm::normalize(glm::cross(glm::vec3(state.direction), glm::vec3(state.right))), 0);
+	state.direction = glm::normalize(state.position - modelPosition);
+	state.right = glm::normalize(glm::cross(glm::vec3(0, 1, 0), glm::vec3(state.direction)));
+	state.up = glm::normalize(glm::cross(glm::vec3(state.direction), glm::vec3(state.right)));
 	updateMatrix();
 }
 
