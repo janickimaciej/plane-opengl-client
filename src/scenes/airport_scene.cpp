@@ -77,7 +77,7 @@ void AirportScene::setModels() {
 }
 
 void AirportScene::setCameras() {
-	airplaneCamera->translate(glm::vec3(0, 1, 4));
+	airplaneCamera->translate(glm::vec3(0, 4, 16));
 	airplaneCamera->pitch(-10);
 
 	trackingCamera->translate(glm::vec3(140, 70, 0));

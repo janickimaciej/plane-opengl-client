@@ -9,8 +9,8 @@ constexpr float lightsAttenuationConstant = 1;
 constexpr glm::vec3 lightsColor = glm::vec3(1, 1, 1);
 constexpr float lightsCutoffInnerDeg = 8;
 constexpr float lightsCutoffOuterDeg = 10;
-constexpr glm::vec3 leftLightPosition = glm::vec3(0.535, -0.112, -0.274);
-constexpr glm::vec3 rightLightPosition = glm::vec3(-0.535, -0.112, -0.274);
+constexpr glm::vec3 leftLightPosition = glm::vec3(2.14, -0.448, -1.096);
+constexpr glm::vec3 rightLightPosition = glm::vec3(-2.14, -0.448, -1.096);
 
 void Airplane::updateShaderLightModelMatrix() const {
 	leftLight.updateShaderLightModelMatrix(matrix);
@@ -40,7 +40,6 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgra
 		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg) {
 	leftLight.translate(leftLightPosition);
 	rightLight.translate(rightLightPosition);
-	scale(4);
 	updateShaderLightModelMatrix();
 }
 
