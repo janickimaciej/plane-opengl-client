@@ -13,7 +13,7 @@ class RigidBodyDynamics : RungeKuttaRightHandSide {
 		glm::vec3* netTorque) const = 0;
 public:
 	RigidBodyDynamics(float mass, glm::mat3 momentOfInertia);
-	virtual void rightHandSide(float time, const float stateArray[], float resultArray[]) const override;
+	virtual void rightHandSide(float time, const float stateArray[], float stateDerivativeArray[]) const override;
 	State computeNewState(State oldState);
 };
 

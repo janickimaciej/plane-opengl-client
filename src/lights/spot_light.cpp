@@ -20,7 +20,7 @@ void SpotLight::updateShaderLightMeshMatrix() const {
 	surfaceShaderProgram.setUniformMatrix4f(commonString + "meshMatrix", meshInstance.getMatrix());
 }
 
-SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, Mesh& mesh, float attenuationQuadratic,
+SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh, float attenuationQuadratic,
 	float attenuationLinear, float attenuationConstant, glm::vec3 color, float cutoffInnerDeg,
 	float cutoffOuterDeg) :	MeshLight(surfaceShaderProgram, idCounter++, mesh, attenuationQuadratic,
 	attenuationLinear, attenuationConstant, color), cutoffInnerDeg(cutoffInnerDeg),

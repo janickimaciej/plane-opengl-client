@@ -38,9 +38,10 @@ void Airport::renderLights() const {
 }
 
 Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-	Mesh& groundMesh, Mesh& runwayMesh, Mesh& apronMesh, Mesh& towerMesh, Mesh& hangarMesh,
-	Mesh& lightBodyMesh, Mesh& lightMesh) : Model(surfaceShaderProgram, lightShaderProgram),
-	ground(groundMesh), runway(runwayMesh), apron(apronMesh), tower(towerMesh) {
+	const Mesh& groundMesh, const Mesh& runwayMesh, const Mesh& apronMesh, const Mesh& towerMesh,
+	const Mesh& hangarMesh, const Mesh& lightBodyMesh, const Mesh& lightMesh) :
+	Model(surfaceShaderProgram, lightShaderProgram), ground(groundMesh), runway(runwayMesh),
+	apron(apronMesh), tower(towerMesh) {
 	for(int i = 0; i < hangarsCount; i++) {
 		hangars.push_back(MeshInstance(hangarMesh));
 		hangars[i].translate(glm::vec3(0, 0, -46*i));

@@ -11,7 +11,7 @@ class Zeppelin : public Model {
 	virtual void renderLights() const override;
 public:
 	Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		Mesh& bodyMesh);
+		const Mesh& bodyMesh);
 	
 	virtual ~Zeppelin() { }
 };

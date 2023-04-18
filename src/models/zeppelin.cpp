@@ -9,7 +9,7 @@ void Zeppelin::renderSurfaces() const {
 void Zeppelin::renderLights() const { }
 
 Zeppelin::Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-	Mesh& bodyMesh) : Model(surfaceShaderProgram, lightShaderProgram), body(bodyMesh) {
+	const Mesh& bodyMesh) : Model(surfaceShaderProgram, lightShaderProgram), body(bodyMesh) {
 	scale(57);
 	updateShaderLightModelMatrix();
 }

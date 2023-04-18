@@ -9,9 +9,9 @@
 
 const std::string SH_PREFIX = "src/shaders/";
 const std::string SH_POSTFIX = "Shader.glsl";
-const std::string SM_PREFIX = "../res/meshes/";
+const std::string SM_PREFIX = "res/meshes/";
 const std::string SM_POSTFIX = ".obj";
-const std::string T_PREFIX = "../res/textures/";
+const std::string T_PREFIX = "res/textures/";
 const std::string T_POSTFIX = ".png";
 
 const std::string SH_SURFACE_VERTEX = SH_PATH("surfaceVertex");

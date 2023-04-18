@@ -20,7 +20,8 @@ class Airplane : public Model {
 	virtual void renderLights() const override;
 public:
 	Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		Mesh& capMesh, Mesh& propellerMesh, Mesh& bodyMesh, Mesh& joinsMesh, Mesh& tiresMesh, Mesh& lightMesh);
+		const Mesh& capMesh, const Mesh& propellerMesh, const Mesh& bodyMesh, const Mesh& joinsMesh,
+		const Mesh& tiresMesh, const Mesh& lightMesh);
 	void rotatePropeller(float angleDeg);
 
 	virtual ~Airplane() { }

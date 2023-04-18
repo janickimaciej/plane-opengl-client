@@ -30,6 +30,8 @@
     <ClCompile Include="src\runge_kutta.cpp" />
     <ClCompile Include="src\model_dynamics\rigid_body_dynamics.cpp" />
     <ClCompile Include="src\structs\state.cpp" />
+    <ClCompile Include="src\model_dynamics\airplane_dynamics.cpp" />
+    <ClCompile Include="src\flight_control.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />
@@ -63,6 +65,9 @@
     <ClInclude Include="src\runge_kutta.hpp" />
     <ClInclude Include="src\model_dynamics\rigid_body_dynamics.hpp" />
     <ClInclude Include="src\runge_kutta_right_hand_side.hpp" />
+    <ClInclude Include="src\model_dynamics\airplane_dynamics.hpp" />
+    <ClInclude Include="src\flight_control.hpp" />
+    <ClInclude Include="src\structs\control_surfaces_constraints.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\lightFragmentShader.glsl" />

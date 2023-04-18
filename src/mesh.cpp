@@ -5,9 +5,6 @@
 #include "../dep/stb_image.h"
 #include "obj_parser.hpp"
 
-const std::string meshDirectoryPath = "Meshes/";
-const std::string textureDirectoryPath = "Textures/";
-
 void Mesh::createBuffers(const std::vector<Vertex>& vertices) {
 	glGenBuffers(1, &VBO);
 	glGenVertexArrays(1, &VAO);
@@ -60,18 +57,20 @@ Mesh::Mesh(const ShaderProgram& shaderProgram, std::string objPath, Material mat
 	std::string texturePath) :
 	shaderProgram(shaderProgram), material(material) {
 	std::vector<Vertex> vertices;
-	ObjParser::parse(meshDirectoryPath + objPath, vertices);
+	ObjParser::parse(objPath, vertices);
 	vertexCount = vertices.size();
 	createBuffers(vertices);
 	if(texturePath != "") {
 		createTextureBuffer();
-		loadTexture(textureDirectoryPath + texturePath);
+		loadTexture(texturePath);
 	}
 }
 
 void Mesh::render() const {
 	updateShaderValues();
-	glBindTexture(GL_TEXTURE_2D, texture);
+	if(isTextureEnabled) {
+		glBindTexture(GL_TEXTURE_2D, texture);
+	}
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	glBindVertexArray(0);

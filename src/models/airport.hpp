@@ -20,8 +20,8 @@ class Airport : public Model {
 	virtual void renderLights() const override;
 public:
 	Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		Mesh& groundMesh, Mesh& runwayMesh, Mesh& apronMesh, Mesh& towerMesh, Mesh& hangarMesh,
-		Mesh& lightBodyMesh, Mesh& lightMesh);
+		const Mesh& groundMesh, const Mesh& runwayMesh, const Mesh& apronMesh, const Mesh& towerMesh,
+		const Mesh& hangarMesh, const Mesh& lightBodyMesh, const Mesh& lightMesh);
 };
 
 #endif

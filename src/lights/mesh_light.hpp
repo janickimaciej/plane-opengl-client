@@ -11,7 +11,7 @@ protected:
 	MeshInstance meshInstance;
 	const ShaderProgram& surfaceShaderProgram;
 
-	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, Mesh& mesh,
+	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
 		float attenuationQuadratic, float attenuationLinear, float attenuationConstant, glm::vec3 color);
 	virtual void updateShaderLightMeshMatrix() const = 0;
 public:

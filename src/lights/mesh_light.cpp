@@ -1,6 +1,6 @@
 #include "mesh_light.hpp"
 
-MeshLight::MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, Mesh& mesh,
+MeshLight::MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
 	float attenuationQuadratic, float attenuationLinear, float attenuationConstant, glm::vec3 color) :
 	Light(surfaceShaderProgram, id, attenuationQuadratic, attenuationLinear, attenuationConstant, color),
 	meshInstance(mesh), surfaceShaderProgram(surfaceShaderProgram) { }

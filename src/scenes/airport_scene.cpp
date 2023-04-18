@@ -125,15 +125,14 @@ void AirportScene::setAspectRatio(float aspectRatio) {
 }
 
 void AirportScene::setActiveCamera(unsigned int cameraId) {
-	cameraId--;
 	switch(cameraId) {
-	case 0:
+	case 1:
 		activeCamera = airplaneCamera;
 		break;
-	case 1:
+	case 2:
 		activeCamera = trackingCamera;
 		break;
-	case 2:
+	case 3:
 		activeCamera = stationaryCamera;
 		break;
 	}
@@ -198,7 +197,6 @@ AirportScene::~AirportScene() {
 	delete moon;
 	delete airport;
 	delete zeppelin;
-	airplanes.clear();
 
 	delete airplaneCamera;
 	delete trackingCamera;
