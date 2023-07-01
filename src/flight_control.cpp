@@ -18,7 +18,7 @@ void FlightControl::setElevatorAngleRelative(float angleRelative) {
 	float newElevatorAngleDeg = controlSurfacesConstraints.elevatorMinAngleDeg +
 		(controlSurfacesConstraints.elevatorMaxAngleDeg -
 		controlSurfacesConstraints.elevatorMinAngleDeg)*angleRelative;
-	// TODO: rotate mesh
+	//TODO: rotate mesh
 	elevatorAngleDeg = newElevatorAngleDeg;
 }
 
@@ -30,7 +30,7 @@ void FlightControl::setRudderAngleRelative(float angleRelative) {
 	float newRudderAngleDeg = controlSurfacesConstraints.rudderMinAngleDeg +
 		(controlSurfacesConstraints.rudderMaxAngleDeg -
 		controlSurfacesConstraints.rudderMinAngleDeg)*angleRelative;
-	// TODO: rotate mesh
+	//TODO: rotate mesh
 	rudderAngleDeg = newRudderAngleDeg;
 }
 
@@ -41,7 +41,7 @@ float FlightControl::getAileronsAngleDeg() const {
 void FlightControl::setAileronsAngleRelative(float angleRelative) {
 	float newAileronsAngleDeg = controlSurfacesConstraints.aileronsMinMaxAngleDeg +
 		2*controlSurfacesConstraints.aileronsMinMaxAngleDeg*angleRelative;
-	// TODO: rotate mesh
+	//TODO: rotate mesh
 	aileronsAngleDeg = newAileronsAngleDeg;
 }
 

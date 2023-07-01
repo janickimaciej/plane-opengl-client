@@ -47,8 +47,10 @@
     <ClCompile Include="src\runge_kutta.cpp" />
     <ClCompile Include="src\scenes\airport_scene.cpp" />
     <ClCompile Include="src\shader_program.cpp" />
+    <ClCompile Include="src\structs\airplane_parameters.cpp" />
     <ClCompile Include="src\structs\material.cpp" />
     <ClCompile Include="src\structs\state.cpp" />
+    <ClCompile Include="src\structs\surface_parameters.cpp" />
     <ClCompile Include="src\time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +82,11 @@
     <ClInclude Include="src\runge_kutta_right_hand_side.hpp" />
     <ClInclude Include="src\scenes\airport_scene.hpp" />
     <ClInclude Include="src\shader_program.hpp" />
+    <ClInclude Include="src\structs\airplane_parameters.hpp" />
     <ClInclude Include="src\structs\control_surfaces_constraints.hpp" />
     <ClInclude Include="src\structs\material.hpp" />
     <ClInclude Include="src\structs\state.hpp" />
+    <ClInclude Include="src\structs\surface_parameters.hpp" />
     <ClInclude Include="src\structs\vertex.hpp" />
     <ClInclude Include="src\structs\window_payload.hpp" />
     <ClInclude Include="src\time.hpp" />
@@ -105,26 +109,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

@@ -6,5 +6,6 @@ void AirplaneDynamics::computeNetForceAndNetTorque(State state, glm::vec3* netFo
 }
 
 AirplaneDynamics::AirplaneDynamics(float mass, glm::mat3 momentOfInertia,
-	const FlightControl& flightControl) : RigidBodyDynamics(mass, momentOfInertia),
+	AirplaneParameters parameters, const FlightControl& flightControl) :
+	RigidBodyDynamics(mass, momentOfInertia), parameters(parameters),
 	flightControl(flightControl) { }
