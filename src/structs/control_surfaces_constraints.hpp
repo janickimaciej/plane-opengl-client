@@ -4,9 +4,11 @@
 struct ControlSurfacesConstraints {
 	float elevatorMinAngleDeg;
 	float elevatorMaxAngleDeg;
-	float rudderMinAngleDeg;
 	float rudderMaxAngleDeg;
-	float aileronsMinMaxAngleDeg;
+	float aileronsMaxAngleDeg;
+
+	ControlSurfacesConstraints(float elevatorMinAngleDeg, float elevatorMaxAngleDeg,
+		float rudderMaxAngleDeg, float aileronsMaxAngleDeg);
 };
 
 #endif

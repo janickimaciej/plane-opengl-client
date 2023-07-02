@@ -1,5 +1,7 @@
 #include "camera.hpp"
 
+Camera::Camera(glm::mat4 projectionMatrix) : projectionMatrix(projectionMatrix) { }
+
 void Camera::updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram) const {
 	glm::mat4 viewMatrix = getViewMatrix();
@@ -31,8 +33,6 @@ glm::vec3 Camera::getCameraPosition() const {
 glm::mat4 Camera::getViewMatrix() const {
 	return glm::inverse(getCameraMatrix());
 }
-
-Camera::Camera(glm::mat4 projectionMatrix) : projectionMatrix(projectionMatrix) { }
 
 void Camera::use(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) {
 	updateShaderMatrices(surfaceShaderProgram, lightShaderProgram);

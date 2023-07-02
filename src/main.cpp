@@ -5,6 +5,7 @@
 #include <vector>
 #include "shader_program.hpp"
 #include "structs/window_payload.hpp"
+#include "scenes/airport_scene.hpp"
 #include "time.hpp"
 #include "paths.hpp"
 
@@ -22,16 +23,16 @@ int main() {
 	ShaderProgram surfaceShaderProgram = ShaderProgram(SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT);
 	ShaderProgram lightShaderProgram = ShaderProgram(SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT);
 
-	AirportScene airportScene = AirportScene(surfaceShaderProgram, lightShaderProgram,
+	Scene* airportScene = new AirportScene(surfaceShaderProgram, lightShaderProgram,
 		(float)initialWindowWidth/initialWindowHeight);
-	windowPayload.airportScene = &airportScene;
+	windowPayload.scene = airportScene;
 	
 	Time::initializeTime();
 	while(!glfwWindowShouldClose(window)) {
 		Time::updateTime();
 		processInput(window);
-		airportScene.update();
-		airportScene.render();
+		airportScene->update();
+		airportScene->render();
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
@@ -61,7 +62,7 @@ void resizeWindow(GLFWwindow* window, int width, int height) {
 	}
 
 	WindowPayload* windowPayload = (WindowPayload*)glfwGetWindowUserPointer(window);
-	windowPayload->airportScene->setAspectRatio((float)width/height);
+	windowPayload->scene->setAspectRatio((float)width/height);
 	glViewport(0, 0, width, height);
 }
 
@@ -73,38 +74,38 @@ void processInput(GLFWwindow* window) {
 	}
 
 	if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-		windowPayload->airportScene->setActiveCamera(1);
+		windowPayload->scene->setActiveCamera(1);
 	}
 	if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-		windowPayload->airportScene->setActiveCamera(2);
+		windowPayload->scene->setActiveCamera(2);
 	}
 	if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-		windowPayload->airportScene->setActiveCamera(3);
+		windowPayload->scene->setActiveCamera(3);
 	}
 
 	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlMoveAlongZNegative();
+		windowPayload->scene->ctrlMoveAlongZNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlMoveAlongZPositive();
+		windowPayload->scene->ctrlMoveAlongZPositive();
 	}
 	if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlYawNegative();
+		windowPayload->scene->ctrlYawNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlYawPositive();
+		windowPayload->scene->ctrlYawPositive();
 	}
 	
 	if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlPitchNegative();
+		windowPayload->scene->ctrlPitchNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlPitchPositive();
+		windowPayload->scene->ctrlPitchPositive();
 	}
 	if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlRollNegative();
+		windowPayload->scene->ctrlRollNegative();
 	}
 	if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		windowPayload->airportScene->ctrlRollPositive();
+		windowPayload->scene->ctrlRollPositive();
 	}
 }

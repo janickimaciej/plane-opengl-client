@@ -34,6 +34,8 @@
     <ClCompile Include="src\flight_control.cpp" />
     <ClCompile Include="src\structs\surface_parameters.cpp" />
     <ClCompile Include="src\structs\airplane_parameters.cpp" />
+    <ClCompile Include="src\scenes\scene.cpp" />
+    <ClCompile Include="src\structs\control_surfaces_constraints.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />
@@ -72,6 +74,7 @@
     <ClInclude Include="src\structs\control_surfaces_constraints.hpp" />
     <ClInclude Include="src\structs\airplane_parameters.hpp" />
     <ClInclude Include="src\structs\surface_parameters.hpp" />
+    <ClInclude Include="src\scenes\scene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\lightFragmentShader.glsl" />

@@ -16,12 +16,10 @@ protected:
 	Light(const ShaderProgram& surfaceShaderProgram, unsigned int id, float attenuationQuadratic,
 		float attenuationLinear, float attenuationConstant, glm::vec3 color);
 	virtual void updateShaderLightValues() const = 0;
+	virtual ~Light() = default;
 public:
 	virtual void updateShaderLightModelMatrix(glm::mat4 modelMatrix) const = 0;
-
 	void setColor(glm::vec3 color);
-
-	virtual ~Light() { }
 };
 
 #endif

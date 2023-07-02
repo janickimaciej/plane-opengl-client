@@ -7,9 +7,8 @@
 class ShaderProgram {
 	char* readShaderFile(const char* shaderFilePath) const;
 	unsigned int createShaderProgram(const char* vertexShaderCode, const char* fragmentShaderCode) const;
-public:
 	unsigned int id;
-
+public:
 	ShaderProgram(const std::string vertexShaderPath, const std::string fragmentShaderPath);
 	void use() const;
 	void setUniform1b(const std::string& name, bool value) const;

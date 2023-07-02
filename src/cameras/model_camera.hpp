@@ -12,6 +12,7 @@ protected:
 	virtual glm::mat4 getOriginMatrix() const override;
 public:
 	ModelCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane, const Model& model);
+	virtual ~ModelCamera() = default;
 };
 
 #endif

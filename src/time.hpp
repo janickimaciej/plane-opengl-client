@@ -6,12 +6,12 @@
 class Time {
 	static float time;
 	static float deltaTime;
-
-	Time() { }
 public:
+	Time() = delete;
 	static void initializeTime();
 	static void updateTime();
 	static float getDeltaTime();
+	~Time() = delete;
 };
 
 #endif

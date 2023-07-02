@@ -10,8 +10,7 @@ class PerspectiveCamera : public Camera {
 public:
 	PerspectiveCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane);
 	void setAspectRatio(float aspectRatio);
-
-	virtual ~PerspectiveCamera() { }
+	virtual ~PerspectiveCamera() = default;
 };
 
 #endif

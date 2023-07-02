@@ -17,8 +17,7 @@ public:
 		float attenuationLinear, float attenuationConstant, glm::vec3 color, float cutoffInnerDeg,
 		float cutoffOuterDeg);
 	virtual void updateShaderLightModelMatrix(glm::mat4 modelMatrix) const override;
-
-	virtual ~SpotLight() { }
+	virtual ~SpotLight() = default;
 };
 
 #endif

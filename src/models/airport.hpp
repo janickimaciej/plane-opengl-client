@@ -22,6 +22,7 @@ public:
 	Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		const Mesh& groundMesh, const Mesh& runwayMesh, const Mesh& apronMesh, const Mesh& towerMesh,
 		const Mesh& hangarMesh, const Mesh& lightBodyMesh, const Mesh& lightMesh);
+	virtual ~Airport() = default;
 };
 
 #endif

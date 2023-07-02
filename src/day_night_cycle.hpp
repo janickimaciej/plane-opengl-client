@@ -10,12 +10,15 @@ class DayNightCycle {
 	static int day;
 	static DirectionalLightModel* moon;
 
-	DayNightCycle() { }
-public:
+	DayNightCycle() = delete;
 	static void updateTimeOfDay();
-	static void updateGlobalShading();
-	static float getDayCoefficient();
+	static void updateGlobalShading(const ShaderProgram& surfaceShaderProgram,
+		const ShaderProgram& lightShaderProgram);
+	static float getLightCoefficient();
 	static float getFogCoefficient();
+	~DayNightCycle() = delete;
+public:
+	static void update(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
 
 	static void setMoon(DirectionalLightModel* moon);
 };

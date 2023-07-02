@@ -13,10 +13,8 @@ class DirectionalLightModel : public Model {
 public:
 	DirectionalLightModel(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		glm::vec3 lightColor);
-
 	void setLightColor(glm::vec3 color);
-
-	virtual ~DirectionalLightModel() { }
+	virtual ~DirectionalLightModel() = default;
 };
 
 #endif

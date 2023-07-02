@@ -8,7 +8,7 @@ void Time::initializeTime() {
 }
 
 void Time::updateTime() {
-	float currentTime = glfwGetTime();
+	float currentTime = (float)glfwGetTime();
 	deltaTime = currentTime - time;
 	time = currentTime;
 }

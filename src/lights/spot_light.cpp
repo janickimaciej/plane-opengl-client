@@ -4,7 +4,7 @@
 unsigned int SpotLight::idCounter = 0;
 
 void SpotLight::updateShaderLightValues() const {
-	glUseProgram(surfaceShaderProgram.id);
+	surfaceShaderProgram.use();
 	std::string commonString = "spotLights[" + std::to_string(id) + "].";
 	surfaceShaderProgram.setUniform1f(commonString + "cutoffInnerRad", glm::radians(cutoffInnerDeg));
 	surfaceShaderProgram.setUniform1f(commonString + "cutoffOuterRad", glm::radians(cutoffOuterDeg));
@@ -15,7 +15,7 @@ void SpotLight::updateShaderLightValues() const {
 }
 
 void SpotLight::updateShaderLightMeshMatrix() const {
-	glUseProgram(surfaceShaderProgram.id);
+	surfaceShaderProgram.use();
 	std::string commonString = "spotLights[" + std::to_string(id) + "].";
 	surfaceShaderProgram.setUniformMatrix4f(commonString + "meshMatrix", meshInstance.getMatrix());
 }
@@ -30,7 +30,7 @@ SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh
 }
 
 void SpotLight::updateShaderLightModelMatrix(glm::mat4 modelMatrix) const {
-	glUseProgram(surfaceShaderProgram.id);
+	surfaceShaderProgram.use();
 	std::string commonString = "spotLights[" + std::to_string(id) + "].";
 	surfaceShaderProgram.setUniformMatrix4f(commonString + "modelMatrix", modelMatrix);
 }

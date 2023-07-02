@@ -10,7 +10,6 @@ constexpr float lightsAttenuationConstant = 1;
 constexpr glm::vec3 lightsColor = glm::vec3(1, 1, 0.6);
 constexpr float lightsCutoffInnerDeg = 25;
 constexpr float lightsCutoffOuterDeg = 35;
-constexpr glm::vec3 lampColor = glm::vec3(1, 1, 0.6);
 
 void Airport::updateShaderLightModelMatrix() const {
 	for(int i = 0; i < lightsCount; i++) {

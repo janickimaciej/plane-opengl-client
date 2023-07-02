@@ -1,5 +1,8 @@
 #include "model.hpp"
 
+Model::Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
+	surfaceShaderProgram(surfaceShaderProgram), lightShaderProgram(lightShaderProgram) { }
+
 void Model::updateShaderValues() const {
 	surfaceShaderProgram.use();
 	surfaceShaderProgram.setUniformMatrix4f("modelMatrix", matrix);
@@ -7,9 +10,6 @@ void Model::updateShaderValues() const {
 	lightShaderProgram.use();
 	lightShaderProgram.setUniformMatrix4f("modelMatrix", matrix);
 }
-
-Model::Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-	surfaceShaderProgram(surfaceShaderProgram), lightShaderProgram(lightShaderProgram) { }
 
 void Model::render() const {
 	updateShaderValues();
@@ -36,6 +36,11 @@ void Model::scale(float scaleRatio) {
 
 void Model::rotate(glm::vec3 axis, float angleDeg) {
 	Movable::rotate(axis, angleDeg);
+	updateShaderLightModelMatrix();
+}
+
+void Model::resetRotation() {
+	Movable::resetRotation();
 	updateShaderLightModelMatrix();
 }
 

@@ -9,7 +9,7 @@
 
 class Mesh {
 	const ShaderProgram& shaderProgram;
-	unsigned int vertexCount;
+	size_t vertexCount;
 	Material material;
 	unsigned int VBO;
 	unsigned int VAO;
@@ -21,8 +21,7 @@ class Mesh {
 	void loadTexture(std::string texturePath);
 	void updateShaderValues() const;
 public:
-	Mesh(const ShaderProgram& shaderProgram, std::string objPath, Material material,
-		std::string texturePath = "");
+	Mesh(const ShaderProgram& shaderProgram, std::string objPath, Material material, std::string texturePath = "");
 	void render() const;
 	const ShaderProgram& getShaderProgram() const;
 	~Mesh();

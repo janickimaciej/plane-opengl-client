@@ -4,7 +4,7 @@
 unsigned int DirectionalLight::idCounter = 0;
 
 void DirectionalLight::updateShaderLightValues() const {
-	glUseProgram(surfaceShaderProgram.id);
+	surfaceShaderProgram.use();
 	std::string commonString = "directionalLights[" + std::to_string(id) + "].";
 	surfaceShaderProgram.setUniform3f(commonString + "color", color);
 	surfaceShaderProgram.setUniform1f(commonString + "attenuationQuadratic", attenuationQuadratic);
@@ -20,7 +20,7 @@ DirectionalLight::DirectionalLight(const ShaderProgram& surfaceShaderProgram, fl
 }
 
 void DirectionalLight::updateShaderLightModelMatrix(glm::mat4 modelMatrix) const {
-	glUseProgram(surfaceShaderProgram.id);
+	surfaceShaderProgram.use();
 	std::string commonString = "directionalLights[" + std::to_string(id) + "].";
 	surfaceShaderProgram.setUniformMatrix4f(commonString + "modelMatrix", modelMatrix);
 }

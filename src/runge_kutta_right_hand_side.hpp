@@ -4,6 +4,7 @@
 class RungeKuttaRightHandSide {
 public:
 	virtual void rightHandSide(float time, const float state[], float result[]) const = 0;
+	virtual ~RungeKuttaRightHandSide() = default;
 };
 
 #endif

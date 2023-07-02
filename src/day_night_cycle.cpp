@@ -27,21 +27,24 @@ void DayNightCycle::updateTimeOfDay() {
 	}
 }
 
-void DayNightCycle::updateGlobalShading() {
-	const float fogGradient = 1.5f;
+void DayNightCycle::updateGlobalShading(const ShaderProgram& surfaceShaderProgram,
+	const ShaderProgram& lightShaderProgram) {
+	constexpr float fogGradient = 1.5f;
 
-	float dayCoefficient = getDayCoefficient();
+	float lightCoefficient = getLightCoefficient();
 	float fogCoefficient = getFogCoefficient();
 
-	GlobalShading::setBackgroundColor(dayCoefficient*dayBackgroundColor +
-		(1 - dayCoefficient)*nightBackgroundColor);
-	GlobalShading::setAmbient(dayCoefficient*dayAmbient + (1 - dayCoefficient)*nightAmbient);
+	GlobalShading::setBackgroundColor(lightCoefficient*dayBackgroundColor +
+		(1 - lightCoefficient)*nightBackgroundColor);
+	GlobalShading::setAmbient(lightCoefficient*dayAmbient + (1 - lightCoefficient)*nightAmbient);
 	GlobalShading::setFogGradient(fogGradient);
 	GlobalShading::setFogDensity(fogCoefficient*highFogDensity + (1 - fogCoefficient)*lowFogDensity);
-	moon->setLightColor(dayCoefficient*sunLight + (1 - dayCoefficient)*moonLight);
+	moon->setLightColor(lightCoefficient*sunLight + (1 - lightCoefficient)*moonLight);
+	
+	GlobalShading::use(surfaceShaderProgram, lightShaderProgram);
 }
 
-float DayNightCycle::getDayCoefficient() {
+float DayNightCycle::getLightCoefficient() {
 	if(timeOfDay <= (1 - 2*transitionLength)/4) {
 		return 0;
 	} else if(timeOfDay <= (1 + 2*transitionLength)/4) {
@@ -65,6 +68,11 @@ float DayNightCycle::getFogCoefficient() {
 	} else {
 		return 0;
 	}
+}
+
+void DayNightCycle::update(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) {
+	updateTimeOfDay();
+	updateGlobalShading(surfaceShaderProgram, lightShaderProgram);
 }
 
 void DayNightCycle::setMoon(DirectionalLightModel* moon) {

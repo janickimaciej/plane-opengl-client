@@ -14,6 +14,7 @@ class AirplaneDynamics : RigidBodyDynamics {
 public:
 	AirplaneDynamics(float mass, glm::mat3 momentOfInertia,
 		AirplaneParameters parameters, const FlightControl& flightControl);
+	virtual ~AirplaneDynamics() = default;
 };
 
 #endif

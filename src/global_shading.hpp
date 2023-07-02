@@ -9,14 +9,13 @@ class GlobalShading {
 	static float ambient;
 	static float fogGradient;
 	static float fogDensity;
+	
+	GlobalShading() = delete;
 	static void updateShaderGlobalShading(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);
-	GlobalShading() { }
+	~GlobalShading() = delete;
 public:
-	static void use(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram);
-
-	static glm::vec3 getBackgroundColor();
+	static void use(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
 
 	static void setBackgroundColor(glm::vec3 backgroundColor);
 	static void setAmbient(float ambient);

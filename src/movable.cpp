@@ -36,6 +36,13 @@ void Movable::rotate(glm::vec3 axis, float angleDeg) {
 	updateMatrix();
 }
 
+void Movable::resetRotation() {
+	state.right = glm::vec3(1, 0, 0);
+	state.up = glm::vec3(0, 1, 0);
+	state.direction = glm::vec3(0, 0, 1);
+	updateMatrix();
+}
+
 void Movable::translate(glm::vec3 translation) {
 	state.position += translation;
 	updateMatrix();

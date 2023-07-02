@@ -10,9 +10,8 @@ struct AirplaneParameters {
 	SurfaceParameters vStabParameters;
 	ControlSurfacesConstraints controlSurfacesConstraints;
 
-	AirplaneParameters(SurfaceParameters wingsParameters,
-		SurfaceParameters hStabParameters, SurfaceParameters vStabParameters,
-		ControlSurfacesConstraints controlSurfacesConstraints);
+	AirplaneParameters(SurfaceParameters wingsParameters, SurfaceParameters hStabParameters,
+		SurfaceParameters vStabParameters, ControlSurfacesConstraints controlSurfacesConstraints);
 };
 
 #endif

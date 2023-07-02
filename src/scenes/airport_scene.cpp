@@ -9,13 +9,13 @@ constexpr float angVelocityDeg = 60;
 constexpr float propellerAngVelocityDeg = 360;
 
 void AirportScene::createMeshes() {
-	Material defaultMaterial = Material(glm::vec3(1, 0, 0), 0.75, 0.25, 10); // dummy color
-	Material concrete = Material(glm::vec3(1, 0, 0), 0.75, 0, 10); // dummy color
-	Material metal = Material(glm::vec3(0.25, 0.25, 0.25), 0.75, 0.25, 10);
-	Material rubber = Material(glm::vec3(0.1, 0.1, 0.1), 0.75, 0.25, 10);
-	Material zeppelinCanvas = Material(glm::vec3(0.9, 0.9, 0.9), 0.75, 0.25, 10);
-	Material whiteLightGlass = Material(glm::vec3(1, 1, 1), 1, 1, 1); // dummy surface parameters
-	Material yellowLightGlass = Material(glm::vec3(1, 1, 0.6), 1, 1, 1); // dummy surface parameters
+	const Material defaultMaterial = Material(glm::vec3(1, 0, 0), 0.75, 0.25, 10); // dummy color
+	const Material concrete = Material(glm::vec3(1, 0, 0), 0.75, 0, 10); // dummy color
+	const Material metal = Material(glm::vec3(0.25, 0.25, 0.25), 0.75, 0.25, 10);
+	const Material rubber = Material(glm::vec3(0.1, 0.1, 0.1), 0.75, 0.25, 10);
+	const Material zeppelinCanvas = Material(glm::vec3(0.9, 0.9, 0.9), 0.75, 0.25, 10);
+	const Material whiteLightGlass = Material(glm::vec3(1, 1, 1), 1, 1, 1); // dummy surface parameters
+	const Material yellowLightGlass = Material(glm::vec3(1, 1, 0.6), 1, 1, 1); // dummy surface parameters
 
 	airportGround = new Mesh(surfaceShaderProgram, SM_AIRPORT_GROUND, defaultMaterial, T_GRASS);
 	airportRunway = new Mesh(surfaceShaderProgram, SM_AIRPORT_RUNWAY, defaultMaterial, T_ASPHALT);
@@ -44,8 +44,7 @@ void AirportScene::createModels() {
 			*airplanePropeller, *airplaneBody, *airplaneJoins, *airplaneTires, *airplaneLight));
 	}
 
-	moon = new DirectionalLightModel(surfaceShaderProgram, lightShaderProgram,
-		glm::vec3(0, 0, 0));
+	moon = new DirectionalLightModel(surfaceShaderProgram, lightShaderProgram, glm::vec3(0, 0, 0));
 	DayNightCycle::setMoon(moon);
 }
 
@@ -89,9 +88,8 @@ void AirportScene::setCameras() {
 	activeCamera = airplaneCamera;
 }
 
-AirportScene::AirportScene(const ShaderProgram& surfaceShaderProgram,
-	const ShaderProgram& lightShaderProgram, float aspectRatio) :
-	surfaceShaderProgram(surfaceShaderProgram), lightShaderProgram(lightShaderProgram) {
+AirportScene::AirportScene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+	float aspectRatio) : Scene(surfaceShaderProgram, lightShaderProgram) {
 	createMeshes();
 	createModels();
 	createCameras(aspectRatio);
@@ -100,9 +98,7 @@ AirportScene::AirportScene(const ShaderProgram& surfaceShaderProgram,
 }
 
 void AirportScene::update() {
-	DayNightCycle::updateTimeOfDay();
-	DayNightCycle::updateGlobalShading();
-	GlobalShading::use(surfaceShaderProgram, lightShaderProgram);
+	DayNightCycle::update(surfaceShaderProgram, lightShaderProgram);
 
 	float deltaTime = Time::getDeltaTime();
 	airplanes[0].rotatePropeller(propellerAngVelocityDeg*deltaTime);

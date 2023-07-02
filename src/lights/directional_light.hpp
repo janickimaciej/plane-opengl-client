@@ -11,8 +11,7 @@ public:
 	DirectionalLight(const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
 		float attenuationLinear, float attenuationConstant, glm::vec3 color);
 	virtual void updateShaderLightModelMatrix(glm::mat4 modelMatrix) const override;
-
-	virtual ~DirectionalLight() { }
+	virtual ~DirectionalLight() = default;
 };
 
 #endif

@@ -10,14 +10,14 @@ class FlightControl {
 	//MeshInstance& leftAileron;
 	//MeshInstance& rightAileron;
 
-	ControlSurfacesConstraints controlSurfacesConstraints;
+	const ControlSurfacesConstraints& controlSurfacesConstraints;
 	float elevatorAngleDeg;
 	float rudderAngleDeg;
 	float aileronsAngleDeg;
 	float thrustRelative;
 public:
 	FlightControl(/*MeshInstance& elevator, MeshInstance& rudder, MeshInstance& leftAileron,
-		MeshInstance& rightAileron, */ControlSurfacesConstraints controlSurfacesConstraints);
+		MeshInstance& rightAileron, */const ControlSurfacesConstraints& controlSurfacesConstraints);
 	float getElevatorAngleDeg() const;
 	void setElevatorAngleRelative(float angleRelative);
 	float getRudderAngleDeg() const;

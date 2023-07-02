@@ -13,11 +13,9 @@ protected:
 	void updateShaderMeshMatrix() const;
 public:
 	MeshInstance(const Mesh& mesh);
-	virtual void render() const;
-
+	void render() const;
 	glm::mat4 getMatrix() const;
-
-	virtual ~MeshInstance() { }
+	virtual ~MeshInstance() = default;
 };
 
 #endif

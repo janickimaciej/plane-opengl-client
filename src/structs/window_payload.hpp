@@ -1,12 +1,10 @@
 #ifndef WINDOW_PAYLOAD
 #define WINDOW_PAYLOAD
 
-#include "../cameras/perspective_camera.hpp"
-#include "../models/airplane.hpp"
-#include "../scenes/airport_scene.hpp"
+#include "../scenes/scene.hpp"
 
 struct WindowPayload {
-	AirportScene* airportScene;
+	Scene* scene;
 };
 
 #endif

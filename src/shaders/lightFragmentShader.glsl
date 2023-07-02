@@ -4,7 +4,6 @@
 
 struct GlobalShading {
 	vec3 backgroundColor;
-	float ambient;
 	float fogGradient;
 	float fogDensity;
 };

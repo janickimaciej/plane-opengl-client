@@ -14,6 +14,7 @@ protected:
 	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
 		float attenuationQuadratic, float attenuationLinear, float attenuationConstant, glm::vec3 color);
 	virtual void updateShaderLightMeshMatrix() const = 0;
+	virtual ~MeshLight() = default;
 public:
 	void render() const;
 
@@ -25,8 +26,6 @@ public:
 	void yaw(float angleDeg); // locally
 	void roll(float angleDeg); // locally
 	void moveAlongZ(float distance); // locally
-
-	virtual ~MeshLight() { }
 };
 
 #endif

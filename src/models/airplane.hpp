@@ -23,8 +23,7 @@ public:
 		const Mesh& capMesh, const Mesh& propellerMesh, const Mesh& bodyMesh, const Mesh& joinsMesh,
 		const Mesh& tiresMesh, const Mesh& lightMesh);
 	void rotatePropeller(float angleDeg);
-
-	virtual ~Airplane() { }
+	virtual ~Airplane() = default;
 };
 
 #endif

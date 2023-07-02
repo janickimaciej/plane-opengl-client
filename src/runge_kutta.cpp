@@ -2,7 +2,7 @@
 
 void RungeKutta::RK4(unsigned int stateLength, float oldTime, float deltaTime, const float oldState[],
 	const RungeKuttaRightHandSide& rightHandSide, float newState[]) {
-	float* k[4] { };
+	float* k[4];
 	for(int i = 0; i < 4; i++) {
 		k[i] = new float[stateLength];
 	}
