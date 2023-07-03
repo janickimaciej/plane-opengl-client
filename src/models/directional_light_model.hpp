@@ -7,7 +7,7 @@
 class DirectionalLightModel : public Model {
 	DirectionalLight light;
 
-	virtual void updateShaderLightModelMatrix() const override;
+	virtual void updateShaderLightMatrix() const override;
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 public:

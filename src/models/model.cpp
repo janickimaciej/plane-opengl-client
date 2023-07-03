@@ -3,17 +3,7 @@
 Model::Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
 	surfaceShaderProgram(surfaceShaderProgram), lightShaderProgram(lightShaderProgram) { }
 
-void Model::updateShaderValues() const {
-	surfaceShaderProgram.use();
-	surfaceShaderProgram.setUniformMatrix4f("modelMatrix", matrix);
-	
-	lightShaderProgram.use();
-	lightShaderProgram.setUniformMatrix4f("modelMatrix", matrix);
-}
-
 void Model::render() const {
-	updateShaderValues();
-	
 	surfaceShaderProgram.use();
 	renderSurfaces();
 
@@ -31,40 +21,40 @@ glm::vec3 Model::getPosition() const {
 
 void Model::scale(float scaleRatio) {
 	Movable::scale(scaleRatio);
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }
 
 void Model::rotate(glm::vec3 axis, float angleDeg) {
 	Movable::rotate(axis, angleDeg);
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }
 
 void Model::resetRotation() {
 	Movable::resetRotation();
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }
 
 void Model::translate(glm::vec3 translation) {
 	Movable::translate(translation);
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }
 
 void Model::pitch(float angleDeg) {
 	Movable::pitch(angleDeg);
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }
 
 void Model::yaw(float angleDeg) {
 	Movable::yaw(angleDeg);
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }
 
 void Model::roll(float angleDeg) {
 	Movable::roll(angleDeg);
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }
 
 void Model::moveAlongZ(float distance) {
 	Movable::moveAlongZ(distance);
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }

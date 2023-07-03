@@ -7,5 +7,5 @@ Light::Light(const ShaderProgram& surfaceShaderProgram, unsigned int id, float a
 
 void Light::setColor(glm::vec3 color) {
 	this->color = color;
-	updateShaderLightValues();
+	updateShaderLightParameters();
 }

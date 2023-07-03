@@ -11,28 +11,28 @@ constexpr glm::vec3 lightsColor = glm::vec3(1, 1, 0.6);
 constexpr float lightsCutoffInnerDeg = 25;
 constexpr float lightsCutoffOuterDeg = 35;
 
-void Airport::updateShaderLightModelMatrix() const {
+void Airport::updateShaderLightMatrix() const {
 	for(int i = 0; i < lightsCount; i++) {
-		lights[i].updateShaderLightModelMatrix(matrix);
+		lights[i].updateShaderLightTranslation(matrix);
 	}
 }
 
 void Airport::renderSurfaces() const {
-	ground.render();
-	runway.render();
-	apron.render();
-	tower.render();
+	ground.render(matrix);
+	runway.render(matrix);
+	apron.render(matrix);
+	tower.render(matrix);
 	for(int i = 0; i < hangarsCount; i++) {
-		hangars[i].render();
+		hangars[i].render(matrix);
 	}
 	for(int i = 0; i < lightsCount; i++) {
-		lightBodies[i].render();
+		lightBodies[i].render(matrix);
 	}
 }
 
 void Airport::renderLights() const {
 	for(int i = 0; i < lightsCount; i++) {
-		lights[i].render();
+		lights[i].render(matrix);
 	}
 }
 
@@ -54,10 +54,10 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 	for(int i = 0; i < lightsCount; i++) {
 		lights.push_back(SpotLight(surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 			lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
-			lightsCutoffOuterDeg));
-		lights[i].translate(LIGHT_TRANSLATE);
-		lights[i].yaw(180);
-		lights[i].pitch(15);
+			lightsCutoffOuterDeg, matrix));
+		lights[i].translate(LIGHT_TRANSLATE, matrix);
+		lights[i].yaw(180, matrix);
+		lights[i].pitch(15, matrix);
 	}
-	updateShaderLightModelMatrix();
+	updateShaderLightMatrix();
 }

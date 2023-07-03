@@ -12,8 +12,7 @@ protected:
 	const ShaderProgram& lightShaderProgram;
 	
 	Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
-	void updateShaderValues() const;
-	virtual void updateShaderLightModelMatrix() const = 0;
+	virtual void updateShaderLightMatrix() const = 0;
 	virtual void renderSurfaces() const = 0;
 	virtual void renderLights() const = 0;
 	virtual ~Model() = default;

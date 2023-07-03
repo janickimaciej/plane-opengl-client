@@ -5,41 +5,41 @@ MeshLight::MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id,
 	Light(surfaceShaderProgram, id, attenuationQuadratic, attenuationLinear, attenuationConstant, color),
 	meshInstance(mesh), surfaceShaderProgram(surfaceShaderProgram) { }
 
-void MeshLight::render() const {
-	meshInstance.render();
+void MeshLight::render(glm::mat4 modelMatrix) const {
+	meshInstance.render(modelMatrix);
 }
 
-void MeshLight::scale(float scaleRatio) {
+void MeshLight::scale(float scaleRatio, glm::mat4 modelMatrix) {
 	meshInstance.scale(scaleRatio);
-	updateShaderLightMeshMatrix();
+	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::rotate(glm::vec3 axis, float angleDeg) {
+void MeshLight::rotate(glm::vec3 axis, float angleDeg, glm::mat4 modelMatrix) {
 	meshInstance.rotate(axis, angleDeg);
-	updateShaderLightMeshMatrix();
+	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::translate(glm::vec3 translation) {
+void MeshLight::translate(glm::vec3 translation, glm::mat4 modelMatrix) {
 	meshInstance.translate(translation);
-	updateShaderLightMeshMatrix();
+	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::pitch(float angleDeg) {
+void MeshLight::pitch(float angleDeg, glm::mat4 modelMatrix) {
 	meshInstance.pitch(angleDeg);
-	updateShaderLightMeshMatrix();
+	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::yaw(float angleDeg) {
+void MeshLight::yaw(float angleDeg, glm::mat4 modelMatrix) {
 	meshInstance.yaw(angleDeg);
-	updateShaderLightMeshMatrix();
+	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::roll(float angleDeg) {
+void MeshLight::roll(float angleDeg, glm::mat4 modelMatrix) {
 	meshInstance.roll(angleDeg);
-	updateShaderLightMeshMatrix();
+	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::moveAlongZ(float distance) {
+void MeshLight::moveAlongZ(float distance, glm::mat4 modelMatrix) {
 	meshInstance.moveAlongZ(distance);
-	updateShaderLightMeshMatrix();
+	updateShaderLightTranslation(modelMatrix);
 }

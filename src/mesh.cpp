@@ -45,7 +45,8 @@ void Mesh::loadTexture(std::string texturePath) {
 	stbi_image_free(textureData);
 }
 
-void Mesh::updateShaderValues() const {
+void Mesh::updateShaderValues(glm::mat4 modelMeshMatrix) const {
+	shaderProgram.setUniformMatrix4f("modelMeshMatrix", modelMeshMatrix);
 	shaderProgram.setUniform3f("material.color", material.color);
 	shaderProgram.setUniform1f("material.diffuse", material.diffuse);
 	shaderProgram.setUniform1f("material.specular", material.specular);
@@ -65,8 +66,8 @@ Mesh::Mesh(const ShaderProgram& shaderProgram, std::string objPath, Material mat
 	}
 }
 
-void Mesh::render() const {
-	updateShaderValues();
+void Mesh::render(glm::mat4 modelMeshMatrix) const {
+	updateShaderValues(modelMeshMatrix);
 	if(isTextureEnabled) {
 		glBindTexture(GL_TEXTURE_2D, texture);
 	}

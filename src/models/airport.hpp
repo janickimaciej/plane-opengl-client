@@ -15,7 +15,7 @@ class Airport : public Model {
 	std::vector<MeshInstance> lightBodies;
 	std::vector<SpotLight> lights;
 
-	virtual void updateShaderLightModelMatrix() const override;
+	virtual void updateShaderLightMatrix() const override;
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 public:

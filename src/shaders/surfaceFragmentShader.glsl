@@ -21,8 +21,8 @@ struct Material {
 };
 
 struct SpotLight {
-	mat4 meshMatrix;
-	mat4 modelMatrix;
+	vec3 lightDirection;
+	vec3 lightPosition;
 	float cutoffInnerRad;
 	float cutoffOuterRad;
 	vec3 color;
@@ -32,7 +32,7 @@ struct SpotLight {
 };
 
 struct DirectionalLight {
-	mat4 modelMatrix;
+	vec3 lightDirection;
 	vec3 color;
 	float attenuationQuadratic;
 	float attenuationLinear;
@@ -95,35 +95,25 @@ vec3 calcViewVector() {
 }
 
 vec3 calcPseudoColorSpotLight(int i, vec3 viewVector) {
-	vec4 lightPosition = spotLights[i].modelMatrix*spotLights[i].meshMatrix*vec4(0, 0, 0, 1);
-	vec3 lightDirection = normalize(vec3(spotLights[i].modelMatrix*spotLights[i].meshMatrix*vec4(0, 0, 1, 0)));
-	vec3 lightVector = normalize(lightPosition.xyz - position.xyz);
+	vec3 lightVector = normalize(spotLights[i].lightPosition - position.xyz);
 
 	float cutoffCoef = calcCutoffCoef(spotLights[i].cutoffInnerRad, spotLights[i].cutoffOuterRad,
-		lightVector, lightDirection);
+		lightVector, spotLights[i].lightDirection);
 	if(cutoffCoef < 1e-9) return vec3(0, 0, 0);
 
 	float brightness = calcBrightness(viewVector, lightVector);
 	float attenuation = calcAttenuation(spotLights[i].attenuationQuadratic, spotLights[i].attenuationLinear,
-		spotLights[i].attenuationConstant, position.xyz, lightPosition.xyz);
+		spotLights[i].attenuationConstant, position.xyz, spotLights[i].lightPosition);
 
-	return attenuation*cutoffCoef*brightness*vec3(
-		spotLights[i].color.x,
-		spotLights[i].color.y,
-		spotLights[i].color.z
-	);
+	return attenuation*cutoffCoef*brightness*spotLights[i].color;
 }
 
 vec3 calcPseudoColorDirectionalLight(int i, vec3 viewVector) {
-	vec3 lightVector = normalize(vec3(directionalLights[i].modelMatrix*vec4(0, 0, 1, 0)));
+	vec3 lightVector = directionalLights[i].lightDirection;
 
 	float brightness = calcBrightness(viewVector, lightVector);
 
-	return brightness*vec3(
-		directionalLights[i].color.x,
-		directionalLights[i].color.y,
-		directionalLights[i].color.z
-	);
+	return brightness*directionalLights[i].color;
 }
 
 float calcBrightness(vec3 viewVector, vec3 lightVector) {
@@ -150,8 +140,7 @@ float calcCutoffCoef(float cutoffInnerRad, float cutoffOuterRad, vec3 lightVecto
 		return 0;
 	}
 	if(cosLightDirection < cos(cutoffInnerRad)) {
-		return (cosLightDirection - cos(cutoffOuterRad))/
-			(cos(cutoffInnerRad) - cos(cutoffOuterRad));
+		return (cosLightDirection - cos(cutoffOuterRad))/(cos(cutoffInnerRad) - cos(cutoffOuterRad));
 	}
 	return 1;
 }

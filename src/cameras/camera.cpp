@@ -7,13 +7,11 @@ void Camera::updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
 	glm::mat4 viewMatrix = getViewMatrix();
 
 	surfaceShaderProgram.use();
-	surfaceShaderProgram.setUniformMatrix4f("viewMatrix", viewMatrix);
-	surfaceShaderProgram.setUniformMatrix4f("projectionMatrix", projectionMatrix);
+	surfaceShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionMatrix*viewMatrix);
 	surfaceShaderProgram.setUniform3f("cameraPosition", getCameraPosition());
 
 	lightShaderProgram.use();
-	lightShaderProgram.setUniformMatrix4f("viewMatrix", viewMatrix);
-	lightShaderProgram.setUniformMatrix4f("projectionMatrix", projectionMatrix);
+	lightShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionMatrix*viewMatrix);
 	lightShaderProgram.setUniform3f("cameraPosition", getCameraPosition());
 }
 
@@ -27,7 +25,7 @@ glm::mat4 Camera::getCameraMatrix() const {
 
 glm::vec3 Camera::getCameraPosition() const {
 	glm::vec4 cameraPosition = getCameraMatrix()*glm::vec4(0, 0, 0, 1);
-	return glm::vec3(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+	return glm::vec3(cameraPosition);
 }
 
 glm::mat4 Camera::getViewMatrix() const {

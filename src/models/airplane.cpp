@@ -2,7 +2,6 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-constexpr float rotateLightsConstraintDeg = 30;
 constexpr float lightsAttenuationQuadratic = 0.0001f;
 constexpr float lightsAttenuationLinear = 0.0005f;
 constexpr float lightsAttenuationConstant = 1;
@@ -12,22 +11,22 @@ constexpr float lightsCutoffOuterDeg = 10;
 constexpr glm::vec3 leftLightPosition = glm::vec3(2.14, -0.448, -1.096);
 constexpr glm::vec3 rightLightPosition = glm::vec3(-2.14, -0.448, -1.096);
 
-void Airplane::updateShaderLightModelMatrix() const {
-	leftLight.updateShaderLightModelMatrix(matrix);
-	rightLight.updateShaderLightModelMatrix(matrix);
+void Airplane::updateShaderLightMatrix() const {
+	leftLight.updateShaderLightTranslation(matrix);
+	rightLight.updateShaderLightTranslation(matrix);
 }
 
 void Airplane::renderSurfaces() const {
-	cap.render();
-	propeller.render();
-	body.render();
-	joins.render();
-	tires.render();
+	cap.render(matrix);
+	propeller.render(matrix);
+	body.render(matrix);
+	joins.render(matrix);
+	tires.render(matrix);
 }
 
 void Airplane::renderLights() const {
-	leftLight.render();
-	rightLight.render();
+	leftLight.render(matrix);
+	rightLight.render(matrix);
 }
 
 Airplane::Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
@@ -36,12 +35,12 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgra
 	Model(surfaceShaderProgram, lightShaderProgram), cap(capMesh), propeller(propellerMesh), body(bodyMesh),
 	joins(joinsMesh), tires(tiresMesh),
 	leftLight(surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic, lightsAttenuationLinear,
-		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg),
+		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg, matrix),
 	rightLight(surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic, lightsAttenuationLinear,
-		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg) {
-	leftLight.translate(leftLightPosition);
-	rightLight.translate(rightLightPosition);
-	updateShaderLightModelMatrix();
+		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg, matrix) {
+	leftLight.translate(leftLightPosition, matrix);
+	rightLight.translate(rightLightPosition, matrix);
+	updateShaderLightMatrix();
 }
 
 void Airplane::rotatePropeller(float angleDeg) {

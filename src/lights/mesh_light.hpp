@@ -13,19 +13,18 @@ protected:
 
 	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
 		float attenuationQuadratic, float attenuationLinear, float attenuationConstant, glm::vec3 color);
-	virtual void updateShaderLightMeshMatrix() const = 0;
 	virtual ~MeshLight() = default;
 public:
-	void render() const;
+	void render(glm::mat4 modelMatrix) const;
 
-	void scale(float scaleRatio); // locally
-	void rotate(glm::vec3 axis, float angleDeg); // locally
-	void translate(glm::vec3 translation);
+	void scale(float scaleRatio, glm::mat4 modelMatrix); // locally
+	void rotate(glm::vec3 axis, float angleDeg, glm::mat4 modelMatrix); // locally
+	void translate(glm::vec3 translation, glm::mat4 modelMatrix);
 
-	void pitch(float angleDeg); // locally
-	void yaw(float angleDeg); // locally
-	void roll(float angleDeg); // locally
-	void moveAlongZ(float distance); // locally
+	void pitch(float angleDeg, glm::mat4 modelMatrix); // locally
+	void yaw(float angleDeg, glm::mat4 modelMatrix); // locally
+	void roll(float angleDeg, glm::mat4 modelMatrix); // locally
+	void moveAlongZ(float distance, glm::mat4 modelMatrix); // locally
 };
 
 #endif

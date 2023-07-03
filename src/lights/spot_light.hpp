@@ -10,13 +10,12 @@ class SpotLight : public MeshLight {
 protected:
 	float cutoffInnerDeg;
 	float cutoffOuterDeg;
-	virtual void updateShaderLightValues() const override;
-	virtual void updateShaderLightMeshMatrix() const override;
+	virtual void updateShaderLightParameters() const override;
 public:
 	SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh, float attenuationQuadratic,
 		float attenuationLinear, float attenuationConstant, glm::vec3 color, float cutoffInnerDeg,
-		float cutoffOuterDeg);
-	virtual void updateShaderLightModelMatrix(glm::mat4 modelMatrix) const override;
+		float cutoffOuterDeg, glm::mat4 modelMatrix);
+	virtual void updateShaderLightTranslation(glm::mat4 modelMatrix) const override;
 	virtual ~SpotLight() = default;
 };
 
