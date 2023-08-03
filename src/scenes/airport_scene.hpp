@@ -1,46 +1,21 @@
-#ifndef AIRPORT_SCENE
-#define AIRPORT_SCENE
+#ifndef AIRPORT_SCENE_HPP
+#define AIRPORT_SCENE_HPP
+
+#include "cameras/model_camera.hpp"
+#include "cameras/perspective_camera.hpp"
+#include "cameras/tracking_camera.hpp"
+#include "mesh.hpp"
+#include "models/airplane.hpp"
+#include "models/airport.hpp"
+#include "models/directional_light_model.hpp"
+#include "models/zeppelin.hpp"
+#include "scenes/scene.hpp"
+#include "shader_program.hpp"
 
 #include <vector>
-#include "scene.hpp"
-#include "../models/directional_light_model.hpp"
-#include "../models/airport.hpp"
-#include "../models/zeppelin.hpp"
-#include "../models/airplane.hpp"
-#include "../cameras/model_camera.hpp"
-#include "../cameras/tracking_camera.hpp"
-#include "../cameras/perspective_camera.hpp"
 
-class AirportScene : public Scene {
-	const Mesh* airportGround;
-	const Mesh* airportRunway;
-	const Mesh* airportApron;
-	const Mesh* airportTower;
-	const Mesh* airportHangar;
-	const Mesh* airportLightBody;
-	const Mesh* airportLight;
-	const Mesh* airplaneCap;
-	const Mesh* airplanePropeller;
-	const Mesh* airplaneBody;
-	const Mesh* airplaneJoins;
-	const Mesh* airplaneTires;
-	const Mesh* airplaneLight;
-	const Mesh* zeppelinBody;
-
-	DirectionalLightModel* moon;
-	Airport* airport;
-	Zeppelin* zeppelin;
-	std::vector<Airplane> airplanes;
-
-	ModelCamera* airplaneCamera;
-	TrackingCamera* trackingCamera;
-	PerspectiveCamera* stationaryCamera;
-
-	void createMeshes();
-	void createModels();
-	void createCameras(float aspectRatio);
-	void setModels();
-	void setCameras();
+class AirportScene : public Scene
+{
 public:
 	AirportScene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		float aspectRatio);
@@ -59,6 +34,37 @@ public:
 	virtual void ctrlRollPositive() override;
 
 	~AirportScene();
+
+private:
+	const Mesh* m_airportGround {};
+	const Mesh* m_airportRunway {};
+	const Mesh* m_airportApron {};
+	const Mesh* m_airportTower {};
+	const Mesh* m_airportHangar {};
+	const Mesh* m_airportLightBody {};
+	const Mesh* m_airportLight {};
+	const Mesh* m_airplaneCap {};
+	const Mesh* m_airplanePropeller {};
+	const Mesh* m_airplaneBody {};
+	const Mesh* m_airplaneJoins {};
+	const Mesh* m_airplaneTires {};
+	const Mesh* m_airplaneLight {};
+	const Mesh* m_zeppelinBody {};
+
+	DirectionalLightModel* m_moon {};
+	Airport* m_airport {};
+	Zeppelin* m_zeppelin {};
+	std::vector<Airplane> m_airplanes {};
+
+	ModelCamera* m_airplaneCamera {};
+	TrackingCamera* m_trackingCamera {};
+	PerspectiveCamera* m_stationaryCamera {};
+
+	void createMeshes();
+	void createModels();
+	void createCameras(float aspectRatio);
+	void setModels();
+	void setCameras();
 };
 
 #endif

@@ -1,19 +1,15 @@
-#ifndef MESH_LIGHT
-#define MESH_LIGHT
+#ifndef MESH_LIGHT_HPP
+#define MESH_LIGHT_HPP
 
-#include "light.hpp"
-#include "../mesh_instance.hpp"
+#include "lights/light.hpp"
+#include "mesh.hpp"
+#include "mesh_instance.hpp"
+#include "shader_program.hpp"
+
 #include <glm/glm.hpp>
-#include "../shader_program.hpp"
 
-class MeshLight : public Light {
-protected:
-	MeshInstance meshInstance;
-	const ShaderProgram& surfaceShaderProgram;
-
-	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
-		float attenuationQuadratic, float attenuationLinear, float attenuationConstant, glm::vec3 color);
-	virtual ~MeshLight() = default;
+class MeshLight : public Light
+{
 public:
 	void render(glm::mat4 modelMatrix) const;
 
@@ -25,6 +21,15 @@ public:
 	void yaw(float angleDeg, glm::mat4 modelMatrix); // locally
 	void roll(float angleDeg, glm::mat4 modelMatrix); // locally
 	void moveAlongZ(float distance, glm::mat4 modelMatrix); // locally
+
+protected:
+	MeshInstance m_meshInstance;
+	const ShaderProgram& m_surfaceShaderProgram;
+
+	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
+		float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
+		glm::vec3 color);
+	virtual ~MeshLight() = default;
 };
 
 #endif

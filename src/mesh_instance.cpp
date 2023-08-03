@@ -1,13 +1,20 @@
 #include "mesh_instance.hpp"
-#include <glad/glad.h>
-#include <glm/gtc/type_ptr.hpp>
 
-MeshInstance::MeshInstance(const Mesh& mesh) : mesh(mesh) { }
+#include "mesh.hpp"
+#include "movable.hpp"
 
-void MeshInstance::render(glm::mat4 modelMatrix) const {
-	mesh.render(modelMatrix*matrix);
+#include <glm/glm.hpp>
+
+MeshInstance::MeshInstance(const Mesh& mesh) :
+	m_mesh { mesh }
+{ }
+
+void MeshInstance::render(glm::mat4 modelMatrix) const
+{
+	m_mesh.render(modelMatrix * m_matrix);
 }
 
-glm::mat4 MeshInstance::getMatrix() const {
-	return matrix;
+glm::mat4 MeshInstance::getMatrix() const
+{
+	return m_matrix;
 }

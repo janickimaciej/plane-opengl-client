@@ -1,17 +1,23 @@
-#ifndef AIRPLANE_PARAMETERS
-#define AIRPLANE_PARAMETERS
+#ifndef AIRPLANE_PARAMETERS_HPP
+#define AIRPLANE_PARAMETERS_HPP
 
-#include "surface_parameters.hpp"
-#include "control_surfaces_constraints.hpp"
+#include "structs/control_surfaces_constraints.hpp"
+#include "structs/surface_parameters.hpp"
 
-struct AirplaneParameters {
+#include <glm/glm.hpp>
+
+struct AirplaneParameters
+{
+	float mass {};
+	glm::mat3 momentOfInertia {};
 	SurfaceParameters wingsParameters;
 	SurfaceParameters hStabParameters;
 	SurfaceParameters vStabParameters;
 	ControlSurfacesConstraints controlSurfacesConstraints;
 
-	AirplaneParameters(SurfaceParameters wingsParameters, SurfaceParameters hStabParameters,
-		SurfaceParameters vStabParameters, ControlSurfacesConstraints controlSurfacesConstraints);
+	AirplaneParameters(float mass, glm::mat3 momentOfInertia, SurfaceParameters wingsParameters,
+		SurfaceParameters hStabParameters, SurfaceParameters vStabParameters,
+		ControlSurfacesConstraints controlSurfacesConstraints);
 };
 
 #endif

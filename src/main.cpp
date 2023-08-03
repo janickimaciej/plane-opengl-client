@@ -1,34 +1,36 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <string>
-#include <vector>
+#include "paths.hpp"
+#include "scenes/airport_scene.hpp"
+#include "scenes/scene.hpp"
 #include "shader_program.hpp"
 #include "structs/window_payload.hpp"
-#include "scenes/airport_scene.hpp"
 #include "time.hpp"
-#include "paths.hpp"
 
-constexpr unsigned int initialWindowWidth = 1500;
-constexpr unsigned int initialWindowHeight = 800;
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
-GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload* windowPayload);
+#include <string>
+
+GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload& windowPayload);
 void resizeWindow(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
-int main() {
-	WindowPayload windowPayload;
-	GLFWwindow* window = initialize(initialWindowWidth, initialWindowHeight, &windowPayload);
+int main()
+{
+	static constexpr unsigned int initialWindowWidth = 1500;
+	static constexpr unsigned int initialWindowHeight = 800;
+	WindowPayload windowPayload {};
+	GLFWwindow* window = initialize(initialWindowWidth, initialWindowHeight, windowPayload);
 
-	ShaderProgram surfaceShaderProgram = ShaderProgram(SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT);
-	ShaderProgram lightShaderProgram = ShaderProgram(SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT);
+	ShaderProgram surfaceShaderProgram { SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT };
+	ShaderProgram lightShaderProgram { SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT };
 
-	Scene* airportScene = new AirportScene(surfaceShaderProgram, lightShaderProgram,
-		(float)initialWindowWidth/initialWindowHeight);
+	Scene* airportScene = new AirportScene { surfaceShaderProgram, lightShaderProgram,
+		(float)initialWindowWidth/initialWindowHeight };
 	windowPayload.scene = airportScene;
 	
 	Time::initializeTime();
-	while(!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(window))
+	{
 		Time::updateTime();
 		processInput(window);
 		airportScene->update();
@@ -37,18 +39,22 @@ int main() {
 		glfwSwapBuffers(window);
 	}
 
+	delete airportScene;
 	glfwTerminate();
 	return 0;
 }
 
-GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload* windowPayload) {
+GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload& windowPayload)
+{
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	GLFWwindow* window = glfwCreateWindow(width, height, "Plane", nullptr, nullptr);
-	glfwSetWindowUserPointer(window, windowPayload);
-	glfwSetWindowPos(window, 0, 38);
+	GLFWwindow* window = glfwCreateWindow((int)width, (int)height, "Plane", nullptr, nullptr);
+	glfwSetWindowUserPointer(window, &windowPayload);
+	static constexpr int initialPositionX = 0;
+	static constexpr int initialPositionY = 38;
+	glfwSetWindowPos(window, initialPositionX, initialPositionY);
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, resizeWindow);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -56,8 +62,10 @@ GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload* w
 	return window;
 }
 
-void resizeWindow(GLFWwindow* window, int width, int height) {
-	if(width == 0 || height == 0) {
+void resizeWindow(GLFWwindow* window, int width, int height)
+{
+	if (width == 0 || height == 0)
+	{
 		return;
 	}
 
@@ -66,46 +74,59 @@ void resizeWindow(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window) {
+void processInput(GLFWwindow* window)
+{
 	WindowPayload* windowPayload = (WindowPayload*)glfwGetWindowUserPointer(window);
 
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
 		glfwSetWindowShouldClose(window, true);
 	}
 
-	if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+	{
 		windowPayload->scene->setActiveCamera(1);
 	}
-	if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+	{
 		windowPayload->scene->setActiveCamera(2);
 	}
-	if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+	{
 		windowPayload->scene->setActiveCamera(3);
 	}
 
-	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlMoveAlongZNegative();
 	}
-	if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlMoveAlongZPositive();
 	}
-	if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlYawNegative();
 	}
-	if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlYawPositive();
 	}
 	
-	if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlPitchNegative();
 	}
-	if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlPitchPositive();
 	}
-	if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlRollNegative();
 	}
-	if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
 		windowPayload->scene->ctrlRollPositive();
 	}
 }

@@ -1,33 +1,49 @@
-#include "spot_light.hpp"
-#include <glad/glad.h>
+#include "lights/spot_light.hpp"
 
-unsigned int SpotLight::idCounter = 0;
+#include "lights/mesh_light.hpp"
+#include "mesh.hpp"
+#include "shader_program.hpp"
 
-void SpotLight::updateShaderLightParameters() const {
-	surfaceShaderProgram.use();
-	std::string prefix = "spotLights[" + std::to_string(id) + "].";
-	surfaceShaderProgram.setUniform1f(prefix + "cutoffInnerRad", glm::radians(cutoffInnerDeg));
-	surfaceShaderProgram.setUniform1f(prefix + "cutoffOuterRad", glm::radians(cutoffOuterDeg));
-	surfaceShaderProgram.setUniform3f(prefix + "color", color);
-	surfaceShaderProgram.setUniform1f(prefix + "attenuationQuadratic", attenuationQuadratic);
-	surfaceShaderProgram.setUniform1f(prefix + "attenuationLinear", attenuationLinear);
-	surfaceShaderProgram.setUniform1f(prefix + "attenuationConstant", attenuationConstant);
-}
+#include <glm/glm.hpp>
 
-SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh, float attenuationQuadratic,
-	float attenuationLinear, float attenuationConstant, glm::vec3 color, float cutoffInnerDeg,
-	float cutoffOuterDeg, glm::mat4 modelMatrix) :	MeshLight(surfaceShaderProgram, idCounter++, mesh,
-	attenuationQuadratic, attenuationLinear, attenuationConstant, color), cutoffInnerDeg(cutoffInnerDeg),
-	cutoffOuterDeg(cutoffOuterDeg) {
+#include <string>
+
+SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh,
+	float attenuationQuadratic, float attenuationLinear, float attenuationConstant, glm::vec3 color,
+	float cutoffInnerDeg, float cutoffOuterDeg, glm::mat4 modelMatrix) :
+	MeshLight { surfaceShaderProgram, s_idCounter, mesh, attenuationQuadratic,
+		attenuationLinear, attenuationConstant, color },
+	m_cutoffInnerDeg { cutoffInnerDeg },
+	m_cutoffOuterDeg { cutoffOuterDeg }
+{
+	++s_idCounter;
 	updateShaderLightParameters();
 	updateShaderLightTranslation(modelMatrix);
 }
 
-void SpotLight::updateShaderLightTranslation(glm::mat4 modelMatrix) const {
+void SpotLight::updateShaderLightTranslation(glm::mat4 modelMatrix) const
+{
 	surfaceShaderProgram.use();
-	std::string prefix = "spotLights[" + std::to_string(id) + "].";
-	surfaceShaderProgram.setUniform3f(prefix + "lightDirection",
-		glm::normalize(glm::vec3(modelMatrix*meshInstance.getMatrix()*glm::vec4(0, 0, 1, 0))));
-	surfaceShaderProgram.setUniform3f(prefix + "lightPosition",
-		glm::vec3(modelMatrix*meshInstance.getMatrix()*glm::vec4(0, 0, 0, 1)));
+	const std::string prefix = "spotLights[" + std::to_string(m_id) + "].";
+
+	glm::vec3 lightDirection = glm::normalize(glm::vec3 { modelMatrix * m_meshInstance.getMatrix() *
+		glm::vec4 { 0, 0, 1, 0 } });
+	surfaceShaderProgram.setUniform3f(prefix + "lightDirection", lightDirection);
+
+	glm::vec3 lightPosition = modelMatrix * m_meshInstance.getMatrix() * glm::vec4 { 0, 0, 0, 1 };
+	surfaceShaderProgram.setUniform3f(prefix + "lightPosition", lightPosition);
 }
+
+void SpotLight::updateShaderLightParameters() const
+{
+	surfaceShaderProgram.use();
+	const std::string prefix = "spotLights[" + std::to_string(m_id) + "].";
+	surfaceShaderProgram.setUniform1f(prefix + "cutoffInnerRad", glm::radians(m_cutoffInnerDeg));
+	surfaceShaderProgram.setUniform1f(prefix + "cutoffOuterRad", glm::radians(m_cutoffOuterDeg));
+	surfaceShaderProgram.setUniform3f(prefix + "color", m_color);
+	surfaceShaderProgram.setUniform1f(prefix + "attenuationQuadratic", m_attenuationQuadratic);
+	surfaceShaderProgram.setUniform1f(prefix + "attenuationLinear", m_attenuationLinear);
+	surfaceShaderProgram.setUniform1f(prefix + "attenuationConstant", m_attenuationConstant);
+}
+
+unsigned int SpotLight::s_idCounter = 0;

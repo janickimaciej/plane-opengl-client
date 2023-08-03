@@ -1,65 +1,80 @@
 #include "movable.hpp"
-#include <glm/gtc/matrix_transform.hpp>
+
+#include "structs/state.hpp"
+
+#include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Movable::Movable() {
+State Movable::getState() const
+{
+	return m_state;
+}
+
+void Movable::setState(State newState)
+{
+	m_state = newState;
 	updateMatrix();
 }
 
-void Movable::updateMatrix() {
-	glm::mat4 scaleMatrix = glm::scale(glm::mat4(1), glm::vec3(scaleRatio, scaleRatio, scaleRatio));
-
-	float rotateMatrixT[16] = {
-		state.right.x, state.right.y, state.right.z, 0,
-		state.up.x, state.up.y, state.up.z, 0,
-		state.direction.x, state.direction.y, state.direction.z, 0,
-		0, 0, 0, 1
-	};
-	glm::mat4 rotateMatrix = glm::make_mat4(rotateMatrixT);
-
-	glm::mat4 translateMatrix = glm::translate(glm::mat4(1), state.position);
-
-	matrix = translateMatrix*rotateMatrix*scaleMatrix;
-}
-
-void Movable::scale(float scaleRatio) {
-	this->scaleRatio *= scaleRatio;
+void Movable::scale(float scaleRatio)
+{
+	this->m_scaleRatio *= scaleRatio;
 	updateMatrix();
 }
 
-void Movable::rotate(glm::vec3 axis, float angleDeg) {
-	glm::mat4 transform4 = glm::rotate(glm::mat4(1), glm::radians(angleDeg), axis);
-	glm::mat3 transform3 = glm::mat3(transform4);
-	state.right = glm::normalize(transform3*state.right);
-	state.up = glm::normalize(transform3*state.up);
-	state.direction = glm::normalize(transform3*state.direction);
+void Movable::rotate(glm::vec3 axis, float angleDeg)
+{
+	glm::mat4 transform4 = glm::rotate(glm::mat4 { 1 }, glm::radians(angleDeg), axis);
+	glm::mat3 transform3 { transform4 };
+	m_state.right = transform3 * m_state.right;
+	m_state.up = transform3 * m_state.up;
+	m_state.direction = transform3 * m_state.direction;
+	State::normalize(m_state);
 	updateMatrix();
 }
 
-void Movable::resetRotation() {
-	state.right = glm::vec3(1, 0, 0);
-	state.up = glm::vec3(0, 1, 0);
-	state.direction = glm::vec3(0, 0, 1);
+void Movable::resetRotation()
+{
+	m_state.right = glm::vec3 { 1, 0, 0 };
+	m_state.up = glm::vec3 { 0, 1, 0 };
+	m_state.direction = glm::vec3 { 0, 0, 1 };
 	updateMatrix();
 }
 
-void Movable::translate(glm::vec3 translation) {
-	state.position += translation;
+void Movable::translate(glm::vec3 translation)
+{
+	m_state.position += translation;
 	updateMatrix();
 }
 
-void Movable::pitch(float angleDeg) {
-	rotate(state.right, angleDeg);
+void Movable::pitch(float angleDeg)
+{
+	rotate(m_state.right, angleDeg);
 }
 
-void Movable::yaw(float angleDeg) {
-	rotate(state.up, -angleDeg);
+void Movable::yaw(float angleDeg)
+{
+	rotate(m_state.up, -angleDeg);
 }
 
-void Movable::roll(float angleDeg) {
-	rotate(state.direction, -angleDeg);
+void Movable::roll(float angleDeg)
+{
+	rotate(m_state.direction, -angleDeg);
 }
 
-void Movable::moveAlongZ(float distance) {
-	translate(distance*state.direction);
+void Movable::moveAlongZ(float distance)
+{
+	translate(distance * m_state.direction);
+}
+
+Movable::Movable()
+{
+	updateMatrix();
+}
+
+void Movable::updateMatrix()
+{
+	glm::mat4 scaleMatrix = glm::scale(glm::mat4 { 1 },
+		glm::vec3 { m_scaleRatio, m_scaleRatio, m_scaleRatio });
+	m_matrix = State::objectToMatrix(m_state) * scaleMatrix;
 }

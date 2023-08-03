@@ -1,13 +1,14 @@
-#ifndef MATERIAL
-#define MATERIAL
+#ifndef MATERIAL_HPP
+#define MATERIAL_HPP
 
 #include <glm/glm.hpp>
 
-struct Material {
-	glm::vec3 color;
-	float diffuse;
-	float specular;
-	float shininess;
+struct Material
+{
+	glm::vec3 color {};
+	float diffuse {};
+	float specular {};
+	float shininess {};
 
 	Material(glm::vec3 color, float diffuse, float specular, float shininess);
 };

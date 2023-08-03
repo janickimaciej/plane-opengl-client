@@ -1,60 +1,85 @@
-#include "model.hpp"
+#include "models/model.hpp"
 
-Model::Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-	surfaceShaderProgram(surfaceShaderProgram), lightShaderProgram(lightShaderProgram) { }
+#include "movable.hpp"
+#include "shader_program.hpp"
+#include "structs/state.hpp"
 
-void Model::render() const {
-	surfaceShaderProgram.use();
+#include <glm/glm.hpp>
+
+void Model::render() const
+{
+	m_surfaceShaderProgram.use();
 	renderSurfaces();
 
-	lightShaderProgram.use();
+	m_lightShaderProgram.use();
 	renderLights();
 }
 
-glm::mat4 Model::getModelMatrix() const {
-	return matrix;
+glm::mat4 Model::getModelMatrix() const
+{
+	return m_matrix;
 }
 
-glm::vec3 Model::getPosition() const {
-	return state.position;
+glm::vec3 Model::getPosition() const
+{
+	return getState().position;
 }
 
-void Model::scale(float scaleRatio) {
+void Model::setState(State newState)
+{
+	Movable::setState(newState);
+	updateShaderLightMatrix();
+}
+
+void Model::scale(float scaleRatio)
+{
 	Movable::scale(scaleRatio);
 	updateShaderLightMatrix();
 }
 
-void Model::rotate(glm::vec3 axis, float angleDeg) {
+void Model::rotate(glm::vec3 axis, float angleDeg)
+{
 	Movable::rotate(axis, angleDeg);
 	updateShaderLightMatrix();
 }
 
-void Model::resetRotation() {
+void Model::resetRotation()
+{
 	Movable::resetRotation();
 	updateShaderLightMatrix();
 }
 
-void Model::translate(glm::vec3 translation) {
+void Model::translate(glm::vec3 translation)
+{
 	Movable::translate(translation);
 	updateShaderLightMatrix();
 }
 
-void Model::pitch(float angleDeg) {
+void Model::pitch(float angleDeg)
+{
 	Movable::pitch(angleDeg);
 	updateShaderLightMatrix();
 }
 
-void Model::yaw(float angleDeg) {
+void Model::yaw(float angleDeg)
+{
 	Movable::yaw(angleDeg);
 	updateShaderLightMatrix();
 }
 
-void Model::roll(float angleDeg) {
+void Model::roll(float angleDeg)
+{
 	Movable::roll(angleDeg);
 	updateShaderLightMatrix();
 }
 
-void Model::moveAlongZ(float distance) {
+void Model::moveAlongZ(float distance)
+{
 	Movable::moveAlongZ(distance);
 	updateShaderLightMatrix();
 }
+
+Model::Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
+	m_surfaceShaderProgram { surfaceShaderProgram },
+	m_lightShaderProgram { lightShaderProgram }
+{ }

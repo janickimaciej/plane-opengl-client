@@ -1,30 +1,37 @@
-#ifndef MESH
-#define MESH
+#ifndef MESH_HPP
+#define MESH_HPP
+
+#include "shader_program.hpp"
+#include "structs/material.hpp"
+#include "structs/vertex.hpp"
+
+#include <glm/glm.hpp>
 
 #include <string>
 #include <vector>
-#include "structs/vertex.hpp"
-#include "shader_program.hpp"
-#include "structs/material.hpp"
 
-class Mesh {
-	const ShaderProgram& shaderProgram;
-	size_t vertexCount;
-	Material material;
-	unsigned int VBO;
-	unsigned int VAO;
-	bool isTextureEnabled = false;
-	unsigned int texture;
-
-	void createBuffers(const std::vector<Vertex>& vertices);
-	void createTextureBuffer();
-	void loadTexture(std::string texturePath);
-	void updateShaderValues(glm::mat4 modelMeshMatrix) const;
+class Mesh
+{
 public:
-	Mesh(const ShaderProgram& shaderProgram, std::string objPath, Material material, std::string texturePath = "");
+	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, Material material,
+		const std::string& texturePath = "");
 	void render(glm::mat4 modelMeshMatrix) const;
 	const ShaderProgram& getShaderProgram() const;
 	~Mesh();
+	
+private:
+	const ShaderProgram& m_shaderProgram;
+	size_t m_vertexCount {};
+	Material m_material;
+	unsigned int m_VBO {};
+	unsigned int m_VAO {};
+	bool m_isTextureEnabled = false;
+	unsigned int m_texture {};
+
+	void createBuffers(const std::vector<Vertex>& vertices);
+	void createTextureBuffer();
+	void loadTexture(const std::string& texturePath);
+	void updateShaderValues(glm::mat4 modelMeshMatrix) const;
 };
 
 #endif

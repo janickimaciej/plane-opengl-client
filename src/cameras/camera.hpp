@@ -1,14 +1,19 @@
-#ifndef CAMERA
-#define CAMERA
+#ifndef CAMERA_HPP
+#define CAMERA_HPP
+
+#include "movable.hpp"
+#include "shader_program.hpp"
 
 #include <glm/glm.hpp>
-#include "../movable.hpp"
-#include "../shader_program.hpp"
 
-class Camera : public Movable {
-	using Movable::scale;
+class Camera : public Movable
+{
+public:
+	virtual void use(const ShaderProgram& surfaceShaderProgram,
+		const ShaderProgram& lightShaderProgram);
+
 protected:
-	glm::mat4 projectionMatrix;
+	glm::mat4 m_projectionMatrix {};
 	
 	Camera(glm::mat4 projectionMatrix);
 	void updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
@@ -18,8 +23,9 @@ protected:
 	virtual glm::vec3 getCameraPosition() const final;
 	virtual glm::mat4 getViewMatrix() const final;
 	virtual ~Camera() = default;
-public:
-	virtual void use(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
+
+private:
+	using Movable::scale;
 };
 
 #endif

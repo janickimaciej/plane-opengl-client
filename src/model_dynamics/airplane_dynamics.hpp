@@ -1,20 +1,25 @@
-#ifndef AIRPLANE_DYNAMICS
-#define AIRPLANE_DYNAMICS
+#ifndef AIRPLANE_DYNAMICS_HPP
+#define AIRPLANE_DYNAMICS_HPP
 
-#include "rigid_body_dynamics.hpp"
-#include "../flight_control.hpp"
-#include "../structs/airplane_parameters.hpp"
+#include "flight_control.hpp"
+#include "model_dynamics/rigid_body_dynamics.hpp"
+#include "structs/airplane_parameters.hpp"
+#include "structs/state.hpp"
 
-class AirplaneDynamics : RigidBodyDynamics {
-	const AirplaneParameters parameters;
-	const FlightControl& flightControl;
+#include <glm/glm.hpp>
 
-	virtual void computeNetForceAndNetTorque(State state, glm::vec3* netForce,
-		glm::vec3* netTorque) const override;
+class AirplaneDynamics : public RigidBodyDynamics
+{
 public:
-	AirplaneDynamics(float mass, glm::mat3 momentOfInertia,
-		AirplaneParameters parameters, const FlightControl& flightControl);
+	AirplaneDynamics(const AirplaneParameters& parameters, const FlightControl& flightControl);
 	virtual ~AirplaneDynamics() = default;
+
+private:
+	const AirplaneParameters m_parameters;
+	const FlightControl& m_flightControl;
+
+	virtual void computeNetForceAndNetTorque(State state, glm::vec3* netForce, glm::vec3* netTorque)
+		const override;
 };
 
 #endif

@@ -14,9 +14,10 @@ out vec4 position;
 out vec2 texturePosition;
 out vec4 normalVector;
 
-void main() {
-	position = modelMeshMatrix*vec4(inPositionMesh, 1);
+void main()
+{
+	position = modelMeshMatrix * vec4(inPositionMesh, 1);
 	texturePosition = inTexturePosition;
-	normalVector = normalize(modelMeshMatrix*vec4(inNormalVectorMesh, 0));
-	gl_Position = projectionViewMatrix*position;
+	normalVector = normalize(modelMeshMatrix * vec4(inNormalVectorMesh, 0));
+	gl_Position = projectionViewMatrix * position;
 }

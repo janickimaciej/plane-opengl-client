@@ -1,17 +1,18 @@
-#ifndef TIME
-#define TIME
+#ifndef TIME_HPP
+#define TIME_HPP
 
-#include <GLFW/glfw3.h>
-
-class Time {
-	static float time;
-	static float deltaTime;
+class Time
+{
 public:
 	Time() = delete;
 	static void initializeTime();
 	static void updateTime();
 	static float getDeltaTime();
 	~Time() = delete;
+	
+private:
+	static float s_time;
+	static float s_deltaTime;
 };
 
 #endif

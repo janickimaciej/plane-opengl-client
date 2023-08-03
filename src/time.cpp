@@ -1,18 +1,23 @@
 #include "time.hpp"
 
-float Time::time;
-float Time::deltaTime;
+#include <GLFW/glfw3.h>
 
-void Time::initializeTime() {
+void Time::initializeTime()
+{
 	updateTime();
 }
 
-void Time::updateTime() {
+void Time::updateTime()
+{
 	float currentTime = (float)glfwGetTime();
-	deltaTime = currentTime - time;
-	time = currentTime;
+	s_deltaTime = currentTime - s_time;
+	s_time = currentTime;
 }
 
-float Time::getDeltaTime() {
-	return deltaTime;
+float Time::getDeltaTime()
+{
+	return s_deltaTime;
 }
+
+float Time::s_time {};
+float Time::s_deltaTime {};

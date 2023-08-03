@@ -1,18 +1,22 @@
-#ifndef MODEL_CAMERA
-#define MODEL_CAMERA
+#ifndef MODEL_CAMERA_HPP
+#define MODEL_CAMERA_HPP
+
+#include "cameras/perspective_camera.hpp"
+#include "models/model.hpp"
 
 #include <glm/glm.hpp>
-#include "perspective_camera.hpp"
-#include "../models/model.hpp"
 
-class ModelCamera : public PerspectiveCamera {
+class ModelCamera : public PerspectiveCamera
+{
+public:
+	ModelCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane,
+		const Model& model);
+	virtual ~ModelCamera() = default;
+
 protected:
-	const Model& model;
+	const Model& m_model;
 
 	virtual glm::mat4 getOriginMatrix() const override;
-public:
-	ModelCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane, const Model& model);
-	virtual ~ModelCamera() = default;
 };
 
 #endif

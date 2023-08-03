@@ -7,7 +7,6 @@
     <ClCompile Include="src\day_night_cycle.cpp" />
     <ClCompile Include="src\lights\directional_light.cpp" />
     <ClCompile Include="src\models\directional_light_model.cpp" />
-    <ClCompile Include="dep\glad.c" />
     <ClCompile Include="src\global_shading.cpp" />
     <ClCompile Include="src\lights\light.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -22,7 +21,6 @@
     <ClCompile Include="src\cameras\perspective_camera.cpp" />
     <ClCompile Include="src\shader_program.cpp" />
     <ClCompile Include="src\lights\spot_light.cpp" />
-    <ClCompile Include="dep\stb_image.cpp" />
     <ClCompile Include="src\time.cpp" />
     <ClCompile Include="src\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\models\zeppelin.cpp" />
@@ -36,6 +34,10 @@
     <ClCompile Include="src\structs\airplane_parameters.cpp" />
     <ClCompile Include="src\scenes\scene.cpp" />
     <ClCompile Include="src\structs\control_surfaces_constraints.cpp" />
+    <ClCompile Include="src\airplane_models.cpp" />
+    <ClCompile Include="src\paths.cpp" />
+    <ClCompile Include="dep\stb_image.cpp" />
+    <ClCompile Include="dep\glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />
@@ -57,7 +59,6 @@
     <ClInclude Include="src\cameras\perspective_camera.hpp" />
     <ClInclude Include="src\shader_program.hpp" />
     <ClInclude Include="src\lights\spot_light.hpp" />
-    <ClInclude Include="dep\stb_image.h" />
     <ClInclude Include="src\time.hpp" />
     <ClInclude Include="src\cameras\tracking_camera.hpp" />
     <ClInclude Include="src\structs\vertex.hpp" />
@@ -75,6 +76,8 @@
     <ClInclude Include="src\structs\airplane_parameters.hpp" />
     <ClInclude Include="src\structs\surface_parameters.hpp" />
     <ClInclude Include="src\scenes\scene.hpp" />
+    <ClInclude Include="src\airplane_models.hpp" />
+    <ClInclude Include="dep\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\lightFragmentShader.glsl" />

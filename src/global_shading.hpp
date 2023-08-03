@@ -1,26 +1,30 @@
-#ifndef GLOBAL_SHADING
-#define GLOBAL_SHADING
+#ifndef GLOBAL_SHADING_HPP
+#define GLOBAL_SHADING_HPP
 
-#include <glm/glm.hpp>
 #include "shader_program.hpp"
 
+#include <glm/glm.hpp>
+
 class GlobalShading {
-	static glm::vec3 backgroundColor;
-	static float ambient;
-	static float fogGradient;
-	static float fogDensity;
-	
-	GlobalShading() = delete;
-	static void updateShaderGlobalShading(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram);
-	~GlobalShading() = delete;
 public:
-	static void use(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
+	static void use(const ShaderProgram& surfaceShaderProgram,
+		const ShaderProgram& lightShaderProgram);
 
 	static void setBackgroundColor(glm::vec3 backgroundColor);
 	static void setAmbient(float ambient);
 	static void setFogGradient(float fogGradient);
 	static void setFogDensity(float fogDensity);
+
+private:
+	static glm::vec3 s_backgroundColor;
+	static float s_ambient;
+	static float s_fogGradient;
+	static float s_fogDensity;
+	
+	GlobalShading() = delete;
+	static void updateShaderGlobalShading(const ShaderProgram& surfaceShaderProgram,
+		const ShaderProgram& lightShaderProgram);
+	~GlobalShading() = delete;
 };
 
 #endif

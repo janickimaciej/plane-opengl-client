@@ -12,7 +12,8 @@ uniform mat4 projectionViewMatrix;
 
 out vec4 position;
 
-void main() {
-	position = modelMeshMatrix*vec4(inPositionMesh, 1);
-	gl_Position = projectionViewMatrix*position;
+void main()
+{
+	position = modelMeshMatrix * vec4(inPositionMesh, 1);
+	gl_Position = projectionViewMatrix * position;
 }

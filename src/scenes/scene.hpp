@@ -1,15 +1,11 @@
-#ifndef SCENE
-#define SCENE
+#ifndef SCENE_HPP
+#define SCENE_HPP
 
-#include "../shader_program.hpp"
-#include "../cameras/camera.hpp"
+#include "cameras/camera.hpp"
+#include "shader_program.hpp"
 
-class Scene {
-protected:
-	const ShaderProgram& surfaceShaderProgram;
-	const ShaderProgram& lightShaderProgram;
-
-	Camera* activeCamera;
+class Scene
+{
 public:
 	Scene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
 
@@ -26,6 +22,13 @@ public:
 	virtual void ctrlPitchPositive() = 0;
 	virtual void ctrlRollNegative() = 0;
 	virtual void ctrlRollPositive() = 0;
+
+	virtual ~Scene() = default;
+protected:
+	const ShaderProgram& m_surfaceShaderProgram;
+	const ShaderProgram& m_lightShaderProgram;
+
+	Camera* m_activeCamera {};
 };
 
 #endif

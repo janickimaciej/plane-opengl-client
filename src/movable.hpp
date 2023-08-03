@@ -1,19 +1,16 @@
-#ifndef MOVABLE
-#define MOVABLE
+#ifndef MOVABLE_HPP
+#define MOVABLE_HPP
 
 #include "structs/state.hpp"
-#include "shader_program.hpp"
 
-class Movable {
-protected:
-	float scaleRatio = 1;
-	State state;
-	glm::mat4 matrix;
-	
-	Movable();
-	void updateMatrix();
-	virtual ~Movable() = default;
+#include <glm/glm.hpp>
+
+class Movable
+{
 public:
+	virtual State getState() const;
+	virtual void setState(State newState);
+
 	virtual void scale(float scaleRatio); // locally
 	virtual void rotate(glm::vec3 axis, float angleDeg); // locally
 	virtual void resetRotation(); // locally
@@ -23,6 +20,17 @@ public:
 	virtual void yaw(float angleDeg); // locally
 	virtual void roll(float angleDeg); // locally
 	virtual void moveAlongZ(float distance); // locally
+	
+protected:
+	float m_scaleRatio = 1;
+	glm::mat4 m_matrix {};
+	
+	Movable();
+	void updateMatrix();
+	virtual ~Movable() = default;
+
+private:
+	State m_state {};
 };
 
 #endif
