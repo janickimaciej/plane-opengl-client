@@ -13,9 +13,9 @@
 class Mesh
 {
 public:
-	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, Material material,
+	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, const Material& material,
 		const std::string& texturePath = "");
-	void render(glm::mat4 modelMeshMatrix) const;
+	void render(const glm::mat4& modelMeshMatrix) const;
 	const ShaderProgram& getShaderProgram() const;
 	~Mesh();
 	
@@ -31,7 +31,7 @@ private:
 	void createBuffers(const std::vector<Vertex>& vertices);
 	void createTextureBuffer();
 	void loadTexture(const std::string& texturePath);
-	void updateShaderValues(glm::mat4 modelMeshMatrix) const;
+	void updateShaderValues(const glm::mat4& modelMeshMatrix) const;
 };
 
 #endif

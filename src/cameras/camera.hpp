@@ -15,7 +15,7 @@ public:
 protected:
 	glm::mat4 m_projectionMatrix {};
 	
-	Camera(glm::mat4 projectionMatrix);
+	Camera(const glm::mat4& projectionMatrix);
 	void updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram) const;
 	virtual glm::mat4 getOriginMatrix() const;

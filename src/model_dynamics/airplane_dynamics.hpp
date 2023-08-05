@@ -18,8 +18,8 @@ private:
 	const AirplaneParameters m_parameters;
 	const FlightControl& m_flightControl;
 
-	virtual void computeNetForceAndNetTorque(State state, glm::vec3* netForce, glm::vec3* netTorque)
-		const override;
+	virtual void computeNetForceAndNetTorque(const State& state, glm::vec3& netForce,
+		glm::vec3& netTorque) const override;
 };
 
 #endif

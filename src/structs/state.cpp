@@ -3,9 +3,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-glm::mat4 State::objectToMatrix(const State state)
+#include <array>
+
+glm::mat4 State::objectToMatrix(const State& state)
 {
-	float rotateMatrixT[16]
+	const float rotateMatrixT[16]
 	{
 		state.right.x, state.right.y, state.right.z, 0,
 		state.up.x, state.up.y, state.up.z, 0,
@@ -27,46 +29,46 @@ void State::normalize(State& state)
 	state.up = glm::cross(state.direction, state.right);
 }
 
-void State::objectToArray(const State& state, float stateArray[])
+void State::objToArr(const State& stateObj, std::array<float, stateLength>& stateVec)
 {
-	stateArray[0] = state.position.x;
-	stateArray[1] = state.position.y;
-	stateArray[2] = state.position.z;
-	stateArray[3] = state.right.x;
-	stateArray[4] = state.right.y;
-	stateArray[5] = state.right.z;
-	stateArray[6] = state.up.x;
-	stateArray[7] = state.up.y;
-	stateArray[8] = state.up.z;
-	stateArray[9] = state.direction.x;
-	stateArray[10] = state.direction.y;
-	stateArray[11] = state.direction.z;
-	stateArray[12] = state.velocity.x;
-	stateArray[13] = state.velocity.y;
-	stateArray[14] = state.velocity.z;
-	stateArray[15] = state.angVelocityRad.x;
-	stateArray[16] = state.angVelocityRad.y;
-	stateArray[17] = state.angVelocityRad.z;
+	stateVec[0] = stateObj.position.x;
+	stateVec[1] = stateObj.position.y;
+	stateVec[2] = stateObj.position.z;
+	stateVec[3] = stateObj.right.x;
+	stateVec[4] = stateObj.right.y;
+	stateVec[5] = stateObj.right.z;
+	stateVec[6] = stateObj.up.x;
+	stateVec[7] = stateObj.up.y;
+	stateVec[8] = stateObj.up.z;
+	stateVec[9] = stateObj.direction.x;
+	stateVec[10] = stateObj.direction.y;
+	stateVec[11] = stateObj.direction.z;
+	stateVec[12] = stateObj.velocity.x;
+	stateVec[13] = stateObj.velocity.y;
+	stateVec[14] = stateObj.velocity.z;
+	stateVec[15] = stateObj.angVelocityRad.x;
+	stateVec[16] = stateObj.angVelocityRad.y;
+	stateVec[17] = stateObj.angVelocityRad.z;
 }
 
-void State::arrayToObject(const float stateArray[], State* state)
+void State::arrToObj(const std::array<float, stateLength>& stateArr, State& state)
 {
-	state->position.x = stateArray[0];
-	state->position.y = stateArray[1];
-	state->position.z = stateArray[2];
-	state->right.x = stateArray[3];
-	state->right.y = stateArray[4];
-	state->right.z = stateArray[5];
-	state->up.x = stateArray[6];
-	state->up.y = stateArray[7];
-	state->up.z = stateArray[8];
-	state->direction.x = stateArray[9];
-	state->direction.y = stateArray[10];
-	state->direction.z = stateArray[11];
-	state->velocity.x = stateArray[12];
-	state->velocity.y = stateArray[13];
-	state->velocity.z = stateArray[14];
-	state->angVelocityRad.x = stateArray[15];
-	state->angVelocityRad.y = stateArray[16];
-	state->angVelocityRad.z = stateArray[17];
+	state.position.x = stateArr[0];
+	state.position.y = stateArr[1];
+	state.position.z = stateArr[2];
+	state.right.x = stateArr[3];
+	state.right.y = stateArr[4];
+	state.right.z = stateArr[5];
+	state.up.x = stateArr[6];
+	state.up.y = stateArr[7];
+	state.up.z = stateArr[8];
+	state.direction.x = stateArr[9];
+	state.direction.y = stateArr[10];
+	state.direction.z = stateArr[11];
+	state.velocity.x = stateArr[12];
+	state.velocity.y = stateArr[13];
+	state.velocity.z = stateArr[14];
+	state.angVelocityRad.x = stateArr[15];
+	state.angVelocityRad.y = stateArr[16];
+	state.angVelocityRad.z = stateArr[17];
 }

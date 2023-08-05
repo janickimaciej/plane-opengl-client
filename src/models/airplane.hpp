@@ -15,7 +15,7 @@ class Airplane : public Model
 public:
 	Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		const Mesh& capMesh, const Mesh& propellerMesh, const Mesh& bodyMesh, const Mesh& joinsMesh,
-		const Mesh& tiresMesh, const Mesh& lightMesh, AirplaneParameters parameters);
+		const Mesh& tiresMesh, const Mesh& lightMesh, const AirplaneParameters& parameters);
 	void update();
 	void rotatePropeller(float angleDeg);
 	virtual ~Airplane() = default;

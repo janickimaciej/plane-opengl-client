@@ -15,9 +15,10 @@ struct AirplaneParameters
 	SurfaceParameters vStabParameters;
 	ControlSurfacesConstraints controlSurfacesConstraints;
 
-	AirplaneParameters(float mass, glm::mat3 momentOfInertia, SurfaceParameters wingsParameters,
-		SurfaceParameters hStabParameters, SurfaceParameters vStabParameters,
-		ControlSurfacesConstraints controlSurfacesConstraints);
+	AirplaneParameters(float mass, const glm::mat3& momentOfInertia,
+		const SurfaceParameters& wingsParameters, const SurfaceParameters& hStabParameters,
+		const SurfaceParameters& vStabParameters,
+		const ControlSurfacesConstraints& controlSurfacesConstraints);
 };
 
 #endif

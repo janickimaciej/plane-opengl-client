@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-Mesh::Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, Material material,
+Mesh::Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, const Material& material,
 	const std::string& texturePath) :
 	m_shaderProgram { shaderProgram },
 	m_material { material }
@@ -28,7 +28,7 @@ Mesh::Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, Mater
 	}
 }
 
-void Mesh::render(glm::mat4 modelMeshMatrix) const
+void Mesh::render(const glm::mat4& modelMeshMatrix) const
 {
 	updateShaderValues(modelMeshMatrix);
 	if (m_isTextureEnabled)
@@ -103,7 +103,7 @@ void Mesh::loadTexture(const std::string& texturePath)
 	stbi_image_free(textureData);
 }
 
-void Mesh::updateShaderValues(glm::mat4 modelMeshMatrix) const
+void Mesh::updateShaderValues(const glm::mat4& modelMeshMatrix) const
 {
 	m_shaderProgram.setUniformMatrix4f("modelMeshMatrix", modelMeshMatrix);
 	m_shaderProgram.setUniform3f("material.color", m_material.color);

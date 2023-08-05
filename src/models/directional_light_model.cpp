@@ -7,21 +7,21 @@
 #include <glm/glm.hpp>
 
 DirectionalLightModel::DirectionalLightModel(const ShaderProgram& surfaceShaderProgram,
-	const ShaderProgram& lightShaderProgram, glm::vec3 lightColor) :
+	const ShaderProgram& lightShaderProgram, const glm::vec3& lightColor) :
 	Model { surfaceShaderProgram, lightShaderProgram },
 	m_light { surfaceShaderProgram, 0, 0, 1, lightColor }
 {
 	updateShaderLightMatrix();
 }
 
-void DirectionalLightModel::setLightColor(glm::vec3 color)
+void DirectionalLightModel::setLightColor(const glm::vec3& color)
 {
 	m_light.setColor(color);
 }
 
 void DirectionalLightModel::updateShaderLightMatrix() const
 {
-	m_light.updateShaderLightTranslation(m_matrix);
+	m_light.updateShaderLightTranslation(getMatrix());
 }
 
 void DirectionalLightModel::renderSurfaces() const

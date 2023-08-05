@@ -14,12 +14,12 @@ public:
 	glm::mat4 getModelMatrix() const;
 	glm::vec3 getPosition() const;
 
-	virtual void setState(State newState) override;
+	virtual void setState(const State& newState) override;
 
 	virtual void scale(float scaleRatio) override; // locally
-	virtual void rotate(glm::vec3 axis, float angleDeg) override; // locally
+	virtual void rotate(const glm::vec3& axis, float angleDeg) override; // locally
 	virtual void resetRotation() override; // locally
-	virtual void translate(glm::vec3 translation) override;
+	virtual void translate(const glm::vec3& translation) override;
 
 	virtual void pitch(float angleDeg) override; // locally
 	virtual void yaw(float angleDeg) override; // locally

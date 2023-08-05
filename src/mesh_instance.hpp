@@ -10,7 +10,7 @@ class MeshInstance : public Movable
 {
 public:
 	MeshInstance(const Mesh& mesh);
-	void render(glm::mat4 modelMatrix) const;
+	void render(const glm::mat4& modelMatrix) const;
 	glm::mat4 getMatrix() const;
 	virtual ~MeshInstance() = default;
 	

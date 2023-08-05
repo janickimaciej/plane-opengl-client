@@ -46,7 +46,6 @@
     <ClCompile Include="src\movable.cpp" />
     <ClCompile Include="src\obj_parser.cpp" />
     <ClCompile Include="src\paths.cpp" />
-    <ClCompile Include="src\runge_kutta.cpp" />
     <ClCompile Include="src\scenes\airport_scene.cpp" />
     <ClCompile Include="src\scenes\scene.cpp" />
     <ClCompile Include="src\shader_program.cpp" />

@@ -23,7 +23,7 @@ constexpr glm::vec3 rightLightPosition { -2.14, -0.448, -1.096 };
 Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, const Mesh& capMesh, const Mesh& propellerMesh,
 	const Mesh& bodyMesh, const Mesh& joinsMesh, const Mesh& tiresMesh, const Mesh& lightMesh,
-	AirplaneParameters parameters) :
+	const AirplaneParameters& parameters) :
 	Model { surfaceShaderProgram, lightShaderProgram },
 	m_cap { capMesh },
 	m_propeller { propellerMesh },
@@ -32,16 +32,16 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	m_tires { tiresMesh },
 	m_leftLight { surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
-		lightsCutoffOuterDeg, m_matrix },
+		lightsCutoffOuterDeg, getMatrix() },
 	m_rightLight { surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
-		lightsCutoffOuterDeg, m_matrix },
+		lightsCutoffOuterDeg, getMatrix() },
 	m_parameters { parameters },
 	m_flightControl { parameters.controlSurfacesConstraints },
 	m_dynamics { AirplaneDynamics { parameters, m_flightControl } }
 {
-	m_leftLight.translate(leftLightPosition, m_matrix);
-	m_rightLight.translate(rightLightPosition, m_matrix);
+	m_leftLight.translate(leftLightPosition, getMatrix());
+	m_rightLight.translate(rightLightPosition, getMatrix());
 	updateShaderLightMatrix();
 }
 
@@ -57,21 +57,21 @@ void Airplane::rotatePropeller(float angleDeg)
 
 void Airplane::updateShaderLightMatrix() const
 {
-	m_leftLight.updateShaderLightTranslation(m_matrix);
-	m_rightLight.updateShaderLightTranslation(m_matrix);
+	m_leftLight.updateShaderLightTranslation(getMatrix());
+	m_rightLight.updateShaderLightTranslation(getMatrix());
 }
 
 void Airplane::renderSurfaces() const
 {
-	m_cap.render(m_matrix);
-	m_propeller.render(m_matrix);
-	m_body.render(m_matrix);
-	m_joins.render(m_matrix);
-	m_tires.render(m_matrix);
+	m_cap.render(getMatrix());
+	m_propeller.render(getMatrix());
+	m_body.render(getMatrix());
+	m_joins.render(getMatrix());
+	m_tires.render(getMatrix());
 }
 
 void Airplane::renderLights() const
 {
-	m_leftLight.render(m_matrix);
-	m_rightLight.render(m_matrix);
+	m_leftLight.render(getMatrix());
+	m_rightLight.render(getMatrix());
 }

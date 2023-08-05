@@ -10,7 +10,7 @@ State Movable::getState() const
 	return m_state;
 }
 
-void Movable::setState(State newState)
+void Movable::setState(const State& newState)
 {
 	m_state = newState;
 	updateMatrix();
@@ -22,7 +22,7 @@ void Movable::scale(float scaleRatio)
 	updateMatrix();
 }
 
-void Movable::rotate(glm::vec3 axis, float angleDeg)
+void Movable::rotate(const glm::vec3& axis, float angleDeg)
 {
 	glm::mat4 transform4 = glm::rotate(glm::mat4 { 1 }, glm::radians(angleDeg), axis);
 	glm::mat3 transform3 { transform4 };
@@ -41,7 +41,7 @@ void Movable::resetRotation()
 	updateMatrix();
 }
 
-void Movable::translate(glm::vec3 translation)
+void Movable::translate(const glm::vec3& translation)
 {
 	m_state.position += translation;
 	updateMatrix();
@@ -70,6 +70,11 @@ void Movable::moveAlongZ(float distance)
 Movable::Movable()
 {
 	updateMatrix();
+}
+
+glm::mat4 Movable::getMatrix() const
+{
+	return m_matrix;
 }
 
 void Movable::updateMatrix()

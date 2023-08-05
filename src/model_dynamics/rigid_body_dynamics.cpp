@@ -7,56 +7,58 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-RigidBodyDynamics::RigidBodyDynamics(float mass, glm::mat3 momentOfInertia) :
+#include <array>
+
+RigidBodyDynamics::RigidBodyDynamics(float mass, const glm::mat3& momentOfInertia) :
 	m_mass { mass },
 	m_momentOfInertia { momentOfInertia },
 	m_momentOfInertiaInverse { glm::inverse(momentOfInertia) }
 { }
 
-void RigidBodyDynamics::rightHandSide(float time, const float stateArray[],
-	float stateDerivativeArray[]) const
+void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stateLength>& state,
+	std::array<float, State::stateLength>& stateDerivative) const
 {
-	State state {};
-	State::arrayToObject(stateArray, &state);
-	State stateDerivative {};
+	State stateObj {};
+	State::arrToObj(state, stateObj);
+	State stateDerivativeObj {};
 
 	glm::vec3 netForce {};
 	glm::vec3 netTorque {};
-	computeNetForceAndNetTorque(state, &netForce, &netTorque);
+	computeNetForceAndNetTorque(stateObj, netForce, netTorque);
 
-	float rotateMatrixT[9]
+	const float rotateMatrixT[9]
 	{
-		state.right.x, state.right.y, state.right.z,
-		state.up.x, state.up.y, state.up.z,
-		state.direction.x, state.direction.y, state.direction.z
+		stateObj.right.x, stateObj.right.y, stateObj.right.z,
+		stateObj.up.x, stateObj.up.y, stateObj.up.z,
+		stateObj.direction.x, stateObj.direction.y, stateObj.direction.z
 	};
 	glm::mat3 rotateMatrix = glm::make_mat3(rotateMatrixT);
-	stateDerivative.position = rotateMatrix * state.velocity;
+	stateDerivativeObj.position = rotateMatrix * stateObj.velocity;
 
-	glm::vec3 angVelocityGlobalRad = rotateMatrix * state.angVelocityRad;
-	stateDerivative.right = glm::cross(angVelocityGlobalRad, state.right);
-	stateDerivative.up = glm::cross(angVelocityGlobalRad, state.up);
-	stateDerivative.direction = glm::cross(angVelocityGlobalRad, state.direction);
+	glm::vec3 angVelocityGlobalRad = rotateMatrix * stateObj.angVelocityRad;
+	stateDerivativeObj.right = glm::cross(angVelocityGlobalRad, stateObj.right);
+	stateDerivativeObj.up = glm::cross(angVelocityGlobalRad, stateObj.up);
+	stateDerivativeObj.direction = glm::cross(angVelocityGlobalRad, stateObj.direction);
 
-	stateDerivative.velocity = netForce / m_mass - glm::cross(state.angVelocityRad, state.velocity);
+	stateDerivativeObj.velocity = netForce / m_mass - glm::cross(stateObj.angVelocityRad,
+		stateObj.velocity);
 
-	stateDerivative.angVelocityRad = m_momentOfInertiaInverse * (netTorque -
-		glm::cross(state.angVelocityRad, m_momentOfInertia * state.angVelocityRad));
+	stateDerivativeObj.angVelocityRad = m_momentOfInertiaInverse * (netTorque -
+		glm::cross(stateObj.angVelocityRad, m_momentOfInertia * stateObj.angVelocityRad));
 
-	State::objectToArray(stateDerivative, stateDerivativeArray);
+	State::objToArr(stateDerivativeObj, stateDerivative);
 }
 
-State RigidBodyDynamics::computeNewState(State oldState) const
+State RigidBodyDynamics::computeNewState(const State& oldState) const
 {
-	float oldStateArray[State::stateLength] {};
-	State::objectToArray(oldState, oldStateArray);
+	std::array<float, State::stateLength> oldStateArr {};
+	State::objToArr(oldState, oldStateArr);
 	
-	float newStateArray[State::stateLength] {};
-	RungeKutta::RK4(State::stateLength, 0, Time::getDeltaTime(), oldStateArray, *this,
-		newStateArray);
+	std::array<float, State::stateLength> newStateArr {};
+	RungeKutta<State::stateLength>::RK4(0, Time::getDeltaTime(), oldStateArr, *this, newStateArr);
 
 	State newState {};
-	State::arrayToObject(newStateArray, &newState);
+	State::arrToObj(newStateArr, newState);
 	State::normalize(newState);
 
 	return newState;

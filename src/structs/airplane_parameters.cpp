@@ -5,9 +5,10 @@
 
 #include <glm/glm.hpp>
 
-AirplaneParameters::AirplaneParameters(float mass, glm::mat3 momentOfInertia,
-	SurfaceParameters wingsParameters, SurfaceParameters hStabParameters,
-	SurfaceParameters vStabParameters, ControlSurfacesConstraints controlSurfacesConstraints) :
+AirplaneParameters::AirplaneParameters(float mass, const glm::mat3& momentOfInertia,
+	const SurfaceParameters& wingsParameters, const SurfaceParameters& hStabParameters,
+	const SurfaceParameters& vStabParameters,
+	const ControlSurfacesConstraints& controlSurfacesConstraints) :
 	mass { mass },
 	momentOfInertia { momentOfInertia },
 	wingsParameters { wingsParameters },

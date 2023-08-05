@@ -9,8 +9,9 @@
 #include <string>
 
 SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh,
-	float attenuationQuadratic, float attenuationLinear, float attenuationConstant, glm::vec3 color,
-	float cutoffInnerDeg, float cutoffOuterDeg, glm::mat4 modelMatrix) :
+	float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
+	const glm::vec3& color, float cutoffInnerDeg, float cutoffOuterDeg,
+	const glm::mat4& modelMatrix) :
 	MeshLight { surfaceShaderProgram, s_idCounter, mesh, attenuationQuadratic,
 		attenuationLinear, attenuationConstant, color },
 	m_cutoffInnerDeg { cutoffInnerDeg },
@@ -21,7 +22,7 @@ SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh
 	updateShaderLightTranslation(modelMatrix);
 }
 
-void SpotLight::updateShaderLightTranslation(glm::mat4 modelMatrix) const
+void SpotLight::updateShaderLightTranslation(const glm::mat4& modelMatrix) const
 {
 	surfaceShaderProgram.use();
 	const std::string prefix = "spotLights[" + std::to_string(m_id) + "].";

@@ -25,7 +25,6 @@
     <ClCompile Include="src\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\models\zeppelin.cpp" />
     <ClCompile Include="src\scenes\airport_scene.cpp" />
-    <ClCompile Include="src\runge_kutta.cpp" />
     <ClCompile Include="src\model_dynamics\rigid_body_dynamics.cpp" />
     <ClCompile Include="src\structs\state.cpp" />
     <ClCompile Include="src\model_dynamics\airplane_dynamics.cpp" />

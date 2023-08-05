@@ -10,7 +10,7 @@ public:
 	static void use(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);
 
-	static void setBackgroundColor(glm::vec3 backgroundColor);
+	static void setBackgroundColor(const glm::vec3& backgroundColor);
 	static void setAmbient(float ambient);
 	static void setFogGradient(float fogGradient);
 	static void setFogDensity(float fogDensity);

@@ -5,6 +5,7 @@
 
 #include <glm/glm.hpp>
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -21,7 +22,7 @@ private:
 	static glm::vec3 parseNormalVector(const std::string& line);
 	static void parseTriangle(const std::string& line, const std::vector<glm::vec3>& positions,
 		const std::vector<glm::vec2>& texturePositions, const std::vector<glm::vec3>& normalVectors,
-		Vertex triangle[]);
+		std::array<Vertex, 3>& triangle);
 };
 
 #endif

@@ -19,7 +19,7 @@ void Zeppelin::updateShaderLightMatrix() const
 
 void Zeppelin::renderSurfaces() const
 {
-	m_body.render(m_matrix);
+	m_body.render(getMatrix());
 }
 
 void Zeppelin::renderLights() const

@@ -26,9 +26,9 @@ void DayNightCycle::update(const ShaderProgram& surfaceShaderProgram,
 	updateGlobalShading(surfaceShaderProgram, lightShaderProgram);
 }
 
-void DayNightCycle::setMoon(DirectionalLightModel* moon)
+void DayNightCycle::setMoon(DirectionalLightModel& moon)
 {
-	DayNightCycle::s_moon = moon;
+	DayNightCycle::s_moon = &moon;
 }
 
 float DayNightCycle::s_secondsPerDay = 5 * 24;

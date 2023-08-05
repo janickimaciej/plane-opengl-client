@@ -44,42 +44,42 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 
 		m_lights.push_back(SpotLight { surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 			lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
-			lightsCutoffOuterDeg, m_matrix });
-		m_lights[i].translate(lightTranslation, m_matrix);
-		m_lights[i].yaw(180, m_matrix);
-		m_lights[i].pitch(15, m_matrix);
+			lightsCutoffOuterDeg, getMatrix() });
+		m_lights[i].translate(lightTranslation, getMatrix());
+		m_lights[i].yaw(180, getMatrix());
+		m_lights[i].pitch(15, getMatrix());
 	}
 	updateShaderLightMatrix();
 }
 
 void Airport::updateShaderLightMatrix() const
 {
-	for (size_t i = 0; i < lightsCount; ++i)
+	for (const SpotLight& light : m_lights)
 	{
-		m_lights[i].updateShaderLightTranslation(m_matrix);
+		light.updateShaderLightTranslation(getMatrix());
 	}
 }
 
 void Airport::renderSurfaces() const
 {
-	m_ground.render(m_matrix);
-	m_runway.render(m_matrix);
-	m_apron.render(m_matrix);
-	m_tower.render(m_matrix);
-	for (size_t i = 0; i < hangarsCount; ++i)
+	m_ground.render(getMatrix());
+	m_runway.render(getMatrix());
+	m_apron.render(getMatrix());
+	m_tower.render(getMatrix());
+	for (const MeshInstance& hangar : m_hangars)
 	{
-		m_hangars[i].render(m_matrix);
+		hangar.render(getMatrix());
 	}
-	for (size_t i = 0; i < lightsCount; ++i)
+	for (const MeshInstance& lightBody : m_lightBodies)
 	{
-		m_lightBodies[i].render(m_matrix);
+		lightBody.render(getMatrix());
 	}
 }
 
 void Airport::renderLights() const
 {
-	for (size_t i = 0; i < lightsCount; ++i)
+	for (const SpotLight& light : m_lights)
 	{
-		m_lights[i].render(m_matrix);
+		light.render(getMatrix());
 	}
 }

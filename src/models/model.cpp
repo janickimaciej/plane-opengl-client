@@ -17,7 +17,7 @@ void Model::render() const
 
 glm::mat4 Model::getModelMatrix() const
 {
-	return m_matrix;
+	return getMatrix();
 }
 
 glm::vec3 Model::getPosition() const
@@ -25,7 +25,7 @@ glm::vec3 Model::getPosition() const
 	return getState().position;
 }
 
-void Model::setState(State newState)
+void Model::setState(const State& newState)
 {
 	Movable::setState(newState);
 	updateShaderLightMatrix();
@@ -37,7 +37,7 @@ void Model::scale(float scaleRatio)
 	updateShaderLightMatrix();
 }
 
-void Model::rotate(glm::vec3 axis, float angleDeg)
+void Model::rotate(const glm::vec3& axis, float angleDeg)
 {
 	Movable::rotate(axis, angleDeg);
 	updateShaderLightMatrix();
@@ -49,7 +49,7 @@ void Model::resetRotation()
 	updateShaderLightMatrix();
 }
 
-void Model::translate(glm::vec3 translation)
+void Model::translate(const glm::vec3& translation)
 {
 	Movable::translate(translation);
 	updateShaderLightMatrix();

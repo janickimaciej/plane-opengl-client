@@ -3,9 +3,11 @@
 
 #include <glm/glm.hpp>
 
+#include <array>
+
 struct State
 {
-	static constexpr unsigned int stateLength = 18;
+	static constexpr size_t stateLength = 18;
 
 	glm::vec3 position { 0, 0, 0 };
 
@@ -17,10 +19,10 @@ struct State
 
 	glm::vec3 angVelocityRad { 0, 0, 0 }; // in local coordinates
 
-	static glm::mat4 objectToMatrix(const State state);
+	static glm::mat4 objectToMatrix(const State& state);
 	static void normalize(State& state);
-	static void objectToArray(const State& state, float stateArray[]);
-	static void arrayToObject(const float stateArray[], State* state);
+	static void objToArr(const State& stateObj, std::array<float, stateLength>& stateVec);
+	static void arrToObj(const std::array<float, stateLength>& stateArr, State& state);
 };
 
 #endif

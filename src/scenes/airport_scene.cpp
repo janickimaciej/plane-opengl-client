@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-constexpr unsigned int airplanesCount = 5;
+constexpr size_t airplanesCount = 5;
 constexpr float velocity = 50;
 constexpr float angVelocityDeg = 60;
 constexpr float propellerAngVelocityDeg = 360;
@@ -50,9 +50,9 @@ void AirportScene::render()
 {
 	m_activeCamera->use(m_surfaceShaderProgram, m_lightShaderProgram);
 
-	for (size_t i = 0; i < airplanesCount; ++i)
+	for (const Airplane& airplane : m_airplanes)
 	{
-		m_airplanes[i].render();
+		airplane.render();
 	}
 	m_zeppelin->render();
 	m_airport->render();
@@ -197,7 +197,7 @@ void AirportScene::createModels()
 
 	m_zeppelin = new Zeppelin { m_surfaceShaderProgram, m_lightShaderProgram, *m_zeppelinBody };
 
-	for (int i = 0; i < airplanesCount; ++i)
+	for (size_t i = 0; i < airplanesCount; ++i)
 	{
 		m_airplanes.push_back(Airplane { m_surfaceShaderProgram, m_lightShaderProgram,
 			*m_airplaneCap, *m_airplanePropeller, *m_airplaneBody, *m_airplaneJoins,
@@ -206,7 +206,7 @@ void AirportScene::createModels()
 
 	m_moon = new DirectionalLightModel { m_surfaceShaderProgram, m_lightShaderProgram,
 		glm::vec3 { 0, 0, 0 } };
-	DayNightCycle::setMoon(m_moon);
+	DayNightCycle::setMoon(*m_moon);
 }
 
 void AirportScene::createCameras(float aspectRatio)
@@ -222,7 +222,7 @@ void AirportScene::setModels()
 
 	m_zeppelin->translate(glm::vec3 { 100, 150, -250 });
 
-	//m_airplanes[0].translate(glm::vec3 { 0, 0, 0 }); //tmp b
+	//m_airplanes[0].translate(glm::vec3 { 0, 0, 0 }); //tmpb
 	//State state { m_airplanes[0].getState() };
 	//state.velocity = glm::vec3 { 0, 0, -50 };
 	//state.angVelocityRad = glm::vec3 { 1, 0, 0 };
@@ -233,7 +233,7 @@ void AirportScene::setModels()
 	State state = m_airplanes[0].getState();
 	state.velocity = glm::vec3 { 0, 0, 0 };
 	state.angVelocityRad = glm::vec3 { 0, 0, 30 };
-	m_airplanes[0].setState(state); //tmp e
+	m_airplanes[0].setState(state); //tmpe
 
 	m_airplanes[1].yaw(45);
 	m_airplanes[1].translate(glm::vec3 { -60, 1.75, 30 });

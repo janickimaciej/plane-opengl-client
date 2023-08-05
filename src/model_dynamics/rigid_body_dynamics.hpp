@@ -6,13 +6,15 @@
 
 #include <glm/glm.hpp>
 
-class RigidBodyDynamics : RungeKuttaRightHandSide
+#include <array>
+
+class RigidBodyDynamics : public RungeKuttaRightHandSide<State::stateLength>
 {
 public:
-	RigidBodyDynamics(float mass, glm::mat3 momentOfInertia);
-	virtual void rightHandSide(float time, const float stateArray[], float stateDerivativeArray[])
-		const override;
-	State computeNewState(State oldState) const;
+	RigidBodyDynamics(float mass, const glm::mat3& momentOfInertia);
+	virtual void rightHandSide(float, const std::array<float, State::stateLength>& state,
+		std::array<float, State::stateLength>& stateDerivative) const override;
+	State computeNewState(const State& oldState) const;
 	virtual ~RigidBodyDynamics() = default;
 
 private:
@@ -20,8 +22,8 @@ private:
 	glm::mat3 m_momentOfInertia {};
 	glm::mat3 m_momentOfInertiaInverse {};
 
-	virtual void computeNetForceAndNetTorque(State state, glm::vec3* netForce, glm::vec3* netTorque)
-		const = 0;
+	virtual void computeNetForceAndNetTorque(const State& state, glm::vec3& netForce,
+		glm::vec3& netTorque) const = 0;
 };
 
 #endif

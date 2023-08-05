@@ -9,8 +9,7 @@ class DayNightCycle
 public:
 	static void update(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);
-
-	static void setMoon(DirectionalLightModel* moon);
+	static void setMoon(DirectionalLightModel& moon);
 
 private:
 	static float s_secondsPerDay;
