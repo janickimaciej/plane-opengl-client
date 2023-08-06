@@ -10,8 +10,6 @@
 
 #include <string>
 
-#include <iostream> //tmp
-
 GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload& windowPayload);
 void resizeWindow(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);

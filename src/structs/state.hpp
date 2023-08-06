@@ -19,7 +19,7 @@ struct State
 
 	glm::vec3 angVelocityRad { 0, 0, 0 }; // in local coordinates
 
-	static glm::mat4 objectToMatrix(const State& state);
+	static glm::mat4 objToMat(const State& state);
 	static void normalize(State& state);
 	static void objToArr(const State& stateObj, std::array<float, stateLength>& stateVec);
 	static void arrToObj(const std::array<float, stateLength>& stateArr, State& state);

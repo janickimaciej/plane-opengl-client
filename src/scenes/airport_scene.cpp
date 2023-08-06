@@ -222,18 +222,10 @@ void AirportScene::setModels()
 
 	m_zeppelin->translate(glm::vec3 { 100, 150, -250 });
 
-	//m_airplanes[0].translate(glm::vec3 { 0, 0, 0 }); //tmpb
-	//State state { m_airplanes[0].getState() };
-	//state.velocity = glm::vec3 { 0, 0, -50 };
-	//state.angVelocityRad = glm::vec3 { 1, 0, 0 };
-	//m_airplanes[0].setState(state);
-
-	m_airplanes[0].translate(glm::vec3 { 0, 6, 0 });
-	m_airplanes[0].pitch(70);
-	State state = m_airplanes[0].getState();
-	state.velocity = glm::vec3 { 0, 0, 0 };
-	state.angVelocityRad = glm::vec3 { 0, 0, 30 };
-	m_airplanes[0].setState(state); //tmpe
+	m_airplanes[0].translate(glm::vec3 { 0, 75, 75 });
+	State state { m_airplanes[0].getState() };
+	//state.velocity = glm::vec3 { 0, 30, -30 };
+	m_airplanes[0].setState(state);
 
 	m_airplanes[1].yaw(45);
 	m_airplanes[1].translate(glm::vec3 { -60, 1.75, 30 });
@@ -254,12 +246,11 @@ void AirportScene::setCameras()
 	m_airplaneCamera->translate(glm::vec3 { 0, 4, 16 });
 	m_airplaneCamera->pitch(-10);
 
-	m_trackingCamera->translate(glm::vec3 { 20, 20, 0 }); //tmp
-	//m_trackingCamera->translate(glm::vec3 { 140, 70, 0 });
+	m_trackingCamera->translate(glm::vec3 { 140, 70, 0 });
 
 	m_stationaryCamera->translate(glm::vec3 { -150, 100, -150 });
 	m_stationaryCamera->yaw(110);
 	m_stationaryCamera->pitch(-30);
 
-	m_activeCamera = m_trackingCamera;
+	m_activeCamera = m_airplaneCamera;
 }

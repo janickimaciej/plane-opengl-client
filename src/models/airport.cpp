@@ -35,7 +35,7 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 	}
 	for (size_t i = 0; i < lightsCount; ++i)
 	{
-		glm::vec3 lightTranslation { -49 + 14*i, 7, 250 };
+		glm::vec3 lightTranslation { -49 + 14*(int)i, 7, 250 };
 
 		m_lightBodies.push_back(MeshInstance { lightBodyMesh });
 		m_lightBodies[i].translate(lightTranslation);

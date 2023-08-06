@@ -5,27 +5,22 @@
 
 #include <array>
 
-glm::mat4 State::objectToMatrix(const State& state)
+glm::mat4 State::objToMat(const State& state)
 {
-	const float rotateMatrixT[16]
+	// constructor takes arguments column-wise
+	return glm::mat4
 	{
 		state.right.x, state.right.y, state.right.z, 0,
 		state.up.x, state.up.y, state.up.z, 0,
 		state.direction.x, state.direction.y, state.direction.z, 0,
-		0, 0, 0, 1
+		state.position.x, state.position.y, state.position.z, 1
 	};
-	glm::mat4 rotateMatrix = glm::make_mat4(rotateMatrixT);
-
-	glm::mat4 translateMatrix = glm::translate(glm::mat4 { 1 }, state.position);
-
-	return translateMatrix * rotateMatrix;
 }
 
 void State::normalize(State& state)
 {
 	state.right = glm::normalize(state.right);
-	state.up = glm::normalize(state.up);
-	state.direction = glm::cross(state.right, state.up);
+	state.direction = glm::normalize(glm::cross(state.right, state.up));
 	state.up = glm::cross(state.direction, state.right);
 }
 

@@ -26,13 +26,7 @@ void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stat
 	glm::vec3 netTorque {};
 	computeNetForceAndNetTorque(stateObj, netForce, netTorque);
 
-	const float rotateMatrixT[9]
-	{
-		stateObj.right.x, stateObj.right.y, stateObj.right.z,
-		stateObj.up.x, stateObj.up.y, stateObj.up.z,
-		stateObj.direction.x, stateObj.direction.y, stateObj.direction.z
-	};
-	glm::mat3 rotateMatrix = glm::make_mat3(rotateMatrixT);
+	glm::mat3 rotateMatrix { State::objToMat(stateObj) };
 	stateDerivativeObj.position = rotateMatrix * stateObj.velocity;
 
 	glm::vec3 angVelocityGlobalRad = rotateMatrix * stateObj.angVelocityRad;

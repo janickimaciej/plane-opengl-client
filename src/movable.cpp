@@ -81,5 +81,5 @@ void Movable::updateMatrix()
 {
 	glm::mat4 scaleMatrix = glm::scale(glm::mat4 { 1 },
 		glm::vec3 { m_scaleRatio, m_scaleRatio, m_scaleRatio });
-	m_matrix = State::objectToMatrix(m_state) * scaleMatrix;
+	m_matrix = State::objToMat(m_state) * scaleMatrix;
 }
