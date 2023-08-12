@@ -70,7 +70,7 @@ void DayNightCycle::updateGlobalShading(const ShaderProgram& surfaceShaderProgra
 float DayNightCycle::getLightCoefficient()
 {
 	return 1; //tmp
-	if (s_timeOfDay <= (1 - 2*transitionLength)/4)
+	/*if (s_timeOfDay <= (1 - 2*transitionLength)/4) //tmpc
 	{
 		return 0;
 	}
@@ -89,13 +89,13 @@ float DayNightCycle::getLightCoefficient()
 	else
 	{
 		return 0;
-	}
+	}*/ //tmpc
 }
 
 float DayNightCycle::getFogCoefficient()
 {
 	return 0; //tmp
-	if (s_timeOfDay <= (1 - 2 * transitionLength) / 4)
+	/*if (s_timeOfDay <= (1 - 2 * transitionLength) / 4) //tmpc
 	{
 		return 0;
 	}
@@ -111,5 +111,5 @@ float DayNightCycle::getFogCoefficient()
 	else
 	{
 		return 0;
-	}
+	}*/ //tmpc
 }

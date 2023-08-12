@@ -18,10 +18,11 @@
 
 #include <glm/glm.hpp>
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
-constexpr size_t airplanesCount = 5;
+constexpr std::size_t airplanesCount = 5;
 constexpr float velocity = 50;
 constexpr float angVelocityDeg = 60;
 constexpr float propellerAngVelocityDeg = 360;
@@ -197,7 +198,7 @@ void AirportScene::createModels()
 
 	m_zeppelin = new Zeppelin { m_surfaceShaderProgram, m_lightShaderProgram, *m_zeppelinBody };
 
-	for (size_t i = 0; i < airplanesCount; ++i)
+	for (std::size_t i = 0; i < airplanesCount; ++i)
 	{
 		m_airplanes.push_back(Airplane { m_surfaceShaderProgram, m_lightShaderProgram,
 			*m_airplaneCap, *m_airplanePropeller, *m_airplaneBody, *m_airplaneJoins,

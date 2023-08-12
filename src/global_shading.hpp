@@ -5,7 +5,8 @@
 
 #include <glm/glm.hpp>
 
-class GlobalShading {
+class GlobalShading
+{
 public:
 	static void use(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);

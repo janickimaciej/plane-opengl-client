@@ -4,10 +4,11 @@
 #include <glm/glm.hpp>
 
 #include <array>
+#include <cstddef>
 
 struct State
 {
-	static constexpr size_t stateLength = 18;
+	static constexpr std::size_t stateLength = 18;
 
 	glm::vec3 position { 0, 0, 0 };
 

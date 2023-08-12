@@ -8,7 +8,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <string>
+#include <string_view>
 
 GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload& windowPayload);
 void resizeWindow(GLFWwindow* window, int width, int height);

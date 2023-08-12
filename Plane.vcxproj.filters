@@ -34,9 +34,9 @@
     <ClCompile Include="src\scenes\scene.cpp" />
     <ClCompile Include="src\structs\control_surfaces_constraints.cpp" />
     <ClCompile Include="src\airplane_models.cpp" />
-    <ClCompile Include="src\paths.cpp" />
     <ClCompile Include="dep\stb_image.cpp" />
     <ClCompile Include="dep\glad.c" />
+    <ClCompile Include="src\paths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />

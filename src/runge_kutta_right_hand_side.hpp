@@ -2,8 +2,9 @@
 #define RUNGE_KUTTA_RIGHT_HAND_SIDE_HPP
 
 #include <array>
+#include <cstddef>
 
-template <size_t stateLength>
+template <std::size_t stateLength>
 class RungeKuttaRightHandSide
 {
 public:

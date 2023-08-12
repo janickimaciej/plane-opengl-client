@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -62,7 +63,7 @@ std::string ShaderProgram::readShaderFile(const std::string& shaderFilePath) con
 	try
 	{
 		std::stringstream stream {};
-		file.open(shaderFilePath);
+		file.open(shaderFilePath.c_str());
 		stream << file.rdbuf();
 		file.close();
 		shaderCode = stream.str();
@@ -79,7 +80,7 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	const std::string& fragmentShaderCode) const
 {
 	int success {};
-	static constexpr size_t errorLogSize = 512;
+	static constexpr std::size_t errorLogSize = 512;
 
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	const char* vertexShaderCodeCStr = vertexShaderCode.c_str();

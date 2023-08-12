@@ -8,10 +8,11 @@
 
 #include <glm/glm.hpp>
 
+#include <cstddef>
 #include <vector>
 
-constexpr unsigned int hangarsCount = 3;
-constexpr unsigned int lightsCount = 8;
+constexpr std::size_t hangarsCount = 3;
+constexpr std::size_t lightsCount = 8;
 constexpr float lightsAttenuationQuadratic = 0.0001f;
 constexpr float lightsAttenuationLinear = 0.0005f;
 constexpr float lightsAttenuationConstant = 1;
@@ -28,12 +29,12 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 	m_apron { apronMesh },
 	m_tower { towerMesh }
 {
-	for (size_t i = 0; i < hangarsCount; ++i)
+	for (std::size_t i = 0; i < hangarsCount; ++i)
 	{
 		m_hangars.push_back(MeshInstance { hangarMesh });
-		m_hangars[i].translate(glm::vec3 { 0, 0, -46*i });
+		m_hangars[i].translate(glm::vec3 { 0, 0, -46*(int)i });
 	}
-	for (size_t i = 0; i < lightsCount; ++i)
+	for (std::size_t i = 0; i < lightsCount; ++i)
 	{
 		glm::vec3 lightTranslation { -49 + 14*(int)i, 7, 250 };
 

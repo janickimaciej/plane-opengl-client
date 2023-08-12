@@ -5,21 +5,23 @@
 #include <glm/glm.hpp>
 
 #include <array>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <vector>
 
-void ObjParser::parse(const std::string& filename, std::vector<Vertex>& vertices)
+void ObjParser::parse(const std::string& objPath, std::vector<Vertex>& vertices)
 {
 	std::vector<glm::vec3> positions {};
 	std::vector<glm::vec2> texturePositions {};
 	std::vector<glm::vec3> normalVectors {};
 
-	std::ifstream file { filename };
+	std::ifstream file { objPath };
 	if (!file)
 	{
-		std::cerr << "File does not exist:\n" << filename << '\n';
+		std::cerr << "File does not exist:\n" << objPath << '\n';
 		return;
 	}
 
@@ -40,7 +42,7 @@ void ObjParser::parse(const std::string& filename, std::vector<Vertex>& vertices
 		}
 		else if (line[0] == 'f' && line[1] == ' ')
 		{
-			std::array<Vertex, 3> triangle;
+			std::array<Vertex, 3> triangle {};
 			parseTriangle(line, positions, texturePositions, normalVectors, triangle);
 			vertices.push_back(triangle[0]);
 			vertices.push_back(triangle[1]);
@@ -51,11 +53,11 @@ void ObjParser::parse(const std::string& filename, std::vector<Vertex>& vertices
 	file.close();
 }
 
-glm::vec3 ObjParser::parsePosition(const std::string& line)
+glm::vec3 ObjParser::parsePosition(const std::string_view line)
 {
 	glm::vec3 position {};
 
-	size_t component = 0;
+	int component = 0;
 	std::string number = "";
 	for (auto c = line.begin() + 2; c != line.end(); ++c)
 	{
@@ -75,11 +77,11 @@ glm::vec3 ObjParser::parsePosition(const std::string& line)
 	return position;
 }
 
-glm::vec2 ObjParser::parseTexturePosition(const std::string& line)
+glm::vec2 ObjParser::parseTexturePosition(const std::string_view line)
 {
 	glm::vec2 texturePosition {};
 
-	size_t component = 0;
+	int component = 0;
 	std::string number = "";
 	for (auto c = line.begin() + 3; c != line.end(); ++c)
 	{
@@ -99,11 +101,11 @@ glm::vec2 ObjParser::parseTexturePosition(const std::string& line)
 	return texturePosition;
 }
 
-glm::vec3 ObjParser::parseNormalVector(const std::string& line)
+glm::vec3 ObjParser::parseNormalVector(const std::string_view line)
 {
 	glm::vec3 normalVector {};
 
-	size_t component = 0;
+	int component = 0;
 	std::string number = "";
 	for (auto c = line.begin() + 3; c != line.end(); ++c)
 	{
@@ -123,37 +125,39 @@ glm::vec3 ObjParser::parseNormalVector(const std::string& line)
 	return normalVector;
 }
 
-void ObjParser::parseTriangle(const std::string& line, const std::vector<glm::vec3>& positions,
+void ObjParser::parseTriangle(const std::string_view line, const std::vector<glm::vec3>& positions,
 	const std::vector<glm::vec2>& texturePositions, const std::vector<glm::vec3>& normalVectors,
 	std::array<Vertex, 3>& triangle)
 {
-	size_t vertexIndex = 0;
+	std::size_t vertexIndex = 0;
 	std::string number = "";
-	size_t positionIndex = 0;
-	size_t normalVectorIndex = 0;
-	size_t texturePositionIndex = 0;
+	std::size_t positionIndex = 0;
+	std::size_t normalVectorIndex = 0;
+	std::size_t texturePositionIndex = 0;
 	bool isFirstNumber = true;
 	for (auto c = line.begin() + 2; c != line.end(); ++c)
 	{
 		if (*c == ' ')
 		{
-			normalVectorIndex = (unsigned int)std::stoi(number);
+			normalVectorIndex = (std::size_t)std::stoi(number);
 			number = "";
-
-			triangle[vertexIndex].position = positions[positionIndex - 1];
-			triangle[vertexIndex].texturePosition = texturePositions[texturePositionIndex - 1];
-			triangle[vertexIndex].normalVector = normalVectors[normalVectorIndex - 1];
+			if (vertexIndex < 3)
+			{
+				triangle[vertexIndex].position = positions[positionIndex - 1];
+				triangle[vertexIndex].texturePosition = texturePositions[texturePositionIndex - 1];
+				triangle[vertexIndex].normalVector = normalVectors[normalVectorIndex - 1];
+			}
 			++vertexIndex;
 		}
 		else if (*c == '/')
 		{
 			if (isFirstNumber)
 			{
-				positionIndex = (unsigned int)std::stoi(number);
+				positionIndex = (std::size_t)std::stoi(number);
 			}
 			else
 			{
-				texturePositionIndex = (unsigned int)std::stoi(number);
+				texturePositionIndex = (std::size_t)std::stoi(number);
 			}
 			number = "";
 			isFirstNumber = !isFirstNumber;
@@ -163,8 +167,11 @@ void ObjParser::parseTriangle(const std::string& line, const std::vector<glm::ve
 			number.push_back(*c);
 		}
 	}
-	normalVectorIndex = (unsigned int)std::stoi(number);
-	triangle[vertexIndex].position = positions[positionIndex - 1];
-	triangle[vertexIndex].texturePosition = texturePositions[texturePositionIndex - 1];
-	triangle[vertexIndex].normalVector = normalVectors[normalVectorIndex - 1];
+	normalVectorIndex = (std::size_t)std::stoi(number);
+	if (vertexIndex < 3)
+	{
+		triangle[vertexIndex].position = positions[positionIndex - 1];
+		triangle[vertexIndex].texturePosition = texturePositions[texturePositionIndex - 1];
+		triangle[vertexIndex].normalVector = normalVectors[normalVectorIndex - 1];
+	}
 }

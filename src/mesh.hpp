@@ -7,21 +7,22 @@
 
 #include <glm/glm.hpp>
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
 class Mesh
 {
 public:
-	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, const Material& material,
-		const std::string& texturePath = "");
+	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath,
+		const Material& material, const std::string& texturePath = "");
 	void render(const glm::mat4& modelMeshMatrix) const;
 	const ShaderProgram& getShaderProgram() const;
 	~Mesh();
 	
 private:
 	const ShaderProgram& m_shaderProgram;
-	size_t m_vertexCount {};
+	std::size_t m_vertexCount {};
 	Material m_material;
 	unsigned int m_VBO {};
 	unsigned int m_VAO {};

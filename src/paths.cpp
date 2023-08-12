@@ -2,9 +2,12 @@
 
 #include <string>
 
-std::string SH_PATH(const std::string& name);
-std::string SM_PATH(const std::string& name);
-std::string T_PATH(const std::string& name);
+namespace
+{
+	std::string SH_PATH(const std::string& name);
+	std::string SM_PATH(const std::string& name);
+	std::string T_PATH(const std::string& name);
+}
 
 const std::string SH_SURFACE_VERTEX = SH_PATH("surfaceVertex");
 const std::string SH_SURFACE_FRAGMENT = SH_PATH("surfaceFragment");
@@ -33,23 +36,26 @@ const std::string T_CONCRETE = T_PATH("concrete");
 const std::string T_GRASS = T_PATH("grass");
 const std::string T_TENT = T_PATH("tent");
 
-std::string SH_PATH(const std::string& name)
+namespace
 {
-	const std::string SH_PREFIX = "src/shaders/";
-	const std::string SH_POSTFIX = "Shader.glsl";
-	return SH_PREFIX + name + SH_POSTFIX;
-}
+	std::string SH_PATH(const std::string& name)
+	{
+		const std::string SH_PREFIX = "src/shaders/";
+		const std::string SH_SUFFIX = "Shader.glsl";
+		return SH_PREFIX + name + SH_SUFFIX;
+	}
 
-std::string SM_PATH(const std::string& name)
-{
-	const std::string SM_PREFIX = "res/meshes/";
-	const std::string SM_POSTFIX = ".obj";
-	return SM_PREFIX + name + SM_POSTFIX;
-}
+	std::string SM_PATH(const std::string& name)
+	{
+		const std::string SM_PREFIX = "res/meshes/";
+		const std::string SM_SUFFIX = ".obj";
+		return SM_PREFIX + name + SM_SUFFIX;
+	}
 
-std::string T_PATH(const std::string& name)
-{
-	const std::string T_PREFIX = "res/textures/";
-	const std::string T_POSTFIX = ".png";
-	return T_PREFIX + name + T_POSTFIX;
+	std::string T_PATH(const std::string& name)
+	{
+		const std::string T_PREFIX = "res/textures/";
+		const std::string T_SUFFIX = ".png";
+		return T_PREFIX + name + T_SUFFIX;
+	}
 }
