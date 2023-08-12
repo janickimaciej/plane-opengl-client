@@ -12,8 +12,8 @@
 #include <string>
 #include <vector>
 
-Mesh::Mesh(const ShaderProgram& shaderProgram, const std::string& objPath,
-	const Material& material, const std::string& texturePath) :
+Mesh::Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, const Material& material,
+	const std::string& texturePath) :
 	m_shaderProgram { shaderProgram },
 	m_material { material }
 {

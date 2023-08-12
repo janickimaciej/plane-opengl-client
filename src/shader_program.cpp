@@ -63,7 +63,7 @@ std::string ShaderProgram::readShaderFile(const std::string& shaderFilePath) con
 	try
 	{
 		std::stringstream stream {};
-		file.open(shaderFilePath.c_str());
+		file.open(shaderFilePath);
 		stream << file.rdbuf();
 		file.close();
 		shaderCode = stream.str();

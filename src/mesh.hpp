@@ -14,8 +14,8 @@
 class Mesh
 {
 public:
-	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath,
-		const Material& material, const std::string& texturePath = "");
+	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, const Material& material,
+		const std::string& texturePath = "");
 	void render(const glm::mat4& modelMeshMatrix) const;
 	const ShaderProgram& getShaderProgram() const;
 	~Mesh();
