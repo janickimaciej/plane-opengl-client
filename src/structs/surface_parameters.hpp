@@ -3,10 +3,10 @@
 
 struct SurfaceParameters
 {
-	float area {};
-	float span {};
-	float coef {};
-	float controlCoef {};
+	float area{};
+	float span{};
+	float coef{};
+	float controlCoef{};
 
 	SurfaceParameters(float area, float span, float coef, float controlCoef);
 };

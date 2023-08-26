@@ -22,12 +22,12 @@ public:
 	
 private:
 	const ShaderProgram& m_shaderProgram;
-	std::size_t m_vertexCount {};
+	std::size_t m_vertexCount{};
 	Material m_material;
-	unsigned int m_VBO {};
-	unsigned int m_VAO {};
+	unsigned int m_VBO{};
+	unsigned int m_VAO{};
 	bool m_isTextureEnabled = false;
-	unsigned int m_texture {};
+	unsigned int m_texture{};
 
 	void createBuffers(const std::vector<Vertex>& vertices);
 	void createTextureBuffer();

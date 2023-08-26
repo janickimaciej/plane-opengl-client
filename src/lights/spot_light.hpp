@@ -18,8 +18,8 @@ public:
 	virtual ~SpotLight() = default;
 
 protected:
-	float m_cutoffInnerDeg {};
-	float m_cutoffOuterDeg {};
+	float m_cutoffInnerDeg{};
+	float m_cutoffOuterDeg{};
 
 	virtual void updateShaderLightParameters() const override;
 

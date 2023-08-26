@@ -56,13 +56,13 @@ ShaderProgram::~ShaderProgram()
 
 std::string ShaderProgram::readShaderFile(const std::string& shaderFilePath) const
 {
-	std::ifstream file {};
+	std::ifstream file{};
 	file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	std::string shaderCode {};
+	std::string shaderCode{};
 
 	try
 	{
-		std::stringstream stream {};
+		std::stringstream stream{};
 		file.open(shaderFilePath);
 		stream << file.rdbuf();
 		file.close();
@@ -79,7 +79,7 @@ std::string ShaderProgram::readShaderFile(const std::string& shaderFilePath) con
 unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderCode,
 	const std::string& fragmentShaderCode) const
 {
-	int success {};
+	int success{};
 	static constexpr std::size_t errorLogSize = 512;
 
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -89,7 +89,7 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		char* errorLog = new char[errorLogSize] {};
+		char* errorLog = new char[errorLogSize]{};
 		glGetShaderInfoLog(vertexShader, errorLogSize, NULL, errorLog);
 		std::cerr << "Error compiling vertex shader:\n" << errorLog << '\n';
 		delete[] errorLog;
@@ -102,7 +102,7 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		char* errorLog = new char[errorLogSize] {};
+		char* errorLog = new char[errorLogSize]{};
 		glGetShaderInfoLog(fragmentShader, errorLogSize, NULL, errorLog);
 		std::cerr << "Error compiling fragment shader:\n" << errorLog << '\n';
 		delete[] errorLog;
@@ -115,7 +115,7 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success)
 	{
-		char* errorLog = new char[errorLogSize] {};
+		char* errorLog = new char[errorLogSize]{};
 		glGetProgramInfoLog(shaderProgram, errorLogSize, NULL, errorLog);
 		std::cerr << "Error linking shader program:\n" << errorLog << '\n';
 		delete[] errorLog;

@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 
 MeshInstance::MeshInstance(const Mesh& mesh) :
-	m_mesh { mesh }
+	m_mesh{mesh}
 { }
 
 void MeshInstance::render(const glm::mat4& modelMatrix) const

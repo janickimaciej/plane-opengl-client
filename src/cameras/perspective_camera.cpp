@@ -6,10 +6,10 @@
 
 PerspectiveCamera::PerspectiveCamera(float FoVDeg, float aspectRatio, float nearPlane,
 	float farPlane) :
-	Camera { glm::perspective(glm::radians(FoVDeg), aspectRatio, nearPlane, farPlane) },
-	m_FoVDeg { FoVDeg },
-	m_nearPlane { nearPlane },
-	m_farPlane { farPlane }
+	Camera{glm::perspective(glm::radians(FoVDeg), aspectRatio, nearPlane, farPlane)},
+	m_FoVDeg{FoVDeg},
+	m_nearPlane{nearPlane},
+	m_farPlane{farPlane}
 { }
 
 void PerspectiveCamera::setAspectRatio(float aspectRatio)

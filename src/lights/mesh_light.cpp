@@ -57,8 +57,8 @@ void MeshLight::moveAlongZ(float distance, const glm::mat4& modelMatrix)
 MeshLight::MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
 	float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
 	const glm::vec3& color) :
-	Light { surfaceShaderProgram, id, attenuationQuadratic, attenuationLinear, attenuationConstant,
-		color },
-	m_meshInstance { mesh },
-	m_surfaceShaderProgram { surfaceShaderProgram }
+	Light{surfaceShaderProgram, id, attenuationQuadratic, attenuationLinear, attenuationConstant,
+		color},
+	m_meshInstance{mesh},
+	m_surfaceShaderProgram{surfaceShaderProgram}
 { }

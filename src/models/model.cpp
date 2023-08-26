@@ -80,6 +80,6 @@ void Model::moveAlongZ(float distance)
 }
 
 Model::Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-	m_surfaceShaderProgram { surfaceShaderProgram },
-	m_lightShaderProgram { lightShaderProgram }
+	m_surfaceShaderProgram{surfaceShaderProgram},
+	m_lightShaderProgram{lightShaderProgram}
 { }

@@ -14,10 +14,10 @@
 
 Mesh::Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, const Material& material,
 	const std::string& texturePath) :
-	m_shaderProgram { shaderProgram },
-	m_material { material }
+	m_shaderProgram{shaderProgram},
+	m_material{material}
 {
-	std::vector<Vertex> vertices {};
+	std::vector<Vertex> vertices{};
 	ObjParser::parse(objPath, vertices);
 	m_vertexCount = vertices.size();
 	createBuffers(vertices);
@@ -84,9 +84,9 @@ void Mesh::createTextureBuffer()
 
 void Mesh::loadTexture(const std::string& texturePath)
 {
-	int width {};
-	int height {};
-	int nrOfChannels {};
+	int width{};
+	int height{};
+	int nrOfChannels{};
 	unsigned char* textureData = stbi_load(texturePath.c_str(), &width, &height, &nrOfChannels,
 		STBI_rgb);
 	if (textureData)

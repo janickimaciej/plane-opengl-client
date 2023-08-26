@@ -18,7 +18,7 @@ public:
 	~ShaderProgram();
 
 private:
-	unsigned int m_id {};
+	unsigned int m_id{};
 
 	std::string readShaderFile(const std::string& shaderFilePath) const;
 	unsigned int createShaderProgram(const std::string& vertexShaderCode,

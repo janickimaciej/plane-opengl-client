@@ -11,7 +11,7 @@ void Camera::use(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 }
 
 Camera::Camera(const glm::mat4& projectionMatrix) :
-	m_projectionMatrix { projectionMatrix }
+	m_projectionMatrix{projectionMatrix}
 { }
 
 void Camera::updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
@@ -31,7 +31,7 @@ void Camera::updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
 
 glm::mat4 Camera::getOriginMatrix() const
 {
-	return glm::mat4 { 1 };
+	return glm::mat4{1};
 }
 
 glm::mat4 Camera::getCameraMatrix() const
@@ -41,8 +41,8 @@ glm::mat4 Camera::getCameraMatrix() const
 
 glm::vec3 Camera::getCameraPosition() const
 {
-	glm::vec4 cameraPosition = getCameraMatrix() * glm::vec4 { 0, 0, 0, 1 };
-	return glm::vec3 { cameraPosition };
+	glm::vec4 cameraPosition = getCameraMatrix() * glm::vec4{0, 0, 0, 1};
+	return glm::vec3{cameraPosition};
 }
 
 glm::mat4 Camera::getViewMatrix() const

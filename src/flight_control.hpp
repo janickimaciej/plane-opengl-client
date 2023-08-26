@@ -25,10 +25,10 @@ private:
 	//MeshInstance& m_rightAileron;
 
 	const ControlSurfacesConstraints m_controlSurfacesConstraints;
-	float m_elevatorAngleDeg {};
-	float m_rudderAngleDeg {};
-	float m_aileronsAngleDeg {};
-	float m_thrustRelative {};
+	float m_elevatorAngleDeg{};
+	float m_rudderAngleDeg{};
+	float m_aileronsAngleDeg{};
+	float m_thrustRelative{};
 };
 
 #endif

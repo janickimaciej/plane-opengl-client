@@ -36,29 +36,29 @@ public:
 	~AirportScene();
 
 private:
-	const Mesh* m_airportGround {};
-	const Mesh* m_airportRunway {};
-	const Mesh* m_airportApron {};
-	const Mesh* m_airportTower {};
-	const Mesh* m_airportHangar {};
-	const Mesh* m_airportLightBody {};
-	const Mesh* m_airportLight {};
-	const Mesh* m_airplaneCap {};
-	const Mesh* m_airplanePropeller {};
-	const Mesh* m_airplaneBody {};
-	const Mesh* m_airplaneJoins {};
-	const Mesh* m_airplaneTires {};
-	const Mesh* m_airplaneLight {};
-	const Mesh* m_zeppelinBody {};
+	const Mesh* m_airportGround{};
+	const Mesh* m_airportRunway{};
+	const Mesh* m_airportApron{};
+	const Mesh* m_airportTower{};
+	const Mesh* m_airportHangar{};
+	const Mesh* m_airportLightBody{};
+	const Mesh* m_airportLight{};
+	const Mesh* m_airplaneCap{};
+	const Mesh* m_airplanePropeller{};
+	const Mesh* m_airplaneBody{};
+	const Mesh* m_airplaneJoins{};
+	const Mesh* m_airplaneTires{};
+	const Mesh* m_airplaneLight{};
+	const Mesh* m_zeppelinBody{};
 
-	DirectionalLightModel* m_moon {};
-	Airport* m_airport {};
-	Zeppelin* m_zeppelin {};
-	std::vector<Airplane> m_airplanes {};
+	DirectionalLightModel* m_moon{};
+	Airport* m_airport{};
+	Zeppelin* m_zeppelin{};
+	std::vector<Airplane> m_airplanes{};
 
-	ModelCamera* m_airplaneCamera {};
-	TrackingCamera* m_trackingCamera {};
-	PerspectiveCamera* m_stationaryCamera {};
+	ModelCamera* m_airplaneCamera{};
+	TrackingCamera* m_trackingCamera{};
+	PerspectiveCamera* m_stationaryCamera{};
 
 	void createMeshes();
 	void createModels();

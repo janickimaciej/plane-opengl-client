@@ -8,8 +8,8 @@
 
 DirectionalLightModel::DirectionalLightModel(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, const glm::vec3& lightColor) :
-	Model { surfaceShaderProgram, lightShaderProgram },
-	m_light { surfaceShaderProgram, 0, 0, 1, lightColor }
+	Model{surfaceShaderProgram, lightShaderProgram},
+	m_light{surfaceShaderProgram, 0, 0, 1, lightColor}
 {
 	updateShaderLightMatrix();
 }

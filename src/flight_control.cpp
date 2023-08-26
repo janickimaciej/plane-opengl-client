@@ -6,11 +6,11 @@
 FlightControl::FlightControl(/*MeshInstance& elevator, MeshInstance& rudder,
 	MeshInstance& leftAileron, MeshInstance& rightAileron,
 	*/const ControlSurfacesConstraints& controlSurfacesConstraints) :
-	/*m_elevator { elevator },
-	m_rudder { rudder },
-	m_leftAileron { leftAileron },
-	m_rightAileron { rightAileron },*/
-	m_controlSurfacesConstraints { controlSurfacesConstraints }
+	/*m_elevator{elevator},
+	m_rudder{rudder},
+	m_leftAileron{leftAileron},
+	m_rightAileron{rightAileron},*/
+	m_controlSurfacesConstraints{controlSurfacesConstraints}
 {
 	setElevatorAngleRelative(0);
 	setRudderAngleRelative(0);

@@ -7,8 +7,8 @@
 
 Zeppelin::Zeppelin(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, const Mesh& bodyMesh) :
-	Model { surfaceShaderProgram, lightShaderProgram },
-	m_body { bodyMesh }
+	Model{surfaceShaderProgram, lightShaderProgram},
+	m_body{bodyMesh}
 {
 	scale(57);
 	updateShaderLightMatrix();

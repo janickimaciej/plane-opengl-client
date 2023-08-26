@@ -5,7 +5,7 @@
 
 struct WindowPayload
 {
-	Scene* scene {};
+	Scene* scene{};
 };
 
 #endif

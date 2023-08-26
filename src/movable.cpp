@@ -24,8 +24,8 @@ void Movable::scale(float scaleRatio)
 
 void Movable::rotate(const glm::vec3& axis, float angleDeg)
 {
-	glm::mat4 transform4 = glm::rotate(glm::mat4 { 1 }, glm::radians(angleDeg), axis);
-	glm::mat3 transform3 { transform4 };
+	glm::mat4 transform4 = glm::rotate(glm::mat4{1}, glm::radians(angleDeg), axis);
+	glm::mat3 transform3{transform4};
 	m_state.right = transform3 * m_state.right;
 	m_state.up = transform3 * m_state.up;
 	m_state.direction = transform3 * m_state.direction;
@@ -35,9 +35,9 @@ void Movable::rotate(const glm::vec3& axis, float angleDeg)
 
 void Movable::resetRotation()
 {
-	m_state.right = glm::vec3 { 1, 0, 0 };
-	m_state.up = glm::vec3 { 0, 1, 0 };
-	m_state.direction = glm::vec3 { 0, 0, 1 };
+	m_state.right = glm::vec3{1, 0, 0};
+	m_state.up = glm::vec3{0, 1, 0};
+	m_state.direction = glm::vec3{0, 0, 1};
 	updateMatrix();
 }
 
@@ -79,7 +79,10 @@ glm::mat4 Movable::getMatrix() const
 
 void Movable::updateMatrix()
 {
-	glm::mat4 scaleMatrix = glm::scale(glm::mat4 { 1 },
-		glm::vec3 { m_scaleRatio, m_scaleRatio, m_scaleRatio });
+	glm::mat4 scaleMatrix = glm::scale
+	(
+		glm::mat4{1},
+		glm::vec3{m_scaleRatio, m_scaleRatio, m_scaleRatio}
+	);
 	m_matrix = State::objToMat(m_state) * scaleMatrix;
 }

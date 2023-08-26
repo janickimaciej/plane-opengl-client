@@ -9,10 +9,10 @@ AirplaneParameters::AirplaneParameters(float mass, const glm::mat3& momentOfIner
 	const SurfaceParameters& wingsParameters, const SurfaceParameters& hStabParameters,
 	const SurfaceParameters& vStabParameters,
 	const ControlSurfacesConstraints& controlSurfacesConstraints) :
-	mass { mass },
-	momentOfInertia { momentOfInertia },
-	wingsParameters { wingsParameters },
-	hStabParameters { hStabParameters },
-	vStabParameters { vStabParameters },
-	controlSurfacesConstraints { controlSurfacesConstraints }
+	mass{mass},
+	momentOfInertia{momentOfInertia},
+	wingsParameters{wingsParameters},
+	hStabParameters{hStabParameters},
+	vStabParameters{vStabParameters},
+	controlSurfacesConstraints{controlSurfacesConstraints}
 { }

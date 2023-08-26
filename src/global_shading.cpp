@@ -33,10 +33,10 @@ void GlobalShading::setFogDensity(float fogDensity)
 	GlobalShading::s_fogDensity = fogDensity;
 }
 
-glm::vec3 GlobalShading::s_backgroundColor {};
-float GlobalShading::s_ambient {};
-float GlobalShading::s_fogGradient {};
-float GlobalShading::s_fogDensity {};
+glm::vec3 GlobalShading::s_backgroundColor{};
+float GlobalShading::s_ambient{};
+float GlobalShading::s_fogGradient{};
+float GlobalShading::s_fogDensity{};
 
 void GlobalShading::updateShaderGlobalShading(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram)

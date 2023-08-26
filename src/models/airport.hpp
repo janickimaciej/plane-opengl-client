@@ -23,9 +23,9 @@ private:
 	MeshInstance m_runway;
 	MeshInstance m_apron;
 	MeshInstance m_tower;
-	std::vector<MeshInstance> m_hangars {};
-	std::vector<MeshInstance> m_lightBodies {};
-	std::vector<SpotLight> m_lights {};
+	std::vector<MeshInstance> m_hangars{};
+	std::vector<MeshInstance> m_lightBodies{};
+	std::vector<SpotLight> m_lights{};
 
 	virtual void updateShaderLightMatrix() const override;
 	virtual void renderSurfaces() const override;

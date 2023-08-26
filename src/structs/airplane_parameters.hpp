@@ -8,8 +8,8 @@
 
 struct AirplaneParameters
 {
-	float mass {};
-	glm::mat3 momentOfInertia {};
+	float mass{};
+	glm::mat3 momentOfInertia{};
 	SurfaceParameters wingsParameters;
 	SurfaceParameters hStabParameters;
 	SurfaceParameters vStabParameters;

@@ -27,9 +27,9 @@ protected:
 	virtual ~Movable() = default;
 
 private:
-	State m_state {};
+	State m_state{};
 	float m_scaleRatio = 1;
-	glm::mat4 m_matrix {};
+	glm::mat4 m_matrix{};
 
 	void updateMatrix();
 };

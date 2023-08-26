@@ -23,10 +23,10 @@ void RungeKutta<stateLength>::RK4(float oldTime, float deltaTime,
 	const RungeKuttaRightHandSide<stateLength>& rightHandSide, std::array<float,
 	stateLength>& newState)
 {
-	std::array<std::array<float, stateLength>, 4> k {};
+	std::array<std::array<float, stateLength>, 4> k{};
 
-	float time {};
-	std::array<float, stateLength> state {};
+	float time{};
+	std::array<float, stateLength> state{};
 	
 	rightHandSide.rightHandSide(oldTime, oldState, k[0]);
 

@@ -19,5 +19,5 @@ float Time::getDeltaTime()
 	return s_deltaTime;
 }
 
-float Time::s_time {};
-float Time::s_deltaTime {};
+float Time::s_time{};
+float Time::s_deltaTime{};

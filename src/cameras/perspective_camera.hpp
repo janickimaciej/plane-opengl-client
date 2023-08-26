@@ -11,9 +11,9 @@ public:
 	virtual ~PerspectiveCamera() = default;
 
 private:
-	float m_FoVDeg {};
-	float m_nearPlane {};
-	float m_farPlane {};
+	float m_FoVDeg{};
+	float m_nearPlane{};
+	float m_farPlane{};
 };
 
 #endif

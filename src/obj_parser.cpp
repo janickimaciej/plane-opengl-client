@@ -14,18 +14,18 @@
 
 void ObjParser::parse(const std::string& objPath, std::vector<Vertex>& vertices)
 {
-	std::vector<glm::vec3> positions {};
-	std::vector<glm::vec2> texturePositions {};
-	std::vector<glm::vec3> normalVectors {};
+	std::vector<glm::vec3> positions{};
+	std::vector<glm::vec2> texturePositions{};
+	std::vector<glm::vec3> normalVectors{};
 
-	std::ifstream file { objPath };
+	std::ifstream file{objPath};
 	if (!file)
 	{
 		std::cerr << "File does not exist:\n" << objPath << '\n';
 		return;
 	}
 
-	std::string line {};
+	std::string line{};
 	while (std::getline(file, line))
 	{
 		if (line[0] == 'v' && line[1] == ' ')
@@ -42,7 +42,7 @@ void ObjParser::parse(const std::string& objPath, std::vector<Vertex>& vertices)
 		}
 		else if (line[0] == 'f' && line[1] == ' ')
 		{
-			std::array<Vertex, 3> triangle {};
+			std::array<Vertex, 3> triangle{};
 			parseTriangle(line, positions, texturePositions, normalVectors, triangle);
 			vertices.push_back(triangle[0]);
 			vertices.push_back(triangle[1]);
@@ -55,7 +55,7 @@ void ObjParser::parse(const std::string& objPath, std::vector<Vertex>& vertices)
 
 glm::vec3 ObjParser::parsePosition(const std::string_view line)
 {
-	glm::vec3 position {};
+	glm::vec3 position{};
 
 	int component = 0;
 	std::string number = "";
@@ -79,7 +79,7 @@ glm::vec3 ObjParser::parsePosition(const std::string_view line)
 
 glm::vec2 ObjParser::parseTexturePosition(const std::string_view line)
 {
-	glm::vec2 texturePosition {};
+	glm::vec2 texturePosition{};
 
 	int component = 0;
 	std::string number = "";
@@ -103,7 +103,7 @@ glm::vec2 ObjParser::parseTexturePosition(const std::string_view line)
 
 glm::vec3 ObjParser::parseNormalVector(const std::string_view line)
 {
-	glm::vec3 normalVector {};
+	glm::vec3 normalVector{};
 
 	int component = 0;
 	std::string number = "";

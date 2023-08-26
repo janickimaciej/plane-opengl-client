@@ -18,9 +18,9 @@ public:
 	virtual ~RigidBodyDynamics() = default;
 
 private:
-	float m_mass {};
-	glm::mat3 m_momentOfInertia {};
-	glm::mat3 m_momentOfInertiaInverse {};
+	float m_mass{};
+	glm::mat3 m_momentOfInertia{};
+	glm::mat3 m_momentOfInertiaInverse{};
 
 	virtual void computeNetForceAndNetTorque(const State& state, glm::vec3& netForce,
 		glm::vec3& netTorque) const = 0;

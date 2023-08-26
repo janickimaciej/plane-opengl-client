@@ -18,14 +18,14 @@ int main()
 {
 	static constexpr unsigned int initialWindowWidth = 1500;
 	static constexpr unsigned int initialWindowHeight = 800;
-	WindowPayload windowPayload {};
+	WindowPayload windowPayload{};
 	GLFWwindow* window = initialize(initialWindowWidth, initialWindowHeight, windowPayload);
 
-	ShaderProgram surfaceShaderProgram { SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT };
-	ShaderProgram lightShaderProgram { SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT };
+	ShaderProgram surfaceShaderProgram{SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT};
+	ShaderProgram lightShaderProgram{SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT};
 
-	Scene* airportScene = new AirportScene { surfaceShaderProgram, lightShaderProgram,
-		(float)initialWindowWidth/initialWindowHeight };
+	Scene* airportScene = new AirportScene{surfaceShaderProgram, lightShaderProgram,
+		(float)initialWindowWidth/initialWindowHeight};
 	windowPayload.scene = airportScene;
 	
 	Time::initializeTime();

@@ -73,10 +73,12 @@ void main()
 {
 	vec3 pseudoColor = vec3(globalShading.ambient, globalShading.ambient, globalShading.ambient);
 	vec3 viewVector = calcViewVector();
-	for (int i = 0; i < SPOT_LIGHTS_COUNT; ++i) {
+	for (int i = 0; i < SPOT_LIGHTS_COUNT; ++i)
+	{
 		pseudoColor += calcPseudoColorSpotLight(i, viewVector);
 	}
-	for (int i = 0; i < DIRECTIONAL_LIGHTS_COUNT; ++i) {
+	for (int i = 0; i < DIRECTIONAL_LIGHTS_COUNT; ++i)
+	{
 		pseudoColor += calcPseudoColorDirectionalLight(i, viewVector);
 	}
 

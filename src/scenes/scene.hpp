@@ -28,7 +28,7 @@ protected:
 	const ShaderProgram& m_surfaceShaderProgram;
 	const ShaderProgram& m_lightShaderProgram;
 
-	Camera* m_activeCamera {};
+	Camera* m_activeCamera{};
 };
 
 #endif

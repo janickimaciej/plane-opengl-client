@@ -13,7 +13,7 @@ public:
 		const ShaderProgram& lightShaderProgram);
 
 protected:
-	glm::mat4 m_projectionMatrix {};
+	glm::mat4 m_projectionMatrix{};
 	
 	Camera(const glm::mat4& projectionMatrix);
 	void updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,

@@ -10,23 +10,23 @@
 #include <array>
 
 RigidBodyDynamics::RigidBodyDynamics(float mass, const glm::mat3& momentOfInertia) :
-	m_mass { mass },
-	m_momentOfInertia { momentOfInertia },
-	m_momentOfInertiaInverse { glm::inverse(momentOfInertia) }
+	m_mass{mass},
+	m_momentOfInertia{momentOfInertia},
+	m_momentOfInertiaInverse{glm::inverse(momentOfInertia)}
 { }
 
 void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stateLength>& state,
 	std::array<float, State::stateLength>& stateDerivative) const
 {
-	State stateObj {};
+	State stateObj{};
 	State::arrToObj(state, stateObj);
-	State stateDerivativeObj {};
+	State stateDerivativeObj{};
 
-	glm::vec3 netForce {};
-	glm::vec3 netTorque {};
+	glm::vec3 netForce{};
+	glm::vec3 netTorque{};
 	computeNetForceAndNetTorque(stateObj, netForce, netTorque);
 
-	glm::mat3 rotateMatrix { State::objToMat(stateObj) };
+	glm::mat3 rotateMatrix{State::objToMat(stateObj)};
 	stateDerivativeObj.position = rotateMatrix * stateObj.velocity;
 
 	glm::vec3 angVelocityGlobalRad = rotateMatrix * stateObj.angVelocityRad;
@@ -45,13 +45,13 @@ void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stat
 
 State RigidBodyDynamics::computeNewState(const State& oldState) const
 {
-	std::array<float, State::stateLength> oldStateArr {};
+	std::array<float, State::stateLength> oldStateArr{};
 	State::objToArr(oldState, oldStateArr);
 	
-	std::array<float, State::stateLength> newStateArr {};
+	std::array<float, State::stateLength> newStateArr{};
 	RungeKutta<State::stateLength>::RK4(0, Time::getDeltaTime(), oldStateArr, *this, newStateArr);
 
-	State newState {};
+	State newState{};
 	State::arrToObj(newStateArr, newState);
 	State::normalize(newState);
 
