@@ -163,13 +163,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenGL\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenGL\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenGL\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenGL\lib\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
