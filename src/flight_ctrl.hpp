@@ -1,14 +1,14 @@
-#ifndef FLIGHT_CONTROL_HPP
-#define FLIGHT_CONTROL_HPP
+#ifndef FLIGHT_CTRL_HPP
+#define FLIGHT_CTRL_HPP
 
 //#include "mesh_instance.hpp"
-#include "structs/control_surfaces_constraints.hpp"
+#include "structs/airplane_params.hpp"
 
-class FlightControl
+class FlightCtrl
 {
 public:
-	FlightControl(/*MeshInstance& elevator, MeshInstance& rudder, MeshInstance& leftAileron,
-		MeshInstance& rightAileron, */const ControlSurfacesConstraints& controlSurfacesConstraints);
+	FlightCtrl(/*MeshInstance& elevator, MeshInstance& rudder, MeshInstance& leftAileron,
+		MeshInstance& rightAileron, */const AirplaneParams& airplaneParams);
 	float getElevatorAngleDeg() const;
 	void setElevatorAngleRelative(float angleRelative);
 	float getRudderAngleDeg() const;
@@ -24,11 +24,14 @@ private:
 	//MeshInstance& m_leftAileron;
 	//MeshInstance& m_rightAileron;
 
-	const ControlSurfacesConstraints m_controlSurfacesConstraints;
+	const AirplaneParams m_airplaneParams;
 	float m_elevatorAngleDeg{};
 	float m_rudderAngleDeg{};
 	float m_aileronsAngleDeg{};
 	float m_thrustRelative{};
+
+	// converts linearly from [-1, 1] to [min, max]
+	float relativeToAbs(float relative, float min, float max) const;
 };
 
 #endif

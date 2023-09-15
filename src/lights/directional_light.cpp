@@ -14,7 +14,7 @@ DirectionalLight::DirectionalLight(const ShaderProgram& surfaceShaderProgram,
 		attenuationConstant, color}
 {
 	++s_idCounter;
-	updateShaderLightParameters();
+	updateShaderLightParams();
 }
 
 void DirectionalLight::updateShaderLightTranslation(const glm::mat4& modelMatrix) const
@@ -25,7 +25,7 @@ void DirectionalLight::updateShaderLightTranslation(const glm::mat4& modelMatrix
 		glm::normalize(glm::vec3{modelMatrix * glm::vec4{0, 0, 1, 0}}));
 }
 
-void DirectionalLight::updateShaderLightParameters() const
+void DirectionalLight::updateShaderLightParams() const
 {
 	surfaceShaderProgram.use();
 	const std::string prefix = "directionalLights[" + std::to_string(m_id) + "].";

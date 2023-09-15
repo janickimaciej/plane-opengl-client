@@ -1,13 +1,13 @@
 #include "models/airplane.hpp"
 
-#include "flight_control.hpp"
+#include "flight_ctrl.hpp"
 #include "lights/spot_light.hpp"
 #include "mesh.hpp"
 #include "mesh_instance.hpp"
 #include "model_dynamics/airplane_dynamics.hpp"
 #include "models/model.hpp"
 #include "shader_program.hpp"
-#include "structs/airplane_parameters.hpp"
+#include "structs/airplane_params.hpp"
 
 #include <glm/glm.hpp>
 
@@ -17,13 +17,11 @@ constexpr float lightsAttenuationConstant = 1;
 constexpr glm::vec3 lightsColor{1, 1, 1};
 constexpr float lightsCutoffInnerDeg = 8;
 constexpr float lightsCutoffOuterDeg = 10;
-constexpr glm::vec3 leftLightPosition{2.14, -0.448, -1.096};
-constexpr glm::vec3 rightLightPosition{-2.14, -0.448, -1.096};
 
 Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, const Mesh& capMesh, const Mesh& propellerMesh,
 	const Mesh& bodyMesh, const Mesh& joinsMesh, const Mesh& tiresMesh, const Mesh& lightMesh,
-	const AirplaneParameters& parameters) :
+	const AirplaneParams& params) :
 	Model{surfaceShaderProgram, lightShaderProgram},
 	m_cap{capMesh},
 	m_propeller{propellerMesh},
@@ -36,12 +34,18 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	m_rightLight{surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
 		lightsCutoffOuterDeg, getMatrix()},
-	m_parameters{parameters},
-	m_flightControl{parameters.controlSurfacesConstraints},
-	m_dynamics{parameters, m_flightControl}
+	m_params{params},
+	m_flightCtrl{params},
+	m_dynamics{params, m_flightCtrl}
 {
-	m_leftLight.translate(leftLightPosition, getMatrix());
-	m_rightLight.translate(rightLightPosition, getMatrix());
+	constexpr float lightsPositionXAbs = 2.14f;
+	constexpr float lightsPositionY = -0.448f;
+	constexpr float lightsPositionZ = -1.096f;
+	m_leftLight.translate(glm::vec3{lightsPositionXAbs, lightsPositionY, lightsPositionZ},
+		getMatrix());
+	m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ},
+		getMatrix());
+
 	updateShaderLightMatrix();
 }
 
@@ -52,7 +56,7 @@ void Airplane::update()
 
 void Airplane::rotatePropeller(float angleDeg)
 {
-	m_propeller.roll(angleDeg);
+	m_propeller.rotateRoll(angleDeg);
 }
 
 void Airplane::updateShaderLightMatrix() const

@@ -32,24 +32,36 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 	for (std::size_t i = 0; i < hangarsCount; ++i)
 	{
 		m_hangars.push_back(MeshInstance{hangarMesh});
-		m_hangars[i].translate(glm::vec3{0, 0, -46*(int)i});
+
+		constexpr float hangarsGapZ = 46;
+		m_hangars[i].translate(glm::vec3{0, 0, -hangarsGapZ*(int)i});
 	}
+
 	for (std::size_t i = 0; i < lightsCount; ++i)
 	{
-		glm::vec3 lightTranslation{-49 + 14*(int)i, 7, 250};
-
 		m_lightBodies.push_back(MeshInstance{lightBodyMesh});
-		m_lightBodies[i].translate(lightTranslation);
-		m_lightBodies[i].yaw(180);
-		m_lightBodies[i].pitch(15);
-
 		m_lights.push_back(SpotLight{surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 			lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
 			lightsCutoffOuterDeg, getMatrix()});
-		m_lights[i].translate(lightTranslation, getMatrix());
-		m_lights[i].yaw(180, getMatrix());
-		m_lights[i].pitch(15, getMatrix());
+
+		constexpr float firstLightPositionX = -49;
+		constexpr float lightsGapX = 14;
+		constexpr float lightsPositionY = 7;
+		constexpr float lightsPositionZ = 250;
+		glm::vec3 lightPosition{firstLightPositionX + lightsGapX*(int)i, lightsPositionY,
+			lightsPositionZ};
+		m_lightBodies[i].translate(lightPosition);
+		m_lights[i].translate(lightPosition, getMatrix());
+
+		constexpr float lightsRotationYaw = 180;
+		m_lightBodies[i].rotateYaw(lightsRotationYaw);
+		m_lights[i].yaw(lightsRotationYaw, getMatrix());
+
+		constexpr float lightsRotationPitch = 15;
+		m_lightBodies[i].rotatePitch(lightsRotationPitch);
+		m_lights[i].pitch(lightsRotationPitch, getMatrix());
 	}
+
 	updateShaderLightMatrix();
 }
 

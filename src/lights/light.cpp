@@ -7,7 +7,7 @@
 void Light::setColor(const glm::vec3& color)
 {
 	this->m_color = color;
-	updateShaderLightParameters();
+	updateShaderLightParams();
 }
 
 Light::Light(const ShaderProgram& surfaceShaderProgram, unsigned int id, float attenuationQuadratic,

@@ -21,10 +21,10 @@ public:
 	virtual void resetRotation() override; // locally
 	virtual void translate(const glm::vec3& translation) override;
 
-	virtual void pitch(float angleDeg) override; // locally
-	virtual void yaw(float angleDeg) override; // locally
-	virtual void roll(float angleDeg) override; // locally
-	virtual void moveAlongZ(float distance) override; // locally
+	virtual void rotatePitch(float angleDeg) override; // locally
+	virtual void rotateYaw(float angleDeg) override; // locally
+	virtual void rotateRoll(float angleDeg) override; // locally
+	virtual void moveZ(float distance) override; // locally
 
 protected:
 	const ShaderProgram& m_surfaceShaderProgram;

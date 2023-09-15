@@ -16,10 +16,10 @@ public:
 	virtual void resetRotation(); // locally
 	virtual void translate(const glm::vec3& translation);
 
-	virtual void pitch(float angleDeg); // locally
-	virtual void yaw(float angleDeg); // locally
-	virtual void roll(float angleDeg); // locally
-	virtual void moveAlongZ(float distance); // locally
+	virtual void rotatePitch(float angleDeg); // locally
+	virtual void rotateYaw(float angleDeg); // locally
+	virtual void rotateRoll(float angleDeg); // locally
+	virtual void moveZ(float distance); // locally
 	
 protected:
 	Movable();

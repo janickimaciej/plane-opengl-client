@@ -22,10 +22,8 @@
 #include <string>
 #include <vector>
 
-constexpr std::size_t airplanesCount = 5;
-constexpr float velocity = 50;
-constexpr float angVelocityDeg = 60;
-constexpr float propellerAngVelocityDeg = 360;
+constexpr float airplaneVelocity = 50;
+constexpr float airplaneAngVelocityDeg = 60;
 
 AirportScene::AirportScene(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, float aspectRatio) :
@@ -43,6 +41,7 @@ void AirportScene::update()
 	DayNightCycle::update(m_surfaceShaderProgram, m_lightShaderProgram);
 
 	float deltaTime = Time::getDeltaTime();
+	constexpr float propellerAngVelocityDeg = 360;
 	m_airplanes[0].rotatePropeller(propellerAngVelocityDeg * deltaTime);
 	m_airplanes[0].update();
 }
@@ -82,52 +81,52 @@ void AirportScene::setActiveCamera(unsigned int cameraId)
 	}
 }
 
-void AirportScene::ctrlMoveAlongZNegative()
+void AirportScene::ctrlZNegative()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].moveAlongZ(-velocity * deltaTime);
+	m_airplanes[0].moveZ(-airplaneVelocity * deltaTime);
 }
 
-void AirportScene::ctrlMoveAlongZPositive()
+void AirportScene::ctrlZPositive()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].moveAlongZ(velocity * deltaTime);
+	m_airplanes[0].moveZ(airplaneVelocity * deltaTime);
 }
 
 void AirportScene::ctrlYawNegative()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].yaw(-angVelocityDeg * deltaTime);
+	m_airplanes[0].rotateYaw(-airplaneAngVelocityDeg * deltaTime);
 }
 
 void AirportScene::ctrlYawPositive()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].yaw(angVelocityDeg * deltaTime);
+	m_airplanes[0].rotateYaw(airplaneAngVelocityDeg * deltaTime);
 }
 
 void AirportScene::ctrlPitchNegative()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].pitch(-angVelocityDeg * deltaTime);
+	m_airplanes[0].rotatePitch(-airplaneAngVelocityDeg * deltaTime);
 }
 
 void AirportScene::ctrlPitchPositive()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].pitch(angVelocityDeg * deltaTime);
+	m_airplanes[0].rotatePitch(airplaneAngVelocityDeg * deltaTime);
 }
 
 void AirportScene::ctrlRollNegative()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].roll(-angVelocityDeg * deltaTime);
+	m_airplanes[0].rotateRoll(-airplaneAngVelocityDeg * deltaTime);
 }
 
 void AirportScene::ctrlRollPositive()
 {
 	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].roll(angVelocityDeg * deltaTime);
+	m_airplanes[0].rotateRoll(airplaneAngVelocityDeg * deltaTime);
 }
 
 AirportScene::~AirportScene()
@@ -165,20 +164,18 @@ void AirportScene::createMeshes()
 	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10};
 	const Material rubber{glm::vec3{0.1, 0.1, 0.1}, 0.75, 0.25, 10};
 	const Material zeppelinCanvas{glm::vec3{0.9, 0.9, 0.9}, 0.75, 0.25, 10};
-	// dummy surface parameters
+	// dummy surface params
 	const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1};
-	// dummy surface parameters
+	// dummy surface params
 	const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1};
 
-	m_airportGround = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_GROUND, defaultMaterial,
-		T_GRASS};
+	m_airportGround = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_GROUND, defaultMaterial, T_GRASS};
 	m_airportRunway = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_RUNWAY, defaultMaterial,
 		T_ASPHALT};
 	m_airportApron = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_APRON, defaultMaterial,
 		T_ASPHALT_BRIGHT};
 	m_airportTower = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_TOWER, concrete, T_CONCRETE};
-	m_airportHangar = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_HANGAR, defaultMaterial,
-		T_TENT};
+	m_airportHangar = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_HANGAR, defaultMaterial, T_TENT};
 	m_airportLightBody = new Mesh{m_surfaceShaderProgram, SM_AIRPORT_LIGHT_BODY, metal};
 	m_airportLight = new Mesh{m_lightShaderProgram, SM_AIRPORT_LIGHT, yellowLightGlass};
 	m_airplaneCap = new Mesh{m_surfaceShaderProgram, SM_AIRPLANE_CAP, metal};
@@ -197,7 +194,8 @@ void AirportScene::createModels()
 		*m_airportLight};
 
 	m_zeppelin = new Zeppelin{m_surfaceShaderProgram, m_lightShaderProgram, *m_zeppelinBody};
-
+	
+	constexpr std::size_t airplanesCount = 5;
 	for (std::size_t i = 0; i < airplanesCount; ++i)
 	{
 		m_airplanes.push_back(Airplane{m_surfaceShaderProgram, m_lightShaderProgram,
@@ -212,46 +210,67 @@ void AirportScene::createModels()
 
 void AirportScene::createCameras(float aspectRatio)
 {
-	m_airplaneCamera = new ModelCamera{60, aspectRatio, 0.01f, 1000, m_airplanes[0]};
-	m_trackingCamera = new TrackingCamera{60, aspectRatio, 0.01f, 1000, m_airplanes[0]};
-	m_stationaryCamera = new PerspectiveCamera{100, aspectRatio, 0.01f, 1000};
+	constexpr float nearPlane = 0.01f;
+	constexpr float farPlane = 1000;
+	m_airplaneCamera = new ModelCamera{60, aspectRatio, nearPlane, farPlane, m_airplanes[0]};
+	m_trackingCamera = new TrackingCamera{60, aspectRatio, nearPlane, farPlane, m_airplanes[0]};
+	m_stationaryCamera = new PerspectiveCamera{100, aspectRatio, nearPlane, farPlane};
 }
 
 void AirportScene::setModels()
 {
-	m_moon->pitch(-45);
+	constexpr float moonRotationPitch = -45;
+	m_moon->rotatePitch(moonRotationPitch);
 
-	m_zeppelin->translate(glm::vec3{100, 150, -250});
+	constexpr glm::vec3 zeppelinPosition{100, 150, -250};
+	m_zeppelin->translate(zeppelinPosition);
 
-	m_airplanes[0].translate(glm::vec3{0, 75, 75});
+	constexpr glm::vec3 ctrlAirplaneInitPosition{0, 75, 75};
+	m_airplanes[0].translate(ctrlAirplaneInitPosition);
 	State state = m_airplanes[0].getState();
-	//state.velocity = glm::vec3{0, 30, -30};
+	//constexpr glm::vec3 ctrlAirplaneInitVelocity{0, 30, -30}
+	//state.velocity = ctrlAirplaneInitVelocity;
 	m_airplanes[0].setState(state);
 
-	m_airplanes[1].yaw(45);
-	m_airplanes[1].translate(glm::vec3{-60, 1.75, 30});
-	m_airplanes[1].pitch(12.5);
-	m_airplanes[2].yaw(45);
-	m_airplanes[2].translate(glm::vec3{-60, 1.75, 50});
-	m_airplanes[2].pitch(12.5);
-	m_airplanes[3].yaw(45);
-	m_airplanes[3].translate(glm::vec3{-60, 1.75, 70});
-	m_airplanes[3].pitch(12.5);
-	m_airplanes[4].yaw(90);
-	m_airplanes[4].translate(glm::vec3{-105, 1.75, 125});
-	m_airplanes[4].pitch(12.5);
+	constexpr float staticAirplanesPositionY = 1.75f;
+
+	constexpr float apronAirplanesPositionX = -60;
+	constexpr float firstApronAirplanePositionZ = 30;
+	constexpr float apronAirplanesGapZ = 20;
+	constexpr float apronAirplanesRotationYawDeg = 45;
+	constexpr float apronAirplanesRotationPitchDeg = 12.5f;
+	for(size_t i = 1; i <= 3; i++)
+	{
+		m_airplanes[i].translate(glm::vec3{apronAirplanesPositionX, staticAirplanesPositionY,
+			firstApronAirplanePositionZ + ((int)i - 1)*apronAirplanesGapZ});
+		m_airplanes[i].rotateYaw(apronAirplanesRotationYawDeg);
+		m_airplanes[i].rotatePitch(apronAirplanesRotationPitchDeg);
+	}
+	
+	constexpr float hangarAirplaneRotationYawDeg = 90;
+	constexpr float hangarAirplaneRotationPitchDeg = 12.5f;
+	constexpr glm::vec3 hangarAirplanePosition{-105, staticAirplanesPositionY, 125};
+	m_airplanes[4].rotateYaw(hangarAirplaneRotationYawDeg);
+	m_airplanes[4].rotatePitch(hangarAirplaneRotationPitchDeg);
+	m_airplanes[4].translate(hangarAirplanePosition);
 }
 
 void AirportScene::setCameras()
 {
-	m_airplaneCamera->translate(glm::vec3{0, 4, 16});
-	m_airplaneCamera->pitch(-10);
+	constexpr float airplaneCameraPitchDeg = -10;
+	constexpr glm::vec3 airplaneCameraPosition{0, 4, 16};
+	m_airplaneCamera->rotatePitch(airplaneCameraPitchDeg);
+	m_airplaneCamera->translate(airplaneCameraPosition);
 
-	m_trackingCamera->translate(glm::vec3{140, 70, 0});
-
-	m_stationaryCamera->translate(glm::vec3{-150, 100, -150});
-	m_stationaryCamera->yaw(110);
-	m_stationaryCamera->pitch(-30);
+	constexpr glm::vec3 trackingCameraPosition{140, 70, 0};
+	m_trackingCamera->translate(trackingCameraPosition);
+	
+	constexpr float stationaryCameraRotationYawDeg = 110;
+	constexpr float stationaryCameraRotationPitchDeg = -30;
+	constexpr glm::vec3 stationaryCameraPosition{-150, 100, -150};
+	m_stationaryCamera->rotateYaw(stationaryCameraRotationYawDeg);
+	m_stationaryCamera->rotatePitch(stationaryCameraRotationPitchDeg);
+	m_stationaryCamera->translate(stationaryCameraPosition);
 
 	m_activeCamera = m_airplaneCamera;
 }

@@ -47,22 +47,22 @@ void Movable::translate(const glm::vec3& translation)
 	updateMatrix();
 }
 
-void Movable::pitch(float angleDeg)
+void Movable::rotatePitch(float angleDeg)
 {
 	rotate(m_state.right, angleDeg);
 }
 
-void Movable::yaw(float angleDeg)
+void Movable::rotateYaw(float angleDeg)
 {
 	rotate(m_state.up, -angleDeg);
 }
 
-void Movable::roll(float angleDeg)
+void Movable::rotateRoll(float angleDeg)
 {
 	rotate(m_state.direction, -angleDeg);
 }
 
-void Movable::moveAlongZ(float distance)
+void Movable::moveZ(float distance)
 {
 	translate(distance * m_state.direction);
 }

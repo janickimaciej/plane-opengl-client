@@ -55,27 +55,27 @@ void Model::translate(const glm::vec3& translation)
 	updateShaderLightMatrix();
 }
 
-void Model::pitch(float angleDeg)
+void Model::rotatePitch(float angleDeg)
 {
-	Movable::pitch(angleDeg);
+	Movable::rotatePitch(angleDeg);
 	updateShaderLightMatrix();
 }
 
-void Model::yaw(float angleDeg)
+void Model::rotateYaw(float angleDeg)
 {
-	Movable::yaw(angleDeg);
+	Movable::rotateYaw(angleDeg);
 	updateShaderLightMatrix();
 }
 
-void Model::roll(float angleDeg)
+void Model::rotateRoll(float angleDeg)
 {
-	Movable::roll(angleDeg);
+	Movable::rotateRoll(angleDeg);
 	updateShaderLightMatrix();
 }
 
-void Model::moveAlongZ(float distance)
+void Model::moveZ(float distance)
 {
-	Movable::moveAlongZ(distance);
+	Movable::moveZ(distance);
 	updateShaderLightMatrix();
 }
 

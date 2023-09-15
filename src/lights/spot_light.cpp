@@ -18,7 +18,7 @@ SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const Mesh& mesh
 	m_cutoffOuterDeg{cutoffOuterDeg}
 {
 	++s_idCounter;
-	updateShaderLightParameters();
+	updateShaderLightParams();
 	updateShaderLightTranslation(modelMatrix);
 }
 
@@ -37,7 +37,7 @@ void SpotLight::updateShaderLightTranslation(const glm::mat4& modelMatrix) const
 	surfaceShaderProgram.setUniform3f(prefix + "lightPosition", lightPosition);
 }
 
-void SpotLight::updateShaderLightParameters() const
+void SpotLight::updateShaderLightParams() const
 {
 	surfaceShaderProgram.use();
 	const std::string prefix = "spotLights[" + std::to_string(m_id) + "].";

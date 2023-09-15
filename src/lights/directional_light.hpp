@@ -15,7 +15,7 @@ public:
 	virtual ~DirectionalLight() = default;
 
 protected:
-	virtual void updateShaderLightParameters() const override;
+	virtual void updateShaderLightParams() const override;
 
 private:
 	static unsigned int s_idCounter;

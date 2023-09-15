@@ -14,8 +14,8 @@ public:
 	virtual void setAspectRatio(float aspectRatio) = 0;
 	virtual void setActiveCamera(unsigned int cameraId) = 0;
 
-	virtual void ctrlMoveAlongZNegative() = 0;
-	virtual void ctrlMoveAlongZPositive() = 0;
+	virtual void ctrlZNegative() = 0;
+	virtual void ctrlZPositive() = 0;
 	virtual void ctrlYawNegative() = 0;
 	virtual void ctrlYawPositive() = 0;
 	virtual void ctrlPitchNegative() = 0;

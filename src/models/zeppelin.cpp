@@ -10,7 +10,8 @@ Zeppelin::Zeppelin(const ShaderProgram& surfaceShaderProgram,
 	Model{surfaceShaderProgram, lightShaderProgram},
 	m_body{bodyMesh}
 {
-	scale(57);
+	constexpr float zeppelinScale = 57;
+	scale(zeppelinScale);
 	updateShaderLightMatrix();
 }
 

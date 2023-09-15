@@ -1,11 +1,11 @@
 #include "airplane_models.hpp"
 
-#include "structs/airplane_parameters.hpp"
-#include "structs/control_surfaces_constraints.hpp"
-#include "structs/surface_parameters.hpp"
+#include "structs/airplane_params.hpp"
+#include "structs/surface_params.hpp"
 
 #include <glm/glm.hpp>
 
+// MUSTANG
 constexpr float mustangMass = 4000;
 constexpr glm::mat3 mustangMomentOfInertia
 {
@@ -14,13 +14,13 @@ constexpr glm::mat3 mustangMomentOfInertia
 	0, 350, 14800
 };
 
-const SurfaceParameters mustangWings{21.41f, 11, 3.82f, 1};
-const SurfaceParameters mustangHStab{3.54f, 3.85f, 3.82f, 1};
-const SurfaceParameters mustangVStab{1.23f, 1.11f, 3.82f, 1};
-const ControlSurfacesConstraints mustangConstraints{-20, 20, 15, 15};
-const AirplaneParameters mustang{mustangMass, mustangMomentOfInertia, mustangWings, mustangHStab,
-	mustangVStab, mustangConstraints};
+const SurfaceParams mustangWings{21.41f, 11, 3.82f, 1, -15, 15};
+const SurfaceParams mustangHStab{3.54f, 3.85f, 3.82f, 1, -20, 20};
+const SurfaceParams mustangVStab{1.23f, 1.11f, 3.82f, 1, 15, 15};
+const AirplaneParams mustang{mustangMass, mustangMomentOfInertia, mustangWings, mustangHStab,
+	mustangVStab};
 
+// GIROSCOPE
 constexpr float giroscopeMass = 1;
 constexpr glm::mat3 giroscopeMomentOfInertia
 {
@@ -28,7 +28,6 @@ constexpr glm::mat3 giroscopeMomentOfInertia
 	0, 1, 0,
 	0, 0, 1
 };
-const SurfaceParameters giroscopeWings{1, 1, 1, 1};
-const ControlSurfacesConstraints giroscopeConstraints{1, 1, 1, 1};
-const AirplaneParameters giroscope{giroscopeMass, giroscopeMomentOfInertia, giroscopeWings,
-	giroscopeWings, giroscopeWings, giroscopeConstraints};
+const SurfaceParams giroscopeWings{1, 1, 1, 1, 1, 1};
+const AirplaneParams giroscope{giroscopeMass, giroscopeMomentOfInertia, giroscopeWings,
+	giroscopeWings, giroscopeWings};

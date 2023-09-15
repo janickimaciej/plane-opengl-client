@@ -21,7 +21,7 @@ protected:
 
 	Light(const ShaderProgram& surfaceShaderProgram, unsigned int id, float attenuationQuadratic,
 		float attenuationLinear, float attenuationConstant, const glm::vec3& color);
-	virtual void updateShaderLightParameters() const = 0;
+	virtual void updateShaderLightParams() const = 0;
 	virtual ~Light() = default;
 };
 

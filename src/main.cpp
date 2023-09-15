@@ -10,7 +10,8 @@
 
 #include <string>
 
-GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload& windowPayload);
+GLFWwindow* graphicsInit(unsigned int initWindowWidth, unsigned int initWindowHeight,
+	WindowPayload& windowPayload);
 void resizeWindow(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
@@ -19,7 +20,7 @@ int main()
 	static constexpr unsigned int initialWindowWidth = 1500;
 	static constexpr unsigned int initialWindowHeight = 800;
 	WindowPayload windowPayload{};
-	GLFWwindow* window = initialize(initialWindowWidth, initialWindowHeight, windowPayload);
+	GLFWwindow* window = graphicsInit(initialWindowWidth, initialWindowHeight, windowPayload);
 
 	ShaderProgram surfaceShaderProgram{SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT};
 	ShaderProgram lightShaderProgram{SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT};
@@ -44,17 +45,19 @@ int main()
 	return 0;
 }
 
-GLFWwindow* initialize(unsigned int width, unsigned int height, WindowPayload& windowPayload)
+GLFWwindow* graphicsInit(unsigned int initWindowWidth, unsigned int initWindowHeight,
+	WindowPayload& windowPayload)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	GLFWwindow* window = glfwCreateWindow((int)width, (int)height, "Plane", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow((int)initWindowWidth, (int)initWindowHeight, "Plane",
+		nullptr, nullptr);
 	glfwSetWindowUserPointer(window, &windowPayload);
-	static constexpr int initialPositionX = 0;
-	static constexpr int initialPositionY = 38;
-	glfwSetWindowPos(window, initialPositionX, initialPositionY);
+	static constexpr int initWindowPositionX = 0;
+	static constexpr int initWindowPositionY = 38;
+	glfwSetWindowPos(window, initWindowPositionX, initWindowPositionY);
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, resizeWindow);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -98,11 +101,11 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlMoveAlongZNegative();
+		windowPayload->scene->ctrlZNegative();
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlMoveAlongZPositive();
+		windowPayload->scene->ctrlZPositive();
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{

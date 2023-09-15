@@ -32,25 +32,25 @@ void MeshLight::translate(const glm::vec3& translation, const glm::mat4& modelMa
 
 void MeshLight::pitch(float angleDeg, const glm::mat4& modelMatrix)
 {
-	m_meshInstance.pitch(angleDeg);
+	m_meshInstance.rotatePitch(angleDeg);
 	updateShaderLightTranslation(modelMatrix);
 }
 
 void MeshLight::yaw(float angleDeg, const glm::mat4& modelMatrix)
 {
-	m_meshInstance.yaw(angleDeg);
+	m_meshInstance.rotateYaw(angleDeg);
 	updateShaderLightTranslation(modelMatrix);
 }
 
 void MeshLight::roll(float angleDeg, const glm::mat4& modelMatrix)
 {
-	m_meshInstance.roll(angleDeg);
+	m_meshInstance.rotateRoll(angleDeg);
 	updateShaderLightTranslation(modelMatrix);
 }
 
 void MeshLight::moveAlongZ(float distance, const glm::mat4& modelMatrix)
 {
-	m_meshInstance.moveAlongZ(distance);
+	m_meshInstance.moveZ(distance);
 	updateShaderLightTranslation(modelMatrix);
 }
 

@@ -24,8 +24,8 @@ public:
 	virtual void setAspectRatio(float aspectRatio) override;
 	virtual void setActiveCamera(unsigned int cameraId) override;
 	
-	virtual void ctrlMoveAlongZNegative() override;
-	virtual void ctrlMoveAlongZPositive() override;
+	virtual void ctrlZNegative() override;
+	virtual void ctrlZPositive() override;
 	virtual void ctrlYawNegative() override;
 	virtual void ctrlYawPositive() override;
 	virtual void ctrlPitchNegative() override;
