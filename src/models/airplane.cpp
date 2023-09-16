@@ -1,13 +1,13 @@
 #include "models/airplane.hpp"
 
-#include "flight_ctrl.hpp"
-#include "lights/spot_light.hpp"
-#include "mesh.hpp"
-#include "mesh_instance.hpp"
-#include "model_dynamics/airplane_dynamics.hpp"
+#include "graphics/lights/spot_light.hpp"
+#include "graphics/mesh.hpp"
+#include "graphics/mesh_instance.hpp"
+#include "graphics/shader_program.hpp"
 #include "models/model.hpp"
-#include "shader_program.hpp"
-#include "structs/airplane_params.hpp"
+#include "physics/airplane_params.hpp"
+#include "physics/flight_ctrl.hpp"
+#include "physics/model_dynamics/airplane_dynamics.hpp"
 
 #include <glm/glm.hpp>
 

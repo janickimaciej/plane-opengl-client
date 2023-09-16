@@ -1,10 +1,10 @@
 #include "models/airport.hpp"
 
-#include "lights/spot_light.hpp"
-#include "mesh.hpp"
-#include "mesh_instance.hpp"
+#include "graphics/lights/spot_light.hpp"
+#include "graphics/mesh.hpp"
+#include "graphics/mesh_instance.hpp"
+#include "graphics/shader_program.hpp"
 #include "models/model.hpp"
-#include "shader_program.hpp"
 
 #include <glm/glm.hpp>
 

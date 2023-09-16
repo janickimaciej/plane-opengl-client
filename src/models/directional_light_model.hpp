@@ -1,9 +1,9 @@
 #ifndef DIRECTIONAL_LIGHT_MODEL_HPP
 #define DIRECTIONAL_LIGHT_MODEL_HPP
 
-#include "lights/directional_light.hpp"
+#include "graphics/lights/directional_light.hpp"
+#include "graphics/shader_program.hpp"
 #include "models/model.hpp"
-#include "shader_program.hpp"
 
 #include <glm/glm.hpp>
 

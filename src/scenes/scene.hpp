@@ -1,8 +1,8 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "cameras/camera.hpp"
-#include "shader_program.hpp"
+#include "graphics/cameras/camera.hpp"
+#include "graphics/shader_program.hpp"
 
 class Scene
 {

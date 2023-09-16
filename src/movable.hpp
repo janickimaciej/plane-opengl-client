@@ -1,7 +1,7 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "structs/state.hpp"
+#include "state.hpp"
 
 #include <glm/glm.hpp>
 

@@ -1,10 +1,10 @@
 #ifndef ZEPPELIN_HPP
 #define ZEPPELIN_HPP
 
-#include "mesh.hpp"
-#include "mesh_instance.hpp"
+#include "graphics/mesh.hpp"
+#include "graphics/mesh_instance.hpp"
+#include "graphics/shader_program.hpp"
 #include "models/model.hpp"
-#include "shader_program.hpp"
 
 class Zeppelin : public Model
 {

@@ -1,8 +1,8 @@
-#include "paths.hpp"
+#include "graphics/paths.hpp"
+#include "graphics/shader_program.hpp"
+#include "graphics/window_payload.hpp"
 #include "scenes/airport_scene.hpp"
 #include "scenes/scene.hpp"
-#include "shader_program.hpp"
-#include "structs/window_payload.hpp"
 #include "time.hpp"
 
 #include <glad/glad.h>

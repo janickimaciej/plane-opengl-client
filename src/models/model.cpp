@@ -1,8 +1,8 @@
 #include "models/model.hpp"
 
+#include "graphics/shader_program.hpp"
 #include "movable.hpp"
-#include "shader_program.hpp"
-#include "structs/state.hpp"
+#include "state.hpp"
 
 #include <glm/glm.hpp>
 

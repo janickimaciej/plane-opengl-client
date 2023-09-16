@@ -1,8 +1,8 @@
 #include "models/directional_light_model.hpp"
 
-#include "lights/directional_light.hpp"
+#include "graphics/lights/directional_light.hpp"
+#include "graphics/shader_program.hpp"
 #include "models/model.hpp"
-#include "shader_program.hpp"
 
 #include <glm/glm.hpp>
 

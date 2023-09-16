@@ -1,16 +1,16 @@
 #ifndef AIRPORT_SCENE_HPP
 #define AIRPORT_SCENE_HPP
 
-#include "cameras/model_camera.hpp"
-#include "cameras/perspective_camera.hpp"
-#include "cameras/tracking_camera.hpp"
-#include "mesh.hpp"
+#include "graphics/cameras/model_camera.hpp"
+#include "graphics/cameras/perspective_camera.hpp"
+#include "graphics/cameras/tracking_camera.hpp"
+#include "graphics/mesh.hpp"
+#include "graphics/shader_program.hpp"
 #include "models/airplane.hpp"
 #include "models/airport.hpp"
 #include "models/directional_light_model.hpp"
 #include "models/zeppelin.hpp"
 #include "scenes/scene.hpp"
-#include "shader_program.hpp"
 
 #include <vector>
 

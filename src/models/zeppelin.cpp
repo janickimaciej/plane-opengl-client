@@ -1,9 +1,9 @@
 #include "models/zeppelin.hpp"
 
-#include "mesh.hpp"
-#include "mesh_instance.hpp"
+#include "graphics/mesh.hpp"
+#include "graphics/mesh_instance.hpp"
+#include "graphics/shader_program.hpp"
 #include "models/model.hpp"
-#include "shader_program.hpp"
 
 Zeppelin::Zeppelin(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, const Mesh& bodyMesh) :

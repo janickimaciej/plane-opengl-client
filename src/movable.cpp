@@ -1,6 +1,6 @@
 #include "movable.hpp"
 
-#include "structs/state.hpp"
+#include "state.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
