@@ -39,12 +39,20 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	m_dynamics{params, m_flightCtrl}
 {
 	constexpr float lightsPositionXAbs = 2.14f;
-	constexpr float lightsPositionY = -0.448f;
-	constexpr float lightsPositionZ = -1.096f;
+	constexpr float lightsPositionY = -0.474f;
+	constexpr float lightsPositionZ = 2.938f;
 	m_leftLight.translate(glm::vec3{lightsPositionXAbs, lightsPositionY, lightsPositionZ},
 		getMatrix());
 	m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ},
 		getMatrix());
+
+	m_cap.translate(m_params.nosePosition);
+	m_propeller.translate(m_params.nosePosition);
+	m_body.translate(m_params.nosePosition);
+	m_joins.translate(m_params.nosePosition);
+	m_tires.translate(m_params.nosePosition);
+	m_leftLight.translate(m_params.nosePosition, getMatrix());
+	m_rightLight.translate(m_params.nosePosition, getMatrix());
 
 	updateShaderLightMatrix();
 }

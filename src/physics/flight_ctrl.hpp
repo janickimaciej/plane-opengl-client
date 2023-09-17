@@ -9,11 +9,11 @@ class FlightCtrl
 public:
 	FlightCtrl(/*MeshInstance& elevator, MeshInstance& rudder, MeshInstance& leftAileron,
 		MeshInstance& rightAileron, */const AirplaneParams& airplaneParams);
-	float getElevatorAngleDeg() const;
+	float getElevatorAngleRad() const;
 	void setElevatorAngleRelative(float angleRelative);
-	float getRudderAngleDeg() const;
+	float getRudderAngleRad() const;
 	void setRudderAngleRelative(float angleRelative);
-	float getAileronsAngleDeg() const;
+	float getAileronsAngleRad() const;
 	void setAileronsAngleRelative(float angleRelative);
 	float getThrustRelative() const;
 	void setThrustRelative(float relative);
@@ -25,9 +25,9 @@ private:
 	//MeshInstance& m_rightAileron;
 
 	const AirplaneParams m_airplaneParams;
-	float m_elevatorAngleDeg{};
-	float m_rudderAngleDeg{};
-	float m_aileronsAngleDeg{};
+	float m_elevatorAngleRad{};
+	float m_rudderAngleRad{};
+	float m_aileronsAngleRad{};
 	float m_thrustRelative{};
 
 	// converts linearly from [-1, 1] to [min, max]

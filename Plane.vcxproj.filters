@@ -29,13 +29,12 @@
     <ClCompile Include="src\state.cpp" />
     <ClCompile Include="src\physics\model_dynamics\airplane_dynamics.cpp" />
     <ClCompile Include="src\physics\flight_ctrl.cpp" />
-    <ClCompile Include="src\physics\surface_params.cpp" />
     <ClCompile Include="src\physics\airplane_params.cpp" />
     <ClCompile Include="src\scenes\scene.cpp" />
-    <ClCompile Include="src\physics\airplane_models.cpp" />
     <ClCompile Include="dep\stb_image.cpp" />
     <ClCompile Include="dep\glad.c" />
     <ClCompile Include="src\graphics\paths.cpp" />
+    <ClCompile Include="src\physics\airplane_models\mustang.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />
@@ -75,6 +74,8 @@
     <ClInclude Include="src\scenes\scene.hpp" />
     <ClInclude Include="src\physics\airplane_models.hpp" />
     <ClInclude Include="dep\stb_image.h" />
+    <ClInclude Include="src\physics\fuselage_params.hpp" />
+    <ClInclude Include="src\physics\propulsion_params.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

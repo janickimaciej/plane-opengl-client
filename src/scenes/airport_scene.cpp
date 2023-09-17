@@ -201,7 +201,7 @@ void AirportScene::createModels()
 	{
 		m_airplanes.push_back(Airplane{m_surfaceShaderProgram, m_lightShaderProgram,
 			*m_airplaneCap, *m_airplanePropeller, *m_airplaneBody, *m_airplaneJoins,
-			*m_airplaneTires, *m_airplaneLight, giroscope});
+			*m_airplaneTires, *m_airplaneLight, mustang});
 	}
 
 	m_moon = new DirectionalLightModel{m_surfaceShaderProgram, m_lightShaderProgram,

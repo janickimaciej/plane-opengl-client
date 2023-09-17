@@ -18,45 +18,45 @@ FlightCtrl::FlightCtrl(/*MeshInstance& elevator, MeshInstance& rudder,
 	setThrustRelative(0);
 }
 
-float FlightCtrl::getElevatorAngleDeg() const
+float FlightCtrl::getElevatorAngleRad() const
 {
-	return m_elevatorAngleDeg;
+	return m_elevatorAngleRad;
 }
 
 void FlightCtrl::setElevatorAngleRelative(float angleRelative)
 {
-	m_elevatorAngleDeg = relativeToAbs(angleRelative, m_airplaneParams.hStab.ctrlMinAngleDeg,
-		m_airplaneParams.hStab.ctrlMaxAngleDeg);
+	m_elevatorAngleRad = relativeToAbs(angleRelative, m_airplaneParams.hStab.ctrlMinAngleRad,
+		m_airplaneParams.hStab.ctrlMaxAngleRad);
 	//m_elevator.resetRotation();
-	//m_elevator.pitch(-elevatorAngleDeg);
+	//m_elevator.pitch(-elevatorAngleRad);
 }
 
-float FlightCtrl::getRudderAngleDeg() const
+float FlightCtrl::getRudderAngleRad() const
 {
-	return m_rudderAngleDeg;
+	return m_rudderAngleRad;
 }
 
 void FlightCtrl::setRudderAngleRelative(float angleRelative)
 {
-	m_rudderAngleDeg = relativeToAbs(angleRelative, m_airplaneParams.vStab.ctrlMinAngleDeg,
-		m_airplaneParams.vStab.ctrlMaxAngleDeg);
+	m_rudderAngleRad = relativeToAbs(angleRelative, m_airplaneParams.vStab.ctrlMinAngleRad,
+		m_airplaneParams.vStab.ctrlMaxAngleRad);
 	//m_rudder.resetRotation();
-	//m_rudder.yaw(rudderAngleDeg);
+	//m_rudder.yaw(rudderAngleRad);
 }
 
-float FlightCtrl::getAileronsAngleDeg() const
+float FlightCtrl::getAileronsAngleRad() const
 {
-	return m_aileronsAngleDeg;
+	return m_aileronsAngleRad;
 }
 
 void FlightCtrl::setAileronsAngleRelative(float angleRelative)
 {
-	m_aileronsAngleDeg = relativeToAbs(angleRelative, m_airplaneParams.wings.ctrlMinAngleDeg,
-		m_airplaneParams.wings.ctrlMaxAngleDeg);
+	m_aileronsAngleRad = relativeToAbs(angleRelative, m_airplaneParams.rightWing.ctrlMinAngleRad,
+		m_airplaneParams.rightWing.ctrlMaxAngleRad);
 	//m_leftAileron.resetRotation();
-	//m_leftAileron.pitch(aileronsAngleDeg);
+	//m_leftAileron.pitch(aileronsAngleRad);
 	//m_rightAileron.resetRotation();
-	//m_rightAileron.pitch(-aileronsAngleDeg);
+	//m_rightAileron.pitch(-aileronsAngleRad);
 }
 
 float FlightCtrl::getThrustRelative() const
