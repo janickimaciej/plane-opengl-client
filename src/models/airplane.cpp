@@ -34,7 +34,6 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	m_rightLight{surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
 		lightsCutoffOuterDeg, getMatrix()},
-	m_params{params},
 	m_flightCtrl{params},
 	m_dynamics{params, m_flightCtrl}
 {
@@ -46,13 +45,13 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ},
 		getMatrix());
 
-	m_cap.translate(m_params.inertia.nosePosition);
-	m_propeller.translate(m_params.inertia.nosePosition);
-	m_body.translate(m_params.inertia.nosePosition);
-	m_joins.translate(m_params.inertia.nosePosition);
-	m_tires.translate(m_params.inertia.nosePosition);
-	m_leftLight.translate(m_params.inertia.nosePosition, getMatrix());
-	m_rightLight.translate(m_params.inertia.nosePosition, getMatrix());
+	m_cap.translate(params.inertia.nosePosition);
+	m_propeller.translate(params.inertia.nosePosition);
+	m_body.translate(params.inertia.nosePosition);
+	m_joins.translate(params.inertia.nosePosition);
+	m_tires.translate(params.inertia.nosePosition);
+	m_leftLight.translate(params.inertia.nosePosition, getMatrix());
+	m_rightLight.translate(params.inertia.nosePosition, getMatrix());
 
 	updateShaderLightMatrix();
 }

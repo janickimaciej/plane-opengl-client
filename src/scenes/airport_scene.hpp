@@ -47,11 +47,11 @@ private:
 	const Mesh* m_airplaneTires{};
 	const Mesh* m_airplaneLight{};
 	const Mesh* m_zeppelinBody{};
-
-	DirectionalLightModel* m_moon{};
+	
+	std::vector<Airplane*> m_airplanes{};
 	Airport* m_airport{};
 	Zeppelin* m_zeppelin{};
-	std::vector<Airplane> m_airplanes{};
+	DirectionalLightModel* m_moon{};
 
 	ModelCamera* m_airplaneCamera{};
 	TrackingCamera* m_trackingCamera{};

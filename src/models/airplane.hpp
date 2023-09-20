@@ -36,7 +36,6 @@ private:
 	SpotLight m_leftLight;
 	SpotLight m_rightLight;
 
-	const AirplaneParams& m_params;
 	FlightCtrl m_flightCtrl;
 	AirplaneDynamics m_dynamics;
 
