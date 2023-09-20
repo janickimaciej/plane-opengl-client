@@ -10,13 +10,13 @@ public:
 	FlightCtrl(/*MeshInstance& elevator, MeshInstance& rudder, MeshInstance& leftAileron,
 		MeshInstance& rightAileron, */const AirplaneParams& airplaneParams);
 	float getElevatorAngleRad() const;
-	void setElevatorAngleRelative(float angleRelative);
+	void ctrlPitch(float relative);
 	float getRudderAngleRad() const;
-	void setRudderAngleRelative(float angleRelative);
+	void ctrlYaw(float relative);
 	float getAileronsAngleRad() const;
-	void setAileronsAngleRelative(float angleRelative);
+	void ctrlRoll(float relative);
 	float getThrustRelative() const;
-	void setThrustRelative(float relative);
+	void ctrlThrust(float relative);
 	
 private:
 	//MeshInstance& m_elevator;
@@ -24,7 +24,7 @@ private:
 	//MeshInstance& m_leftAileron;
 	//MeshInstance& m_rightAileron;
 
-	const AirplaneParams m_airplaneParams;
+	const AirplaneParams& m_airplaneParams;
 	float m_elevatorAngleRad{};
 	float m_rudderAngleRad{};
 	float m_aileronsAngleRad{};

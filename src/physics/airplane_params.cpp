@@ -27,12 +27,13 @@ AirplaneParams::AirplaneParams
 	const glm::vec3& fuselageFrontDragPoint, float fuselageSideArea,
 	float fuselageSideDragCoef, const glm::vec3& fuselageSideDragPoint,
 
-	float maxThrustN
-) :
-	mass{mass},
-	momentOfInertia{momentOfInertia},
-	nosePosition{-centerOfMass}
+	float maxThrust
+)
 {
+	inertia.mass = mass;
+	inertia.momentOfInertia = momentOfInertia;
+	inertia.nosePosition = -centerOfMass;
+
 	hStab.area = hStabArea;
 	hStab.liftCoefConst = hStabLiftCoefConst;
 	hStab.liftCoefDeriv = hStabLiftCoefDeriv;
@@ -91,5 +92,5 @@ AirplaneParams::AirplaneParams
 	fuselage.sideDragCoef = fuselageSideDragCoef;
 	fuselage.sideDragPoint = fuselageSideDragPoint - centerOfMass;
 
-	propulsion.maxThrustN = maxThrustN;
+	propulsion.maxThrust = maxThrust;
 }

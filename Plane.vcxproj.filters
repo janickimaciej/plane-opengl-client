@@ -35,6 +35,7 @@
     <ClCompile Include="dep\glad.c" />
     <ClCompile Include="src\graphics\paths.cpp" />
     <ClCompile Include="src\physics\airplane_models\mustang.cpp" />
+    <ClCompile Include="src\physics\atmosphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />
@@ -76,6 +77,8 @@
     <ClInclude Include="dep\stb_image.h" />
     <ClInclude Include="src\physics\fuselage_params.hpp" />
     <ClInclude Include="src\physics\propulsion_params.hpp" />
+    <ClInclude Include="src\physics\inertia_params.hpp" />
+    <ClInclude Include="src\physics\atmosphere.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

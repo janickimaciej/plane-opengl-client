@@ -19,19 +19,16 @@ class AirportScene : public Scene
 public:
 	AirportScene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		float aspectRatio);
+
 	virtual void update() override;
 	virtual void render() override;
 	virtual void setAspectRatio(float aspectRatio) override;
 	virtual void setActiveCamera(unsigned int cameraId) override;
 	
-	virtual void ctrlZNegative() override;
-	virtual void ctrlZPositive() override;
-	virtual void ctrlYawNegative() override;
-	virtual void ctrlYawPositive() override;
-	virtual void ctrlPitchNegative() override;
-	virtual void ctrlPitchPositive() override;
-	virtual void ctrlRollNegative() override;
-	virtual void ctrlRollPositive() override;
+	virtual void ctrlPitch(float relative) override;
+	virtual void ctrlYaw(float relative) override;
+	virtual void ctrlRoll(float relative) override;
+	virtual void ctrlThrust(float relative) override;
 
 	~AirportScene();
 

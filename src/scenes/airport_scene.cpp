@@ -82,52 +82,24 @@ void AirportScene::setActiveCamera(unsigned int cameraId)
 	}
 }
 
-void AirportScene::ctrlZNegative()
+void AirportScene::ctrlPitch(float relative)
 {
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].moveZ(-airplaneVelocity * deltaTime);
+	m_airplanes[0].ctrlPitch(relative);
 }
 
-void AirportScene::ctrlZPositive()
+void AirportScene::ctrlYaw(float relative)
 {
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].moveZ(airplaneVelocity * deltaTime);
+	m_airplanes[0].ctrlYaw(relative);
 }
 
-void AirportScene::ctrlYawNegative()
+void AirportScene::ctrlRoll(float relative)
 {
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].rotateYaw(-airplaneAngVelocityDeg * deltaTime);
+	m_airplanes[0].ctrlRoll(relative);
 }
 
-void AirportScene::ctrlYawPositive()
+void AirportScene::ctrlThrust(float relative)
 {
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].rotateYaw(airplaneAngVelocityDeg * deltaTime);
-}
-
-void AirportScene::ctrlPitchNegative()
-{
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].rotatePitch(-airplaneAngVelocityDeg * deltaTime);
-}
-
-void AirportScene::ctrlPitchPositive()
-{
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].rotatePitch(airplaneAngVelocityDeg * deltaTime);
-}
-
-void AirportScene::ctrlRollNegative()
-{
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].rotateRoll(-airplaneAngVelocityDeg * deltaTime);
-}
-
-void AirportScene::ctrlRollPositive()
-{
-	float deltaTime = Time::getDeltaTime();
-	m_airplanes[0].rotateRoll(airplaneAngVelocityDeg * deltaTime);
+	m_airplanes[0].ctrlThrust(relative);
 }
 
 AirportScene::~AirportScene()

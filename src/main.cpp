@@ -86,50 +86,83 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-	{
-		windowPayload->scene->setActiveCamera(1);
-	}
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-	{
-		windowPayload->scene->setActiveCamera(2);
-	}
-	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-	{
-		windowPayload->scene->setActiveCamera(3);
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlZNegative();
-	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlZPositive();
-	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlYawNegative();
+		windowPayload->scene->ctrlYaw(-1);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlYawPositive();
+		windowPayload->scene->ctrlYaw(1);
 	}
 	
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlPitchNegative();
+		windowPayload->scene->ctrlPitch(-1);
 	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlPitchPositive();
+		windowPayload->scene->ctrlPitch(1);
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlRollNegative();
+		windowPayload->scene->ctrlRoll(-1);
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlRollPositive();
+		windowPayload->scene->ctrlRoll(1);
+	}
+	
+	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0);
+	}
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.1f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.2f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.3f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.4f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.5f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.6f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.7f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.8f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(0.9f);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+	{
+		windowPayload->scene->setActiveCamera(1);
+	}
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+	{
+		windowPayload->scene->setActiveCamera(2);
+	}
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		windowPayload->scene->setActiveCamera(3);
 	}
 }

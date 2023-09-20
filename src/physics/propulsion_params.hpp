@@ -3,7 +3,7 @@
 
 struct PropulsionParams
 {
-	float maxThrustN{};
+	float maxThrust{};
 };
 
 #endif

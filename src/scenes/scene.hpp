@@ -13,15 +13,11 @@ public:
 	virtual void render() = 0;
 	virtual void setAspectRatio(float aspectRatio) = 0;
 	virtual void setActiveCamera(unsigned int cameraId) = 0;
-
-	virtual void ctrlZNegative() = 0;
-	virtual void ctrlZPositive() = 0;
-	virtual void ctrlYawNegative() = 0;
-	virtual void ctrlYawPositive() = 0;
-	virtual void ctrlPitchNegative() = 0;
-	virtual void ctrlPitchPositive() = 0;
-	virtual void ctrlRollNegative() = 0;
-	virtual void ctrlRollPositive() = 0;
+	
+	virtual void ctrlPitch(float relative) = 0;
+	virtual void ctrlYaw(float relative) = 0;
+	virtual void ctrlRoll(float relative) = 0;
+	virtual void ctrlThrust(float relative) = 0;
 
 	virtual ~Scene() = default;
 protected:

@@ -27,6 +27,7 @@
     <ClCompile Include="src\graphics\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\graphics\day_night_cycle.cpp" />
     <ClCompile Include="src\physics\airplane_models\mustang.cpp" />
+    <ClCompile Include="src\physics\atmosphere.cpp" />
     <ClCompile Include="src\physics\flight_ctrl.cpp" />
     <ClCompile Include="src\graphics\global_shading.cpp" />
     <ClCompile Include="src\graphics\lights\directional_light.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="src\graphics\cameras\perspective_camera.hpp" />
     <ClInclude Include="src\graphics\cameras\tracking_camera.hpp" />
     <ClInclude Include="src\graphics\day_night_cycle.hpp" />
+    <ClInclude Include="src\physics\atmosphere.hpp" />
     <ClInclude Include="src\physics\flight_ctrl.hpp" />
     <ClInclude Include="src\graphics\global_shading.hpp" />
     <ClInclude Include="src\graphics\lights\directional_light.hpp" />
@@ -76,6 +78,7 @@
     <ClInclude Include="src\models\model.hpp" />
     <ClInclude Include="src\models\zeppelin.hpp" />
     <ClInclude Include="src\physics\fuselage_params.hpp" />
+    <ClInclude Include="src\physics\inertia_params.hpp" />
     <ClInclude Include="src\physics\model_dynamics\airplane_dynamics.hpp" />
     <ClInclude Include="src\physics\model_dynamics\rigid_body_dynamics.hpp" />
     <ClInclude Include="src\movable.hpp" />

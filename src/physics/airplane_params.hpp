@@ -3,15 +3,14 @@
 
 #include "physics/surface_params.hpp"
 #include "physics/fuselage_params.hpp"
+#include "physics/inertia_params.hpp"
 #include "physics/propulsion_params.hpp"
 
 #include <glm/glm.hpp>
 
 struct AirplaneParams
 {
-	float mass{};
-	glm::mat3 momentOfInertia{};
-	glm::vec3 nosePosition{};
+	InertiaParams inertia;
 	SurfaceParams hStab;
 	SurfaceParams vStab;
 	SurfaceParams leftWing;
@@ -42,7 +41,7 @@ struct AirplaneParams
 		const glm::vec3& fuselageFrontDragPoint, float fuselageSideArea,
 		float fuselageSideDragCoef, const glm::vec3& fuselageSideDragPoint,
 
-		float maxThrustN
+		float maxThrust
 	);
 };
 

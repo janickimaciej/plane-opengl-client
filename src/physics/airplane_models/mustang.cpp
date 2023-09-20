@@ -57,7 +57,7 @@ namespace
 	constexpr float fuselageSideDragCoef = 0.59f;
 	constexpr glm::vec3 fuselageSideDragPoint{0, 0, 4.61};
 
-	constexpr float maxThrustN = 5500;
+	constexpr float maxThrust = 5500;
 }
 
 const AirplaneParams mustang
@@ -78,5 +78,5 @@ const AirplaneParams mustang
 	fuselageFrontArea, fuselageFrontDragCoef, fuselageFrontDragPoint, fuselageSideArea,
 	fuselageSideDragCoef, fuselageSideDragPoint,
 
-	maxThrustN
+	maxThrust
 };

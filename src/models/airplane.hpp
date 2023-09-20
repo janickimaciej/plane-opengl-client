@@ -16,8 +16,15 @@ public:
 	Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		const Mesh& capMesh, const Mesh& propellerMesh, const Mesh& bodyMesh, const Mesh& joinsMesh,
 		const Mesh& tiresMesh, const Mesh& lightMesh, const AirplaneParams& params);
+
 	void update();
 	void rotatePropeller(float angleDeg);
+
+	void ctrlPitch(float relative);
+	void ctrlYaw(float relative);
+	void ctrlRoll(float relative);
+	void ctrlThrust(float relative);
+
 	virtual ~Airplane() = default;
 
 private:
@@ -29,7 +36,7 @@ private:
 	SpotLight m_leftLight;
 	SpotLight m_rightLight;
 
-	AirplaneParams m_params;
+	const AirplaneParams& m_params;
 	FlightCtrl m_flightCtrl;
 	AirplaneDynamics m_dynamics;
 

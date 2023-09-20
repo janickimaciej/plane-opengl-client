@@ -46,13 +46,13 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ},
 		getMatrix());
 
-	m_cap.translate(m_params.nosePosition);
-	m_propeller.translate(m_params.nosePosition);
-	m_body.translate(m_params.nosePosition);
-	m_joins.translate(m_params.nosePosition);
-	m_tires.translate(m_params.nosePosition);
-	m_leftLight.translate(m_params.nosePosition, getMatrix());
-	m_rightLight.translate(m_params.nosePosition, getMatrix());
+	m_cap.translate(m_params.inertia.nosePosition);
+	m_propeller.translate(m_params.inertia.nosePosition);
+	m_body.translate(m_params.inertia.nosePosition);
+	m_joins.translate(m_params.inertia.nosePosition);
+	m_tires.translate(m_params.inertia.nosePosition);
+	m_leftLight.translate(m_params.inertia.nosePosition, getMatrix());
+	m_rightLight.translate(m_params.inertia.nosePosition, getMatrix());
 
 	updateShaderLightMatrix();
 }
@@ -65,6 +65,26 @@ void Airplane::update()
 void Airplane::rotatePropeller(float angleDeg)
 {
 	m_propeller.rotateRoll(angleDeg);
+}
+
+void Airplane::ctrlPitch(float relative)
+{
+	m_flightCtrl.ctrlPitch(relative);
+}
+
+void Airplane::ctrlYaw(float relative)
+{
+	m_flightCtrl.ctrlYaw(relative);
+}
+
+void Airplane::ctrlRoll(float relative)
+{
+	m_flightCtrl.ctrlRoll(relative);
+}
+
+void Airplane::ctrlThrust(float relative)
+{
+	m_flightCtrl.ctrlThrust(relative);
 }
 
 void Airplane::updateShaderLightMatrix() const
