@@ -14,7 +14,7 @@ namespace
 		0, 29500, 350,
 		0, 350, 14800
 	};
-	constexpr glm::vec3 centerOfMass{0, 0, 4};
+	constexpr glm::vec3 centerOfMass{0, 0, 3.35};
 	
 	constexpr float hStabArea = 3.54f;
 	constexpr float hStabLiftCoefConst = 0;
@@ -46,7 +46,7 @@ namespace
 	constexpr glm::vec3 rightWingLiftPoint{2.62, -0.56, 3.45};
 	constexpr glm::vec3 rightWingNormalForcePoint{2.62, -0.56, 3.93};
 	constexpr float aileronsArea = 5.9f; // area of the part of the wings with ailerons
-	constexpr float aileronsLiftCoefDeriv = 1; //tmp value
+	constexpr float aileronsLiftCoefDeriv = 0.05f; //tmp value
 	constexpr float aileronsMaxAngleDeg = 15;
 	constexpr glm::vec3 rightAileronForcePoint{4.25, -0.56, 3.77};
 

@@ -85,32 +85,18 @@ void processInput(GLFWwindow* window)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
-
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlYaw(-1);
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlYaw(1);
-	}
 	
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlPitch(-1);
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlPitch(1);
-	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlRoll(-1);
-	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-	{
-		windowPayload->scene->ctrlRoll(1);
-	}
+	int ctrlYawNegative = glfwGetKey(window, GLFW_KEY_A);
+	int ctrlYawPositive = glfwGetKey(window, GLFW_KEY_D);
+	windowPayload->scene->ctrlYaw((float)(ctrlYawPositive - ctrlYawNegative));
+	
+	int ctrlPitchNegative = glfwGetKey(window, GLFW_KEY_UP);
+	int ctrlPitchPositive = glfwGetKey(window, GLFW_KEY_DOWN);
+	windowPayload->scene->ctrlPitch((float)(ctrlPitchPositive - ctrlPitchNegative));
+	
+	int ctrlRollNegative = glfwGetKey(window, GLFW_KEY_LEFT);
+	int ctrlRollPositive = glfwGetKey(window, GLFW_KEY_RIGHT);
+	windowPayload->scene->ctrlRoll((float)(ctrlRollPositive - ctrlRollNegative));
 	
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
 	{

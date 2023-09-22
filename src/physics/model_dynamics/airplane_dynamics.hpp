@@ -25,16 +25,16 @@ private:
 	virtual void computeNetForceAndNetTorque(const State& state, glm::vec3& netForce,
 		glm::vec3& netTorque) const override;
 
-	void addForceAndTorqueInertia(const State& state, glm::vec3& netForce, glm::vec3&)
-		const;
-	void addForceAndTorqueSurface(const State& state, glm::vec3& netForce, glm::vec3& netTorque)
-		const;
-	void addForceAndTorqueFuselage(const State& state, glm::vec3& netForce, glm::vec3& netTorque)
-		const;
-	void addForceAndTorquePropulsion(const State& state, glm::vec3& netForce, glm::vec3& netTorque)
-		const;
+	static void addForceAndTorqueInertia(const State& state, const InertiaParams& params,
+		glm::vec3& netForce, glm::vec3&);
+	static void addForceAndTorqueSurface(const State& state, const SurfaceParams& params,
+		float ctrlAngleRad, glm::vec3& netForce, glm::vec3& netTorque);
+	static void addForceAndTorqueFuselage(const State& state, const FuselageParams& params,
+		glm::vec3& netForce, glm::vec3& netTorque);
+	static void addForceAndTorquePropulsion(const State& state, const PropulsionParams& params,
+		float thrustRelative, glm::vec3& netForce, glm::vec3&);
 
-	glm::vec3 computeAirVelocity(const State& state, const glm::vec3& point) const;
+	static glm::vec3 computeAirVelocity(const State& state, const glm::vec3& point);
 };
 
 #endif
