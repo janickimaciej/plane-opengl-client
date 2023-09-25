@@ -24,11 +24,10 @@ void Movable::scale(float scaleRatio)
 
 void Movable::rotate(const glm::vec3& axis, float angleDeg)
 {
-	glm::mat4 transform4 = glm::rotate(glm::mat4{1}, glm::radians(angleDeg), axis);
-	glm::mat3 transform3{transform4};
-	m_state.right = transform3 * m_state.right;
-	m_state.up = transform3 * m_state.up;
-	m_state.direction = transform3 * m_state.direction;
+	glm::mat3 transform = glm::rotate(glm::mat4{1}, glm::radians(angleDeg), axis);
+	m_state.right = transform * m_state.right;
+	m_state.up = transform * m_state.up;
+	m_state.direction = transform * m_state.direction;
 	State::normalize(m_state);
 	updateMatrix();
 }

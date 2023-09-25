@@ -30,21 +30,21 @@ void AirplaneDynamics::computeNetForceAndNetTorque(const State& state, glm::vec3
 	netForce = glm::vec3{0, 0, 0};
 	netTorque = glm::vec3{0, 0, 0};
 
-	addForceAndTorqueInertia(state, m_params.inertia, netForce, netTorque);
-	/*addForceAndTorqueSurface(state, m_params.hStab, m_flightCtrl.getElevatorAngleRad(), netForce,
+	addForceAndTorque(state, m_params.inertia, netForce, netTorque);
+	addForceAndTorque(state, m_params.hStab, m_flightCtrl.getElevatorAngleRad(), netForce,
 		netTorque);
-	addForceAndTorqueSurface(state, m_params.vStab, m_flightCtrl.getRudderAngleRad(), netForce,
-		netTorque);*/
-	addForceAndTorqueSurface(state, m_params.leftWing, -m_flightCtrl.getAileronsAngleRad(),
+	addForceAndTorque(state, m_params.vStab, m_flightCtrl.getRudderAngleRad(), netForce,
+		netTorque);
+	addForceAndTorque(state, m_params.leftWing, -m_flightCtrl.getAileronsAngleRad(),
 		netForce, netTorque);
-	addForceAndTorqueSurface(state, m_params.rightWing, m_flightCtrl.getAileronsAngleRad(),
+	addForceAndTorque(state, m_params.rightWing, m_flightCtrl.getAileronsAngleRad(),
 		netForce, netTorque);
-	addForceAndTorqueFuselage(state, m_params.fuselage, netForce, netTorque);
-	addForceAndTorquePropulsion(state, m_params.propulsion, m_flightCtrl.getThrustRelative(),
+	addForceAndTorque(state, m_params.fuselage, netForce, netTorque);
+	addForceAndTorque(state, m_params.propulsion, m_flightCtrl.getThrustRelative(),
 		netForce, netTorque);
 }
 
-void AirplaneDynamics::addForceAndTorqueInertia(const State& state, const InertiaParams& params,
+void AirplaneDynamics::addForceAndTorque(const State& state, const InertiaParams& params,
 	glm::vec3& netForce, glm::vec3&)
 {
 	static constexpr float g = 9.81f;
@@ -54,33 +54,45 @@ void AirplaneDynamics::addForceAndTorqueInertia(const State& state, const Inerti
 	netForce += rotateMatrixInverse * gravityGlobal;
 }
 
-void AirplaneDynamics::addForceAndTorqueSurface(const State& state, const SurfaceParams& params,
+void AirplaneDynamics::addForceAndTorque(const State& state, const SurfaceParams& params,
 	float ctrlAngleRad, glm::vec3& netForce, glm::vec3& netTorque)
 {
 	float airDensity = Atmosphere::airDensity(state.position.y);
 
 	glm::vec3 airVelocity = computeAirVelocity(state, params.liftPoint);
-	if(glm::abs(airVelocity.z) > eps)
+	glm::vec3 airVelocitySurface = params.orientationInverse * airVelocity;
+	glm::vec3 yzAirVelocitySurface = glm::vec3{0, airVelocitySurface.y, airVelocitySurface.z};
+	float yzAirSpeed = glm::length(yzAirVelocitySurface);
+	float angleOfAttackRad = glm::atan(yzAirVelocitySurface.y, yzAirVelocitySurface.z);
+	if (yzAirSpeed > eps && angleOfAttackRad > params.criticalAngleNegativeRad &&
+		angleOfAttackRad < params.criticalAnglePositiveRad)
 	{
-		glm::vec3 yzAirVelocity = glm::vec3{0, airVelocity.y, airVelocity.z};
-		float yzAirSpeed = glm::length(yzAirVelocity);
-		float angleOfAttackRad = glm::atan(yzAirVelocity.y, yzAirVelocity.z);
-		if (yzAirSpeed > eps && angleOfAttackRad > -params.criticalAngleRad &&
-			angleOfAttackRad < params.criticalAngleRad)
-		{
-			float dynamicPressure = airDensity * yzAirSpeed * yzAirSpeed / 2;
-			float liftCoef = params.liftCoefConst + params.liftCoefDeriv * angleOfAttackRad;
-			float ctrlLiftCoef = -params.ctrlLiftCoefDeriv * ctrlAngleRad;
-			glm::vec3 liftDirection = glm::normalize(glm::cross(yzAirVelocity, glm::vec3{1, 0, 0}));
-			glm::vec3 lift = dynamicPressure * (params.area * liftCoef + params.ctrlArea *
-				ctrlLiftCoef) * liftDirection;
-			netForce += lift;
-			netTorque += glm::cross(params.liftPoint, lift);
-		}
+		float dynamicPressure = airDensity * yzAirSpeed * yzAirSpeed / 2;
+		float liftCoef = params.liftCoefConst + params.liftCoefDeriv * angleOfAttackRad;
+		float ctrlLiftCoef = -params.ctrlLiftCoefDeriv * ctrlAngleRad;
+		glm::vec3 liftDirectionSurface = glm::normalize(glm::cross(yzAirVelocitySurface,
+			glm::vec3{1, 0, 0}));
+		glm::vec3 liftSurface = dynamicPressure * (params.area * liftCoef + params.ctrlArea *
+			ctrlLiftCoef) * liftDirectionSurface;
+		glm::vec3 lift = params.orientation * liftSurface;
+		netForce += lift;
+		netTorque += glm::cross(params.liftPoint, lift);
+	}
+
+	airVelocity = computeAirVelocity(state, params.normalForcePoint);
+	airVelocitySurface = params.orientationInverse * airVelocity;
+	if (glm::abs(airVelocitySurface.y) > eps)
+	{
+		float dynamicPressure = airDensity * airVelocitySurface.y * airVelocitySurface.y / 2;
+		glm::vec3 normalForceSurface = dynamicPressure * params.area * params.normalForceCoef *
+			glm::vec3{0, airVelocitySurface.y > 0 ? 1 : -1, 0};
+		glm::vec3 normalForce = params.orientation * normalForceSurface;
+		netForce += normalForce;
+		netTorque += glm::cross(params.normalForcePoint, normalForce);
 	}
 }
 
-void AirplaneDynamics::addForceAndTorqueFuselage(const State& state, const FuselageParams& params,
+void AirplaneDynamics::addForceAndTorque(const State& state, const FuselageParams& params,
 	glm::vec3& netForce, glm::vec3& netTorque)
 {
 	float airDensity = Atmosphere::airDensity(state.position.y);
@@ -108,16 +120,17 @@ void AirplaneDynamics::addForceAndTorqueFuselage(const State& state, const Fusel
 	}
 }
 
-void AirplaneDynamics::addForceAndTorquePropulsion(const State& state,
-	const PropulsionParams& params, float thrustRelative, glm::vec3& netForce,
-	glm::vec3&)
+void AirplaneDynamics::addForceAndTorque(const State& state, const PropulsionParams& params,
+	float thrustRelative, glm::vec3& netForce, glm::vec3& netTorque)
 {
-	glm::vec3 thrust = thrustRelative * Atmosphere::airDensity(state.position.y) /
-		Atmosphere::seaLevelAirDensity * params.maxThrust * glm::vec3{0, 0, -1};
+	float airDensityRelative = Atmosphere::airDensity(state.position.y) /
+		Atmosphere::seaLevelAirDensity;
+	glm::vec3 thrust = thrustRelative * airDensityRelative * params.maxThrust * glm::vec3{0, 0, -1};
 	netForce += thrust;
+	netTorque += glm::cross(params.thrustPoint, thrust);
 }
 
 glm::vec3 AirplaneDynamics::computeAirVelocity(const State& state, const glm::vec3& point)
 {
-	return -state.velocity + glm::cross(point, state.angVelocityRad);
+	return -state.velocity - glm::cross(state.angVelocityRad, point);
 }

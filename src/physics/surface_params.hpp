@@ -5,10 +5,15 @@
 
 struct SurfaceParams
 {
+	glm::mat3 orientation{};
+	glm::mat3 orientationInverse{};
+
 	float area{};
 	float liftCoefConst{};
 	float liftCoefDeriv{};
-	float criticalAngleRad{};
+	float normalForceCoef{};
+	float criticalAngleNegativeRad{};
+	float criticalAnglePositiveRad{};
 	glm::vec3 liftPoint{};
 	glm::vec3 normalForcePoint{};
 

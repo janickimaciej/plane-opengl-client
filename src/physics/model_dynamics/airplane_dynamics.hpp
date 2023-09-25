@@ -25,14 +25,14 @@ private:
 	virtual void computeNetForceAndNetTorque(const State& state, glm::vec3& netForce,
 		glm::vec3& netTorque) const override;
 
-	static void addForceAndTorqueInertia(const State& state, const InertiaParams& params,
+	static void addForceAndTorque(const State& state, const InertiaParams& params,
 		glm::vec3& netForce, glm::vec3&);
-	static void addForceAndTorqueSurface(const State& state, const SurfaceParams& params,
+	static void addForceAndTorque(const State& state, const SurfaceParams& params,
 		float ctrlAngleRad, glm::vec3& netForce, glm::vec3& netTorque);
-	static void addForceAndTorqueFuselage(const State& state, const FuselageParams& params,
+	static void addForceAndTorque(const State& state, const FuselageParams& params,
 		glm::vec3& netForce, glm::vec3& netTorque);
-	static void addForceAndTorquePropulsion(const State& state, const PropulsionParams& params,
-		float thrustRelative, glm::vec3& netForce, glm::vec3&);
+	static void addForceAndTorque(const State& state, const PropulsionParams& params,
+		float thrustRelative, glm::vec3& netForce, glm::vec3& netTorque);
 
 	static glm::vec3 computeAirVelocity(const State& state, const glm::vec3& point);
 };

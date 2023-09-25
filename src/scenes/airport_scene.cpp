@@ -202,11 +202,11 @@ void AirportScene::setModels()
 	constexpr glm::vec3 zeppelinPosition{100, 150, -250};
 	m_zeppelin->translate(zeppelinPosition);
 
-	constexpr glm::vec3 ctrlAirplaneInitPosition{0, 150, 150};
+	constexpr glm::vec3 ctrlAirplaneInitPosition{0, 100, 1000};
 	m_airplanes[0]->translate(ctrlAirplaneInitPosition);
 	m_airplanes[0]->rotatePitch(8);
 	State state = m_airplanes[0]->getState();
-	constexpr glm::vec3 ctrlAirplaneInitVelocity{0, 0, -50};
+	constexpr glm::vec3 ctrlAirplaneInitVelocity{0, 0, -100};
 	state.velocity = ctrlAirplaneInitVelocity;
 	m_airplanes[0]->setState(state);
 
