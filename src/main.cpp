@@ -17,8 +17,8 @@ void processInput(GLFWwindow* window);
 
 int main()
 {
-	static constexpr unsigned int initialWindowWidth = 1500;
-	static constexpr unsigned int initialWindowHeight = 800;
+	static constexpr unsigned int initialWindowWidth = 1900;
+	static constexpr unsigned int initialWindowHeight = 950;
 	WindowPayload windowPayload{};
 	GLFWwindow* window = graphicsInit(initialWindowWidth, initialWindowHeight, windowPayload);
 
@@ -137,6 +137,10 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
 	{
 		windowPayload->scene->ctrlThrust(0.9f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_SLASH) == GLFW_PRESS)
+	{
+		windowPayload->scene->ctrlThrust(1);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)

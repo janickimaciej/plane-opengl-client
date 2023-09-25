@@ -1,10 +1,10 @@
 #ifndef AIRPLANE_PARAMS_HPP
 #define AIRPLANE_PARAMS_HPP
 
-#include "physics/surface_params.hpp"
-#include "physics/fuselage_params.hpp"
-#include "physics/inertia_params.hpp"
-#include "physics/propulsion_params.hpp"
+#include "physics/airplane_params/fuselage_params.hpp"
+#include "physics/airplane_params/inertia_params.hpp"
+#include "physics/airplane_params/propulsion_params.hpp"
+#include "physics/airplane_params/surface_params.hpp"
 
 #include <glm/glm.hpp>
 

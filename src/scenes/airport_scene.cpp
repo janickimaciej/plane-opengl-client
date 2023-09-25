@@ -13,7 +13,8 @@
 #include "models/airport.hpp"
 #include "models/directional_light_model.hpp"
 #include "models/zeppelin.hpp"
-#include "physics/airplane_models.hpp"
+#include "physics/airplane_models/airplane_models.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
 #include "scenes/scene.hpp"
 #include "time.hpp"
 

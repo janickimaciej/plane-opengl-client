@@ -50,14 +50,14 @@
     <ClCompile Include="src\scenes\airport_scene.cpp" />
     <ClCompile Include="src\scenes\scene.cpp" />
     <ClCompile Include="src\graphics\shader_program.cpp" />
-    <ClCompile Include="src\physics\airplane_params.cpp" />
+    <ClCompile Include="src\physics\airplane_params\airplane_params.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
     <ClCompile Include="src\state.cpp" />
     <ClCompile Include="src\time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\stb_image.h" />
-    <ClInclude Include="src\physics\airplane_models.hpp" />
+    <ClInclude Include="src\physics\airplane_models\airplane_models.hpp" />
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
     <ClInclude Include="src\graphics\cameras\model_camera.hpp" />
     <ClInclude Include="src\graphics\cameras\perspective_camera.hpp" />
@@ -77,23 +77,23 @@
     <ClInclude Include="src\models\directional_light_model.hpp" />
     <ClInclude Include="src\models\model.hpp" />
     <ClInclude Include="src\models\zeppelin.hpp" />
-    <ClInclude Include="src\physics\fuselage_params.hpp" />
-    <ClInclude Include="src\physics\inertia_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\fuselage_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\inertia_params.hpp" />
     <ClInclude Include="src\physics\model_dynamics\airplane_dynamics.hpp" />
     <ClInclude Include="src\physics\model_dynamics\rigid_body_dynamics.hpp" />
     <ClInclude Include="src\movable.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\paths.hpp" />
-    <ClInclude Include="src\physics\propulsion_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\propulsion_params.hpp" />
     <ClInclude Include="src\physics\runge_kutta.hpp" />
     <ClInclude Include="src\physics\runge_kutta_right_hand_side.hpp" />
     <ClInclude Include="src\scenes\airport_scene.hpp" />
     <ClInclude Include="src\scenes\scene.hpp" />
     <ClInclude Include="src\graphics\shader_program.hpp" />
-    <ClInclude Include="src\physics\airplane_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\airplane_params.hpp" />
     <ClInclude Include="src\graphics\material.hpp" />
     <ClInclude Include="src\state.hpp" />
-    <ClInclude Include="src\physics\surface_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\surface_params.hpp" />
     <ClInclude Include="src\graphics\vertex.hpp" />
     <ClInclude Include="src\graphics\window_payload.hpp" />
     <ClInclude Include="src\time.hpp" />

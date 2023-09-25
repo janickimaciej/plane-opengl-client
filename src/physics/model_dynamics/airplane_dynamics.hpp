@@ -1,13 +1,13 @@
 #ifndef AIRPLANE_DYNAMICS_HPP
 #define AIRPLANE_DYNAMICS_HPP
 
-#include "physics/airplane_params.hpp"
-#include "physics/inertia_params.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
+#include "physics/airplane_params/fuselage_params.hpp"
+#include "physics/airplane_params/inertia_params.hpp"
+#include "physics/airplane_params/propulsion_params.hpp"
+#include "physics/airplane_params/surface_params.hpp"
 #include "physics/flight_ctrl.hpp"
-#include "physics/fuselage_params.hpp"
 #include "physics/model_dynamics/rigid_body_dynamics.hpp"
-#include "physics/propulsion_params.hpp"
-#include "physics/surface_params.hpp"
 #include "state.hpp"
 
 #include <glm/glm.hpp>

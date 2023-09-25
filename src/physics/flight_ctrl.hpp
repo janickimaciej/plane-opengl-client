@@ -2,7 +2,7 @@
 #define FLIGHT_CTRL_HPP
 
 //#include "graphics/mesh_instance.hpp"
-#include "physics/airplane_params.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
 
 class FlightCtrl
 {

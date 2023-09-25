@@ -1,6 +1,9 @@
-#include "physics/airplane_params.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
 
-#include "physics/surface_params.hpp"
+#include "physics/airplane_params/fuselage_params.hpp"
+#include "physics/airplane_params/inertia_params.hpp"
+#include "physics/airplane_params/propulsion_params.hpp"
+#include "physics/airplane_params/surface_params.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -55,7 +58,7 @@ AirplaneParams::AirplaneParams
 	hStab.ctrlLiftCoefDeriv = elevatorLiftCoefDeriv;
 	hStab.ctrlMinAngleRad = elevatorMinAngleDeg;
 	hStab.ctrlMaxAngleRad = elevatorMaxAngleDeg;
-	hStab.ctrlForcePoint = elevatorForcePoint - centerOfMass;
+	hStab.ctrlLiftPoint = elevatorForcePoint - centerOfMass;
 	
 	vStab.orientation = glm::rotate(glm::mat4{1}, glm::radians(vStabIncidenceAngleDeg),
 		glm::vec3{1, 0, 0});
@@ -77,7 +80,7 @@ AirplaneParams::AirplaneParams
 	vStab.ctrlLiftCoefDeriv = rudderLiftCoefDeriv;
 	vStab.ctrlMinAngleRad = -rudderMaxAngleDeg;
 	vStab.ctrlMaxAngleRad = rudderMaxAngleDeg;
-	vStab.ctrlForcePoint = rudderForcePoint - centerOfMass;
+	vStab.ctrlLiftPoint = rudderForcePoint - centerOfMass;
 	
 	leftWing.orientation = glm::rotate(glm::mat4{1}, glm::radians(wingsIncidenceAngleDeg),
 		glm::vec3{1, 0, 0});
@@ -99,8 +102,8 @@ AirplaneParams::AirplaneParams
 	leftWing.ctrlLiftCoefDeriv = aileronsLiftCoefDeriv;
 	leftWing.ctrlMinAngleRad = -aileronsMaxAngleDeg;
 	leftWing.ctrlMaxAngleRad = aileronsMaxAngleDeg;
-	leftWing.ctrlForcePoint = rightAileronForcePoint - centerOfMass;
-	leftWing.ctrlForcePoint.x *= -1;
+	leftWing.ctrlLiftPoint = rightAileronForcePoint - centerOfMass;
+	leftWing.ctrlLiftPoint.x *= -1;
 	
 	rightWing.orientation = glm::rotate(glm::mat4{1}, glm::radians(wingsIncidenceAngleDeg),
 		glm::vec3{1, 0, 0});
@@ -120,7 +123,7 @@ AirplaneParams::AirplaneParams
 	rightWing.ctrlLiftCoefDeriv = aileronsLiftCoefDeriv;
 	rightWing.ctrlMinAngleRad = -aileronsMaxAngleDeg;
 	rightWing.ctrlMaxAngleRad = aileronsMaxAngleDeg;
-	rightWing.ctrlForcePoint = rightAileronForcePoint - centerOfMass;
+	rightWing.ctrlLiftPoint = rightAileronForcePoint - centerOfMass;
 
 	fuselage.frontArea = fuselageFrontArea;
 	fuselage.frontDragCoef = fuselageFrontDragCoef;

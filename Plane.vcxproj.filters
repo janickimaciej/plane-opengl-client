@@ -29,7 +29,7 @@
     <ClCompile Include="src\state.cpp" />
     <ClCompile Include="src\physics\model_dynamics\airplane_dynamics.cpp" />
     <ClCompile Include="src\physics\flight_ctrl.cpp" />
-    <ClCompile Include="src\physics\airplane_params.cpp" />
+    <ClCompile Include="src\physics\airplane_params\airplane_params.cpp" />
     <ClCompile Include="src\scenes\scene.cpp" />
     <ClCompile Include="dep\stb_image.cpp" />
     <ClCompile Include="dep\glad.c" />
@@ -70,14 +70,14 @@
     <ClInclude Include="src\physics\runge_kutta_right_hand_side.hpp" />
     <ClInclude Include="src\physics\model_dynamics\airplane_dynamics.hpp" />
     <ClInclude Include="src\physics\flight_ctrl.hpp" />
-    <ClInclude Include="src\physics\airplane_params.hpp" />
-    <ClInclude Include="src\physics\surface_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\airplane_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\surface_params.hpp" />
     <ClInclude Include="src\scenes\scene.hpp" />
-    <ClInclude Include="src\physics\airplane_models.hpp" />
+    <ClInclude Include="src\physics\airplane_models\airplane_models.hpp" />
     <ClInclude Include="dep\stb_image.h" />
-    <ClInclude Include="src\physics\fuselage_params.hpp" />
-    <ClInclude Include="src\physics\propulsion_params.hpp" />
-    <ClInclude Include="src\physics\inertia_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\fuselage_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\propulsion_params.hpp" />
+    <ClInclude Include="src\physics\airplane_params\inertia_params.hpp" />
     <ClInclude Include="src\physics\atmosphere.hpp" />
   </ItemGroup>
   <ItemGroup>

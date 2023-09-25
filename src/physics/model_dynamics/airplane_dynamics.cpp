@@ -1,13 +1,13 @@
 #include "physics/model_dynamics/airplane_dynamics.hpp"
 
-#include "physics/airplane_params.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
+#include "physics/airplane_params/fuselage_params.hpp"
+#include "physics/airplane_params/inertia_params.hpp"
+#include "physics/airplane_params/propulsion_params.hpp"
+#include "physics/airplane_params/surface_params.hpp"
 #include "physics/atmosphere.hpp"
-#include "physics/inertia_params.hpp"
 #include "physics/flight_ctrl.hpp"
-#include "physics/fuselage_params.hpp"
 #include "physics/model_dynamics/rigid_body_dynamics.hpp"
-#include "physics/propulsion_params.hpp"
-#include "physics/surface_params.hpp"
 #include "state.hpp"
 
 #include <glm/glm.hpp>
@@ -33,15 +33,14 @@ void AirplaneDynamics::computeNetForceAndNetTorque(const State& state, glm::vec3
 	addForceAndTorque(state, m_params.inertia, netForce, netTorque);
 	addForceAndTorque(state, m_params.hStab, m_flightCtrl.getElevatorAngleRad(), netForce,
 		netTorque);
-	addForceAndTorque(state, m_params.vStab, m_flightCtrl.getRudderAngleRad(), netForce,
+	addForceAndTorque(state, m_params.vStab, m_flightCtrl.getRudderAngleRad(), netForce, netTorque);
+	addForceAndTorque(state, m_params.leftWing, -m_flightCtrl.getAileronsAngleRad(), netForce,
 		netTorque);
-	addForceAndTorque(state, m_params.leftWing, -m_flightCtrl.getAileronsAngleRad(),
-		netForce, netTorque);
-	addForceAndTorque(state, m_params.rightWing, m_flightCtrl.getAileronsAngleRad(),
-		netForce, netTorque);
+	addForceAndTorque(state, m_params.rightWing, m_flightCtrl.getAileronsAngleRad(), netForce,
+		netTorque);
 	addForceAndTorque(state, m_params.fuselage, netForce, netTorque);
-	addForceAndTorque(state, m_params.propulsion, m_flightCtrl.getThrustRelative(),
-		netForce, netTorque);
+	addForceAndTorque(state, m_params.propulsion, m_flightCtrl.getThrustRelative(), netForce,
+		netTorque);
 }
 
 void AirplaneDynamics::addForceAndTorque(const State& state, const InertiaParams& params,
@@ -49,9 +48,11 @@ void AirplaneDynamics::addForceAndTorque(const State& state, const InertiaParams
 {
 	static constexpr float g = 9.81f;
 
-	glm::vec3 gravityGlobal{0, -params.mass * g, 0};
-	glm::mat3 rotateMatrixInverse = glm::inverse(glm::mat3{State::objToMat(state)});
-	netForce += rotateMatrixInverse * gravityGlobal;
+	glm::vec3 gravityDirectionGlobal{0, -1, 0};
+	glm::vec3 gravityGlobal = params.mass * g * gravityDirectionGlobal;
+	glm::mat3 rotationMatrixInverse = glm::inverse(glm::mat3{State::objToMat(state)});
+	glm::vec3 gravity = rotationMatrixInverse * gravityGlobal;
+	netForce += gravity;
 }
 
 void AirplaneDynamics::addForceAndTorque(const State& state, const SurfaceParams& params,
@@ -63,20 +64,37 @@ void AirplaneDynamics::addForceAndTorque(const State& state, const SurfaceParams
 	glm::vec3 airVelocitySurface = params.orientationInverse * airVelocity;
 	glm::vec3 yzAirVelocitySurface = glm::vec3{0, airVelocitySurface.y, airVelocitySurface.z};
 	float yzAirSpeed = glm::length(yzAirVelocitySurface);
-	float angleOfAttackRad = glm::atan(yzAirVelocitySurface.y, yzAirVelocitySurface.z);
-	if (yzAirSpeed > eps && angleOfAttackRad > params.criticalAngleNegativeRad &&
-		angleOfAttackRad < params.criticalAnglePositiveRad)
+	float angleOfAttackSurfaceRad = glm::atan(yzAirVelocitySurface.y, yzAirVelocitySurface.z);
+	if (yzAirSpeed > eps && angleOfAttackSurfaceRad > params.criticalAngleNegativeRad &&
+		angleOfAttackSurfaceRad < params.criticalAnglePositiveRad)
 	{
 		float dynamicPressure = airDensity * yzAirSpeed * yzAirSpeed / 2;
-		float liftCoef = params.liftCoefConst + params.liftCoefDeriv * angleOfAttackRad;
-		float ctrlLiftCoef = -params.ctrlLiftCoefDeriv * ctrlAngleRad;
+		float liftCoef = params.liftCoefConst + params.liftCoefDeriv * angleOfAttackSurfaceRad;
 		glm::vec3 liftDirectionSurface = glm::normalize(glm::cross(yzAirVelocitySurface,
 			glm::vec3{1, 0, 0}));
-		glm::vec3 liftSurface = dynamicPressure * (params.area * liftCoef + params.ctrlArea *
-			ctrlLiftCoef) * liftDirectionSurface;
+		glm::vec3 liftSurface = dynamicPressure * params.area * liftCoef * liftDirectionSurface;
 		glm::vec3 lift = params.orientation * liftSurface;
 		netForce += lift;
 		netTorque += glm::cross(params.liftPoint, lift);
+	}
+
+	airVelocity = computeAirVelocity(state, params.ctrlLiftPoint);
+	airVelocitySurface = params.orientationInverse * airVelocity;
+	yzAirVelocitySurface = glm::vec3{0, airVelocitySurface.y, airVelocitySurface.z};
+	yzAirSpeed = glm::length(yzAirVelocitySurface);
+	angleOfAttackSurfaceRad = glm::atan(yzAirVelocitySurface.y, yzAirVelocitySurface.z);
+	if (yzAirSpeed > eps && angleOfAttackSurfaceRad > params.criticalAngleNegativeRad &&
+		angleOfAttackSurfaceRad < params.criticalAnglePositiveRad)
+	{
+		float dynamicPressure = airDensity * yzAirSpeed * yzAirSpeed / 2;
+		float ctrlLiftCoef = -params.ctrlLiftCoefDeriv * ctrlAngleRad;
+		glm::vec3 ctrlLiftDirectionSurface = glm::normalize(glm::cross(yzAirVelocitySurface,
+			glm::vec3{1, 0, 0}));
+		glm::vec3 ctrlLiftSurface = dynamicPressure * params.ctrlArea * ctrlLiftCoef *
+			ctrlLiftDirectionSurface;
+		glm::vec3 ctrlLift = params.orientation * ctrlLiftSurface;
+		netForce += ctrlLift;
+		netTorque += glm::cross(params.ctrlLiftPoint, ctrlLift);
 	}
 
 	airVelocity = computeAirVelocity(state, params.normalForcePoint);
@@ -84,8 +102,9 @@ void AirplaneDynamics::addForceAndTorque(const State& state, const SurfaceParams
 	if (glm::abs(airVelocitySurface.y) > eps)
 	{
 		float dynamicPressure = airDensity * airVelocitySurface.y * airVelocitySurface.y / 2;
+		glm::vec3 normalForceDirectionSurface = glm::vec3{0, airVelocitySurface.y > 0 ? 1 : -1, 0};
 		glm::vec3 normalForceSurface = dynamicPressure * params.area * params.normalForceCoef *
-			glm::vec3{0, airVelocitySurface.y > 0 ? 1 : -1, 0};
+			normalForceDirectionSurface;
 		glm::vec3 normalForce = params.orientation * normalForceSurface;
 		netForce += normalForce;
 		netTorque += glm::cross(params.normalForcePoint, normalForce);
@@ -101,8 +120,9 @@ void AirplaneDynamics::addForceAndTorque(const State& state, const FuselageParam
 	if (glm::abs(airVelocity.z) > eps)
 	{
 		float dynamicPressure = airDensity * airVelocity.z * airVelocity.z / 2;
+		glm::vec3 frontDragDirection = glm::vec3{0, 0, airVelocity.z > 0 ? 1 : -1};
 		glm::vec3 frontDrag = dynamicPressure * params.frontArea * params.frontDragCoef *
-			glm::vec3{0, 0, airVelocity.z > 0 ? 1 : -1};
+			frontDragDirection;
 		netForce += frontDrag;
 		netTorque += glm::cross(params.frontDragPoint, frontDrag);
 	}
@@ -113,8 +133,9 @@ void AirplaneDynamics::addForceAndTorque(const State& state, const FuselageParam
 	if (xyAirSpeed > eps)
 	{
 		float dynamicPressure = airDensity * xyAirSpeed * xyAirSpeed / 2;
+		glm::vec3 sideDragDirection = xyAirVelocity / xyAirSpeed;
 		glm::vec3 sideDrag = dynamicPressure * params.sideArea * params.sideDragCoef *
-			xyAirVelocity / xyAirSpeed;
+			sideDragDirection;
 		netForce += sideDrag;
 		netTorque += glm::cross(params.sideDragPoint, sideDrag);
 	}
@@ -125,7 +146,9 @@ void AirplaneDynamics::addForceAndTorque(const State& state, const PropulsionPar
 {
 	float airDensityRelative = Atmosphere::airDensity(state.position.y) /
 		Atmosphere::seaLevelAirDensity;
-	glm::vec3 thrust = thrustRelative * airDensityRelative * params.maxThrust * glm::vec3{0, 0, -1};
+
+	glm::vec3 thrustDirection = glm::vec3{0, 0, -1};
+	glm::vec3 thrust = thrustRelative * airDensityRelative * params.maxThrust * thrustDirection;
 	netForce += thrust;
 	netTorque += glm::cross(params.thrustPoint, thrust);
 }

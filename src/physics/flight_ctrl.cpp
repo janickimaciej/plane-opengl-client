@@ -1,7 +1,8 @@
 #include "flight_ctrl.hpp"
 
 //#include "graphics/mesh_instance.hpp"
-#include "physics/airplane_params.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
+#include "physics/airplane_params/surface_params.hpp"
 
 FlightCtrl::FlightCtrl(/*MeshInstance& elevator, MeshInstance& rudder,
 	MeshInstance& leftAileron, MeshInstance& rightAileron,

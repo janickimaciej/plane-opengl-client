@@ -21,7 +21,7 @@ struct SurfaceParams
 	float ctrlLiftCoefDeriv{};
 	float ctrlMinAngleRad{};
 	float ctrlMaxAngleRad{};
-	glm::vec3 ctrlForcePoint{};
+	glm::vec3 ctrlLiftPoint{};
 };
 
 #endif

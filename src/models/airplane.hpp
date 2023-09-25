@@ -6,7 +6,7 @@
 #include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
 #include "models/model.hpp"
-#include "physics/airplane_params.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
 #include "physics/flight_ctrl.hpp"
 #include "physics/model_dynamics/airplane_dynamics.hpp"
 

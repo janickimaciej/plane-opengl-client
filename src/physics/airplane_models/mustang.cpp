@@ -1,7 +1,6 @@
-#include "physics/airplane_models.hpp"
+#include "physics/airplane_models/airplane_models.hpp"
 
-#include "physics/airplane_params.hpp"
-#include "physics/surface_params.hpp"
+#include "physics/airplane_params/airplane_params.hpp"
 
 #include <glm/glm.hpp>
 
