@@ -5,6 +5,8 @@
 
 #include <glm/glm.hpp>
 
+#include <chrono> //tmp
+
 class Movable
 {
 public:
@@ -30,6 +32,12 @@ private:
 	State m_state{};
 	float m_scaleRatio = 1;
 	glm::mat4 m_matrix{};
+	int m_st = 0; //tmp b
+	std::chrono::high_resolution_clock::time_point m_start{};
+	int m_count = 0;
+	long long m_sum = 0;
+	long long m_min = 50000;
+	long long m_max = 0; //tmp e
 
 	void updateMatrix();
 };

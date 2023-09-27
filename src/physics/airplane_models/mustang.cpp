@@ -6,13 +6,20 @@
 
 namespace
 {
-	constexpr float mass = 4000;
-	constexpr glm::mat3 momentOfInertia
+	//constexpr float mass = 4000; //tmpc
+	constexpr float mass = 1; //tmp
+	/*constexpr glm::mat3 momentOfInertia //tmpc
 	{
 		17400, 0, 0,
 		0, 29500, 350,
 		0, 350, 14800
-	};
+	};*/ //tmpc
+	constexpr glm::mat3 momentOfInertia //tmp b
+	{
+		1, 0, 0,
+		0, 1, 0,
+		0, 0, 1
+	}; //tmp e
 	constexpr glm::vec3 centerOfMass{0, 0, 4.05f};
 	
 	constexpr float hStabIncidenceAngleDeg = 0;

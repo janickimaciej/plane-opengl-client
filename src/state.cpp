@@ -1,69 +1,67 @@
 #include "state.hpp"
 
 #include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include <array>
 
-glm::mat4 State::objToMat(const State& state)
+State::State(const std::array<float, stateLength>& arr)
 {
-	// constructor takes arguments column-wise
-	return glm::mat4
-	{
-		state.right.x, state.right.y, state.right.z, 0,
-		state.up.x, state.up.y, state.up.z, 0,
-		state.direction.x, state.direction.y, state.direction.z, 0,
-		state.position.x, state.position.y, state.position.z, 1
-	};
+	position.x = arr[0];
+	position.y = arr[1];
+	position.z = arr[2];
+	orientation.w = arr[3];
+	orientation.x = arr[4];
+	orientation.y = arr[5];
+	orientation.z = arr[6];
+	velocity.x = arr[7];
+	velocity.y = arr[8];
+	velocity.z = arr[9];
+	angVelocityRad.x = arr[10];
+	angVelocityRad.y = arr[11];
+	angVelocityRad.z = arr[12];
 }
 
-void State::normalize(State& state)
+void State::toArr(std::array<float, stateLength>& arr) const
 {
-	state.right = glm::normalize(state.right);
-	state.direction = glm::normalize(glm::cross(state.right, state.up));
-	state.up = glm::cross(state.direction, state.right);
+	arr[0] = position.x;
+	arr[1] = position.y;
+	arr[2] = position.z;
+	arr[3] = orientation.w;
+	arr[4] = orientation.x;
+	arr[5] = orientation.y;
+	arr[6] = orientation.z;
+	arr[7] = velocity.x;
+	arr[8] = velocity.y;
+	arr[9] = velocity.z;
+	arr[10] = angVelocityRad.x;
+	arr[11] = angVelocityRad.y;
+	arr[12] = angVelocityRad.z;
 }
 
-void State::objToArr(const State& stateObj, std::array<float, stateLength>& stateVec)
+glm::mat4 State::matrix() const
 {
-	stateVec[0] = stateObj.position.x;
-	stateVec[1] = stateObj.position.y;
-	stateVec[2] = stateObj.position.z;
-	stateVec[3] = stateObj.right.x;
-	stateVec[4] = stateObj.right.y;
-	stateVec[5] = stateObj.right.z;
-	stateVec[6] = stateObj.up.x;
-	stateVec[7] = stateObj.up.y;
-	stateVec[8] = stateObj.up.z;
-	stateVec[9] = stateObj.direction.x;
-	stateVec[10] = stateObj.direction.y;
-	stateVec[11] = stateObj.direction.z;
-	stateVec[12] = stateObj.velocity.x;
-	stateVec[13] = stateObj.velocity.y;
-	stateVec[14] = stateObj.velocity.z;
-	stateVec[15] = stateObj.angVelocityRad.x;
-	stateVec[16] = stateObj.angVelocityRad.y;
-	stateVec[17] = stateObj.angVelocityRad.z;
+	glm::mat4 orientationMatrix = glm::mat4_cast(orientation);
+	glm::mat4 positionMatrix = glm::translate(glm::mat4{1}, position);
+	return positionMatrix * orientationMatrix;
 }
 
-void State::arrToObj(const std::array<float, stateLength>& stateArr, State& state)
+glm::vec3 State::right() const
 {
-	state.position.x = stateArr[0];
-	state.position.y = stateArr[1];
-	state.position.z = stateArr[2];
-	state.right.x = stateArr[3];
-	state.right.y = stateArr[4];
-	state.right.z = stateArr[5];
-	state.up.x = stateArr[6];
-	state.up.y = stateArr[7];
-	state.up.z = stateArr[8];
-	state.direction.x = stateArr[9];
-	state.direction.y = stateArr[10];
-	state.direction.z = stateArr[11];
-	state.velocity.x = stateArr[12];
-	state.velocity.y = stateArr[13];
-	state.velocity.z = stateArr[14];
-	state.angVelocityRad.x = stateArr[15];
-	state.angVelocityRad.y = stateArr[16];
-	state.angVelocityRad.z = stateArr[17];
+	return orientation * glm::vec3{1, 0, 0};
+}
+
+glm::vec3 State::up() const
+{
+	return orientation * glm::vec3{0, 1, 0};
+}
+
+glm::vec3 State::direction() const
+{
+	return orientation * glm::vec3{0, 0, 1};
+}
+
+void State::normalize()
+{
+	orientation = glm::normalize(orientation);
 }

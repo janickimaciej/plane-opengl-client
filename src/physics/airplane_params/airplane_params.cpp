@@ -6,7 +6,8 @@
 #include "physics/airplane_params/surface_params.hpp"
 
 #include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/ext/quaternion_trigonometric.hpp>
 
 AirplaneParams::AirplaneParams
 (
@@ -40,9 +41,8 @@ AirplaneParams::AirplaneParams
 	inertia.momentOfInertia = momentOfInertia;
 	inertia.nosePosition = -centerOfMass;
 	
-	hStab.orientation = glm::rotate(glm::mat4{1}, glm::radians(hStabIncidenceAngleDeg),
-		glm::vec3{1, 0, 0});
-	hStab.orientationInverse = glm::inverse(hStab.orientation);
+	hStab.orientation = glm::angleAxis(glm::radians(hStabIncidenceAngleDeg), glm::vec3{1, 0, 0});
+	hStab.orientation = glm::normalize(hStab.orientation);
 	hStab.area = hStabArea;
 	hStab.liftCoefConst = hStabLiftCoefConst;
 	float hStabCriticalAngleNegativeRad = glm::radians(hStabCriticalAngleNegativeDeg);
@@ -60,11 +60,10 @@ AirplaneParams::AirplaneParams
 	hStab.ctrlMaxAngleRad = elevatorMaxAngleDeg;
 	hStab.ctrlLiftPoint = elevatorForcePoint - centerOfMass;
 	
-	vStab.orientation = glm::rotate(glm::mat4{1}, glm::radians(vStabIncidenceAngleDeg),
-		glm::vec3{1, 0, 0});
-	vStab.orientation = glm::rotate(glm::mat4{vStab.orientation}, glm::radians(-90.0f),
-		glm::vec3{0, 0, 1});
-	vStab.orientationInverse = glm::inverse(vStab.orientation);
+	vStab.orientation = glm::angleAxis(glm::radians(vStabIncidenceAngleDeg), glm::vec3{1, 0, 0});
+	vStab.orientation = glm::angleAxis(glm::radians((float)-90), glm::vec3{0, 0, 1}) *
+		vStab.orientation;
+	vStab.orientation = glm::normalize(vStab.orientation);
 	vStab.area = vStabArea;
 	vStab.liftCoefConst = vStabLiftCoefConst;
 	float vStabCriticalAngleNegativeRad = glm::radians(vStabCriticalAngleNegativeDeg);
@@ -82,9 +81,8 @@ AirplaneParams::AirplaneParams
 	vStab.ctrlMaxAngleRad = rudderMaxAngleDeg;
 	vStab.ctrlLiftPoint = rudderForcePoint - centerOfMass;
 	
-	leftWing.orientation = glm::rotate(glm::mat4{1}, glm::radians(wingsIncidenceAngleDeg),
-		glm::vec3{1, 0, 0});
-	leftWing.orientationInverse = glm::inverse(leftWing.orientation);
+	leftWing.orientation = glm::angleAxis(glm::radians(wingsIncidenceAngleDeg), glm::vec3{1, 0, 0});
+	leftWing.orientation = glm::normalize(leftWing.orientation);
 	leftWing.area = wingsArea / 2;
 	leftWing.liftCoefConst = wingsLiftCoefConst;
 	float leftWingCriticalAngleNegativeRad = glm::radians(wingsCriticalAngleNegativeDeg);
@@ -105,9 +103,9 @@ AirplaneParams::AirplaneParams
 	leftWing.ctrlLiftPoint = rightAileronForcePoint - centerOfMass;
 	leftWing.ctrlLiftPoint.x *= -1;
 	
-	rightWing.orientation = glm::rotate(glm::mat4{1}, glm::radians(wingsIncidenceAngleDeg),
+	rightWing.orientation = glm::angleAxis(glm::radians(wingsIncidenceAngleDeg),
 		glm::vec3{1, 0, 0});
-	rightWing.orientationInverse = glm::inverse(rightWing.orientation);
+	rightWing.orientation = glm::normalize(rightWing.orientation);
 	rightWing.area = wingsArea / 2;
 	rightWing.liftCoefConst = wingsLiftCoefConst;
 	float rightWingCriticalAngleNegativeRad = glm::radians(wingsCriticalAngleNegativeDeg);

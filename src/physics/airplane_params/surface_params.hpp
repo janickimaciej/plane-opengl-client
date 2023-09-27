@@ -2,11 +2,11 @@
 #define SURFACE_PARAMS_HPP
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 struct SurfaceParams
 {
-	glm::mat3 orientation{};
-	glm::mat3 orientationInverse{};
+	glm::quat orientation{};
 
 	float area{};
 	float liftCoefConst{};

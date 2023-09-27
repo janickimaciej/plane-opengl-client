@@ -203,13 +203,20 @@ void AirportScene::setModels()
 	constexpr glm::vec3 zeppelinPosition{100, 150, -250};
 	m_zeppelin->translate(zeppelinPosition);
 
-	constexpr glm::vec3 ctrlAirplaneInitPosition{0, 100, 1000};
+	/*constexpr glm::vec3 ctrlAirplaneInitPosition{0, 100, 1000}; //tmpc
 	m_airplanes[0]->translate(ctrlAirplaneInitPosition);
 	m_airplanes[0]->rotatePitch(8);
 	State state = m_airplanes[0]->getState();
 	constexpr glm::vec3 ctrlAirplaneInitVelocity{0, 0, -100};
 	state.velocity = ctrlAirplaneInitVelocity;
-	m_airplanes[0]->setState(state);
+	m_airplanes[0]->setState(state);*/ //tmpc
+
+	m_airplanes[0]->translate(glm::vec3{0, 6, 0}); //tmp b
+	m_airplanes[0]->rotatePitch(70);
+	State state = m_airplanes[0]->getState();
+	state.velocity = glm::vec3{0, 0, 0};
+	state.angVelocityRad = glm::vec3{0, 0, 20};
+	m_airplanes[0]->setState(state); //tmp e
 
 	constexpr float staticAirplanesPositionY = 1.75f;
 
@@ -241,8 +248,9 @@ void AirportScene::setCameras()
 	m_airplaneCamera->rotatePitch(airplaneCameraPitchDeg);
 	m_airplaneCamera->translate(airplaneCameraPosition);
 
-	constexpr glm::vec3 trackingCameraPosition{140, 70, 0};
-	m_trackingCamera->translate(trackingCameraPosition);
+	//constexpr glm::vec3 trackingCameraPosition{140, 70, 0}; //tmpc
+	//m_trackingCamera->translate(trackingCameraPosition); //tmpc
+	m_trackingCamera->translate(glm::vec3{20, 20, 0}); //tmp
 	
 	constexpr float stationaryCameraRotationYawDeg = 110;
 	constexpr float stationaryCameraRotationPitchDeg = -30;
@@ -251,5 +259,6 @@ void AirportScene::setCameras()
 	m_stationaryCamera->rotatePitch(stationaryCameraRotationPitchDeg);
 	m_stationaryCamera->translate(stationaryCameraPosition);
 
-	m_activeCamera = m_airplaneCamera;
+	//m_activeCamera = m_airplaneCamera; //tmpc
+	m_activeCamera = m_trackingCamera; //tmp
 }

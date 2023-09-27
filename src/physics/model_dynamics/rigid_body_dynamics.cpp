@@ -5,7 +5,7 @@
 #include "time.hpp"
 
 #include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include <array>
 
@@ -18,21 +18,17 @@ RigidBodyDynamics::RigidBodyDynamics(float mass, const glm::mat3& momentOfInerti
 void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stateLength>& state,
 	std::array<float, State::stateLength>& stateDerivative) const
 {
-	State stateObj{};
-	State::arrToObj(state, stateObj);
+	State stateObj{state};
 	State stateDerivativeObj{};
 
 	glm::vec3 netForce{};
 	glm::vec3 netTorque{};
 	computeNetForceAndNetTorque(stateObj, netForce, netTorque);
 
-	glm::mat3 rotationMatrix{State::objToMat(stateObj)};
-	stateDerivativeObj.position = rotationMatrix * stateObj.velocity;
+	stateDerivativeObj.position = stateObj.orientation * stateObj.velocity;
 
-	glm::vec3 angVelocityGlobalRad = rotationMatrix * stateObj.angVelocityRad;
-	stateDerivativeObj.right = glm::cross(angVelocityGlobalRad, stateObj.right);
-	stateDerivativeObj.up = glm::cross(angVelocityGlobalRad, stateObj.up);
-	stateDerivativeObj.direction = glm::cross(angVelocityGlobalRad, stateObj.direction);
+	glm::quat angVelocityGlobalRad{0, stateObj.orientation * stateObj.angVelocityRad};
+	stateDerivativeObj.orientation = angVelocityGlobalRad * stateObj.orientation / (float)2;
 
 	stateDerivativeObj.velocity = netForce / m_mass - glm::cross(stateObj.angVelocityRad,
 		stateObj.velocity);
@@ -40,20 +36,19 @@ void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stat
 	stateDerivativeObj.angVelocityRad = m_momentOfInertiaInverse * (netTorque -
 		glm::cross(stateObj.angVelocityRad, m_momentOfInertia * stateObj.angVelocityRad));
 
-	State::objToArr(stateDerivativeObj, stateDerivative);
+	stateDerivativeObj.toArr(stateDerivative);
 }
 
 State RigidBodyDynamics::computeNewState(const State& oldState) const
 {
 	std::array<float, State::stateLength> oldStateArr{};
-	State::objToArr(oldState, oldStateArr);
+	oldState.toArr(oldStateArr);
 	
 	std::array<float, State::stateLength> newStateArr{};
 	RungeKutta<State::stateLength>::RK4(0, Time::getDeltaTime(), oldStateArr, *this, newStateArr);
 
-	State newState{};
-	State::arrToObj(newStateArr, newState);
-	State::normalize(newState);
+	State newState{newStateArr};
+	newState.normalize();
 
 	return newState;
 }

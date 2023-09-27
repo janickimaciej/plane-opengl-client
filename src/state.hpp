@@ -2,28 +2,30 @@
 #define STATE_HPP
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include <array>
 #include <cstddef>
 
 struct State
 {
-	static constexpr std::size_t stateLength = 18;
+	static constexpr std::size_t stateLength = 13;
 
 	glm::vec3 position{0, 0, 0};
-
-	glm::vec3 right{1, 0, 0}; // along x-axis
-	glm::vec3 up{0, 1, 0}; // along y-axis
-	glm::vec3 direction{0, 0, 1}; // along z-axis
+	glm::quat orientation{1, 0, 0, 0};
 
 	glm::vec3 velocity{0, 0, 0}; // in local coordinates
-
 	glm::vec3 angVelocityRad{0, 0, 0}; // in local coordinates
 
-	static glm::mat4 objToMat(const State& state);
-	static void normalize(State& state);
-	static void objToArr(const State& stateObj, std::array<float, stateLength>& stateVec);
-	static void arrToObj(const std::array<float, stateLength>& stateArr, State& state);
+	State() = default;
+	State(const std::array<float, stateLength>& arr);
+
+	void toArr(std::array<float, stateLength>& arr) const;
+	glm::mat4 matrix() const;
+	glm::vec3 right() const;
+	glm::vec3 up() const;
+	glm::vec3 direction() const;
+	void normalize();
 };
 
 #endif
