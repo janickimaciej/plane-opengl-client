@@ -13,7 +13,6 @@ struct State
 
 	glm::vec3 position{0, 0, 0};
 	glm::quat orientation{1, 0, 0, 0};
-
 	glm::vec3 velocity{0, 0, 0}; // in local coordinates
 	glm::vec3 angVelocityRad{0, 0, 0}; // in local coordinates
 

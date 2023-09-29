@@ -6,9 +6,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-#include <chrono> //tmp
-#include <iostream> //tmp
-
 State Movable::getState() const
 {
 	return m_state;
@@ -16,43 +13,6 @@ State Movable::getState() const
 
 void Movable::setState(const State& newState)
 {
-	switch (m_st) //tmp b
-	{
-	case 0:
-		if (m_state.direction().z < 0)
-		{
-			m_start = std::chrono::high_resolution_clock::now();
-			m_st = 1;
-		}
-		break;
-	case 1:
-		if (m_state.direction().z > 0)
-		{
-			m_st = 2;
-		}
-		break;
-	case 2:
-		if (m_state.direction().z < 0)
-		{
-			auto stop = std::chrono::high_resolution_clock::now();
-			long long duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - m_start).count();
-			if (duration < 16000) break;
-			if (duration < m_min) m_min = duration;
-			if (duration > m_max) m_max = duration;
-			m_count++;
-			m_sum += duration;
-			std::cout << "single:\t" << duration << '\n';
-			std::cout << "avg:\t" << m_sum / m_count << '\n';
-			std::cout << "count:\t" << m_count << '\n';
-			std::cout << "min:\t" << m_min << '\n';
-			std::cout << "max:\t" << m_max << '\n';
-			std::cout << std::endl;
-			m_start = std::chrono::high_resolution_clock::now();
-			m_st = 1;
-		}
-		break;
-	} //tmp e
-
 	m_state = newState;
 	updateMatrix();
 }

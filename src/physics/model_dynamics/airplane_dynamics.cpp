@@ -30,12 +30,7 @@ void AirplaneDynamics::computeNetForceAndNetTorque(const State& state, glm::vec3
 	netForce = glm::vec3{0, 0, 0};
 	netTorque = glm::vec3{0, 0, 0};
 
-	glm::vec3 gravityForce { 0, -10, 0 }; //tmp b
-	glm::vec3 leverArm { 0, 0, 1 };
-	netForce = glm::vec3 { 0, 0, 0 };
-	netTorque = glm::cross(leverArm, glm::conjugate(state.orientation) * -gravityForce); //tmp e
-
-	/*addForceAndTorque(state, m_params.inertia, netForce, netTorque);
+	addForceAndTorque(state, m_params.inertia, netForce, netTorque);
 	addForceAndTorque(state, m_params.hStab, m_flightCtrl.getElevatorAngleRad(), netForce,
 		netTorque);
 	addForceAndTorque(state, m_params.vStab, m_flightCtrl.getRudderAngleRad(), netForce, netTorque);
@@ -45,7 +40,7 @@ void AirplaneDynamics::computeNetForceAndNetTorque(const State& state, glm::vec3
 		netTorque);
 	addForceAndTorque(state, m_params.fuselage, netForce, netTorque);
 	addForceAndTorque(state, m_params.propulsion, m_flightCtrl.getThrustRelative(), netForce,
-		netTorque);*/
+		netTorque);
 }
 
 void AirplaneDynamics::addForceAndTorque(const State& state, const InertiaParams& params,
