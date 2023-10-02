@@ -8,6 +8,7 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
+#include <memory>
 #include <string>
 
 GLFWwindow* graphicsInit(unsigned int initWindowWidth, unsigned int initWindowHeight,
@@ -25,9 +26,9 @@ int main()
 	ShaderProgram surfaceShaderProgram{SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT};
 	ShaderProgram lightShaderProgram{SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT};
 
-	Scene* airportScene = new AirportScene{surfaceShaderProgram, lightShaderProgram,
-		(float)initialWindowWidth/initialWindowHeight};
-	windowPayload.scene = airportScene;
+	std::unique_ptr<Scene> airportScene = std::make_unique<AirportScene>(surfaceShaderProgram,
+		lightShaderProgram, (float)initialWindowWidth/initialWindowHeight);
+	windowPayload.scene = airportScene.get();
 	
 	Time::initializeTime();
 	while (!glfwWindowShouldClose(window))
@@ -40,7 +41,6 @@ int main()
 		glfwSwapBuffers(window);
 	}
 
-	delete airportScene;
 	glfwTerminate();
 	return 0;
 }

@@ -4,7 +4,7 @@
 struct PropulsionParams
 {
 	float maxThrust{};
-	glm::vec3 thrustPoint;
+	glm::vec3 thrustPoint{};
 };
 
 #endif

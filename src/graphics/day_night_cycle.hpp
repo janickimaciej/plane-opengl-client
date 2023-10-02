@@ -12,7 +12,6 @@ public:
 	static void setMoon(DirectionalLightModel& moon);
 
 private:
-	static float s_secondsPerDay;
 	static float s_timeOfDay;
 	static int s_day;
 	static DirectionalLightModel* s_moon;

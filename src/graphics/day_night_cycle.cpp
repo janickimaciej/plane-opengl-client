@@ -31,7 +31,6 @@ void DayNightCycle::setMoon(DirectionalLightModel& moon)
 	DayNightCycle::s_moon = &moon;
 }
 
-float DayNightCycle::s_secondsPerDay = 5 * 24;
 float DayNightCycle::s_timeOfDay = 0;
 int DayNightCycle::s_day = 0;
 DirectionalLightModel* DayNightCycle::s_moon{};
@@ -39,7 +38,8 @@ DirectionalLightModel* DayNightCycle::s_moon{};
 void DayNightCycle::updateTimeOfDay()
 {
 	float deltaTime = Time::getDeltaTime();
-	s_timeOfDay += deltaTime/s_secondsPerDay;
+	static constexpr float secondsPerDay = 5 * 24;
+	s_timeOfDay += deltaTime/secondsPerDay;
 	while (s_timeOfDay >= 1)
 	{
 		s_timeOfDay -= 1;

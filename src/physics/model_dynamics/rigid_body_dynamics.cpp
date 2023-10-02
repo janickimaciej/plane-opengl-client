@@ -27,8 +27,8 @@ void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stat
 
 	stateDerivativeObj.position = stateObj.orientation * stateObj.velocity;
 
-	glm::quat angVelocityGlobalRad{0, stateObj.orientation * stateObj.angVelocityRad};
-	stateDerivativeObj.orientation = angVelocityGlobalRad * stateObj.orientation / (float)2;
+	stateDerivativeObj.orientation = stateObj.orientation * glm::quat{0, stateObj.angVelocityRad} /
+		(float)2;
 
 	stateDerivativeObj.velocity = netForce / m_mass - glm::cross(stateObj.angVelocityRad,
 		stateObj.velocity);

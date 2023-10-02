@@ -12,6 +12,7 @@
 #include "models/zeppelin.hpp"
 #include "scenes/scene.hpp"
 
+#include <memory>
 #include <vector>
 
 class AirportScene : public Scene
@@ -30,32 +31,32 @@ public:
 	virtual void ctrlRoll(float relative) override;
 	virtual void ctrlThrust(float relative) override;
 
-	~AirportScene();
+	virtual ~AirportScene() = default;
 
 private:
-	const Mesh* m_airportGround{};
-	const Mesh* m_airportRunway{};
-	const Mesh* m_airportApron{};
-	const Mesh* m_airportTower{};
-	const Mesh* m_airportHangar{};
-	const Mesh* m_airportLightBody{};
-	const Mesh* m_airportLight{};
-	const Mesh* m_airplaneCap{};
-	const Mesh* m_airplanePropeller{};
-	const Mesh* m_airplaneBody{};
-	const Mesh* m_airplaneJoins{};
-	const Mesh* m_airplaneTires{};
-	const Mesh* m_airplaneLight{};
-	const Mesh* m_zeppelinBody{};
+	std::unique_ptr<const Mesh> m_airportGround{};
+	std::unique_ptr<const Mesh> m_airportRunway{};
+	std::unique_ptr<const Mesh> m_airportApron{};
+	std::unique_ptr<const Mesh> m_airportTower{};
+	std::unique_ptr<const Mesh> m_airportHangar{};
+	std::unique_ptr<const Mesh> m_airportLightBody{};
+	std::unique_ptr<const Mesh> m_airportLight{};
+	std::unique_ptr<const Mesh> m_airplaneCap{};
+	std::unique_ptr<const Mesh> m_airplanePropeller{};
+	std::unique_ptr<const Mesh> m_airplaneBody{};
+	std::unique_ptr<const Mesh> m_airplaneJoins{};
+	std::unique_ptr<const Mesh> m_airplaneTires{};
+	std::unique_ptr<const Mesh> m_airplaneLight{};
+	std::unique_ptr<const Mesh> m_zeppelinBody{};
 	
-	std::vector<Airplane*> m_airplanes{};
-	Airport* m_airport{};
-	Zeppelin* m_zeppelin{};
-	DirectionalLightModel* m_moon{};
+	std::vector<std::unique_ptr<Airplane>> m_airplanes{};
+	std::unique_ptr<Airport> m_airport{};
+	std::unique_ptr<Zeppelin> m_zeppelin{};
+	std::unique_ptr<DirectionalLightModel> m_moon{};
 
-	ModelCamera* m_airplaneCamera{};
-	TrackingCamera* m_trackingCamera{};
-	PerspectiveCamera* m_stationaryCamera{};
+	std::unique_ptr<ModelCamera> m_airplaneCamera{};
+	std::unique_ptr<TrackingCamera> m_trackingCamera{};
+	std::unique_ptr<PerspectiveCamera> m_stationaryCamera{};
 
 	void createMeshes();
 	void createModels();

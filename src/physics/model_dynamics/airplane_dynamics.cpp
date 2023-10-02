@@ -12,10 +12,7 @@
 
 #include <glm/glm.hpp>
 
-namespace
-{
-	constexpr float eps = 1e-9f;
-}
+constexpr float eps = 1e-9f;
 
 AirplaneDynamics::AirplaneDynamics(const AirplaneParams& params,
 	const FlightCtrl& flightCtrl) :

@@ -4,11 +4,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <array>
 #include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <string_view>
+
+constexpr std::size_t errorLogSize = 512;
 
 ShaderProgram::ShaderProgram(const std::string& vertexShaderPath,
 	const std::string& fragmentShaderPath)
@@ -80,7 +84,6 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	const std::string& fragmentShaderCode) const
 {
 	int success{};
-	static constexpr std::size_t errorLogSize = 512;
 
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	const char* vertexShaderCodeCStr = vertexShaderCode.c_str();
@@ -89,10 +92,7 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		char* errorLog = new char[errorLogSize]{};
-		glGetShaderInfoLog(vertexShader, errorLogSize, NULL, errorLog);
-		std::cerr << "Error compiling vertex shader:\n" << errorLog << '\n';
-		delete[] errorLog;
+		printCompilationError(vertexShader, "vertex");
 	}
 
 	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -102,10 +102,7 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		char* errorLog = new char[errorLogSize]{};
-		glGetShaderInfoLog(fragmentShader, errorLogSize, NULL, errorLog);
-		std::cerr << "Error compiling fragment shader:\n" << errorLog << '\n';
-		delete[] errorLog;
+		printCompilationError(fragmentShader, "fragment");
 	}
 
 	unsigned int shaderProgram = glCreateProgram();
@@ -115,14 +112,27 @@ unsigned int ShaderProgram::createShaderProgram(const std::string& vertexShaderC
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success)
 	{
-		char* errorLog = new char[errorLogSize]{};
-		glGetProgramInfoLog(shaderProgram, errorLogSize, NULL, errorLog);
-		std::cerr << "Error linking shader program:\n" << errorLog << '\n';
-		delete[] errorLog;
+		printLinkingError(shaderProgram);
 	}
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
 	return shaderProgram;
+}
+
+void ShaderProgram::printCompilationError(unsigned int shaderId, const std::string_view shaderType)
+	const
+{
+	std::array<char, errorLogSize> errorLog{};
+	glGetShaderInfoLog(shaderId, errorLogSize, nullptr, errorLog.data());
+	std::cerr << "Error compiling " + std::string(shaderType) + " shader:\n" << errorLog.data() <<
+		'\n';
+}
+
+void ShaderProgram::printLinkingError(unsigned int programId) const
+{
+	std::array<char, errorLogSize> errorLog{};
+	glGetProgramInfoLog(programId, errorLogSize, nullptr, errorLog.data());
+	std::cerr << "Error linking shader program:\n" << errorLog.data() << '\n';
 }

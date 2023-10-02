@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 
 #include <string>
+#include <string_view>
 
 class ShaderProgram
 {
@@ -23,6 +24,8 @@ private:
 	std::string readShaderFile(const std::string& shaderFilePath) const;
 	unsigned int createShaderProgram(const std::string& vertexShaderCode,
 		const std::string& fragmentShaderCode) const;
+	void printCompilationError(unsigned int shaderId, const std::string_view shaderType) const;
+	void printLinkingError(unsigned int programId) const;
 };
 
 #endif
