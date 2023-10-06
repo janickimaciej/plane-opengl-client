@@ -1,14 +1,14 @@
 #ifndef FLIGHT_CTRL_HPP
 #define FLIGHT_CTRL_HPP
 
-//#include "graphics/mesh_instance.hpp"
+//#include "graphics/submodel.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 
 class FlightCtrl
 {
 public:
-	FlightCtrl(/*MeshInstance& elevator, MeshInstance& rudder, MeshInstance& leftAileron,
-		MeshInstance& rightAileron, */const AirplaneParams& airplaneParams);
+	FlightCtrl(/*Submodel& elevator, Submodel& rudder, Submodel& leftAileron,
+		Submodel& rightAileron, */const AirplaneParams& airplaneParams);
 	float getElevatorAngleRad() const;
 	void ctrlPitch(float relative);
 	float getRudderAngleRad() const;
@@ -19,10 +19,10 @@ public:
 	void ctrlThrust(float relative);
 	
 private:
-	//MeshInstance& m_elevator;
-	//MeshInstance& m_rudder;
-	//MeshInstance& m_leftAileron;
-	//MeshInstance& m_rightAileron;
+	//Submodel& m_elevator;
+	//Submodel& m_rudder;
+	//Submodel& m_leftAileron;
+	//Submodel& m_rightAileron;
 
 	const AirplaneParams& m_airplaneParams;
 	float m_elevatorAngleRad{};

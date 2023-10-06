@@ -2,11 +2,11 @@
 #define CAMERA_HPP
 
 #include "graphics/shader_program.hpp"
-#include "movable.hpp"
+#include "transformable.hpp"
 
 #include <glm/glm.hpp>
 
-class Camera : public Movable
+class Camera : public Transformable
 {
 public:
 	virtual void use(const ShaderProgram& surfaceShaderProgram,
@@ -23,9 +23,6 @@ protected:
 	virtual glm::vec3 getCameraPosition() const final;
 	virtual glm::mat4 getViewMatrix() const final;
 	virtual ~Camera() = default;
-
-private:
-	using Movable::scale;
 };
 
 #endif

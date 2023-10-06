@@ -1,8 +1,8 @@
 #include "models/zeppelin.hpp"
 
 #include "graphics/mesh.hpp"
-#include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/submodel.hpp"
 #include "models/model.hpp"
 
 Zeppelin::Zeppelin(const ShaderProgram& surfaceShaderProgram,

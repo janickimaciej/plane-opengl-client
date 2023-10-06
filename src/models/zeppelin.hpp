@@ -2,8 +2,8 @@
 #define ZEPPELIN_HPP
 
 #include "graphics/mesh.hpp"
-#include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/submodel.hpp"
 #include "models/model.hpp"
 
 class Zeppelin : public Model
@@ -14,7 +14,7 @@ public:
 	virtual ~Zeppelin() = default;
 
 private:
-	MeshInstance m_body;
+	Submodel m_body;
 
 	virtual void updateShaderLightMatrix() const override;
 	virtual void renderSurfaces() const override;

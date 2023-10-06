@@ -2,8 +2,8 @@
 
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
-#include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/submodel.hpp"
 #include "models/model.hpp"
 
 #include <glm/glm.hpp>
@@ -31,7 +31,7 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 {
 	for (std::size_t i = 0; i < hangarsCount; ++i)
 	{
-		m_hangars.push_back(MeshInstance{hangarMesh});
+		m_hangars.push_back(Submodel{hangarMesh});
 
 		constexpr float hangarsGapZ = 46;
 		m_hangars[i].translate(glm::vec3{0, 0, -hangarsGapZ*(int)i});
@@ -39,7 +39,7 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram&
 
 	for (std::size_t i = 0; i < lightsCount; ++i)
 	{
-		m_lightBodies.push_back(MeshInstance{lightBodyMesh});
+		m_lightBodies.push_back(Submodel{lightBodyMesh});
 		m_lights.push_back(SpotLight{surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
 			lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
 			lightsCutoffOuterDeg, getMatrix()});
@@ -79,11 +79,11 @@ void Airport::renderSurfaces() const
 	m_runway.render(getMatrix());
 	m_apron.render(getMatrix());
 	m_tower.render(getMatrix());
-	for (const MeshInstance& hangar : m_hangars)
+	for (const Submodel& hangar : m_hangars)
 	{
 		hangar.render(getMatrix());
 	}
-	for (const MeshInstance& lightBody : m_lightBodies)
+	for (const Submodel& lightBody : m_lightBodies)
 	{
 		lightBody.render(getMatrix());
 	}

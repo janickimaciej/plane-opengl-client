@@ -29,11 +29,11 @@ void SpotLight::updateShaderLightTranslation(const glm::mat4& modelMatrix) const
 
 	glm::vec3 lightDirection = glm::normalize(glm::vec3
 	{
-		modelMatrix * m_meshInstance.getMatrix() * glm::vec4{0, 0, 1, 0}
+		modelMatrix * m_submodel.getMatrix() * glm::vec4{0, 0, 1, 0}
 	});
 	surfaceShaderProgram.setUniform3f(prefix + "lightDirection", lightDirection);
 
-	glm::vec3 lightPosition = modelMatrix * m_meshInstance.getMatrix() * glm::vec4{0, 0, 0, 1};
+	glm::vec3 lightPosition = modelMatrix * m_submodel.getMatrix() * glm::vec4{0, 0, 0, 1};
 	surfaceShaderProgram.setUniform3f(prefix + "lightPosition", lightPosition);
 }
 

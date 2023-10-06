@@ -1,11 +1,11 @@
 #include "flight_ctrl.hpp"
 
-//#include "graphics/mesh_instance.hpp"
+//#include "graphics/submodel.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/airplane_params/surface_params.hpp"
 
-FlightCtrl::FlightCtrl(/*MeshInstance& elevator, MeshInstance& rudder,
-	MeshInstance& leftAileron, MeshInstance& rightAileron,
+FlightCtrl::FlightCtrl(/*Submodel& elevator, Submodel& rudder,
+	Submodel& leftAileron, Submodel& rightAileron,
 	*/const AirplaneParams& airplaneParams) :
 	/*m_elevator{elevator},
 	m_rudder{rudder},

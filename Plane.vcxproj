@@ -36,7 +36,7 @@
     <ClCompile Include="src\graphics\lights\spot_light.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\graphics\mesh.cpp" />
-    <ClCompile Include="src\graphics\mesh_instance.cpp" />
+    <ClCompile Include="src\graphics\submodel.cpp" />
     <ClCompile Include="src\models\airplane.cpp" />
     <ClCompile Include="src\models\airport.cpp" />
     <ClCompile Include="src\models\directional_light_model.cpp" />
@@ -44,7 +44,7 @@
     <ClCompile Include="src\models\zeppelin.cpp" />
     <ClCompile Include="src\physics\model_dynamics\airplane_dynamics.cpp" />
     <ClCompile Include="src\physics\model_dynamics\rigid_body_dynamics.cpp" />
-    <ClCompile Include="src\movable.cpp" />
+    <ClCompile Include="src\transformable.cpp" />
     <ClCompile Include="src\graphics\obj_parser.cpp" />
     <ClCompile Include="src\graphics\paths.cpp" />
     <ClCompile Include="src\scenes\airport_scene.cpp" />
@@ -71,7 +71,7 @@
     <ClInclude Include="src\graphics\lights\mesh_light.hpp" />
     <ClInclude Include="src\graphics\lights\spot_light.hpp" />
     <ClInclude Include="src\graphics\mesh.hpp" />
-    <ClInclude Include="src\graphics\mesh_instance.hpp" />
+    <ClInclude Include="src\graphics\submodel.hpp" />
     <ClInclude Include="src\models\airplane.hpp" />
     <ClInclude Include="src\models\airport.hpp" />
     <ClInclude Include="src\models\directional_light_model.hpp" />
@@ -81,7 +81,7 @@
     <ClInclude Include="src\physics\airplane_params\inertia_params.hpp" />
     <ClInclude Include="src\physics\model_dynamics\airplane_dynamics.hpp" />
     <ClInclude Include="src\physics\model_dynamics\rigid_body_dynamics.hpp" />
-    <ClInclude Include="src\movable.hpp" />
+    <ClInclude Include="src\transformable.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\paths.hpp" />
     <ClInclude Include="src\physics\airplane_params\propulsion_params.hpp" />

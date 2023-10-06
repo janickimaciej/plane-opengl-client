@@ -2,12 +2,12 @@
 #define MODEL_HPP
 
 #include "graphics/shader_program.hpp"
-#include "movable.hpp"
+#include "transformable.hpp"
 #include "state.hpp"
 
 #include <glm/glm.hpp>
 
-class Model : public Movable
+class Model : public Transformable
 {
 public:
 	void render() const;

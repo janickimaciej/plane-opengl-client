@@ -3,8 +3,8 @@
 
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
-#include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/submodel.hpp"
 #include "models/model.hpp"
 
 #include <vector>
@@ -19,12 +19,12 @@ public:
 	virtual ~Airport() = default;
 
 private:
-	MeshInstance m_ground;
-	MeshInstance m_runway;
-	MeshInstance m_apron;
-	MeshInstance m_tower;
-	std::vector<MeshInstance> m_hangars{};
-	std::vector<MeshInstance> m_lightBodies{};
+	Submodel m_ground;
+	Submodel m_runway;
+	Submodel m_apron;
+	Submodel m_tower;
+	std::vector<Submodel> m_hangars{};
+	std::vector<Submodel> m_lightBodies{};
 	std::vector<SpotLight> m_lights{};
 
 	virtual void updateShaderLightMatrix() const override;

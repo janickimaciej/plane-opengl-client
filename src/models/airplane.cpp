@@ -2,8 +2,8 @@
 
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
-#include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/submodel.hpp"
 #include "models/model.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/flight_ctrl.hpp"

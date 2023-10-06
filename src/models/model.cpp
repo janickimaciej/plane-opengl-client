@@ -1,7 +1,7 @@
 #include "models/model.hpp"
 
 #include "graphics/shader_program.hpp"
-#include "movable.hpp"
+#include "transformable.hpp"
 #include "state.hpp"
 
 #include <glm/glm.hpp>
@@ -27,55 +27,55 @@ glm::vec3 Model::getPosition() const
 
 void Model::setState(const State& newState)
 {
-	Movable::setState(newState);
+	Transformable::setState(newState);
 	updateShaderLightMatrix();
 }
 
 void Model::scale(float scaleRatio)
 {
-	Movable::scale(scaleRatio);
+	Transformable::scale(scaleRatio);
 	updateShaderLightMatrix();
 }
 
 void Model::rotate(const glm::vec3& axis, float angleDeg)
 {
-	Movable::rotate(axis, angleDeg);
+	Transformable::rotate(axis, angleDeg);
 	updateShaderLightMatrix();
 }
 
 void Model::resetRotation()
 {
-	Movable::resetRotation();
+	Transformable::resetRotation();
 	updateShaderLightMatrix();
 }
 
 void Model::translate(const glm::vec3& translation)
 {
-	Movable::translate(translation);
+	Transformable::translate(translation);
 	updateShaderLightMatrix();
 }
 
 void Model::rotatePitch(float angleDeg)
 {
-	Movable::rotatePitch(angleDeg);
+	Transformable::rotatePitch(angleDeg);
 	updateShaderLightMatrix();
 }
 
 void Model::rotateYaw(float angleDeg)
 {
-	Movable::rotateYaw(angleDeg);
+	Transformable::rotateYaw(angleDeg);
 	updateShaderLightMatrix();
 }
 
 void Model::rotateRoll(float angleDeg)
 {
-	Movable::rotateRoll(angleDeg);
+	Transformable::rotateRoll(angleDeg);
 	updateShaderLightMatrix();
 }
 
 void Model::moveZ(float distance)
 {
-	Movable::moveZ(distance);
+	Transformable::moveZ(distance);
 	updateShaderLightMatrix();
 }
 

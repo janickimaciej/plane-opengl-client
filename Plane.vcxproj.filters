@@ -12,11 +12,11 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
     <ClCompile Include="src\graphics\mesh.cpp" />
-    <ClCompile Include="src\graphics\mesh_instance.cpp" />
+    <ClCompile Include="src\graphics\submodel.cpp" />
     <ClCompile Include="src\graphics\lights\mesh_light.cpp" />
     <ClCompile Include="src\models\model.cpp" />
     <ClCompile Include="src\graphics\cameras\model_camera.cpp" />
-    <ClCompile Include="src\movable.cpp" />
+    <ClCompile Include="src\transformable.cpp" />
     <ClCompile Include="src\graphics\obj_parser.cpp" />
     <ClCompile Include="src\graphics\cameras\perspective_camera.cpp" />
     <ClCompile Include="src\graphics\shader_program.cpp" />
@@ -48,11 +48,11 @@
     <ClInclude Include="src\graphics\lights\light.hpp" />
     <ClInclude Include="src\graphics\material.hpp" />
     <ClInclude Include="src\graphics\mesh.hpp" />
-    <ClInclude Include="src\graphics\mesh_instance.hpp" />
+    <ClInclude Include="src\graphics\submodel.hpp" />
     <ClInclude Include="src\graphics\lights\mesh_light.hpp" />
     <ClInclude Include="src\models\model.hpp" />
     <ClInclude Include="src\graphics\cameras\model_camera.hpp" />
-    <ClInclude Include="src\movable.hpp" />
+    <ClInclude Include="src\transformable.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\cameras\perspective_camera.hpp" />
     <ClInclude Include="src\graphics\shader_program.hpp" />

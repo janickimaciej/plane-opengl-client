@@ -1,4 +1,4 @@
-#include "movable.hpp"
+#include "transformable.hpp"
 
 #include "state.hpp"
 
@@ -6,24 +6,18 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-State Movable::getState() const
+State Transformable::getState() const
 {
 	return m_state;
 }
 
-void Movable::setState(const State& newState)
+void Transformable::setState(const State& newState)
 {
 	m_state = newState;
 	updateMatrix();
 }
 
-void Movable::scale(float scaleRatio)
-{
-	this->m_scaleRatio *= scaleRatio;
-	updateMatrix();
-}
-
-void Movable::rotate(const glm::vec3& axis, float angleDeg)
+void Transformable::rotate(const glm::vec3& axis, float angleDeg)
 {
 	glm::quat rotation = glm::angleAxis(glm::radians(angleDeg), axis);
 	m_state.orientation = rotation * m_state.orientation;
@@ -31,49 +25,55 @@ void Movable::rotate(const glm::vec3& axis, float angleDeg)
 	updateMatrix();
 }
 
-void Movable::resetRotation()
+void Transformable::resetRotation()
 {
 	m_state.orientation = glm::quat{1, 0, 0, 0};
 	updateMatrix();
 }
 
-void Movable::translate(const glm::vec3& translation)
+void Transformable::translate(const glm::vec3& translation)
 {
 	m_state.position += translation;
 	updateMatrix();
 }
 
-void Movable::rotatePitch(float angleDeg)
+void Transformable::rotatePitch(float angleDeg)
 {
 	rotate(m_state.right(), angleDeg);
 }
 
-void Movable::rotateYaw(float angleDeg)
+void Transformable::rotateYaw(float angleDeg)
 {
 	rotate(m_state.up(), -angleDeg);
 }
 
-void Movable::rotateRoll(float angleDeg)
+void Transformable::rotateRoll(float angleDeg)
 {
 	rotate(m_state.direction(), -angleDeg);
 }
 
-void Movable::moveZ(float distance)
+void Transformable::moveZ(float distance)
 {
 	translate(distance * m_state.direction());
 }
 
-Movable::Movable()
+Transformable::Transformable()
 {
 	updateMatrix();
 }
 
-glm::mat4 Movable::getMatrix() const
+glm::mat4 Transformable::getMatrix() const
 {
 	return m_matrix;
 }
 
-void Movable::updateMatrix()
+void Transformable::scale(float scaleRatio)
+{
+	this->m_scaleRatio *= scaleRatio;
+	updateMatrix();
+}
+
+void Transformable::updateMatrix()
 {
 	glm::mat4 scaleMatrix = glm::scale(glm::mat4{1}, glm::vec3{m_scaleRatio, m_scaleRatio,
 		m_scaleRatio});

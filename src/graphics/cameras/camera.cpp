@@ -1,7 +1,7 @@
 #include "graphics/cameras/camera.hpp"
 
 #include "graphics/shader_program.hpp"
-#include "movable.hpp"
+#include "transformable.hpp"
 
 #include <glm/glm.hpp>
 

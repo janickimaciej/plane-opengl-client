@@ -1,17 +1,16 @@
-#ifndef MOVABLE_HPP
-#define MOVABLE_HPP
+#ifndef TRANSFORMABLE_HPP
+#define TRANSFORMABLE_HPP
 
 #include "state.hpp"
 
 #include <glm/glm.hpp>
 
-class Movable
+class Transformable
 {
 public:
 	virtual State getState() const;
 	virtual void setState(const State& newState);
 
-	virtual void scale(float scaleRatio); // locally
 	virtual void rotate(const glm::vec3& axis, float angleDeg); // locally
 	virtual void resetRotation(); // locally
 	virtual void translate(const glm::vec3& translation);
@@ -22,9 +21,10 @@ public:
 	virtual void moveZ(float distance); // locally
 	
 protected:
-	Movable();
+	Transformable();
 	glm::mat4 getMatrix() const;
-	virtual ~Movable() = default;
+	virtual void scale(float scaleRatio); // locally
+	virtual ~Transformable() = default;
 
 private:
 	State m_state{};

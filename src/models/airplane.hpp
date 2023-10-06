@@ -3,8 +3,8 @@
 
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
-#include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/submodel.hpp"
 #include "models/model.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/flight_ctrl.hpp"
@@ -28,11 +28,11 @@ public:
 	virtual ~Airplane() = default;
 
 private:
-	MeshInstance m_cap;
-	MeshInstance m_propeller;
-	MeshInstance m_body;
-	MeshInstance m_joins;
-	MeshInstance m_tires;
+	Submodel m_cap;
+	Submodel m_propeller;
+	Submodel m_body;
+	Submodel m_joins;
+	Submodel m_tires;
 	SpotLight m_leftLight;
 	SpotLight m_rightLight;
 

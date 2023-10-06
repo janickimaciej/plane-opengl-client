@@ -3,8 +3,8 @@
 
 #include "graphics/lights/light.hpp"
 #include "graphics/mesh.hpp"
-#include "graphics/mesh_instance.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/submodel.hpp"
 
 #include <glm/glm.hpp>
 
@@ -23,7 +23,7 @@ public:
 	void moveAlongZ(float distance, const glm::mat4& modelMatrix); // locally
 
 protected:
-	MeshInstance m_meshInstance;
+	Submodel m_submodel;
 	const ShaderProgram& m_surfaceShaderProgram;
 
 	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
