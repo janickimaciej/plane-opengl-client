@@ -14,7 +14,7 @@ class ObjParser
 {
 public:
 	ObjParser() = delete;
-	static void parse(const std::string& objPath, std::vector<Vertex>& vertices);
+	static void parse(const std::string& path, std::vector<Vertex>& vertices);
 	~ObjParser() = delete;
 
 private:

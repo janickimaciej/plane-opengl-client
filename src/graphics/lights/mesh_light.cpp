@@ -54,11 +54,10 @@ void MeshLight::moveAlongZ(float distance, const glm::mat4& modelMatrix)
 	updateShaderLightTranslation(modelMatrix);
 }
 
-MeshLight::MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
+MeshLight::MeshLight(unsigned int id, const ShaderProgram& surfaceShaderProgram,
 	float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
-	const glm::vec3& color) :
-	Light{surfaceShaderProgram, id, attenuationQuadratic, attenuationLinear, attenuationConstant,
+	const glm::vec3& color, const Submodel& submodel) :
+	Light{id, surfaceShaderProgram, attenuationQuadratic, attenuationLinear, attenuationConstant,
 		color},
-	m_submodel{mesh},
-	m_surfaceShaderProgram{surfaceShaderProgram}
+	m_submodel{submodel}
 { }

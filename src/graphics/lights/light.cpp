@@ -10,10 +10,10 @@ void Light::setColor(const glm::vec3& color)
 	updateShaderLightParams();
 }
 
-Light::Light(const ShaderProgram& surfaceShaderProgram, unsigned int id, float attenuationQuadratic,
+Light::Light(unsigned int id, const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
 	float attenuationLinear, float attenuationConstant, const glm::vec3& color) :
-	surfaceShaderProgram{surfaceShaderProgram},
 	m_id{id},
+	m_surfaceShaderProgram{surfaceShaderProgram},
 	m_attenuationQuadratic{attenuationQuadratic},
 	m_attenuationLinear{attenuationLinear},
 	m_attenuationConstant{attenuationConstant},

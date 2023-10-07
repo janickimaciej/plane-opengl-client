@@ -58,7 +58,6 @@ private:
 	std::unique_ptr<TrackingCamera> m_trackingCamera{};
 	std::unique_ptr<PerspectiveCamera> m_stationaryCamera{};
 
-	void createMeshes();
 	void createModels();
 	void createCameras(float aspectRatio);
 	void setModels();

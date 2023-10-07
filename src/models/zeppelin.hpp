@@ -9,8 +9,7 @@
 class Zeppelin : public Model
 {
 public:
-	Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		const Mesh& bodyMesh);
+	Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
 	virtual ~Zeppelin() = default;
 
 private:

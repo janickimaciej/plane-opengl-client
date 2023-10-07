@@ -14,11 +14,10 @@ public:
 	virtual void updateShaderLightTranslation(const glm::mat4& modelMatrix) const override;
 	virtual ~DirectionalLight() = default;
 
-protected:
-	virtual void updateShaderLightParams() const override;
-
 private:
 	static unsigned int s_idCounter;
+
+	virtual void updateShaderLightParams() const override;
 };
 
 #endif

@@ -12,14 +12,14 @@ public:
 	void setColor(const glm::vec3& color);
 
 protected:
-	const ShaderProgram& surfaceShaderProgram;
 	unsigned int m_id{};
+	const ShaderProgram& m_surfaceShaderProgram;
 	float m_attenuationQuadratic{};
 	float m_attenuationLinear{};
 	float m_attenuationConstant{};
 	glm::vec3 m_color{};
 
-	Light(const ShaderProgram& surfaceShaderProgram, unsigned int id, float attenuationQuadratic,
+	Light(unsigned int id, const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
 		float attenuationLinear, float attenuationConstant, const glm::vec3& color);
 	virtual void updateShaderLightParams() const = 0;
 	virtual ~Light() = default;

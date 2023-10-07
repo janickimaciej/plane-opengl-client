@@ -12,10 +12,7 @@
 class Airport : public Model
 {
 public:
-	Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		const Mesh& groundMesh, const Mesh& runwayMesh, const Mesh& apronMesh,
-		const Mesh& towerMesh, const Mesh& hangarMesh, const Mesh& lightBodyMesh,
-		const Mesh& lightMesh);
+	Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
 	virtual ~Airport() = default;
 
 private:

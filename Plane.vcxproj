@@ -44,6 +44,7 @@
     <ClCompile Include="src\models\zeppelin.cpp" />
     <ClCompile Include="src\physics\model_dynamics\airplane_dynamics.cpp" />
     <ClCompile Include="src\physics\model_dynamics\rigid_body_dynamics.cpp" />
+    <ClCompile Include="src\graphics\texture.cpp" />
     <ClCompile Include="src\transformable.cpp" />
     <ClCompile Include="src\graphics\obj_parser.cpp" />
     <ClCompile Include="src\graphics\paths.cpp" />
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\stb_image.h" />
+    <ClInclude Include="src\graphics\texture.hpp" />
     <ClInclude Include="src\physics\airplane_models\airplane_models.hpp" />
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
     <ClInclude Include="src\graphics\cameras\model_camera.hpp" />

@@ -2,14 +2,18 @@
 
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
+#include "graphics/paths.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/submodel.hpp"
+#include "graphics/texture.hpp"
 #include "models/model.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/flight_ctrl.hpp"
 #include "physics/model_dynamics/airplane_dynamics.hpp"
 
 #include <glm/glm.hpp>
+
+#include <memory>
 
 constexpr float lightsAttenuationQuadratic = 0.0001f;
 constexpr float lightsAttenuationLinear = 0.0005f;
@@ -18,22 +22,30 @@ constexpr glm::vec3 lightsColor{1, 1, 1};
 constexpr float lightsCutoffInnerDeg = 8;
 constexpr float lightsCutoffOuterDeg = 10;
 
+// dummy color
+const Material defaultMaterial{glm::vec3{1, 0, 0}, 0.75, 0.25, 10};
+const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10};
+const Material rubber{glm::vec3{0.1, 0.1, 0.1}, 0.75, 0.25, 10};
+// dummy surface params
+const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1};
+
 Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
-	const ShaderProgram& lightShaderProgram, const Mesh& capMesh, const Mesh& propellerMesh,
-	const Mesh& bodyMesh, const Mesh& joinsMesh, const Mesh& tiresMesh, const Mesh& lightMesh,
-	const AirplaneParams& params) :
+	const ShaderProgram& lightShaderProgram, const AirplaneParams& params) :
 	Model{surfaceShaderProgram, lightShaderProgram},
-	m_cap{capMesh},
-	m_propeller{propellerMesh},
-	m_body{bodyMesh},
-	m_joins{joinsMesh},
-	m_tires{tiresMesh},
-	m_leftLight{surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
-		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
-		lightsCutoffOuterDeg, getMatrix()},
-	m_rightLight{surfaceShaderProgram, lightMesh, lightsAttenuationQuadratic,
-		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
-		lightsCutoffOuterDeg, getMatrix()},
+	m_cap{surfaceShaderProgram, std::make_shared<const Mesh>(SM_AIRPLANE_CAP), metal},
+	m_propeller{surfaceShaderProgram, std::make_shared<const Mesh>(SM_AIRPLANE_PROPELLER), metal},
+	m_body{surfaceShaderProgram, std::make_shared<const Mesh>(SM_AIRPLANE_BODY), defaultMaterial,
+		std::make_shared<const Texture>(T_CAMO)},
+	m_joins{surfaceShaderProgram, std::make_shared<const Mesh>(SM_AIRPLANE_JOINS), metal},
+	m_tires{surfaceShaderProgram, std::make_shared<const Mesh>(SM_AIRPLANE_TIRES), rubber},
+	m_leftLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
+		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
+		getMatrix(), Submodel{lightShaderProgram, make_shared<const Mesh>(SM_AIRPLANE_LIGHT),
+		whiteLightGlass}},
+	m_rightLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
+		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
+		getMatrix(), Submodel{lightShaderProgram, make_shared<const Mesh>(SM_AIRPLANE_LIGHT),
+		whiteLightGlass}},
 	m_flightCtrl{params},
 	m_dynamics{params, m_flightCtrl}
 {

@@ -12,16 +12,16 @@
 #include <string_view>
 #include <vector>
 
-void ObjParser::parse(const std::string& objPath, std::vector<Vertex>& vertices)
+void ObjParser::parse(const std::string& path, std::vector<Vertex>& vertices)
 {
 	std::vector<glm::vec3> positions{};
 	std::vector<glm::vec2> texturePositions{};
 	std::vector<glm::vec3> normalVectors{};
 
-	std::ifstream file{objPath};
+	std::ifstream file{path};
 	if (!file)
 	{
-		std::cerr << "File does not exist:\n" << objPath << '\n';
+		std::cerr << "File does not exist:\n" << path << '\n';
 		return;
 	}
 

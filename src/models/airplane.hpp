@@ -14,8 +14,7 @@ class Airplane : public Model
 {
 public:
 	Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		const Mesh& capMesh, const Mesh& propellerMesh, const Mesh& bodyMesh, const Mesh& joinsMesh,
-		const Mesh& tiresMesh, const Mesh& lightMesh, const AirplaneParams& params);
+		const AirplaneParams& params);
 
 	void update();
 	void rotatePropeller(float angleDeg);

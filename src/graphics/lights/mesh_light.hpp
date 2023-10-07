@@ -24,11 +24,10 @@ public:
 
 protected:
 	Submodel m_submodel;
-	const ShaderProgram& m_surfaceShaderProgram;
 
-	MeshLight(const ShaderProgram& surfaceShaderProgram, unsigned int id, const Mesh& mesh,
+	MeshLight(unsigned int id, const ShaderProgram& surfaceShaderProgram,
 		float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
-		const glm::vec3& color);
+		const glm::vec3& color, const Submodel& submodel);
 	virtual ~MeshLight() = default;
 };
 

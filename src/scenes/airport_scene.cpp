@@ -32,7 +32,6 @@ AirportScene::AirportScene(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, float aspectRatio) :
 	Scene{surfaceShaderProgram, lightShaderProgram}
 {
-	createMeshes();
 	createModels();
 	createCameras(aspectRatio);
 	setModels();
@@ -104,65 +103,18 @@ void AirportScene::ctrlThrust(float relative)
 	m_airplanes[0]->ctrlThrust(relative);
 }
 
-void AirportScene::createMeshes()
-{
-	// dummy color
-	const Material defaultMaterial{glm::vec3{1, 0, 0}, 0.75, 0.25, 10};
-	// dummy color
-	const Material concrete{glm::vec3{1, 0, 0}, 0.75, 0, 10};
-	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10};
-	const Material rubber{glm::vec3{0.1, 0.1, 0.1}, 0.75, 0.25, 10};
-	const Material zeppelinCanvas{glm::vec3{0.9, 0.9, 0.9}, 0.75, 0.25, 10};
-	// dummy surface params
-	const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1};
-	// dummy surface params
-	const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1};
-	
-	m_airplaneCap = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPLANE_CAP, metal);
-	m_airplanePropeller = std::make_unique<const Mesh>(m_surfaceShaderProgram,
-		SM_AIRPLANE_PROPELLER, metal);
-	m_airplaneBody = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPLANE_BODY,
-		defaultMaterial, T_CAMO);
-	m_airplaneJoins = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPLANE_JOINS,
-		metal);
-	m_airplaneTires = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPLANE_TIRES,
-		rubber);
-	m_airplaneLight = std::make_unique<const Mesh>(m_lightShaderProgram, SM_AIRPLANE_LIGHT,
-		whiteLightGlass);
-	m_airportGround = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPORT_GROUND,
-		defaultMaterial, T_GRASS);
-	m_airportRunway = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPORT_RUNWAY,
-		defaultMaterial, T_ASPHALT);
-	m_airportApron = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPORT_APRON,
-		defaultMaterial, T_ASPHALT_BRIGHT);
-	m_airportTower = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPORT_TOWER,
-		concrete, T_CONCRETE);
-	m_airportHangar = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPORT_HANGAR,
-		defaultMaterial, T_TENT);
-	m_airportLightBody = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_AIRPORT_LIGHT_BODY,
-		metal);
-	m_airportLight = std::make_unique<const Mesh>(m_lightShaderProgram, SM_AIRPORT_LIGHT,
-		yellowLightGlass);
-	m_zeppelinBody = std::make_unique<const Mesh>(m_surfaceShaderProgram, SM_ZEPPELIN_BODY,
-		zeppelinCanvas);
-}
-
 void AirportScene::createModels()
 {
 	constexpr std::size_t airplanesCount = 5;
 	for (std::size_t i = 0; i < airplanesCount; ++i)
 	{
 		m_airplanes.push_back(std::make_unique<Airplane>(m_surfaceShaderProgram,
-			m_lightShaderProgram, *m_airplaneCap, *m_airplanePropeller, *m_airplaneBody,
-			*m_airplaneJoins, *m_airplaneTires, *m_airplaneLight, mustang));
+			m_lightShaderProgram, mustang));
 	}
 
-	m_airport = std::make_unique<Airport>(m_surfaceShaderProgram, m_lightShaderProgram,
-		*m_airportGround, *m_airportRunway, *m_airportApron, *m_airportTower, *m_airportHangar,
-		*m_airportLightBody, *m_airportLight);
+	m_airport = std::make_unique<Airport>(m_surfaceShaderProgram, m_lightShaderProgram);
 
-	m_zeppelin = std::make_unique<Zeppelin>(m_surfaceShaderProgram, m_lightShaderProgram,
-		*m_zeppelinBody);
+	m_zeppelin = std::make_unique<Zeppelin>(m_surfaceShaderProgram, m_lightShaderProgram);
 
 	m_moon = std::make_unique<DirectionalLightModel>(m_surfaceShaderProgram, m_lightShaderProgram,
 		glm::vec3{0, 0, 0});

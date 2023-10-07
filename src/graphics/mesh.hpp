@@ -1,11 +1,7 @@
 #ifndef MESH_HPP
 #define MESH_HPP
 
-#include "graphics/material.hpp"
-#include "graphics/shader_program.hpp"
 #include "graphics/vertex.hpp"
-
-#include <glm/glm.hpp>
 
 #include <cstddef>
 #include <string>
@@ -14,25 +10,16 @@
 class Mesh
 {
 public:
-	Mesh(const ShaderProgram& shaderProgram, const std::string& objPath, const Material& material,
-		const std::string& texturePath = "");
-	void render(const glm::mat4& modelMeshMatrix) const;
-	const ShaderProgram& getShaderProgram() const;
+	Mesh(const std::string& path);
+	void render() const;
 	~Mesh();
 	
 private:
-	const ShaderProgram& m_shaderProgram;
 	std::size_t m_vertexCount{};
-	Material m_material;
 	unsigned int m_VBO{};
 	unsigned int m_VAO{};
-	bool m_isTextureEnabled = false;
-	unsigned int m_texture{};
 
 	void createBuffers(const std::vector<Vertex>& vertices);
-	void createTextureBuffer();
-	void loadTexture(const std::string& texturePath);
-	void updateShaderValues(const glm::mat4& modelMeshMatrix) const;
 };
 
 #endif
