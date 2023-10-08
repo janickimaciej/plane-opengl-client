@@ -1,6 +1,7 @@
 #ifndef ZEPPELIN_HPP
 #define ZEPPELIN_HPP
 
+#include "graphics/asset_manager.hpp"
 #include "graphics/mesh.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/submodel.hpp"
@@ -9,7 +10,8 @@
 class Zeppelin : public Model
 {
 public:
-	Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
+	Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		AssetManager<const Mesh>& meshManager);
 	virtual ~Zeppelin() = default;
 
 private:

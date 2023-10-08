@@ -1,5 +1,7 @@
+#include "graphics/asset_manager.hpp"
 #include "graphics/paths.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/texture.hpp"
 #include "graphics/window_payload.hpp"
 #include "scenes/airport_scene.hpp"
 #include "scenes/scene.hpp"
@@ -26,8 +28,12 @@ int main()
 	ShaderProgram surfaceShaderProgram{SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT};
 	ShaderProgram lightShaderProgram{SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT};
 
+	AssetManager<const Mesh> meshManager;
+	AssetManager<const Texture> textureManager;
+
 	std::unique_ptr<Scene> airportScene = std::make_unique<AirportScene>(surfaceShaderProgram,
-		lightShaderProgram, (float)initialWindowWidth/initialWindowHeight);
+		lightShaderProgram, meshManager, textureManager,
+		(float)initialWindowWidth/initialWindowHeight);
 	windowPayload.scene = airportScene.get();
 	
 	Time::initializeTime();

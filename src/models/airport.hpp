@@ -1,10 +1,12 @@
 #ifndef AIRPORT_HPP
 #define AIRPORT_HPP
 
+#include "graphics/asset_manager.hpp"
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/submodel.hpp"
+#include "graphics/texture.hpp"
 #include "models/model.hpp"
 
 #include <vector>
@@ -12,7 +14,8 @@
 class Airport : public Model
 {
 public:
-	Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
+	Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager);
 	virtual ~Airport() = default;
 
 private:

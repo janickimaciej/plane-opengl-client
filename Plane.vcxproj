@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\stb_image.h" />
+    <ClInclude Include="src\graphics\asset_manager.hpp" />
     <ClInclude Include="src\graphics\texture.hpp" />
     <ClInclude Include="src\physics\airplane_models\airplane_models.hpp" />
     <ClInclude Include="src\graphics\cameras\camera.hpp" />

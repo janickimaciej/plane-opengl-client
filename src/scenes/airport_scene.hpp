@@ -1,11 +1,13 @@
 #ifndef AIRPORT_SCENE_HPP
 #define AIRPORT_SCENE_HPP
 
+#include "graphics/asset_manager.hpp"
 #include "graphics/cameras/model_camera.hpp"
 #include "graphics/cameras/perspective_camera.hpp"
 #include "graphics/cameras/tracking_camera.hpp"
 #include "graphics/mesh.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/texture.hpp"
 #include "models/airplane.hpp"
 #include "models/airport.hpp"
 #include "models/directional_light_model.hpp"
@@ -19,6 +21,7 @@ class AirportScene : public Scene
 {
 public:
 	AirportScene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager,
 		float aspectRatio);
 
 	virtual void update() override;

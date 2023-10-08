@@ -81,6 +81,7 @@
     <ClInclude Include="src\physics\airplane_params\inertia_params.hpp" />
     <ClInclude Include="src\physics\atmosphere.hpp" />
     <ClInclude Include="src\graphics\texture.hpp" />
+    <ClInclude Include="src\graphics\asset_manager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

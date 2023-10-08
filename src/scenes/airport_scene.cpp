@@ -1,5 +1,6 @@
 #include "scenes/airport_scene.hpp"
 
+#include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/cameras/model_camera.hpp"
 #include "graphics/cameras/perspective_camera.hpp"
@@ -9,6 +10,7 @@
 #include "graphics/mesh.hpp"
 #include "graphics/paths.hpp"
 #include "graphics/shader_program.hpp"
+#include "graphics/texture.hpp"
 #include "models/airplane.hpp"
 #include "models/airport.hpp"
 #include "models/directional_light_model.hpp"
@@ -29,8 +31,9 @@ constexpr float airplaneVelocity = 50;
 constexpr float airplaneAngVelocityDeg = 60;
 
 AirportScene::AirportScene(const ShaderProgram& surfaceShaderProgram,
-	const ShaderProgram& lightShaderProgram, float aspectRatio) :
-	Scene{surfaceShaderProgram, lightShaderProgram}
+	const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
+	AssetManager<const Texture>& textureManager, float aspectRatio) :
+	Scene{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager}
 {
 	createModels();
 	createCameras(aspectRatio);
@@ -109,12 +112,14 @@ void AirportScene::createModels()
 	for (std::size_t i = 0; i < airplanesCount; ++i)
 	{
 		m_airplanes.push_back(std::make_unique<Airplane>(m_surfaceShaderProgram,
-			m_lightShaderProgram, mustang));
+			m_lightShaderProgram, m_meshManager, m_textureManager, mustang));
 	}
 
-	m_airport = std::make_unique<Airport>(m_surfaceShaderProgram, m_lightShaderProgram);
+	m_airport = std::make_unique<Airport>(m_surfaceShaderProgram, m_lightShaderProgram,
+		m_meshManager, m_textureManager);
 
-	m_zeppelin = std::make_unique<Zeppelin>(m_surfaceShaderProgram, m_lightShaderProgram);
+	m_zeppelin = std::make_unique<Zeppelin>(m_surfaceShaderProgram, m_lightShaderProgram,
+		m_meshManager);
 
 	m_moon = std::make_unique<DirectionalLightModel>(m_surfaceShaderProgram, m_lightShaderProgram,
 		glm::vec3{0, 0, 0});
