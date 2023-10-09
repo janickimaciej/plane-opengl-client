@@ -1,6 +1,7 @@
 #ifndef SHADER_PROGRAM_HPP
 #define SHADER_PROGRAM_HPP
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 #include <string>
@@ -21,10 +22,10 @@ public:
 private:
 	unsigned int m_id{};
 
-	std::string readShaderFile(const std::string& shaderFilePath) const;
-	unsigned int createShaderProgram(const std::string& vertexShaderCode,
-		const std::string& fragmentShaderCode) const;
-	void printCompilationError(unsigned int shaderId, const std::string_view shaderType) const;
+	unsigned int createShader(GLenum shaderType, const std::string& shaderPath) const;
+	unsigned int createShaderProgram(unsigned int vertexShader, unsigned int fragmentShader) const;
+	std::string readShaderFile(const std::string& shaderPath) const;
+	void printCompilationError(GLenum shaderType, unsigned int shaderId) const;
 	void printLinkingError(unsigned int programId) const;
 };
 
