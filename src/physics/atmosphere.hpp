@@ -1,5 +1,4 @@
-#ifndef ATMOSPHERE_HPP
-#define ATMOSPHERE_HPP
+#pragma once
 
 class Atmosphere
 {
@@ -8,5 +7,3 @@ public:
 
 	static float airDensity(float height);
 };
-
-#endif

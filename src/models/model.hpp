@@ -1,5 +1,4 @@
-#ifndef MODEL_HPP
-#define MODEL_HPP
+#pragma once
 
 #include "graphics/shader_program.hpp"
 #include "transformable.hpp"
@@ -36,5 +35,3 @@ protected:
 	virtual void renderLights() const = 0;
 	virtual ~Model() = default;
 };
-
-#endif

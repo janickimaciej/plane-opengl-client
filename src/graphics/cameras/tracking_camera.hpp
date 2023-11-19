@@ -1,5 +1,4 @@
-#ifndef TRACKING_CAMERA_HPP
-#define TRACKING_CAMERA_HPP
+#pragma once
 
 #include "graphics/cameras/perspective_camera.hpp"
 #include "graphics/shader_program.hpp"
@@ -8,10 +7,10 @@
 class TrackingCamera : public PerspectiveCamera
 {
 public:
-	TrackingCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane,
+	TrackingCamera(float FoVDeg, float nearPlane, float farPlane,
+		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		const Model& model);
-	virtual void use(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram) override;
+	virtual void use(float aspectRatio) override;
 	virtual ~TrackingCamera() = default;
 
 protected:
@@ -19,5 +18,3 @@ protected:
 
 	void aimAtModel();
 };
-
-#endif

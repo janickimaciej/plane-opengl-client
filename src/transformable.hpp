@@ -1,5 +1,4 @@
-#ifndef TRANSFORMABLE_HPP
-#define TRANSFORMABLE_HPP
+#pragma once
 
 #include "state.hpp"
 
@@ -33,5 +32,3 @@ private:
 
 	void updateMatrix();
 };
-
-#endif

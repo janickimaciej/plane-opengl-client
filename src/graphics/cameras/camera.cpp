@@ -5,28 +5,37 @@
 
 #include <glm/glm.hpp>
 
-void Camera::use(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram)
+void Camera::use(float aspectRatio)
 {
-	updateShaderMatrices(surfaceShaderProgram, lightShaderProgram);
+	updateShaderMatrices(aspectRatio);
 }
 
-Camera::Camera(const glm::mat4& projectionMatrix) :
-	m_projectionMatrix{projectionMatrix}
+Camera::Camera(float FoVDeg, float nearPlane, float farPlane,
+	const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
+	m_FoVDeg{FoVDeg},
+	m_nearPlane{nearPlane},
+	m_farPlane{farPlane},
+	m_surfaceShaderProgram{surfaceShaderProgram},
+	m_lightShaderProgram{lightShaderProgram}
 { }
 
-void Camera::updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
-	const ShaderProgram& lightShaderProgram) const
+void Camera::updateShaderMatrices(float aspectRatio)
 {
+	if (aspectRatio != m_aspectRatio)
+	{
+		m_aspectRatio = aspectRatio;
+		updateProjectionMatrix();
+	}
 	glm::mat4 projectionViewMatrix = m_projectionMatrix * getViewMatrix();
 	glm::vec3 cameraPosition = getCameraPosition();
 
-	surfaceShaderProgram.use();
-	surfaceShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
-	surfaceShaderProgram.setUniform3f("cameraPosition", cameraPosition);
+	m_surfaceShaderProgram.use();
+	m_surfaceShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
+	m_surfaceShaderProgram.setUniform3f("cameraPosition", cameraPosition);
 
-	lightShaderProgram.use();
-	lightShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
-	lightShaderProgram.setUniform3f("cameraPosition", cameraPosition);
+	m_lightShaderProgram.use();
+	m_lightShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
+	m_lightShaderProgram.setUniform3f("cameraPosition", cameraPosition);
 }
 
 glm::mat4 Camera::getOriginMatrix() const

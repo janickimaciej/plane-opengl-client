@@ -1,5 +1,4 @@
-#ifndef STATE_HPP
-#define STATE_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -26,5 +25,3 @@ struct State
 	glm::vec3 direction() const;
 	void normalize();
 };
-
-#endif

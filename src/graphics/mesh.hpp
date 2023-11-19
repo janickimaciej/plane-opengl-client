@@ -1,5 +1,4 @@
-#ifndef MESH_HPP
-#define MESH_HPP
+#pragma once
 
 #include "graphics/vertex.hpp"
 
@@ -21,5 +20,3 @@ private:
 
 	void createBuffers(const std::vector<Vertex>& vertices);
 };
-
-#endif

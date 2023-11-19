@@ -1,5 +1,4 @@
-#ifndef ZEPPELIN_HPP
-#define ZEPPELIN_HPP
+#pragma once
 
 #include "graphics/asset_manager.hpp"
 #include "graphics/mesh.hpp"
@@ -21,5 +20,3 @@ private:
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 };
-
-#endif

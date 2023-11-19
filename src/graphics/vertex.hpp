@@ -1,5 +1,4 @@
-#ifndef VERTEX_HPP
-#define VERTEX_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -9,5 +8,3 @@ struct Vertex
 	glm::vec2 texturePosition{};
 	glm::vec3 normalVector{};
 };
-
-#endif

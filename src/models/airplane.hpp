@@ -1,6 +1,6 @@
-#ifndef AIRPLANE_HPP
-#define AIRPLANE_HPP
+#pragma once
 
+#include "airplane_type.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
@@ -8,20 +8,22 @@
 #include "graphics/submodel.hpp"
 #include "graphics/texture.hpp"
 #include "models/model.hpp"
-#include "physics/airplane_params/airplane_params.hpp"
 #include "physics/flight_ctrl.hpp"
 #include "physics/model_dynamics/airplane_dynamics.hpp"
+#include "sync/user_input.hpp"
 
 class Airplane : public Model
 {
 public:
 	Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager,
-		const AirplaneParams& params);
+		const AirplaneType& type);
 
-	void update();
+	void update(const Airplane& previousAirplane);
 	void rotatePropeller(float angleDeg);
 
+	void ctrl(const UserInput& input);
+	// TODO: decide if delete ctrlPitch, ctrlYaw, ctrlRoll and ctrlThrust
 	void ctrlPitch(float relative);
 	void ctrlYaw(float relative);
 	void ctrlRoll(float relative);
@@ -45,5 +47,3 @@ private:
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 };
-
-#endif

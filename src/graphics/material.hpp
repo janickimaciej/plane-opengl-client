@@ -1,5 +1,4 @@
-#ifndef MATERIAL_HPP
-#define MATERIAL_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -12,5 +11,3 @@ struct Material
 
 	Material(const glm::vec3& color, float diffuse, float specular, float shininess);
 };
-
-#endif

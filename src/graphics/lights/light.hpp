@@ -1,5 +1,4 @@
-#ifndef LIGHT_HPP
-#define LIGHT_HPP
+#pragma once
 
 #include "graphics/shader_program.hpp"
 
@@ -24,5 +23,3 @@ protected:
 	virtual void updateShaderLightParams() const = 0;
 	virtual ~Light() = default;
 };
-
-#endif

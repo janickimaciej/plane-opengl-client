@@ -1,5 +1,4 @@
-#ifndef CAMERA_HPP
-#define CAMERA_HPP
+#pragma once
 
 #include "graphics/shader_program.hpp"
 #include "transformable.hpp"
@@ -9,20 +8,25 @@
 class Camera : public Transformable
 {
 public:
-	virtual void use(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram);
+	virtual void updateProjectionMatrix() = 0;
+	virtual void use(float aspectRatio);
 
 protected:
 	glm::mat4 m_projectionMatrix{};
+	const float m_FoVDeg{};
+	float m_aspectRatio{};
+	const float m_nearPlane{};
+	const float m_farPlane{};
+
+	const ShaderProgram& m_surfaceShaderProgram;
+	const ShaderProgram& m_lightShaderProgram;
 	
-	Camera(const glm::mat4& projectionMatrix);
-	void updateShaderMatrices(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram) const;
+	Camera(float FoVDeg, float nearPlane, float farPlane, const ShaderProgram& surfaceShaderProgram,
+		const ShaderProgram& lightShaderProgram);
+	void updateShaderMatrices(float aspectRatio);
 	virtual glm::mat4 getOriginMatrix() const;
-	virtual glm::mat4 getCameraMatrix() const final;
-	virtual glm::vec3 getCameraPosition() const final;
-	virtual glm::mat4 getViewMatrix() const final;
+	glm::mat4 getCameraMatrix() const;
+	glm::vec3 getCameraPosition() const;
+	glm::mat4 getViewMatrix() const;
 	virtual ~Camera() = default;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef AIRPORT_HPP
-#define AIRPORT_HPP
+#pragma once
 
 #include "graphics/asset_manager.hpp"
 #include "graphics/lights/spot_light.hpp"
@@ -31,5 +30,3 @@ private:
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 };
-
-#endif

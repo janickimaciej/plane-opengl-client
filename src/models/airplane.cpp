@@ -1,5 +1,6 @@
 #include "models/airplane.hpp"
 
+#include "airplane_type.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
@@ -11,6 +12,7 @@
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/flight_ctrl.hpp"
 #include "physics/model_dynamics/airplane_dynamics.hpp"
+#include "sync/user_input.hpp"
 
 #include <glm/glm.hpp>
 
@@ -30,24 +32,24 @@ const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1};
 
 Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
-	AssetManager<const Texture>& textureManager, const AirplaneParams& params) :
+	AssetManager<const Texture>& textureManager, const AirplaneType& type) :
 	Model{surfaceShaderProgram, lightShaderProgram},
-	m_cap{surfaceShaderProgram, meshManager.get(SM_AIRPLANE_CAP), metal},
-	m_propeller{surfaceShaderProgram, meshManager.get(SM_AIRPLANE_PROPELLER), metal},
-	m_body{surfaceShaderProgram, meshManager.get(SM_AIRPLANE_BODY), defaultMaterial,
-		textureManager.get(T_CAMO)},
-	m_joins{surfaceShaderProgram, meshManager.get(SM_AIRPLANE_JOINS), metal},
-	m_tires{surfaceShaderProgram, meshManager.get(SM_AIRPLANE_TIRES), rubber},
+	m_cap{surfaceShaderProgram, meshManager.get(type.cap), metal},
+	m_propeller{surfaceShaderProgram, meshManager.get(type.propeller), metal},
+	m_body{surfaceShaderProgram, meshManager.get(type.body), defaultMaterial,
+		textureManager.get(type.camo)},
+	m_joins{surfaceShaderProgram, meshManager.get(type.joins), metal},
+	m_tires{surfaceShaderProgram, meshManager.get(type.tires), rubber},
 	m_leftLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
 		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
-		getMatrix(), Submodel{lightShaderProgram, meshManager.get(SM_AIRPLANE_LIGHT),
+		getMatrix(), Submodel{lightShaderProgram, meshManager.get(type.light),
 		whiteLightGlass}},
 	m_rightLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
 		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
-		getMatrix(), Submodel{lightShaderProgram, meshManager.get(SM_AIRPLANE_LIGHT),
+		getMatrix(), Submodel{lightShaderProgram, meshManager.get(type.light),
 		whiteLightGlass}},
-	m_flightCtrl{params},
-	m_dynamics{params, m_flightCtrl}
+	m_flightCtrl{type.params},
+	m_dynamics{type.params, m_flightCtrl}
 {
 	constexpr float lightsPositionXAbs = 2.14f;
 	constexpr float lightsPositionY = -0.474f;
@@ -57,25 +59,34 @@ Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ},
 		getMatrix());
 
-	m_cap.translate(params.inertia.nosePosition);
-	m_propeller.translate(params.inertia.nosePosition);
-	m_body.translate(params.inertia.nosePosition);
-	m_joins.translate(params.inertia.nosePosition);
-	m_tires.translate(params.inertia.nosePosition);
-	m_leftLight.translate(params.inertia.nosePosition, getMatrix());
-	m_rightLight.translate(params.inertia.nosePosition, getMatrix());
+	m_cap.translate(type.params.inertia.nosePosition);
+	m_propeller.translate(type.params.inertia.nosePosition);
+	m_body.translate(type.params.inertia.nosePosition);
+	m_joins.translate(type.params.inertia.nosePosition);
+	m_tires.translate(type.params.inertia.nosePosition);
+	m_leftLight.translate(type.params.inertia.nosePosition, getMatrix());
+	m_rightLight.translate(type.params.inertia.nosePosition, getMatrix());
 
 	updateShaderLightMatrix();
 }
 
-void Airplane::update()
+void Airplane::update(const Airplane& previousAirplane)
 {
-	setState(m_dynamics.computeNewState(getState()));
+	setState(m_dynamics.computeNewState(previousAirplane.getState()));
 }
 
 void Airplane::rotatePropeller(float angleDeg)
 {
 	m_propeller.rotateRoll(angleDeg);
+}
+
+void Airplane::ctrl(const UserInput& input)
+{
+	ctrlPitch(input.pitch);
+	ctrlYaw(input.yaw);
+	ctrlRoll(input.roll);
+	ctrlThrust(input.thrust);
+	// TODO: ctrlTrigger
 }
 
 void Airplane::ctrlPitch(float relative)

@@ -7,7 +7,7 @@
     <ClCompile Include="src\graphics\day_night_cycle.cpp" />
     <ClCompile Include="src\graphics\lights\directional_light.cpp" />
     <ClCompile Include="src\models\directional_light_model.cpp" />
-    <ClCompile Include="src\graphics\global_shading.cpp" />
+    <ClCompile Include="src\graphics\world_shading.cpp" />
     <ClCompile Include="src\graphics\lights\light.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
@@ -24,19 +24,20 @@
     <ClCompile Include="src\time.cpp" />
     <ClCompile Include="src\graphics\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\models\zeppelin.cpp" />
-    <ClCompile Include="src\scenes\airport_scene.cpp" />
     <ClCompile Include="src\physics\model_dynamics\rigid_body_dynamics.cpp" />
     <ClCompile Include="src\state.cpp" />
     <ClCompile Include="src\physics\model_dynamics\airplane_dynamics.cpp" />
     <ClCompile Include="src\physics\flight_ctrl.cpp" />
     <ClCompile Include="src\physics\airplane_params\airplane_params.cpp" />
-    <ClCompile Include="src\scenes\scene.cpp" />
     <ClCompile Include="dep\stb_image.cpp" />
     <ClCompile Include="dep\glad.c" />
     <ClCompile Include="src\graphics\paths.cpp" />
-    <ClCompile Include="src\physics\airplane_models\mustang.cpp" />
+    <ClCompile Include="src\database\airplane_params\mustang.cpp" />
     <ClCompile Include="src\physics\atmosphere.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
+    <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\maps\island_map.cpp" />
+    <ClCompile Include="src\maps\map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\airplane.hpp" />
@@ -45,7 +46,7 @@
     <ClInclude Include="src\graphics\day_night_cycle.hpp" />
     <ClInclude Include="src\graphics\lights\directional_light.hpp" />
     <ClInclude Include="src\models\directional_light_model.hpp" />
-    <ClInclude Include="src\graphics\global_shading.hpp" />
+    <ClInclude Include="src\graphics\world_shading.hpp" />
     <ClInclude Include="src\graphics\lights\light.hpp" />
     <ClInclude Include="src\graphics\material.hpp" />
     <ClInclude Include="src\graphics\mesh.hpp" />
@@ -64,7 +65,6 @@
     <ClInclude Include="src\graphics\window_payload.hpp" />
     <ClInclude Include="src\models\zeppelin.hpp" />
     <ClInclude Include="src\graphics\paths.hpp" />
-    <ClInclude Include="src\scenes\airport_scene.hpp" />
     <ClInclude Include="src\state.hpp" />
     <ClInclude Include="src\physics\runge_kutta.hpp" />
     <ClInclude Include="src\physics\model_dynamics\rigid_body_dynamics.hpp" />
@@ -73,8 +73,7 @@
     <ClInclude Include="src\physics\flight_ctrl.hpp" />
     <ClInclude Include="src\physics\airplane_params\airplane_params.hpp" />
     <ClInclude Include="src\physics\airplane_params\surface_params.hpp" />
-    <ClInclude Include="src\scenes\scene.hpp" />
-    <ClInclude Include="src\physics\airplane_models\airplane_models.hpp" />
+    <ClInclude Include="src\database\airplane_database.hpp" />
     <ClInclude Include="dep\stb_image.h" />
     <ClInclude Include="src\physics\airplane_params\fuselage_params.hpp" />
     <ClInclude Include="src\physics\airplane_params\propulsion_params.hpp" />
@@ -82,6 +81,17 @@
     <ClInclude Include="src\physics\atmosphere.hpp" />
     <ClInclude Include="src\graphics\texture.hpp" />
     <ClInclude Include="src\graphics\asset_manager.hpp" />
+    <ClInclude Include="src\sync\user_info.hpp" />
+    <ClInclude Include="src\sync\user_input.hpp" />
+    <ClInclude Include="src\sync\notification.hpp" />
+    <ClInclude Include="src\simulation.hpp" />
+    <ClInclude Include="src\scene.hpp" />
+    <ClInclude Include="src\airplane_type.hpp" />
+    <ClInclude Include="src\circular_buffer_element.hpp" />
+    <ClInclude Include="src\sync\user_state.hpp" />
+    <ClInclude Include="src\maps\map.hpp" />
+    <ClInclude Include="src\maps\island_map.hpp" />
+    <ClInclude Include="src\maps\map_name.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

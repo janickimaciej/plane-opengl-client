@@ -1,5 +1,4 @@
-#ifndef RIGID_BODY_DYNAMICS_HPP
-#define RIGID_BODY_DYNAMICS_HPP
+#pragma once
 
 #include "physics/runge_kutta_right_hand_side.hpp"
 #include "state.hpp"
@@ -25,5 +24,3 @@ private:
 	virtual void computeNetForceAndNetTorque(const State& state, glm::vec3& netForce,
 		glm::vec3& netTorque) const = 0;
 };
-
-#endif

@@ -1,19 +1,17 @@
 #include "graphics/cameras/perspective_camera.hpp"
 
 #include "graphics/cameras/camera.hpp"
+#include "graphics/shader_program.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 
-PerspectiveCamera::PerspectiveCamera(float FoVDeg, float aspectRatio, float nearPlane,
-	float farPlane) :
-	Camera{glm::perspective(glm::radians(FoVDeg), aspectRatio, nearPlane, farPlane)},
-	m_FoVDeg{FoVDeg},
-	m_nearPlane{nearPlane},
-	m_farPlane{farPlane}
+PerspectiveCamera::PerspectiveCamera(float FoVDeg, float nearPlane, float farPlane,
+	const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
+	Camera{FoVDeg, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram}
 { }
 
-void PerspectiveCamera::setAspectRatio(float aspectRatio)
+void PerspectiveCamera::updateProjectionMatrix()
 {
-	m_projectionMatrix = glm::perspective(glm::radians(m_FoVDeg), aspectRatio, m_nearPlane,
+	m_projectionMatrix = glm::perspective(glm::radians(m_FoVDeg), m_aspectRatio, m_nearPlane,
 		m_farPlane);
 }

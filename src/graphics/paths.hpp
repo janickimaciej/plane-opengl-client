@@ -1,5 +1,4 @@
-#ifndef PATHS_HPP
-#define PATHS_HPP
+#pragma once
 
 #include <string>
 
@@ -29,5 +28,3 @@ extern const std::string T_CAMO;
 extern const std::string T_CONCRETE;
 extern const std::string T_GRASS;
 extern const std::string T_TENT;
-
-#endif

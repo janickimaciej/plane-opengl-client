@@ -1,5 +1,4 @@
-#ifndef SHADER_PROGRAM_HPP
-#define SHADER_PROGRAM_HPP
+#pragma once
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -28,5 +27,3 @@ private:
 	void printCompilationError(GLenum shaderType, unsigned int shaderId) const;
 	void printLinkingError(unsigned int programId) const;
 };
-
-#endif

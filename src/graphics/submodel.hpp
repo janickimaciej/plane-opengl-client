@@ -1,5 +1,4 @@
-#ifndef SUBMODEL_HPP
-#define SUBMODEL_HPP
+#pragma once
 
 #include "graphics/material.hpp"
 #include "graphics/mesh.hpp"
@@ -29,5 +28,3 @@ private:
 
 	void updateShaderValues(const glm::mat4& modelSubmodelMatrix) const;
 };
-
-#endif

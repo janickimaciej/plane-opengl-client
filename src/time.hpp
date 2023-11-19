@@ -1,5 +1,4 @@
-#ifndef TIME_HPP
-#define TIME_HPP
+#pragma once
 
 class Time
 {
@@ -14,5 +13,3 @@ private:
 	static float s_time;
 	static float s_deltaTime;
 };
-
-#endif

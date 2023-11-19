@@ -1,5 +1,4 @@
-#ifndef AIRPLANE_PARAMS_HPP
-#define AIRPLANE_PARAMS_HPP
+#pragma once
 
 #include "physics/airplane_params/fuselage_params.hpp"
 #include "physics/airplane_params/inertia_params.hpp"
@@ -51,5 +50,3 @@ private:
 	static float adjustLiftCoefDeriv(float liftCoefDeriv, float criticalAngleNegativeRad,
 		float criticalAnglePositiveRad);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef AIRPLANE_DYNAMICS_HPP
-#define AIRPLANE_DYNAMICS_HPP
+#pragma once
 
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/airplane_params/fuselage_params.hpp"
@@ -36,5 +35,3 @@ private:
 
 	static glm::vec3 computeAirVelocity(const State& state, const glm::vec3& point);
 };
-
-#endif

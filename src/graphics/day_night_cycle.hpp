@@ -1,28 +1,32 @@
-#ifndef DAY_NIGHT_CYCLE_HPP
-#define DAY_NIGHT_CYCLE_HPP
+#pragma once
 
 #include "graphics/shader_program.hpp"
+#include "graphics/world_shading.hpp"
 #include "models/directional_light_model.hpp"
 
 class DayNightCycle
 {
 public:
-	static void update(const ShaderProgram& surfaceShaderProgram,
+	DayNightCycle(DirectionalLightModel& moon, DirectionalLightModel& sun,
+		WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);
-	static void setMoon(DirectionalLightModel& moon);
+	void update(const DayNightCycle& previousDayNightCycle);
+
+	float getTimeOfDay() const;
+	float getDay() const;
 
 private:
-	static float s_timeOfDay;
-	static int s_day;
-	static DirectionalLightModel* s_moon;
+	float m_timeOfDay{};
+	int m_day{};
+	DirectionalLightModel& m_moon;
+	DirectionalLightModel& m_sun;
+	WorldShading& m_worldShading;
 
-	DayNightCycle() = delete;
-	static void updateTimeOfDay();
-	static void updateGlobalShading(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram);
-	static float getLightCoefficient();
-	static float getFogCoefficient();
-	~DayNightCycle() = delete;
+	const ShaderProgram& m_surfaceShaderProgram;
+	const ShaderProgram& m_lightShaderProgram;
+
+	void updateTimeOfDay(float previousTimeOfDay, int previousDay);
+	void updateGlobalShading();
+	float getLightCoefficient();
+	float getFogCoefficient();
 };
-
-#endif

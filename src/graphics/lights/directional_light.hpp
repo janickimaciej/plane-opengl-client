@@ -1,5 +1,4 @@
-#ifndef DIRECTIONAL_LIGHT_HPP
-#define DIRECTIONAL_LIGHT_HPP
+#pragma once
 
 #include "graphics/lights/light.hpp"
 #include "graphics/shader_program.hpp"
@@ -19,5 +18,3 @@ private:
 
 	virtual void updateShaderLightParams() const override;
 };
-
-#endif

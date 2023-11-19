@@ -1,5 +1,4 @@
-#ifndef TEXTURE_HPP
-#define TEXTURE_HPP
+#pragma once
 
 #include <string>
 
@@ -16,5 +15,3 @@ private:
 	void create();
 	void load(const std::string& path) const;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef INERTIA_PARAMS_HPP
-#define INERTIA_PARAMS_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -9,5 +8,3 @@ struct InertiaParams
 	glm::mat3 momentOfInertia{};
 	glm::vec3 nosePosition{};
 };
-
-#endif

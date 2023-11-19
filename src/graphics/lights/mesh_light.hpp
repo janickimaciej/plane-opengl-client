@@ -1,5 +1,4 @@
-#ifndef MESH_LIGHT_HPP
-#define MESH_LIGHT_HPP
+#pragma once
 
 #include "graphics/lights/light.hpp"
 #include "graphics/mesh.hpp"
@@ -30,5 +29,3 @@ protected:
 		const glm::vec3& color, const Submodel& submodel);
 	virtual ~MeshLight() = default;
 };
-
-#endif

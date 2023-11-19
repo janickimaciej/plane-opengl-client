@@ -1,5 +1,4 @@
-#ifndef FLIGHT_CTRL_HPP
-#define FLIGHT_CTRL_HPP
+#pragma once
 
 //#include "graphics/submodel.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
@@ -33,5 +32,3 @@ private:
 	// converts linearly from [-1, 1] to [min, max]
 	float relativeToAbs(float relative, float min, float max) const;
 };
-
-#endif

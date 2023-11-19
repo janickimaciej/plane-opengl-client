@@ -1,5 +1,4 @@
-#ifndef RUNGE_KUTTA_HPP
-#define RUNGE_KUTTA_HPP
+#pragma once
 
 #include "physics/runge_kutta_right_hand_side.hpp"
 
@@ -56,5 +55,3 @@ void RungeKutta<stateLength>::RK4(float oldTime, float deltaTime,
 		newState[i] = oldState[i] + deltaTime / 6 * (k[0][i] + 2 * k[1][i] + 2 * k[2][i] + k[3][i]);
 	}
 }
-
-#endif

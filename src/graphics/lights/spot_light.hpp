@@ -1,5 +1,4 @@
-#ifndef SPOT_LIGHT_HPP
-#define SPOT_LIGHT_HPP
+#pragma once
 
 #include "graphics/lights/mesh_light.hpp"
 #include "graphics/mesh.hpp"
@@ -26,5 +25,3 @@ private:
 
 	virtual void updateShaderLightParams() const override;
 };
-
-#endif

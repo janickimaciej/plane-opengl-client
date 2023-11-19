@@ -1,5 +1,4 @@
-#ifndef RUNGE_KUTTA_RIGHT_HAND_SIDE_HPP
-#define RUNGE_KUTTA_RIGHT_HAND_SIDE_HPP
+#pragma once
 
 #include <array>
 #include <cstddef>
@@ -12,5 +11,3 @@ public:
 		std::array<float, stateLength>& stateDerivative) const = 0;
 	virtual ~RungeKuttaRightHandSide() = default;
 };
-
-#endif

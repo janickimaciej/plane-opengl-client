@@ -1,5 +1,4 @@
-#ifndef SURFACE_PARAMS_HPP
-#define SURFACE_PARAMS_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -23,5 +22,3 @@ struct SurfaceParams
 	float ctrlMaxAngleRad{};
 	glm::vec3 ctrlLiftPoint{};
 };
-
-#endif

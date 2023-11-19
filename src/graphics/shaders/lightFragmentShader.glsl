@@ -2,7 +2,7 @@
 
 // ... – vector in global coordinate system
 
-struct GlobalShading
+struct WorldShading
 {
 	vec3 backgroundColor;
 	float fogGradient;
@@ -20,7 +20,7 @@ struct Material
 in vec4 position;
 
 uniform vec3 cameraPosition;
-uniform GlobalShading globalShading;
+uniform WorldShading worldShading;
 uniform Material material;
 
 out vec4 outColor;
@@ -35,6 +35,6 @@ void main()
 vec3 applyFog(vec3 color)
 {
 	float distance = length(position.xyz - cameraPosition);
-	float fogCoef = exp(-pow((globalShading.fogDensity * distance), globalShading.fogGradient));
-	return fogCoef * color + (1 - fogCoef) * globalShading.backgroundColor;
+	float fogCoef = exp(-pow((worldShading.fogDensity * distance), worldShading.fogGradient));
+	return fogCoef * color + (1 - fogCoef) * worldShading.backgroundColor;
 }

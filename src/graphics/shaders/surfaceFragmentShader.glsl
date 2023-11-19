@@ -7,7 +7,7 @@
 // ... – vector in global coordinate system
 // pseudoColor = color/material.color
 
-struct GlobalShading
+struct WorldShading
 {
 	vec3 backgroundColor;
 	float ambient;
@@ -49,7 +49,7 @@ in vec2 texturePosition;
 in vec4 normalVector;
 
 uniform vec3 cameraPosition;
-uniform GlobalShading globalShading;
+uniform WorldShading worldShading;
 uniform Material material;
 uniform bool isTextureEnabled;
 uniform sampler2D textureSampler;
@@ -72,7 +72,7 @@ vec3 applyFog(vec3 color);
 
 void main()
 {
-	vec3 pseudoColor = vec3(globalShading.ambient, globalShading.ambient, globalShading.ambient);
+	vec3 pseudoColor = vec3(worldShading.ambient, worldShading.ambient, worldShading.ambient);
 	vec3 viewVector = calcViewVector();
 	for (int i = 0; i < SPOT_LIGHTS_COUNT; ++i)
 	{
@@ -176,6 +176,6 @@ float calcCutoffCoef(float cutoffInnerRad, float cutoffOuterRad, vec3 lightVecto
 vec3 applyFog(vec3 color)
 {
 	float distance = length(position.xyz - cameraPosition);
-	float fogCoef = exp(-pow((globalShading.fogDensity * distance), globalShading.fogGradient));
-	return fogCoef * color + (1 - fogCoef) * globalShading.backgroundColor;
+	float fogCoef = exp(-pow((worldShading.fogDensity * distance), worldShading.fogGradient));
+	return fogCoef * color + (1 - fogCoef) * worldShading.backgroundColor;
 }

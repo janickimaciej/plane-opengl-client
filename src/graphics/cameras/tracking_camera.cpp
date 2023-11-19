@@ -8,17 +8,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-TrackingCamera::TrackingCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane,
+TrackingCamera::TrackingCamera(float FoVDeg, float nearPlane, float farPlane,
+	const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 	const Model& model) :
-	PerspectiveCamera{FoVDeg, aspectRatio, nearPlane, farPlane},
+	PerspectiveCamera{FoVDeg, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram},
 	m_model{model}
 { }
 
-void TrackingCamera::use(const ShaderProgram& surfaceShaderProgram,
-	const ShaderProgram& lightShaderProgram)
+void TrackingCamera::use(float aspectRatio)
 {
 	aimAtModel();
-	Camera::use(surfaceShaderProgram, lightShaderProgram);
+	Camera::use(aspectRatio);
 }
 
 void TrackingCamera::aimAtModel()

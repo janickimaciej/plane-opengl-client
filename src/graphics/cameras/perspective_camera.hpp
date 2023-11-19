@@ -1,19 +1,13 @@
-#ifndef PERSPECTIVE_CAMERA_HPP
-#define PERSPECTIVE_CAMERA_HPP
+#pragma once
 
 #include "graphics/cameras/camera.hpp"
+#include "graphics/shader_program.hpp"
 
 class PerspectiveCamera : public Camera
 {
 public:
-	PerspectiveCamera(float FoVDeg, float aspectRatio, float nearPlane, float farPlane);
-	void setAspectRatio(float aspectRatio);
+	PerspectiveCamera(float FoVDeg, float nearPlane, float farPlane,
+		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
+	virtual void updateProjectionMatrix() override;
 	virtual ~PerspectiveCamera() = default;
-
-private:
-	float m_FoVDeg{};
-	float m_nearPlane{};
-	float m_farPlane{};
 };
-
-#endif

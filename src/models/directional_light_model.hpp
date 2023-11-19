@@ -1,5 +1,4 @@
-#ifndef DIRECTIONAL_LIGHT_MODEL_HPP
-#define DIRECTIONAL_LIGHT_MODEL_HPP
+#pragma once
 
 #include "graphics/lights/directional_light.hpp"
 #include "graphics/shader_program.hpp"
@@ -22,5 +21,3 @@ private:
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 };
-
-#endif

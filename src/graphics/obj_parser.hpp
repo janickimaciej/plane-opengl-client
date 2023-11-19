@@ -1,5 +1,4 @@
-#ifndef OBJ_PARSER_HPP
-#define OBJ_PARSER_HPP
+#pragma once
 
 #include "graphics/vertex.hpp"
 
@@ -25,5 +24,3 @@ private:
 		const std::vector<glm::vec2>& texturePositions, const std::vector<glm::vec3>& normalVectors,
 		std::array<Vertex, 3>& triangle);
 };
-
-#endif
