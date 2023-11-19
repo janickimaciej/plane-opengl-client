@@ -10,11 +10,13 @@
 class RigidBodyDynamics : public RungeKuttaRightHandSide<State::stateLength>
 {
 public:
-	RigidBodyDynamics(float mass, const glm::mat3& momentOfInertia);
 	virtual void rightHandSide(float, const std::array<float, State::stateLength>& state,
 		std::array<float, State::stateLength>& stateDerivative) const override;
 	State computeNewState(const State& oldState) const;
 	virtual ~RigidBodyDynamics() = default;
+
+protected:
+	RigidBodyDynamics(float mass, const glm::mat3& momentOfInertia);
 
 private:
 	float m_mass{};

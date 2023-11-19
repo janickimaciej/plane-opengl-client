@@ -14,21 +14,19 @@ DirectionalLight::DirectionalLight(const ShaderProgram& surfaceShaderProgram,
 		attenuationConstant, color}
 {
 	++s_idCounter;
-	updateShaderLightParams();
 }
 
-void DirectionalLight::updateShaderLightTranslation(const glm::mat4& modelMatrix) const
+void DirectionalLight::updateShaders(const glm::mat4& modelMatrix) const
 {
 	m_surfaceShaderProgram.use();
 	const std::string prefix = "directionalLights[" + std::to_string(m_id) + "].";
-	m_surfaceShaderProgram.setUniform3f(prefix + "lightDirection",
-		glm::normalize(glm::vec3{modelMatrix * glm::vec4{0, 0, 1, 0}}));
-}
 
-void DirectionalLight::updateShaderLightParams() const
-{
-	m_surfaceShaderProgram.use();
-	const std::string prefix = "directionalLights[" + std::to_string(m_id) + "].";
+	glm::vec3 lightDirection = glm::normalize(glm::vec3
+	{
+		modelMatrix * glm::vec4{0, 0, 1, 0}
+	});
+	m_surfaceShaderProgram.setUniform3f(prefix + "lightDirection", lightDirection);
+
 	m_surfaceShaderProgram.setUniform3f(prefix + "color", m_color);
 	m_surfaceShaderProgram.setUniform1f(prefix + "attenuationQuadratic", m_attenuationQuadratic);
 	m_surfaceShaderProgram.setUniform1f(prefix + "attenuationLinear", m_attenuationLinear);

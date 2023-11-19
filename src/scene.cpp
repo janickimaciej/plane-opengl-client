@@ -9,6 +9,7 @@
 #include "sync/user_info.hpp"
 
 #include <cstddef>
+#include <utility>
 #include <vector>
 
 Scene::Scene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
@@ -23,7 +24,7 @@ Scene::Scene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lig
 void Scene::updateWithoutStateFrame(const Scene& previousScene,
 	const std::unordered_map<int, UserInfo>& userInfos)
 {
-	removeAirplanesWithoutStateFrame(previousScene, userInfos);
+	removeAirplanesWithoutStateFrame(previousScene);
 	addAndUpdateAirplanesWithoutStateFrame(previousScene, userInfos);
 	updateBullets(previousScene);
 	updateMap(*(previousScene.m_map));
@@ -44,21 +45,13 @@ void Scene::updateWithStateFrame(const Scene& previousScene,
 	}
 }
 
-void Scene::render(float aspectRatio) const
+void Scene::updateShadersAndRender(float aspectRatio)
 {
-	m_camera->use(aspectRatio);
-	m_worldShading.use();
-
-	m_map->render();
-	for (const std::pair<const int, Airplane>& airplane : m_airplanes)
-	{
-		airplane.second.render();
-	}
-	// TODO: render bullets
+	updateShaders(aspectRatio);
+	render();
 }
 
-void Scene::removeAirplanesWithoutStateFrame(const Scene& previousScene,
-	const std::unordered_map<int, UserInfo>& userInfos)
+void Scene::removeAirplanesWithoutStateFrame(const Scene& previousScene)
 {
 	std::vector<int> keysToBeDeleted;
 	for (const std::pair<const int, Airplane>& airplane : m_airplanes)
@@ -110,9 +103,9 @@ void Scene::addAndUpdateAirplanesWithStateFrame(const std::unordered_map<int, Us
 	{
 		if (!m_airplanes.contains(userInfo.first))
 		{
-			m_airplanes.insert({userInfo.first, Airplane(m_surfaceShaderProgram,
+			m_airplanes.insert({userInfo.first, Airplane{m_surfaceShaderProgram,
 				m_lightShaderProgram, m_meshManager, m_textureManager,
-				airplaneTypes[(std::size_t)userInfo.second.state.airplaneTypeName])});
+				airplaneTypes[(std::size_t)userInfo.second.state.airplaneTypeName]}});
 		}
 		m_airplanes.at(userInfo.first).ctrl(userInfo.second.input);
 		m_airplanes.at(userInfo.first).setState(userInfo.second.state.state);
@@ -148,4 +141,24 @@ void Scene::updateMap(const Map& previousMap)
 void Scene::detectCollisions()
 {
 	// TODO
+}
+
+void Scene::updateShaders(float aspectRatio)
+{
+	m_camera->updateShaders(aspectRatio);
+	m_map->updateShaders();
+	for (std::pair<const int, Airplane>& airplane : m_airplanes)
+	{
+		airplane.second.updateShaders();
+	}
+}
+
+void Scene::render() const
+{
+	m_map->render();
+	for (const std::pair<const int, Airplane>& airplane : m_airplanes)
+	{
+		airplane.second.render();
+	}
+	// TODO: render bullets
 }

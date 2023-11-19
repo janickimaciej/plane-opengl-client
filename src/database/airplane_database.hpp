@@ -12,7 +12,7 @@ enum class AirplaneTypeName
 	mustang
 };
 
-extern AirplaneParams mustangParams;
+extern const AirplaneParams mustangParams;
 
 const std::array<AirplaneType, airplaneTypeCount> airplaneTypes
 {

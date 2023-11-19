@@ -13,6 +13,7 @@ public:
 	AssetManager(const AssetManager&) = delete;
 	AssetManager& operator=(const AssetManager&) = delete;
 	std::shared_ptr<Asset> get(const std::string& path);
+
 private:
 	std::unordered_map<std::string, std::weak_ptr<Asset>> m_pool{};
 };

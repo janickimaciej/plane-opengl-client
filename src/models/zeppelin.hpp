@@ -6,17 +6,20 @@
 #include "graphics/submodel.hpp"
 #include "models/model.hpp"
 
+#include <memory>
+
 class Zeppelin : public Model
 {
 public:
 	Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		AssetManager<const Mesh>& meshManager);
+		AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager);
+	virtual void initialize() override;
+	virtual void updateShaders() override;
 	virtual ~Zeppelin() = default;
 
 private:
-	Submodel m_body;
+	std::unique_ptr<Submodel> m_body;
 
-	virtual void updateShaderLightMatrix() const override;
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 };

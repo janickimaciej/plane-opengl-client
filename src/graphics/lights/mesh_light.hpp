@@ -12,14 +12,16 @@ class MeshLight : public Light
 public:
 	void render(const glm::mat4& modelMatrix) const;
 
-	void scale(float scaleRatio, const glm::mat4& modelMatrix); // locally
-	void rotate(const glm::vec3& axis, float angleDeg, const glm::mat4& modelMatrix); // locally
-	void translate(const glm::vec3& translation, const glm::mat4& modelMatrix);
+	void scale(float scaleRatio); // locally
+	void rotate(const glm::vec3& axis, float angleDeg); // locally
+	void translate(const glm::vec3& translation);
 
-	void pitch(float angleDeg, const glm::mat4& modelMatrix); // locally
-	void yaw(float angleDeg, const glm::mat4& modelMatrix); // locally
-	void roll(float angleDeg, const glm::mat4& modelMatrix); // locally
-	void moveAlongZ(float distance, const glm::mat4& modelMatrix); // locally
+	void pitch(float angleDeg); // locally
+	void yaw(float angleDeg); // locally
+	void roll(float angleDeg); // locally
+	void moveAlongZ(float distance); // locally
+
+	virtual ~MeshLight() = default;
 
 protected:
 	Submodel m_submodel;
@@ -27,5 +29,4 @@ protected:
 	MeshLight(unsigned int id, const ShaderProgram& surfaceShaderProgram,
 		float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
 		const glm::vec3& color, const Submodel& submodel);
-	virtual ~MeshLight() = default;
 };

@@ -12,46 +12,39 @@ void MeshLight::render(const glm::mat4& modelMatrix) const
 	m_submodel.render(modelMatrix);
 }
 
-void MeshLight::scale(float scaleRatio, const glm::mat4& modelMatrix)
+void MeshLight::scale(float scaleRatio)
 {
 	m_submodel.scale(scaleRatio);
-	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::rotate(const glm::vec3& axis, float angleDeg, const glm::mat4& modelMatrix)
+void MeshLight::rotate(const glm::vec3& axis, float angleDeg)
 {
 	m_submodel.rotate(axis, angleDeg);
-	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::translate(const glm::vec3& translation, const glm::mat4& modelMatrix)
+void MeshLight::translate(const glm::vec3& translation)
 {
 	m_submodel.translate(translation);
-	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::pitch(float angleDeg, const glm::mat4& modelMatrix)
+void MeshLight::pitch(float angleDeg)
 {
 	m_submodel.rotatePitch(angleDeg);
-	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::yaw(float angleDeg, const glm::mat4& modelMatrix)
+void MeshLight::yaw(float angleDeg)
 {
 	m_submodel.rotateYaw(angleDeg);
-	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::roll(float angleDeg, const glm::mat4& modelMatrix)
+void MeshLight::roll(float angleDeg)
 {
 	m_submodel.rotateRoll(angleDeg);
-	updateShaderLightTranslation(modelMatrix);
 }
 
-void MeshLight::moveAlongZ(float distance, const glm::mat4& modelMatrix)
+void MeshLight::moveAlongZ(float distance)
 {
 	m_submodel.moveZ(distance);
-	updateShaderLightTranslation(modelMatrix);
 }
 
 MeshLight::MeshLight(unsigned int id, const ShaderProgram& surfaceShaderProgram,

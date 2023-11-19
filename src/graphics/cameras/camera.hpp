@@ -9,7 +9,8 @@ class Camera : public Transformable
 {
 public:
 	virtual void updateProjectionMatrix() = 0;
-	virtual void use(float aspectRatio);
+	virtual void updateShaders(float aspectRatio);
+	virtual ~Camera() = default;
 
 protected:
 	glm::mat4 m_projectionMatrix{};
@@ -23,10 +24,8 @@ protected:
 	
 	Camera(float FoVDeg, float nearPlane, float farPlane, const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);
-	void updateShaderMatrices(float aspectRatio);
 	virtual glm::mat4 getOriginMatrix() const;
 	glm::mat4 getCameraMatrix() const;
 	glm::vec3 getCameraPosition() const;
 	glm::mat4 getViewMatrix() const;
-	virtual ~Camera() = default;
 };

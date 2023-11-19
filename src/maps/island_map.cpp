@@ -13,10 +13,11 @@ constexpr glm::vec3 moonLight{0.2, 0.2, 0.2};
 constexpr glm::vec3 sunLight{1, 1, 1};
 
 IslandMap::IslandMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
-	const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager) :
-	m_zeppelin{surfaceShaderProgram, lightShaderProgram, meshManager},
-	m_moon{surfaceShaderProgram, lightShaderProgram, moonLight},
-	m_sun{surfaceShaderProgram, lightShaderProgram, sunLight},
+	const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
+	AssetManager<const Texture>& textureManager) :
+	m_zeppelin{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager},
+	m_moon{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager, moonLight},
+	m_sun{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager, sunLight},
 	m_dayNightCycle{m_moon, m_sun, worldShading, surfaceShaderProgram, lightShaderProgram}
 { }
 
@@ -36,7 +37,14 @@ void IslandMap::update(const Map& previousMap)
 {
 	// TODO: replace with template?
 	const IslandMap& previousIslandMap = static_cast<const IslandMap&>(previousMap);
-	m_dayNightCycle.update(previousIslandMap.getDayNightCycle());
+	m_dayNightCycle.updateTime(previousIslandMap.getDayNightCycle());
+}
+
+void IslandMap::updateShaders()
+{
+	m_zeppelin.updateShaders();
+
+	m_dayNightCycle.updateWorldShading();
 }
 
 void IslandMap::render() const

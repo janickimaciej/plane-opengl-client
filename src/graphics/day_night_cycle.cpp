@@ -28,28 +28,12 @@ DayNightCycle::DayNightCycle(DirectionalLightModel& moon, DirectionalLightModel&
 	m_lightShaderProgram{lightShaderProgram}
 { }
 
-void DayNightCycle::update(const DayNightCycle& previousDayNightCycle)
-{
-	updateTimeOfDay(previousDayNightCycle.getTimeOfDay(), previousDayNightCycle.getDay());
-	updateGlobalShading();
-}
-
-float DayNightCycle::getTimeOfDay() const
-{
-	return m_timeOfDay;
-}
-
-float DayNightCycle::getDay() const
-{
-	return m_day;
-}
-
-void DayNightCycle::updateTimeOfDay(float previousTimeOfDay, int previousDay)
+void DayNightCycle::updateTime(const DayNightCycle& previousDayNightCycle)
 {
 	static constexpr float deltaTime = 1e-2f;
 	static constexpr float secondsPerDay = 5 * 24;
-	m_timeOfDay = previousTimeOfDay + deltaTime / secondsPerDay;
-	m_day = previousDay;
+	m_timeOfDay = previousDayNightCycle.getTimeOfDay() + deltaTime / secondsPerDay;
+	m_day = previousDayNightCycle.getDay();
 	while (m_timeOfDay >= 1)
 	{
 		m_timeOfDay -= 1;
@@ -57,7 +41,17 @@ void DayNightCycle::updateTimeOfDay(float previousTimeOfDay, int previousDay)
 	}
 }
 
-void DayNightCycle::updateGlobalShading()
+float DayNightCycle::getTimeOfDay() const
+{
+	return m_timeOfDay;
+}
+
+int DayNightCycle::getDay() const
+{
+	return m_day;
+}
+
+void DayNightCycle::updateWorldShading()
 {
 	static constexpr float fogGradient = 1.5f;
 
@@ -75,6 +69,8 @@ void DayNightCycle::updateGlobalShading()
 	m_moon.setLightColor(lightCoefficient * sunLight + (1 - lightCoefficient) * moonLight);
 	// TODO: fix
 	m_sun.setLightColor(lightCoefficient * sunLight + (1 - lightCoefficient) * moonLight);
+
+	m_worldShading.updateShaders();
 }
 
 float DayNightCycle::getLightCoefficient()

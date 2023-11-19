@@ -20,7 +20,7 @@ Submodel::Submodel(const ShaderProgram& shaderProgram, const std::shared_ptr<con
 
 void Submodel::render(const glm::mat4& modelMatrix) const
 {
-	updateShaderValues(modelMatrix * getMatrix());
+	updateShaders(modelMatrix * getMatrix());
 	if (m_texture)
 	{
 		m_texture->use();
@@ -38,7 +38,7 @@ glm::mat4 Submodel::getMatrix() const
 	return Transformable::getMatrix();
 }
 
-void Submodel::updateShaderValues(const glm::mat4& modelSubmodelMatrix) const
+void Submodel::updateShaders(const glm::mat4& modelSubmodelMatrix) const
 {
 	m_shaderProgram.setUniformMatrix4f("modelMeshMatrix", modelSubmodelMatrix);
 	m_shaderProgram.setUniform3f("material.color", m_material.color);

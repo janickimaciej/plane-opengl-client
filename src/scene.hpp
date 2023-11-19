@@ -20,7 +20,7 @@ public:
 		const std::unordered_map<int, UserInfo>& userInfos);
 	void updateWithStateFrame(const Scene& previousScene,
 		const std::unordered_map<int, UserInfo>& userInfos, int ownId, MapName mapName);
-	void render(float aspectRatio) const;
+	void updateShadersAndRender(float aspectRatio);
 
 private:
 	bool m_isInitialized = false;
@@ -38,8 +38,7 @@ private:
 	AssetManager<const Mesh>& m_meshManager;
 	AssetManager<const Texture>& m_textureManager;
 
-	void removeAirplanesWithoutStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, UserInfo>& userInfos);
+	void removeAirplanesWithoutStateFrame(const Scene& previousScene);
 	void addAndUpdateAirplanesWithoutStateFrame(const Scene& previousScene,
 		const std::unordered_map<int, UserInfo>& userInfos);
 
@@ -50,4 +49,7 @@ private:
 	void updateBullets(const Scene& previousScene);
 	void updateMap(const Map& previousMap);
 	void detectCollisions();
+
+	void updateShaders(float aspectRatio);
+	void render() const;
 };

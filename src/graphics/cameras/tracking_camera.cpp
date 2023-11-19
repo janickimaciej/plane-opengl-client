@@ -15,10 +15,10 @@ TrackingCamera::TrackingCamera(float FoVDeg, float nearPlane, float farPlane,
 	m_model{model}
 { }
 
-void TrackingCamera::use(float aspectRatio)
+void TrackingCamera::updateShaders(float aspectRatio)
 {
 	aimAtModel();
-	Camera::use(aspectRatio);
+	Camera::updateShaders(aspectRatio);
 }
 
 void TrackingCamera::aimAtModel()

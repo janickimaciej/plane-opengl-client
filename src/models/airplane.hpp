@@ -12,15 +12,21 @@
 #include "physics/model_dynamics/airplane_dynamics.hpp"
 #include "sync/user_input.hpp"
 
+#include <memory>
+
 class Airplane : public Model
 {
 public:
 	Airplane(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager,
-		const AirplaneType& type);
-
+		const AirplaneType& airplaneType);
+	Airplane(const Airplane&);
+	Airplane(Airplane&&) = default;
+	
+	virtual void initialize() override;
 	void update(const Airplane& previousAirplane);
 	void rotatePropeller(float angleDeg);
+	virtual void updateShaders() override;
 
 	void ctrl(const UserInput& input);
 	// TODO: decide if delete ctrlPitch, ctrlYaw, ctrlRoll and ctrlThrust
@@ -32,18 +38,19 @@ public:
 	virtual ~Airplane() = default;
 
 private:
-	Submodel m_cap;
-	Submodel m_propeller;
-	Submodel m_body;
-	Submodel m_joins;
-	Submodel m_tires;
-	SpotLight m_leftLight;
-	SpotLight m_rightLight;
+	AirplaneType m_airplaneType;
+
+	std::unique_ptr<Submodel> m_cap;
+	std::unique_ptr<Submodel> m_propeller;
+	std::unique_ptr<Submodel> m_body;
+	std::unique_ptr<Submodel> m_joins;
+	std::unique_ptr<Submodel> m_tires;
+	std::unique_ptr<SpotLight> m_leftLight;
+	std::unique_ptr<SpotLight> m_rightLight;
 
 	FlightCtrl m_flightCtrl;
 	AirplaneDynamics m_dynamics;
 
-	virtual void updateShaderLightMatrix() const override;
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 };

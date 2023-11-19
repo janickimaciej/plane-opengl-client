@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 
 #include <cstddef>
+#include <memory>
 #include <vector>
 
 constexpr std::size_t hangarsCount = 3;
@@ -34,18 +35,23 @@ const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1};
 Airport::Airport(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
 	AssetManager<const Texture>& textureManager) :
-	Model{surfaceShaderProgram, lightShaderProgram},
-	m_ground{surfaceShaderProgram, meshManager.get(SM_AIRPORT_GROUND), defaultMaterial,
-		textureManager.get(T_GRASS)},
-	m_runway{surfaceShaderProgram, meshManager.get(SM_AIRPORT_RUNWAY), defaultMaterial,
-		textureManager.get(T_ASPHALT)},
-	m_apron{surfaceShaderProgram, meshManager.get(SM_AIRPORT_APRON), defaultMaterial,
-		textureManager.get(T_ASPHALT_BRIGHT)},
-	m_tower{surfaceShaderProgram, meshManager.get(SM_AIRPORT_TOWER), concrete,
-		textureManager.get(T_CONCRETE)}
+	Model{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager}
+{ }
+
+void Airport::initialize()
 {
-	const Submodel hangarSubmodel{surfaceShaderProgram, meshManager.get(SM_AIRPORT_HANGAR),
-		defaultMaterial, textureManager.get(T_TENT)};
+	m_ground = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(SM_AIRPORT_GROUND), defaultMaterial, m_textureManager.get(T_GRASS));
+	m_runway = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(SM_AIRPORT_RUNWAY), defaultMaterial, m_textureManager.get(T_ASPHALT));
+	m_apron = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(SM_AIRPORT_APRON), defaultMaterial,
+		m_textureManager.get(T_ASPHALT_BRIGHT));
+	m_tower = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(SM_AIRPORT_TOWER), concrete, m_textureManager.get(T_CONCRETE));
+
+	const Submodel hangarSubmodel{m_surfaceShaderProgram, m_meshManager.get(SM_AIRPORT_HANGAR),
+		defaultMaterial, m_textureManager.get(T_TENT)};
 	for (std::size_t i = 0; i < hangarsCount; ++i)
 	{
 		m_hangars.push_back(hangarSubmodel);
@@ -54,16 +60,16 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram,
 		m_hangars[i].translate(glm::vec3{0, 0, -hangarsGapZ*(int)i});
 	}
 
-	const Submodel lightBodySubmodel{surfaceShaderProgram, meshManager.get(SM_AIRPORT_LIGHT_BODY),
-		metal};
-	const Submodel lightSubmodel{lightShaderProgram, meshManager.get(SM_AIRPORT_LIGHT),
+	const Submodel lightBodySubmodel{m_surfaceShaderProgram,
+		m_meshManager.get(SM_AIRPORT_LIGHT_BODY), metal};
+	const Submodel lightSubmodel{m_lightShaderProgram, m_meshManager.get(SM_AIRPORT_LIGHT),
 		yellowLightGlass};
 	for (std::size_t i = 0; i < lightsCount; ++i)
 	{
 		m_lightBodies.push_back(Submodel{lightBodySubmodel});
-		m_lights.push_back(SpotLight{surfaceShaderProgram, lightsAttenuationQuadratic,
+		m_lights.push_back(SpotLight{m_surfaceShaderProgram, lightsAttenuationQuadratic,
 			lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
-			lightsCutoffOuterDeg, getMatrix(), lightSubmodel});
+			lightsCutoffOuterDeg, lightSubmodel});
 
 		constexpr float firstLightPositionX = -49;
 		constexpr float lightsGapX = 14;
@@ -72,34 +78,33 @@ Airport::Airport(const ShaderProgram& surfaceShaderProgram,
 		glm::vec3 lightPosition{firstLightPositionX + lightsGapX*(int)i, lightsPositionY,
 			lightsPositionZ};
 		m_lightBodies[i].translate(lightPosition);
-		m_lights[i].translate(lightPosition, getMatrix());
+		m_lights[i].translate(lightPosition);
 
 		constexpr float lightsRotationYaw = 180;
 		m_lightBodies[i].rotateYaw(lightsRotationYaw);
-		m_lights[i].yaw(lightsRotationYaw, getMatrix());
+		m_lights[i].yaw(lightsRotationYaw);
 
 		constexpr float lightsRotationPitch = 15;
 		m_lightBodies[i].rotatePitch(lightsRotationPitch);
-		m_lights[i].pitch(lightsRotationPitch, getMatrix());
+		m_lights[i].pitch(lightsRotationPitch);
 	}
-
-	updateShaderLightMatrix();
 }
 
-void Airport::updateShaderLightMatrix() const
+void Airport::updateShaders()
 {
+	tryInitializing();
 	for (const SpotLight& light : m_lights)
 	{
-		light.updateShaderLightTranslation(getMatrix());
+		light.updateShaders(getMatrix());
 	}
 }
 
 void Airport::renderSurfaces() const
 {
-	m_ground.render(getMatrix());
-	m_runway.render(getMatrix());
-	m_apron.render(getMatrix());
-	m_tower.render(getMatrix());
+	m_ground->render(getMatrix());
+	m_runway->render(getMatrix());
+	m_apron->render(getMatrix());
+	m_tower->render(getMatrix());
 	for (const Submodel& hangar : m_hangars)
 	{
 		hangar.render(getMatrix());

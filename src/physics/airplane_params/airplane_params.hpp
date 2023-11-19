@@ -45,6 +45,7 @@ struct AirplaneParams
 
 		float maxThrust, const glm::vec3& thrustPoint
 	);
+	AirplaneParams(const AirplaneParams&) = default;
 
 private:
 	static float adjustLiftCoefDeriv(float liftCoefDeriv, float criticalAngleNegativeRad,

@@ -10,10 +10,11 @@ public:
 	DayNightCycle(DirectionalLightModel& moon, DirectionalLightModel& sun,
 		WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);
-	void update(const DayNightCycle& previousDayNightCycle);
+	void updateTime(const DayNightCycle& previousDayNightCycle);
+	void updateWorldShading();
 
 	float getTimeOfDay() const;
-	float getDay() const;
+	int getDay() const;
 
 private:
 	float m_timeOfDay{};
@@ -25,8 +26,6 @@ private:
 	const ShaderProgram& m_surfaceShaderProgram;
 	const ShaderProgram& m_lightShaderProgram;
 
-	void updateTimeOfDay(float previousTimeOfDay, int previousDay);
-	void updateGlobalShading();
 	float getLightCoefficient();
 	float getFogCoefficient();
 };

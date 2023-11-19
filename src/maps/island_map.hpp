@@ -13,11 +13,14 @@ class IslandMap : public Map
 {
 public:
 	IslandMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager);
+		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
+		AssetManager<const Texture>& textureManager);
 	void setModels();
 	virtual void update(const Map& previousMap) override;
+	virtual void updateShaders() override;
 	virtual void render() const override;
 	const DayNightCycle& getDayNightCycle() const;
+	virtual ~IslandMap() = default;
 
 private:
 	Zeppelin m_zeppelin;

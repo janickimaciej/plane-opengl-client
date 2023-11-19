@@ -7,8 +7,9 @@
 class Light
 {
 public:
-	virtual void updateShaderLightTranslation(const glm::mat4& modelMatrix) const = 0;
+	virtual void updateShaders(const glm::mat4& modelMatrix) const = 0;
 	void setColor(const glm::vec3& color);
+	virtual ~Light() = default;
 
 protected:
 	unsigned int m_id{};
@@ -20,6 +21,4 @@ protected:
 
 	Light(unsigned int id, const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
 		float attenuationLinear, float attenuationConstant, const glm::vec3& color);
-	virtual void updateShaderLightParams() const = 0;
-	virtual ~Light() = default;
 };

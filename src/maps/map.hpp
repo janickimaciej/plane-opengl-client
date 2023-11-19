@@ -13,9 +13,14 @@ class Map
 {
 public:
 	virtual void update(const Map& map) = 0;
+	virtual void updateShaders() = 0;
 	virtual void render() const = 0;
+	virtual ~Map() = default;
 
 	static std::unique_ptr<Map> createMap(MapName mapName, WorldShading& worldShading,
 		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager);
+
+protected:
+	Map() = default;
 };

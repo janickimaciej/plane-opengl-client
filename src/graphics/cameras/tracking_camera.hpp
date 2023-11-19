@@ -10,7 +10,7 @@ public:
 	TrackingCamera(float FoVDeg, float nearPlane, float farPlane,
 		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		const Model& model);
-	virtual void use(float aspectRatio) override;
+	virtual void updateShaders(float aspectRatio) override;
 	virtual ~TrackingCamera() = default;
 
 protected:

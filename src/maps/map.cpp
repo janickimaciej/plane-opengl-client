@@ -12,6 +12,8 @@ std::unique_ptr<Map> Map::createMap(MapName mapName, WorldShading& worldShading,
 	switch (mapName)
 	{
 	case MapName::island:
-		return std::make_unique<IslandMap>(surfaceShaderProgram, lightShaderProgram, meshManager);
+		return std::make_unique<IslandMap>(worldShading, surfaceShaderProgram, lightShaderProgram,
+			meshManager, textureManager);
 	}
+	return nullptr;
 }

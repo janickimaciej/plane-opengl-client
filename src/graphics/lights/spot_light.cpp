@@ -10,19 +10,16 @@
 
 SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
 	float attenuationLinear, float attenuationConstant, const glm::vec3& color,
-	float cutoffInnerDeg, float cutoffOuterDeg, const glm::mat4& modelMatrix,
-	const Submodel& submodel) :
+	float cutoffInnerDeg, float cutoffOuterDeg, const Submodel& submodel) :
 	MeshLight{s_idCounter, surfaceShaderProgram, attenuationQuadratic, attenuationLinear,
 		attenuationConstant, color, submodel},
 	m_cutoffInnerDeg{cutoffInnerDeg},
 	m_cutoffOuterDeg{cutoffOuterDeg}
 {
 	++s_idCounter;
-	updateShaderLightParams();
-	updateShaderLightTranslation(modelMatrix);
 }
 
-void SpotLight::updateShaderLightTranslation(const glm::mat4& modelMatrix) const
+void SpotLight::updateShaders(const glm::mat4& modelMatrix) const
 {
 	m_surfaceShaderProgram.use();
 	const std::string prefix = "spotLights[" + std::to_string(m_id) + "].";
@@ -35,12 +32,7 @@ void SpotLight::updateShaderLightTranslation(const glm::mat4& modelMatrix) const
 
 	glm::vec3 lightPosition = modelMatrix * m_submodel.getMatrix() * glm::vec4{0, 0, 0, 1};
 	m_surfaceShaderProgram.setUniform3f(prefix + "lightPosition", lightPosition);
-}
 
-void SpotLight::updateShaderLightParams() const
-{
-	m_surfaceShaderProgram.use();
-	const std::string prefix = "spotLights[" + std::to_string(m_id) + "].";
 	m_surfaceShaderProgram.setUniform1f(prefix + "cutoffInnerRad", glm::radians(m_cutoffInnerDeg));
 	m_surfaceShaderProgram.setUniform1f(prefix + "cutoffOuterRad", glm::radians(m_cutoffOuterDeg));
 	m_surfaceShaderProgram.setUniform3f(prefix + "color", m_color);

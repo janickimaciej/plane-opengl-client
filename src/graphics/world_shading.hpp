@@ -9,7 +9,7 @@ class WorldShading
 public:
 	WorldShading(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram);
-	void use() const;
+	void updateShaders() const;
 
 	void setBackgroundColor(const glm::vec3& backgroundColor);
 	void setAmbient(float ambient);

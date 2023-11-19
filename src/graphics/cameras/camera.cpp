@@ -5,21 +5,7 @@
 
 #include <glm/glm.hpp>
 
-void Camera::use(float aspectRatio)
-{
-	updateShaderMatrices(aspectRatio);
-}
-
-Camera::Camera(float FoVDeg, float nearPlane, float farPlane,
-	const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-	m_FoVDeg{FoVDeg},
-	m_nearPlane{nearPlane},
-	m_farPlane{farPlane},
-	m_surfaceShaderProgram{surfaceShaderProgram},
-	m_lightShaderProgram{lightShaderProgram}
-{ }
-
-void Camera::updateShaderMatrices(float aspectRatio)
+void Camera::updateShaders(float aspectRatio)
 {
 	if (aspectRatio != m_aspectRatio)
 	{
@@ -37,6 +23,15 @@ void Camera::updateShaderMatrices(float aspectRatio)
 	m_lightShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
 	m_lightShaderProgram.setUniform3f("cameraPosition", cameraPosition);
 }
+
+Camera::Camera(float FoVDeg, float nearPlane, float farPlane,
+	const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
+	m_FoVDeg{FoVDeg},
+	m_nearPlane{nearPlane},
+	m_farPlane{farPlane},
+	m_surfaceShaderProgram{surfaceShaderProgram},
+	m_lightShaderProgram{lightShaderProgram}
+{ }
 
 glm::mat4 Camera::getOriginMatrix() const
 {

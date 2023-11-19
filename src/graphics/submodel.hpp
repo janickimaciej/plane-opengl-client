@@ -26,5 +26,5 @@ private:
 	const Material m_material;
 	const std::shared_ptr<const Texture> m_texture;
 
-	void updateShaderValues(const glm::mat4& modelSubmodelMatrix) const;
+	void updateShaders(const glm::mat4& modelSubmodelMatrix) const;
 };

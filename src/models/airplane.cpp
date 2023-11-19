@@ -16,6 +16,8 @@
 
 #include <glm/glm.hpp>
 
+#include <memory>
+
 constexpr float lightsAttenuationQuadratic = 0.0001f;
 constexpr float lightsAttenuationLinear = 0.0005f;
 constexpr float lightsAttenuationConstant = 1;
@@ -32,42 +34,62 @@ const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1};
 
 Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
 	const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
-	AssetManager<const Texture>& textureManager, const AirplaneType& type) :
-	Model{surfaceShaderProgram, lightShaderProgram},
-	m_cap{surfaceShaderProgram, meshManager.get(type.cap), metal},
-	m_propeller{surfaceShaderProgram, meshManager.get(type.propeller), metal},
-	m_body{surfaceShaderProgram, meshManager.get(type.body), defaultMaterial,
-		textureManager.get(type.camo)},
-	m_joins{surfaceShaderProgram, meshManager.get(type.joins), metal},
-	m_tires{surfaceShaderProgram, meshManager.get(type.tires), rubber},
-	m_leftLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
-		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
-		getMatrix(), Submodel{lightShaderProgram, meshManager.get(type.light),
-		whiteLightGlass}},
-	m_rightLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
-		lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
-		getMatrix(), Submodel{lightShaderProgram, meshManager.get(type.light),
-		whiteLightGlass}},
-	m_flightCtrl{type.params},
-	m_dynamics{type.params, m_flightCtrl}
+	AssetManager<const Texture>& textureManager, const AirplaneType& airplaneType) :
+	Model{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager},
+	m_airplaneType{airplaneType},
+	m_flightCtrl{airplaneType.params},
+	m_dynamics{airplaneType.params, m_flightCtrl}
+{ }
+
+Airplane::Airplane(const Airplane& airplane) :
+	Model{airplane.m_surfaceShaderProgram, m_lightShaderProgram, m_meshManager, m_textureManager},
+	m_airplaneType{airplane.m_airplaneType},
+	m_cap{std::make_unique<Submodel>(*airplane.m_cap)},
+	m_propeller{std::make_unique<Submodel>(*airplane.m_propeller)},
+	m_body{std::make_unique<Submodel>(*airplane.m_body)},
+	m_joins{std::make_unique<Submodel>(*airplane.m_joins)},
+	m_tires{std::make_unique<Submodel>(*airplane.m_tires)},
+	m_leftLight{std::make_unique<SpotLight>(*airplane.m_leftLight)},
+	m_rightLight{std::make_unique<SpotLight>(*airplane.m_rightLight)},
+	m_flightCtrl{airplane.m_flightCtrl},
+	m_dynamics{airplane.m_dynamics}
+{ }
+
+void Airplane::initialize()
 {
+	m_cap = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(m_airplaneType.cap), metal);
+	m_propeller = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(m_airplaneType.propeller), metal);
+	m_body = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(m_airplaneType.body), defaultMaterial,
+		m_textureManager.get(m_airplaneType.camo));
+	m_joins = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(m_airplaneType.joins), metal);
+	m_tires = std::make_unique<Submodel>(m_surfaceShaderProgram,
+		m_meshManager.get(m_airplaneType.tires), rubber);
+	m_leftLight = std::make_unique<SpotLight>(m_surfaceShaderProgram, lightsAttenuationQuadratic,
+		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
+		lightsCutoffOuterDeg, Submodel{m_lightShaderProgram,
+		m_meshManager.get(m_airplaneType.light), whiteLightGlass});
+	m_rightLight = std::make_unique<SpotLight>(m_surfaceShaderProgram, lightsAttenuationQuadratic,
+		lightsAttenuationLinear, lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg,
+		lightsCutoffOuterDeg, Submodel{m_lightShaderProgram,
+		m_meshManager.get(m_airplaneType.light), whiteLightGlass});
+
 	constexpr float lightsPositionXAbs = 2.14f;
 	constexpr float lightsPositionY = -0.474f;
 	constexpr float lightsPositionZ = 2.938f;
-	m_leftLight.translate(glm::vec3{lightsPositionXAbs, lightsPositionY, lightsPositionZ},
-		getMatrix());
-	m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ},
-		getMatrix());
+	m_leftLight->translate(glm::vec3{lightsPositionXAbs, lightsPositionY, lightsPositionZ});
+	m_rightLight->translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ});
 
-	m_cap.translate(type.params.inertia.nosePosition);
-	m_propeller.translate(type.params.inertia.nosePosition);
-	m_body.translate(type.params.inertia.nosePosition);
-	m_joins.translate(type.params.inertia.nosePosition);
-	m_tires.translate(type.params.inertia.nosePosition);
-	m_leftLight.translate(type.params.inertia.nosePosition, getMatrix());
-	m_rightLight.translate(type.params.inertia.nosePosition, getMatrix());
-
-	updateShaderLightMatrix();
+	m_cap->translate(m_airplaneType.params.inertia.nosePosition);
+	m_propeller->translate(m_airplaneType.params.inertia.nosePosition);
+	m_body->translate(m_airplaneType.params.inertia.nosePosition);
+	m_joins->translate(m_airplaneType.params.inertia.nosePosition);
+	m_tires->translate(m_airplaneType.params.inertia.nosePosition);
+	m_leftLight->translate(m_airplaneType.params.inertia.nosePosition);
+	m_rightLight->translate(m_airplaneType.params.inertia.nosePosition);
 }
 
 void Airplane::update(const Airplane& previousAirplane)
@@ -77,7 +99,14 @@ void Airplane::update(const Airplane& previousAirplane)
 
 void Airplane::rotatePropeller(float angleDeg)
 {
-	m_propeller.rotateRoll(angleDeg);
+	m_propeller->rotateRoll(angleDeg);
+}
+
+void Airplane::updateShaders()
+{
+	tryInitializing();
+	m_leftLight->updateShaders(getMatrix());
+	m_rightLight->updateShaders(getMatrix());
 }
 
 void Airplane::ctrl(const UserInput& input)
@@ -109,23 +138,17 @@ void Airplane::ctrlThrust(float relative)
 	m_flightCtrl.ctrlThrust(relative);
 }
 
-void Airplane::updateShaderLightMatrix() const
-{
-	m_leftLight.updateShaderLightTranslation(getMatrix());
-	m_rightLight.updateShaderLightTranslation(getMatrix());
-}
-
 void Airplane::renderSurfaces() const
 {
-	m_cap.render(getMatrix());
-	m_propeller.render(getMatrix());
-	m_body.render(getMatrix());
-	m_joins.render(getMatrix());
-	m_tires.render(getMatrix());
+	m_cap->render(getMatrix());
+	m_propeller->render(getMatrix());
+	m_body->render(getMatrix());
+	m_joins->render(getMatrix());
+	m_tires->render(getMatrix());
 }
 
 void Airplane::renderLights() const
 {
-	m_leftLight.render(getMatrix());
-	m_rightLight.render(getMatrix());
+	m_leftLight->render(getMatrix());
+	m_rightLight->render(getMatrix());
 }

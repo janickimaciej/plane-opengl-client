@@ -3,8 +3,6 @@
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/window_payload.hpp"
-#include "scenes/airport_scene.hpp"
-#include "scenes/scene.hpp"
 #include "time.hpp"
 
 #include <glad/glad.h>
@@ -20,7 +18,7 @@ void processInput(GLFWwindow* window);
 
 int main()
 {
-	static constexpr unsigned int initialWindowWidth = 1900;
+	/*static constexpr unsigned int initialWindowWidth = 1900;
 	static constexpr unsigned int initialWindowHeight = 950;
 	WindowPayload windowPayload{};
 	GLFWwindow* window = graphicsInit(initialWindowWidth, initialWindowHeight, windowPayload);
@@ -47,7 +45,7 @@ int main()
 		glfwSwapBuffers(window);
 	}
 
-	glfwTerminate();
+	glfwTerminate();*/
 	return 0;
 }
 
@@ -79,7 +77,7 @@ void resizeWindow(GLFWwindow* window, int width, int height)
 	}
 
 	WindowPayload* windowPayload = (WindowPayload*)glfwGetWindowUserPointer(window);
-	windowPayload->scene->setAspectRatio((float)width/height);
+	//windowPayload->scene->setAspectRatio((float)width/height);
 	glViewport(0, 0, width, height);
 }
 
@@ -94,71 +92,71 @@ void processInput(GLFWwindow* window)
 	
 	int ctrlYawNegative = glfwGetKey(window, GLFW_KEY_A);
 	int ctrlYawPositive = glfwGetKey(window, GLFW_KEY_D);
-	windowPayload->scene->ctrlYaw((float)(ctrlYawPositive - ctrlYawNegative));
+	//windowPayload->scene->ctrlYaw((float)(ctrlYawPositive - ctrlYawNegative));
 	
 	int ctrlPitchNegative = glfwGetKey(window, GLFW_KEY_UP);
 	int ctrlPitchPositive = glfwGetKey(window, GLFW_KEY_DOWN);
-	windowPayload->scene->ctrlPitch((float)(ctrlPitchPositive - ctrlPitchNegative));
+	//windowPayload->scene->ctrlPitch((float)(ctrlPitchPositive - ctrlPitchNegative));
 	
 	int ctrlRollNegative = glfwGetKey(window, GLFW_KEY_LEFT);
 	int ctrlRollPositive = glfwGetKey(window, GLFW_KEY_RIGHT);
-	windowPayload->scene->ctrlRoll((float)(ctrlRollPositive - ctrlRollNegative));
+	//windowPayload->scene->ctrlRoll((float)(ctrlRollPositive - ctrlRollNegative));
 	
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0);
+		//windowPayload->scene->ctrlThrust(0);
 	}
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.1f);
+		//windowPayload->scene->ctrlThrust(0.1f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.2f);
+		//windowPayload->scene->ctrlThrust(0.2f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.3f);
+		//windowPayload->scene->ctrlThrust(0.3f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.4f);
+		//windowPayload->scene->ctrlThrust(0.4f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.5f);
+		//windowPayload->scene->ctrlThrust(0.5f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.6f);
+		//windowPayload->scene->ctrlThrust(0.6f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.7f);
+		//windowPayload->scene->ctrlThrust(0.7f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.8f);
+		//windowPayload->scene->ctrlThrust(0.8f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(0.9f);
+		//windowPayload->scene->ctrlThrust(0.9f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_SLASH) == GLFW_PRESS)
 	{
-		windowPayload->scene->ctrlThrust(1);
+		//windowPayload->scene->ctrlThrust(1);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
 	{
-		windowPayload->scene->setActiveCamera(1);
+		//windowPayload->scene->setActiveCamera(1);
 	}
 	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
 	{
-		windowPayload->scene->setActiveCamera(2);
+		//windowPayload->scene->setActiveCamera(2);
 	}
 	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
 	{
-		windowPayload->scene->setActiveCamera(3);
+		//windowPayload->scene->setActiveCamera(3);
 	}
 }

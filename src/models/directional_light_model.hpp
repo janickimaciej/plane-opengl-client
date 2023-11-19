@@ -6,18 +6,24 @@
 
 #include <glm/glm.hpp>
 
+#include <memory>
+
 class DirectionalLightModel : public Model
 {
 public:
 	DirectionalLightModel(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram, const glm::vec3& lightColor);
+		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
+		AssetManager<const Texture>& textureManager, const glm::vec3& lightColor);
+	virtual void initialize() override;
 	void setLightColor(const glm::vec3& color);
+	virtual void updateShaders() override;
 	virtual ~DirectionalLightModel() = default;
 
 private:
-	DirectionalLight m_light;
+	glm::vec3 m_lightColor{};
 
-	virtual void updateShaderLightMatrix() const override;
+	std::unique_ptr<DirectionalLight> m_light;
+
 	virtual void renderSurfaces() const override;
 	virtual void renderLights() const override;
 };

@@ -1,3 +1,5 @@
+#include "database/airplane_database.hpp"
+
 #include "physics/airplane_params/airplane_params.hpp"
 
 #include <glm/glm.hpp>
