@@ -4,73 +4,67 @@
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/airplane_params/surface_params.hpp"
 
-FlightCtrl::FlightCtrl(/*Submodel& elevator, Submodel& rudder,
-	Submodel& leftAileron, Submodel& rightAileron,
-	*/const AirplaneParams& airplaneParams) :
-	/*m_elevator{elevator},
-	m_rudder{rudder},
-	m_leftAileron{leftAileron},
-	m_rightAileron{rightAileron},*/
-	m_airplaneParams{airplaneParams}
+namespace Physics
 {
-	ctrlPitch(0);
-	ctrlYaw(0);
-	ctrlRoll(0);
-	ctrlThrust(0);
-}
+	FlightCtrl::FlightCtrl(const AirplaneParams& airplaneParams) :
+		m_airplaneParams{airplaneParams}
+	{
+		ctrlPitch(0);
+		ctrlYaw(0);
+		ctrlRoll(0);
+		ctrlThrust(0);
+	}
 
-float FlightCtrl::getElevatorAngleRad() const
-{
-	return m_elevatorAngleRad;
-}
+	float FlightCtrl::getElevatorAngleRad() const
+	{
+		return m_airplaneCtrl.elevatorAngleRad;
+	}
 
-void FlightCtrl::ctrlPitch(float relative)
-{
-	m_elevatorAngleRad = relativeToAbs(relative, m_airplaneParams.hStab.ctrlMinAngleRad,
-		m_airplaneParams.hStab.ctrlMaxAngleRad);
-	//m_elevator.resetRotation();
-	//m_elevator.pitch(-m_elevatorAngleRad);
-}
+	void FlightCtrl::ctrlPitch(float relative)
+	{
+		m_airplaneCtrl.elevatorAngleRad = relativeToAbs(relative,
+			m_airplaneParams.hStab.ctrlMinAngleRad, m_airplaneParams.hStab.ctrlMaxAngleRad);
+	}
 
-float FlightCtrl::getRudderAngleRad() const
-{
-	return m_rudderAngleRad;
-}
+	float FlightCtrl::getRudderAngleRad() const
+	{
+		return m_airplaneCtrl.rudderAngleRad;
+	}
 
-void FlightCtrl::ctrlYaw(float relative)
-{
-	m_rudderAngleRad = relativeToAbs(relative, m_airplaneParams.vStab.ctrlMinAngleRad,
-		m_airplaneParams.vStab.ctrlMaxAngleRad);
-	//m_rudder.resetRotation();
-	//m_rudder.yaw(m_rudderAngleRad);
-}
+	void FlightCtrl::ctrlYaw(float relative)
+	{
+		m_airplaneCtrl.rudderAngleRad = relativeToAbs(relative,
+			m_airplaneParams.vStab.ctrlMinAngleRad, m_airplaneParams.vStab.ctrlMaxAngleRad);
+	}
 
-float FlightCtrl::getAileronsAngleRad() const
-{
-	return m_aileronsAngleRad;
-}
+	float FlightCtrl::getAileronsAngleRad() const
+	{
+		return m_airplaneCtrl.aileronsAngleRad;
+	}
 
-void FlightCtrl::ctrlRoll(float relative)
-{
-	m_aileronsAngleRad = relativeToAbs(relative, m_airplaneParams.rightWing.ctrlMinAngleRad,
-		m_airplaneParams.rightWing.ctrlMaxAngleRad);
-	//m_leftAileron.resetRotation();
-	//m_leftAileron.pitch(aileronsAngleRad);
-	//m_rightAileron.resetRotation();
-	//m_rightAileron.pitch(-m_aileronsAngleRad);
-}
+	void FlightCtrl::ctrlRoll(float relative)
+	{
+		m_airplaneCtrl.aileronsAngleRad = relativeToAbs(relative,
+			m_airplaneParams.rightWing.ctrlMinAngleRad, m_airplaneParams.rightWing.ctrlMaxAngleRad);
+	}
 
-float FlightCtrl::getThrustRelative() const
-{
-	return m_thrustRelative;
-}
+	float FlightCtrl::getThrustRelative() const
+	{
+		return m_airplaneCtrl.thrustRelative;
+	}
 
-void FlightCtrl::ctrlThrust(float relative)
-{
-	m_thrustRelative = relative;
-}
+	void FlightCtrl::ctrlThrust(float relative)
+	{
+		m_airplaneCtrl.thrustRelative = relative;
+	}
 
-float FlightCtrl::relativeToAbs(float relative, float min, float max) const
-{
-	return (min + max + relative * (max - min)) / 2;
-}
+	Common::AirplaneCtrl FlightCtrl::getCtrl() const
+	{
+		return m_airplaneCtrl;
+	}
+
+	float FlightCtrl::relativeToAbs(float relative, float min, float max)
+	{
+		return (min + max + relative * (max - min)) / 2;
+	}
+};

@@ -2,13 +2,16 @@
 
 #include <glm/glm.hpp>
 
-struct FuselageParams
+namespace Physics
 {
-	float frontArea{};
-	float frontDragCoef{};
-	glm::vec3 frontDragPoint{};
+	struct FuselageParams
+	{
+		float frontArea{};
+		float frontDragCoef{};
+		glm::vec3 frontDragPoint{};
 
-	float sideArea{};
-	float sideDragCoef{};
-	glm::vec3 sideDragPoint{};
+		float sideArea{};
+		float sideDragCoef{};
+		glm::vec3 sideDragPoint{};
+	};
 };

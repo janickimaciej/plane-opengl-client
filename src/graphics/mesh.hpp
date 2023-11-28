@@ -6,17 +6,20 @@
 #include <string>
 #include <vector>
 
-class Mesh
+namespace Graphics
 {
-public:
-	Mesh(const std::string& path);
-	void render() const;
-	~Mesh();
+	class Mesh
+	{
+	public:
+		Mesh(const std::string& path);
+		void render() const;
+		~Mesh();
 	
-private:
-	std::size_t m_vertexCount{};
-	unsigned int m_VBO{};
-	unsigned int m_VAO{};
+	private:
+		std::size_t m_vertexCount{};
+		unsigned int m_VBO{};
+		unsigned int m_VAO{};
 
-	void createBuffers(const std::vector<Vertex>& vertices);
+		void createBuffers(const std::vector<Vertex>& vertices);
+	};
 };

@@ -3,22 +3,25 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-struct SurfaceParams
+namespace Physics
 {
-	glm::quat orientation{};
+	struct SurfaceParams
+	{
+		glm::quat orientation{};
 
-	float area{};
-	float liftCoefConst{};
-	float liftCoefDeriv{};
-	float normalForceCoef{};
-	float criticalAngleNegativeRad{};
-	float criticalAnglePositiveRad{};
-	glm::vec3 liftPoint{};
-	glm::vec3 normalForcePoint{};
+		float area{};
+		float liftCoefConst{};
+		float liftCoefDeriv{};
+		float normalForceCoef{};
+		float criticalAngleNegativeRad{};
+		float criticalAnglePositiveRad{};
+		glm::vec3 liftPoint{};
+		glm::vec3 normalForcePoint{};
 
-	float ctrlArea{};
-	float ctrlLiftCoefDeriv{};
-	float ctrlMinAngleRad{};
-	float ctrlMaxAngleRad{};
-	glm::vec3 ctrlLiftPoint{};
+		float ctrlArea{};
+		float ctrlLiftCoefDeriv{};
+		float ctrlMinAngleRad{};
+		float ctrlMaxAngleRad{};
+		glm::vec3 ctrlLiftPoint{};
+	};
 };

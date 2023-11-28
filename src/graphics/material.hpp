@@ -2,12 +2,15 @@
 
 #include <glm/glm.hpp>
 
-struct Material
+namespace Graphics
 {
-	glm::vec3 color{};
-	float diffuse{};
-	float specular{};
-	float shininess{};
+	struct Material
+	{
+		glm::vec3 color{};
+		float diffuse{};
+		float specular{};
+		float shininess{};
 
-	Material(const glm::vec3& color, float diffuse, float specular, float shininess);
+		Material(const glm::vec3& color, float diffuse, float specular, float shininess);
+	};
 };

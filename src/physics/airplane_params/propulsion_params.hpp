@@ -1,7 +1,10 @@
 #pragma once
 
-struct PropulsionParams
+namespace Physics
 {
-	float maxThrust{};
-	glm::vec3 thrustPoint{};
+	struct PropulsionParams
+	{
+		float maxThrust{};
+		glm::vec3 thrustPoint{};
+	};
 };

@@ -4,28 +4,30 @@
 #include "graphics/world_shading.hpp"
 #include "models/directional_light_model.hpp"
 
-class DayNightCycle
+namespace Graphics
 {
-public:
-	DayNightCycle(DirectionalLightModel& moon, DirectionalLightModel& sun,
-		WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram);
-	void updateTime(const DayNightCycle& previousDayNightCycle);
-	void updateWorldShading();
+	class DayNightCycle
+	{
+	public:
+		DayNightCycle(DirectionalLightModel& moon, DirectionalLightModel& sun,
+			WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
+			const ShaderProgram& lightShaderProgram);
+		void updateWorldShading();
+		
+		void setDay(int day);
+		void setTimeOfDay(float timeOfDay);
 
-	float getTimeOfDay() const;
-	int getDay() const;
+	private:
+		int m_day{};
+		float m_timeOfDay{};
+		DirectionalLightModel& m_moon;
+		DirectionalLightModel& m_sun;
+		WorldShading& m_worldShading;
 
-private:
-	float m_timeOfDay{};
-	int m_day{};
-	DirectionalLightModel& m_moon;
-	DirectionalLightModel& m_sun;
-	WorldShading& m_worldShading;
+		const ShaderProgram& m_surfaceShaderProgram;
+		const ShaderProgram& m_lightShaderProgram;
 
-	const ShaderProgram& m_surfaceShaderProgram;
-	const ShaderProgram& m_lightShaderProgram;
-
-	float getLightCoefficient();
-	float getFogCoefficient();
+		float getLightCoefficient();
+		float getFogCoefficient();
+	};
 };

@@ -3,11 +3,14 @@
 #include <array>
 #include <cstddef>
 
-template <std::size_t stateLength>
-class RungeKuttaRightHandSide
+namespace Physics
 {
-public:
-	virtual void rightHandSide(float time, const std::array<float, stateLength>& state,
-		std::array<float, stateLength>& stateDerivative) const = 0;
-	virtual ~RungeKuttaRightHandSide() = default;
+	template <std::size_t stateLength>
+	class RungeKuttaRightHandSide
+	{
+	public:
+		virtual void rightHandSide(float time, const std::array<float, stateLength>& state,
+			std::array<float, stateLength>& stateDerivative) const = 0;
+		virtual ~RungeKuttaRightHandSide() = default;
+	};
 };

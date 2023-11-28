@@ -1,34 +1,29 @@
 #pragma once
 
-//#include "graphics/submodel.hpp"
+#include "common/airplane_ctrl.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 
-class FlightCtrl
+namespace Physics
 {
-public:
-	FlightCtrl(/*Submodel& elevator, Submodel& rudder, Submodel& leftAileron,
-		Submodel& rightAileron, */const AirplaneParams& airplaneParams);
-	float getElevatorAngleRad() const;
-	void ctrlPitch(float relative);
-	float getRudderAngleRad() const;
-	void ctrlYaw(float relative);
-	float getAileronsAngleRad() const;
-	void ctrlRoll(float relative);
-	float getThrustRelative() const;
-	void ctrlThrust(float relative);
+	class FlightCtrl
+	{
+	public:
+		FlightCtrl(const AirplaneParams& airplaneParams);
+		float getElevatorAngleRad() const;
+		void ctrlPitch(float relative);
+		float getRudderAngleRad() const;
+		void ctrlYaw(float relative);
+		float getAileronsAngleRad() const;
+		void ctrlRoll(float relative);
+		float getThrustRelative() const;
+		void ctrlThrust(float relative);
+		Common::AirplaneCtrl getCtrl() const;
 	
-private:
-	//Submodel& m_elevator;
-	//Submodel& m_rudder;
-	//Submodel& m_leftAileron;
-	//Submodel& m_rightAileron;
+	private:
+		const AirplaneParams& m_airplaneParams;
+		Common::AirplaneCtrl m_airplaneCtrl;
 
-	const AirplaneParams& m_airplaneParams;
-	float m_elevatorAngleRad{};
-	float m_rudderAngleRad{};
-	float m_aileronsAngleRad{};
-	float m_thrustRelative{};
-
-	// converts linearly from [-1, 1] to [min, max]
-	float relativeToAbs(float relative, float min, float max) const;
+		// converts linearly from [-1, 1] to [min, max]
+		static float relativeToAbs(float relative, float min, float max);
+	};
 };

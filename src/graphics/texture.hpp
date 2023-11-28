@@ -2,16 +2,19 @@
 
 #include <string>
 
-class Texture
+namespace Graphics
 {
-public:
-	Texture(const std::string& path);
-	void use() const;
-	~Texture();
+	class Texture
+	{
+	public:
+		Texture(const std::string& path);
+		void use() const;
+		~Texture();
 
-private:
-	unsigned int m_id;
+	private:
+		unsigned int m_id;
 
-	void create();
-	void load(const std::string& path) const;
+		void create();
+		void load(const std::string& path) const;
+	};
 };

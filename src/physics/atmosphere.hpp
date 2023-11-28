@@ -1,9 +1,12 @@
 #pragma once
 
-class Atmosphere
+namespace Physics
 {
-public:
-	static constexpr float seaLevelAirDensity = 1.225f;
+	class Atmosphere
+	{
+	public:
+		static constexpr float seaLevelAirDensity = 1.225f;
 
-	static float airDensity(float height);
+		static float airDensity(float height);
+	};
 };

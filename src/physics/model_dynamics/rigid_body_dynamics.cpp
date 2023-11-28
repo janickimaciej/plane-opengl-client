@@ -1,54 +1,58 @@
 #include "physics/model_dynamics/rigid_body_dynamics.hpp"
 
+#include "common/state.hpp"
 #include "physics/runge_kutta.hpp"
-#include "state.hpp"
-#include "time.hpp"
+#include "physics/time.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
 #include <array>
 
-RigidBodyDynamics::RigidBodyDynamics(float mass, const glm::mat3& momentOfInertia) :
-	m_mass{mass},
-	m_momentOfInertia{momentOfInertia},
-	m_momentOfInertiaInverse{glm::inverse(momentOfInertia)}
-{ }
-
-void RigidBodyDynamics::rightHandSide(float, const std::array<float, State::stateLength>& state,
-	std::array<float, State::stateLength>& stateDerivative) const
+namespace Physics
 {
-	State stateObj{state};
-	State stateDerivativeObj{};
+	RigidBodyDynamics::RigidBodyDynamics(float mass, const glm::mat3& momentOfInertia) :
+		m_mass{mass},
+		m_momentOfInertia{momentOfInertia},
+		m_momentOfInertiaInverse{glm::inverse(momentOfInertia)}
+	{ }
 
-	glm::vec3 netForce{};
-	glm::vec3 netTorque{};
-	computeNetForceAndNetTorque(stateObj, netForce, netTorque);
+	void RigidBodyDynamics::rightHandSide(float,
+		const std::array<float, Common::State::stateLength>& state,
+		std::array<float, Common::State::stateLength>& stateDerivative) const
+	{
+		Common::State stateObj{state};
+		Common::State stateDerivativeObj{};
 
-	stateDerivativeObj.position = stateObj.orientation * stateObj.velocity;
+		glm::vec3 netForce{};
+		glm::vec3 netTorque{};
+		computeNetForceAndNetTorque(stateObj, netForce, netTorque);
 
-	stateDerivativeObj.orientation = stateObj.orientation * glm::quat{0, stateObj.angVelocityRad} /
-		(float)2;
+		stateDerivativeObj.position = stateObj.orientation * stateObj.velocity;
 
-	stateDerivativeObj.velocity = netForce / m_mass - glm::cross(stateObj.angVelocityRad,
-		stateObj.velocity);
+		stateDerivativeObj.orientation = stateObj.orientation *
+			glm::quat{0, stateObj.angVelocityRad} / (float)2;
 
-	stateDerivativeObj.angVelocityRad = m_momentOfInertiaInverse * (netTorque -
-		glm::cross(stateObj.angVelocityRad, m_momentOfInertia * stateObj.angVelocityRad));
+		stateDerivativeObj.velocity = netForce / m_mass - glm::cross(stateObj.angVelocityRad,
+			stateObj.velocity);
 
-	stateDerivativeObj.toArr(stateDerivative);
-}
+		stateDerivativeObj.angVelocityRad = m_momentOfInertiaInverse * (netTorque -
+			glm::cross(stateObj.angVelocityRad, m_momentOfInertia * stateObj.angVelocityRad));
 
-State RigidBodyDynamics::computeNewState(const State& oldState) const
-{
-	std::array<float, State::stateLength> oldStateArr{};
-	oldState.toArr(oldStateArr);
+		stateDerivativeObj.toArray(stateDerivative);
+	}
+
+	Common::State RigidBodyDynamics::computeNewState(const Common::State& oldState) const
+	{
+		std::array<float, Common::State::stateLength> oldStateArr{};
+		oldState.toArray(oldStateArr);
 	
-	std::array<float, State::stateLength> newStateArr{};
-	RungeKutta<State::stateLength>::RK4(0, Time::getDeltaTime(), oldStateArr, *this, newStateArr);
+		std::array<float, Common::State::stateLength> newStateArr{};
+		RungeKutta<Common::State::stateLength>::RK4(0, physicsTimeStep, oldStateArr, *this, newStateArr);
 
-	State newState{newStateArr};
-	newState.normalize();
+		Common::State newState{newStateArr};
+		newState.normalize();
 
-	return newState;
-}
+		return newState;
+	}
+};
