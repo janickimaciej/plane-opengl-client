@@ -60,6 +60,7 @@
     <ClCompile Include="src\physics\airplane_params\airplane_params.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
     <ClCompile Include="src\common\state.cpp" />
+    <ClCompile Include="src\physics\simulation_buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\stb_image.h" />

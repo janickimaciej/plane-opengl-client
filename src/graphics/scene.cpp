@@ -32,8 +32,8 @@ namespace Graphics
 			textureManager, airplaneTypeDatabase[static_cast<std::size_t>(ownAirplaneTypeName)]}});
 
 		constexpr float FoVDeg = 60;
-		constexpr float nearPlane = 0.01f;
-		constexpr float farPlane = 1000;
+		constexpr float nearPlane = 1;
+		constexpr float farPlane = 10000;
 		m_camera = std::make_unique<ModelCamera>(FoVDeg, nearPlane, farPlane,
 			surfaceShaderProgram, lightShaderProgram, m_airplanes.at(ownId));
 		constexpr float cameraPitchDeg = -10;

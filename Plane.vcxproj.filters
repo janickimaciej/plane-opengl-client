@@ -42,6 +42,7 @@
     <ClCompile Include="src\physics\scene.cpp" />
     <ClCompile Include="src\physics\airplane_params_database\mustang.cpp" />
     <ClCompile Include="src\graphics\time.cpp" />
+    <ClCompile Include="src\physics\simulation_buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\cameras\camera.hpp" />

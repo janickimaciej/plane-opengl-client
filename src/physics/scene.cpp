@@ -19,10 +19,10 @@ namespace Physics
 	}
 
 	void Scene::updateWithStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, Common::UserInfo>& users)
+		const std::unordered_map<int, Common::UserInfo>& userInfos)
 	{
-		removeAirplanesWithStateFrame(users);
-		addAndUpdateAirplanesWithStateFrame(users);
+		removeAirplanesWithStateFrame(userInfos);
+		addAndUpdateAirplanesWithStateFrame(userInfos);
 		updateCommon(previousScene);
 	}
 
