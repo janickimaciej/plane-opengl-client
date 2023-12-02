@@ -11,6 +11,41 @@
 
 namespace Physics
 {
+	void SimulationBuffer::writeControlFrame(int second, unsigned int frame, int id,
+		const Common::UserInput& input)
+	{
+		m_buffer[frame].mutex.lock();
+
+		if (!m_buffer[frame].userInfos.contains(id))
+		{
+			m_buffer[frame].userInfos.insert({id, Common::UserInfo
+				{
+					second,
+					input,
+					Common::UserState{}
+				}});
+		}
+		else if (m_buffer[frame].userInfos.at(id).second != second)
+		{
+			m_buffer[frame].userInfos.at(id).input = input;
+			m_buffer[frame].userInfos.at(id).second = second;
+		}
+
+		m_buffer[frame].mutex.unlock();
+	}
+
+	void SimulationBuffer::writeStateFrame(unsigned int frame,
+		const std::unordered_map<int, Common::UserInfo>& userInfos)
+	{
+		m_buffer[frame].mutex.lock();
+
+		removeUserInputs(frame, userInfos);
+		addAndUpdateUserInputs(frame, userInfos);
+		m_buffer[frame].hasStateFrame = true;
+
+		m_buffer[frame].mutex.unlock();
+	}
+
 	void SimulationBuffer::setOwnInput(int second, unsigned int frame,
 		const Common::UserInput& ownInput)
 	{
@@ -31,50 +66,63 @@ namespace Physics
 
 		m_buffer[previousFrame].mutex.lock();
 		m_buffer[frame].mutex.lock();
-
-		updateUserInputs(second, previousFrame, frame);
+		
+		if (!m_buffer[frame].hasStateFrame)
+		{
+			removeUserInputs(previousFrame, frame);
+			addAndUpdateUserInputs(second, previousFrame, frame);
+		}
 		std::unordered_map<int, Common::UserInfo> userInfos = m_buffer[frame].userInfos;
 		bool hasStateFrame = m_buffer[frame].hasStateFrame;
 		m_buffer[frame].hasStateFrame = false;
-
-		m_buffer[frame].mutex.unlock();
+		
 		m_buffer[previousFrame].mutex.unlock();
+		m_buffer[frame].mutex.unlock();
 
 		updateScene(previousFrame, frame, userInfos, hasStateFrame);
 	}
 
-	void SimulationBuffer::updateUserInputs(int second, unsigned int previousFrame,
+	void SimulationBuffer::removeUserInputs(unsigned int previousFrame, unsigned int frame)
+	{
+		std::vector<int> keysToBeDeleted;
+		for (const std::pair<const int, Common::UserInfo>& userInfo : m_buffer[frame].userInfos)
+		{
+			if (!m_buffer[previousFrame].userInfos.contains(userInfo.first))
+			{
+				keysToBeDeleted.push_back(userInfo.first);
+			}
+		}
+		for (int key : keysToBeDeleted)
+		{
+			m_buffer[frame].userInfos.erase(key);
+		}
+	}
+
+	void SimulationBuffer::addAndUpdateUserInputs(int second, unsigned int previousFrame,
 		unsigned int frame)
 	{
-		if (!m_buffer[frame].hasStateFrame)
+		for (const std::pair<const int, Common::UserInfo>& previousUserInfo :
+			m_buffer[previousFrame].userInfos)
 		{
-			std::vector<int> keysToBeDeleted;
-			for (const std::pair<const int, Common::UserInfo>& userInfo : m_buffer[frame].userInfos)
+			if (!m_buffer[frame].userInfos.contains(previousUserInfo.first))
 			{
-				if (!m_buffer[previousFrame].userInfos.contains(userInfo.first))
-				{
-					keysToBeDeleted.push_back(userInfo.first);
-				}
+				m_buffer[frame].userInfos.insert({previousUserInfo.first, Common::UserInfo
+					{
+						-1,
+						previousUserInfo.second.input,
+						Common::UserState{}
+					}});
 			}
-			for (int key : keysToBeDeleted)
+			else if (m_buffer[frame].userInfos[previousUserInfo.first].second != second)
 			{
-				m_buffer[frame].userInfos.erase(key);
-			}
-
-			for (const std::pair<const int, Common::UserInfo>& previousUserInfo :
-				m_buffer[previousFrame].userInfos)
-			{
-				if (m_buffer[frame].userInfos[previousUserInfo.first].second != second)
-				{
-					m_buffer[frame].userInfos[previousUserInfo.first].input =
-						previousUserInfo.second.input;
-				}
+				m_buffer[frame].userInfos[previousUserInfo.first].input =
+					previousUserInfo.second.input;
 			}
 		}
 	}
 
 	void SimulationBuffer::updateScene(unsigned int previousFrame, unsigned int frame,
-		std::unordered_map<int, Common::UserInfo> userInfos, bool hasStateFrame)
+		const std::unordered_map<int, Common::UserInfo>& userInfos, bool hasStateFrame)
 	{
 		if (hasStateFrame)
 		{
@@ -84,6 +132,33 @@ namespace Physics
 		{
 			m_buffer[frame].scene->updateWithoutStateFrame(*m_buffer[previousFrame].scene,
 				userInfos);
+		}
+	}
+
+	void SimulationBuffer::removeUserInputs(unsigned int frame,
+		const std::unordered_map<int, Common::UserInfo>& userInfos)
+	{
+		std::vector<int> keysToBeDeleted;
+		for (const std::pair<const int, Common::UserInfo>& bufferUserInfo :
+			m_buffer[frame].userInfos)
+		{
+			if (!userInfos.contains(bufferUserInfo.first))
+			{
+				keysToBeDeleted.push_back(bufferUserInfo.first);
+			}
+		}
+		for (int key : keysToBeDeleted)
+		{
+			m_buffer[frame].userInfos.erase(key);
+		}
+	}
+
+	void SimulationBuffer::addAndUpdateUserInputs(unsigned int frame,
+		const std::unordered_map<int, Common::UserInfo>& userInfos)
+	{
+		for (const std::pair<const int, Common::UserInfo>& frameUserInfo : userInfos)
+		{
+			m_buffer[frame].userInfos[frameUserInfo.first] = frameUserInfo.second;
 		}
 	}
 };

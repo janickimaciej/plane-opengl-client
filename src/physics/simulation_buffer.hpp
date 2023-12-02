@@ -12,6 +12,11 @@ namespace Physics
 	class SimulationBuffer
 	{
 	public:
+		void writeControlFrame(int second, unsigned int frame, int id,
+			const Common::UserInput& input);
+		void writeStateFrame(unsigned int frame,
+			const std::unordered_map<int, Common::UserInfo>& userInfos);
+
 		void setOwnInput(int second, unsigned int frame, const Common::UserInput& ownInput);
 		void update(int second, unsigned int frame);
 
@@ -20,8 +25,14 @@ namespace Physics
 		std::array<SimulationBufferElement, bufferSize> m_buffer;
 		int m_ownId{};
 
-		void updateUserInputs(int second, unsigned int previousFrame, unsigned int frame);
+		void removeUserInputs(unsigned int previousFrame, unsigned int frame);
+		void addAndUpdateUserInputs(int second, unsigned int previousFrame, unsigned int frame);
 		void updateScene(unsigned int previousFrame, unsigned int frame,
-			std::unordered_map<int, Common::UserInfo> userInfos, bool hasStateFrame);
+			const std::unordered_map<int, Common::UserInfo>& userInfos, bool hasStateFrame);
+
+		void removeUserInputs(unsigned int frame,
+			const std::unordered_map<int, Common::UserInfo>& userInfos);
+		void addAndUpdateUserInputs(unsigned int frame,
+			const std::unordered_map<int, Common::UserInfo>& userInfos);
 	};
 };
