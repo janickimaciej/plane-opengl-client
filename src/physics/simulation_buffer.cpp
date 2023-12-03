@@ -11,6 +11,10 @@
 
 namespace Physics
 {
+	SimulationBuffer::SimulationBuffer(int ownId) :
+		m_ownId{ownId}
+	{ }
+
 	void SimulationBuffer::writeControlFrame(int second, unsigned int frame, int id,
 		const Common::UserInput& input)
 	{
@@ -82,6 +86,33 @@ namespace Physics
 		updateScene(previousFrame, frame, userInfos, hasStateFrame);
 	}
 
+	void SimulationBuffer::removeUserInputs(unsigned int frame,
+		const std::unordered_map<int, Common::UserInfo>& userInfos)
+	{
+		std::vector<int> keysToBeDeleted;
+		for (const std::pair<const int, Common::UserInfo>& bufferUserInfo :
+			m_buffer[frame].userInfos)
+		{
+			if (!userInfos.contains(bufferUserInfo.first))
+			{
+				keysToBeDeleted.push_back(bufferUserInfo.first);
+			}
+		}
+		for (int key : keysToBeDeleted)
+		{
+			m_buffer[frame].userInfos.erase(key);
+		}
+	}
+
+	void SimulationBuffer::addAndUpdateUserInputs(unsigned int frame,
+		const std::unordered_map<int, Common::UserInfo>& userInfos)
+	{
+		for (const std::pair<const int, Common::UserInfo>& frameUserInfo : userInfos)
+		{
+			m_buffer[frame].userInfos[frameUserInfo.first] = frameUserInfo.second;
+		}
+	}
+
 	void SimulationBuffer::removeUserInputs(unsigned int previousFrame, unsigned int frame)
 	{
 		std::vector<int> keysToBeDeleted;
@@ -132,33 +163,6 @@ namespace Physics
 		{
 			m_buffer[frame].scene->updateWithoutStateFrame(*m_buffer[previousFrame].scene,
 				userInfos);
-		}
-	}
-
-	void SimulationBuffer::removeUserInputs(unsigned int frame,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
-	{
-		std::vector<int> keysToBeDeleted;
-		for (const std::pair<const int, Common::UserInfo>& bufferUserInfo :
-			m_buffer[frame].userInfos)
-		{
-			if (!userInfos.contains(bufferUserInfo.first))
-			{
-				keysToBeDeleted.push_back(bufferUserInfo.first);
-			}
-		}
-		for (int key : keysToBeDeleted)
-		{
-			m_buffer[frame].userInfos.erase(key);
-		}
-	}
-
-	void SimulationBuffer::addAndUpdateUserInputs(unsigned int frame,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
-	{
-		for (const std::pair<const int, Common::UserInfo>& frameUserInfo : userInfos)
-		{
-			m_buffer[frame].userInfos[frameUserInfo.first] = frameUserInfo.second;
 		}
 	}
 };

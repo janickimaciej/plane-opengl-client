@@ -1,15 +1,18 @@
 #include "graphics/scene.hpp"
 
 #include "common/airplane_type_name.hpp"
-#include "common/state.hpp"
 #include "common/sync/airplane_info.hpp"
 #include "graphics/airplane_types_database.hpp"
+#include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/cameras/model_camera.hpp"
+#include "graphics/maps/map.hpp"
+#include "graphics/maps/map_name.hpp"
+#include "graphics/mesh.hpp"
+#include "graphics/models/airplane.hpp"
+#include "graphics/shader_program.hpp"
+#include "graphics/texture.hpp"
 #include "graphics/world_shading.hpp"
-#include "maps/map.hpp"
-#include "maps/map_name.hpp"
-#include "models/airplane.hpp"
 
 #include <cstddef>
 #include <memory>
@@ -19,30 +22,25 @@
 
 namespace Graphics
 {
-	Scene::Scene(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager,
-		int ownId, Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName) :
-		m_worldShading{surfaceShaderProgram, lightShaderProgram},
-		m_surfaceShaderProgram{surfaceShaderProgram},
-		m_lightShaderProgram{lightShaderProgram},
-		m_meshManager{meshManager},
-		m_textureManager{textureManager}
+	Scene::Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName) :
+		m_worldShading{m_surfaceShaderProgram, m_lightShaderProgram}
 	{
-		m_airplanes.insert({ownId, Airplane{surfaceShaderProgram, lightShaderProgram, meshManager,
-			textureManager, airplaneTypeDatabase[static_cast<std::size_t>(ownAirplaneTypeName)]}});
+		m_airplanes.insert({ownId, Airplane{m_surfaceShaderProgram, m_lightShaderProgram,
+			m_meshManager, m_textureManager,
+			airplaneTypeDatabase[static_cast<std::size_t>(ownAirplaneTypeName)]}});
 
 		constexpr float FoVDeg = 60;
 		constexpr float nearPlane = 1;
 		constexpr float farPlane = 10000;
 		m_camera = std::make_unique<ModelCamera>(FoVDeg, nearPlane, farPlane,
-			surfaceShaderProgram, lightShaderProgram, m_airplanes.at(ownId));
+			m_surfaceShaderProgram, m_lightShaderProgram, m_airplanes.at(ownId));
 		constexpr float cameraPitchDeg = -10;
 		constexpr glm::vec3 cameraPosition{0, 4, 16};
 		m_camera->rotatePitch(cameraPitchDeg);
 		m_camera->translate(cameraPosition);
 
-		m_map = Map::createMap(mapName, m_worldShading, surfaceShaderProgram,
-			lightShaderProgram, meshManager, textureManager);
+		m_map = Map::createMap(mapName, m_worldShading, m_surfaceShaderProgram,
+			m_lightShaderProgram, m_meshManager, m_textureManager);
 	}
 
 	void Scene::update(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos, int day,
