@@ -17,6 +17,8 @@ namespace Graphics
 	public:
 		Submodel(const ShaderProgram& shaderProgram, const std::shared_ptr<const Mesh>& mesh,
 			const Material& material, const std::shared_ptr<const Texture>& texture = nullptr);
+		Submodel(const Submodel& submodel);
+		Submodel(Submodel&& submodel) noexcept;
 		void render(const glm::mat4& modelMatrix) const;
 		void scale(float scaleRatio);
 		glm::mat4 getMatrix() const;

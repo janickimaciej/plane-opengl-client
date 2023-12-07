@@ -19,7 +19,7 @@ namespace Graphics
 			AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager,
 			const AirplaneType& airplaneType);
 		Airplane(const Airplane&);
-		Airplane(Airplane&&) = default;
+		Airplane(Airplane&&) noexcept;
 		virtual void updateShaders() override;
 		void setCtrl(const Common::AirplaneCtrl& airplaneCtrl);
 		virtual ~Airplane() = default;

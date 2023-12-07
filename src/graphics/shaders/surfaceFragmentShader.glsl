@@ -1,7 +1,7 @@
 #version 330 core
 
 #define SPOT_LIGHTS_COUNT 18
-#define DIRECTIONAL_LIGHTS_COUNT 1
+#define DIRECTIONAL_LIGHTS_COUNT 2
 #define EPS 1e-9
 
 // ... – vector in global coordinate system

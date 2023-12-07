@@ -2,7 +2,7 @@
 
 #include "common/state.hpp"
 #include "physics/runge_kutta.hpp"
-#include "physics/time.hpp"
+#include "physics/simulation_clock.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>

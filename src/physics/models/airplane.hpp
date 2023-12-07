@@ -16,8 +16,8 @@ namespace Physics
 	{
 	public:
 		Airplane(const Common::AirplaneTypeName& airplaneTypeName);
-		Airplane(const Airplane&) = default;
-		Airplane(Airplane&&) = default;
+		Airplane(const Airplane& airplane);
+		Airplane(Airplane&& airplane) noexcept;
 		void update(const Airplane& previousAirplane);
 		Common::AirplaneTypeName getAirplaneTypeName() const;
 		Common::AirplaneCtrl getCtrl() const;
@@ -26,7 +26,7 @@ namespace Physics
 
 	private:
 		Common::AirplaneTypeName m_airplaneTypeName;
-		AirplaneParams m_airplaneParams;
+		const AirplaneParams& m_airplaneParams;
 		FlightCtrl m_flightCtrl;
 		AirplaneDynamics m_dynamics;
 	};

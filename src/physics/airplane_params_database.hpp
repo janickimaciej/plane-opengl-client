@@ -2,13 +2,12 @@
 
 #include "common/airplane_type_name.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
+#include "physics/airplane_params_database/mustang.hpp"
 
 #include <array>
 
 namespace Physics
 {
-	extern const AirplaneParams mustangParams;
-
 	inline const std::array<AirplaneParams, Common::airplaneTypeCount> airplaneParamsDatabase
 	{
 		mustangParams

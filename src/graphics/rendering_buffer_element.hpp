@@ -8,8 +8,8 @@ namespace Graphics
 {
 	struct RenderingBufferElement
 	{
-		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos;
-		int day;
-		float timeOfDay;
+		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos{};
+		int day{};
+		float timeOfDay{};
 	};
 };

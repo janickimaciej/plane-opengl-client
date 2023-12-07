@@ -24,6 +24,7 @@ namespace Graphics
 		if (!file)
 		{
 			std::cerr << "File does not exist:\n" << path << '\n';
+			assert(false);
 			return;
 		}
 

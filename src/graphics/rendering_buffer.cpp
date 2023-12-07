@@ -7,21 +7,27 @@
 #include <array>
 #include <mutex>
 #include <unordered_map>
+#include <iostream> //tmp
 
 namespace Graphics
 {
-	RenderingBuffer::RenderingBuffer(int ownId, Common::AirplaneTypeName ownAirplaneTypeName,
-		MapName mapName) :
-		m_scene{ownId, ownAirplaneTypeName, mapName}
+	RenderingBuffer::RenderingBuffer(int ownId) :
+		m_ownId{ownId}
 	{ }
+
+	void RenderingBuffer::initialize(Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName)
+	{
+		m_scene = std::make_unique<Scene>(m_ownId, ownAirplaneTypeName, mapName);
+	}
 
 	void RenderingBuffer::updateBuffer(
 		const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos)
 	{
 		m_mutex.lock();
 
-		int index = (m_lastUpdated + 1) % 3 == m_rendered ? (m_rendered + 1) % 3 :
-			(m_lastUpdated + 1) % 3;
+		unsigned int index = (m_lastUpdated + 1) % 3 == m_beingRendered ?
+			(m_beingRendered + 1) % 3 : (m_lastUpdated + 1) % 3;
+		//std::cout << index << " UPDATE" << std::endl; //tmp
 
 		m_mutex.unlock();
 
@@ -38,14 +44,15 @@ namespace Graphics
 	{
 		m_mutex.lock();
 
-		int index = m_lastUpdated;
-		m_rendered = index;
+		unsigned int index = m_lastUpdated;
+		m_beingRendered = index;
+		//std::cout << index << "\t RENDER " << std::endl;//tmp
 
 		m_mutex.unlock();
 
-		m_scene.update(m_buffer[index].airplaneInfos, m_buffer[index].day,
+		m_scene->update(m_buffer[index].airplaneInfos, m_buffer[index].day,
 			m_buffer[index].timeOfDay);
-		m_scene.updateShaders(aspectRatio);
-		m_scene.render();
+		m_scene->updateShaders(aspectRatio);
+		m_scene->render();
 	}
 };

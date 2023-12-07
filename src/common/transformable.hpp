@@ -20,12 +20,13 @@ namespace Common
 		virtual void rotateYaw(float angleDeg); // locally
 		virtual void rotateRoll(float angleDeg); // locally
 		virtual void moveZ(float distance); // locally
+
+		virtual ~Transformable() = default;
 	
 	protected:
 		Transformable();
 		glm::mat4 getMatrix() const;
 		virtual void scale(float scaleRatio); // locally
-		virtual ~Transformable() = default;
 
 	private:
 		State m_state{};

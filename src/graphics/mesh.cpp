@@ -37,8 +37,8 @@ namespace Graphics
 		glGenVertexArrays(1, &m_VAO);
 		glBindVertexArray(m_VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(vertices.size() * sizeof(Vertex)), vertices.data(),
-			GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(vertices.size() * sizeof(Vertex)),
+			vertices.data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 			(void*)offsetof(Vertex, position));
 		glEnableVertexAttribArray(0);

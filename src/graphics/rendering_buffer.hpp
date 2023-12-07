@@ -7,6 +7,7 @@
 #include "graphics/scene.hpp"
 
 #include <array>
+#include <memory>
 #include <mutex>
 #include <unordered_map>
 
@@ -15,7 +16,8 @@ namespace Graphics
 	class RenderingBuffer
 	{
 	public:
-		RenderingBuffer(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName);
+		RenderingBuffer(int ownId);
+		void initialize(Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName);
 
 		void updateBuffer(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos);
 
@@ -23,11 +25,12 @@ namespace Graphics
 
 	private:
 		static const int bufferSize = 3;
-		std::array<RenderingBufferElement, bufferSize> m_buffer;
-		Scene m_scene;
+		std::array<RenderingBufferElement, bufferSize> m_buffer{};
+		int m_ownId{};
+		std::unique_ptr<Scene> m_scene{};
 
-		int m_lastUpdated{};
-		int m_rendered{};
-		std::mutex m_mutex;
+		unsigned int m_lastUpdated{};
+		unsigned int m_beingRendered{};
+		std::mutex m_mutex{};
 	};
 };

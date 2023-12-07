@@ -21,7 +21,10 @@ namespace Graphics
 		float m_attenuationConstant{};
 		glm::vec3 m_color{};
 
-		Light(unsigned int id, const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
-			float attenuationLinear, float attenuationConstant, const glm::vec3& color);
+		Light(unsigned int id, const ShaderProgram& surfaceShaderProgram,
+			float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
+			const glm::vec3& color);
+		Light(const Light& light) = default;
+		Light(Light&& light) = default;
 	};
 };

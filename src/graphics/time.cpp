@@ -2,25 +2,25 @@
 
 #include <glfw/glfw3.h>
 
+#include <chrono>
+
 namespace Graphics
 {
-	void Time::initializeTime()
+	void Time::initialize()
 	{
-		updateTime();
+		update();
 	}
 
-	void Time::updateTime()
+	void Time::update()
 	{
-		float currentTime = (float)glfwGetTime();
-		s_deltaTime = currentTime - s_time;
-		s_time = currentTime;
+		std::chrono::time_point<std::chrono::system_clock> currentTime =
+			std::chrono::system_clock::now();
+		m_deltaTime = currentTime - m_time;
+		m_time = currentTime;
 	}
 
-	float Time::getDeltaTime()
+	int Time::getFPS()
 	{
-		return s_deltaTime;
+		return static_cast<int>(1.0f / m_deltaTime.count() + 0.5f);
 	}
-
-	float Time::s_time{};
-	float Time::s_deltaTime{};
 };

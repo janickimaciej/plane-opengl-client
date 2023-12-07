@@ -3,6 +3,5 @@
 /x64/
 *.exe
 
-/dep/*
-!/dep/stb_image.cpp
+/dep/
 /res/

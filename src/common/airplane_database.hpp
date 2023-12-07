@@ -8,8 +8,8 @@
 
 namespace Common
 {
-	constexpr std::array<glm::vec3, airplaneTypeCount> airplaneCenterOfMassDatabase
+	inline constexpr std::array<glm::vec3, airplaneTypeCount> airplaneCenterOfMassDatabase
 	{
-		glm::vec3{0, 0, 4.05f}
+		glm::vec3{0, 0, 4.15f}
 	};
 };

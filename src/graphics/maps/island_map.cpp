@@ -17,24 +17,27 @@ namespace Graphics
 	IslandMap::IslandMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
 		AssetManager<const Texture>& textureManager) :
+		m_airport{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager},
 		m_zeppelin{surfaceShaderProgram, lightShaderProgram, meshManager},
 		m_moon{surfaceShaderProgram, lightShaderProgram, moonLight},
 		m_sun{surfaceShaderProgram, lightShaderProgram, sunLight},
 		m_dayNightCycle{m_moon, m_sun, worldShading, surfaceShaderProgram, lightShaderProgram}
 	{
-		textureManager; //tmp (warning suppression)
+		setModels();
 	}
 
 	void IslandMap::setModels()
 	{
+		m_airport.scale(10);
+
+		constexpr glm::vec3 zeppelinPosition{100, 150, -250};
+		m_zeppelin.translate(zeppelinPosition);
+
 		constexpr float moonRotationPitch = -45;
 		m_moon.rotatePitch(moonRotationPitch);
 
 		constexpr float sunRotationPitch = -90;
 		m_sun.rotatePitch(sunRotationPitch);
-
-		constexpr glm::vec3 zeppelinPosition{100, 150, -250};
-		m_zeppelin.translate(zeppelinPosition);
 	}
 
 	void IslandMap::update(int day, float timeOfDay)
@@ -46,11 +49,15 @@ namespace Graphics
 
 	void IslandMap::updateShaders()
 	{
+		m_airport.updateShaders();
 		m_zeppelin.updateShaders();
+		m_moon.updateShaders();
+		m_sun.updateShaders();
 	}
 
 	void IslandMap::render() const
 	{
+		m_airport.render();
 		m_zeppelin.render();
 	}
 

@@ -20,6 +20,22 @@ namespace Graphics
 		m_texture{texture}
 	{ }
 
+	Submodel::Submodel(const Submodel& submodel) :
+		Transformable{submodel},
+		m_shaderProgram{submodel.m_shaderProgram},
+		m_mesh{submodel.m_mesh},
+		m_material{submodel.m_material},
+		m_texture{submodel.m_texture}
+	{ }
+
+	Submodel::Submodel(Submodel&& submodel) noexcept :
+		Transformable{submodel},
+		m_shaderProgram{submodel.m_shaderProgram},
+		m_mesh{submodel.m_mesh},
+		m_material{submodel.m_material},
+		m_texture{submodel.m_texture}
+	{ }
+
 	void Submodel::render(const glm::mat4& modelMatrix) const
 	{
 		updateShaders(modelMatrix * getMatrix());

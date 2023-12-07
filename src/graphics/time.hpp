@@ -1,18 +1,18 @@
 #pragma once
 
+#include <chrono>
+
 namespace Graphics
 {
 	class Time
 	{
 	public:
-		Time() = delete;
-		static void initializeTime();
-		static void updateTime();
-		static float getDeltaTime();
-		~Time() = delete;
+		void initialize();
+		void update();
+		int getFPS();
 	
 	private:
-		static float s_time;
-		static float s_deltaTime;
+		std::chrono::time_point<std::chrono::system_clock> m_time{};
+		std::chrono::duration<float> m_deltaTime{};
 	};
 };

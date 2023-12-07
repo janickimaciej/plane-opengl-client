@@ -55,7 +55,12 @@ namespace Physics
 	{
 		m_buffer[frame].mutex.lock();
 
-		if (m_buffer[frame].userInfos.at(m_ownId).second != second)
+		if (!m_buffer[frame].userInfos.contains(m_ownId))
+		{
+			m_buffer[frame].userInfos.insert({m_ownId,
+				Common::UserInfo{second, ownInput, Common::UserState{}}});
+		}
+		else if (m_buffer[frame].userInfos.at(m_ownId).second != second)
 		{
 			m_buffer[frame].userInfos.at(m_ownId).input = ownInput;
 			m_buffer[frame].userInfos.at(m_ownId).second = second;
@@ -66,7 +71,7 @@ namespace Physics
 
 	void SimulationBuffer::update(int second, unsigned int frame)
 	{
-		unsigned int previousFrame = frame == 0 ? bufferSize - 1 : frame - 1;
+		unsigned int previousFrame = frame == 0 ? simulationBufferSize - 1 : frame - 1;
 
 		m_buffer[previousFrame].mutex.lock();
 		m_buffer[frame].mutex.lock();
@@ -84,6 +89,19 @@ namespace Physics
 		m_buffer[frame].mutex.unlock();
 
 		updateScene(previousFrame, frame, userInfos, hasStateFrame);
+	}
+
+	std::unordered_map<int, Common::AirplaneInfo> SimulationBuffer::getAirplaneInfos(
+		unsigned int frame)
+	{
+		m_buffer[frame].mutex.lock();
+
+		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
+			m_buffer[frame].scene.getAirplaneInfos();
+
+		m_buffer[frame].mutex.unlock();
+
+		return airplaneInfos;
 	}
 
 	void SimulationBuffer::removeUserInputs(unsigned int frame,
@@ -157,11 +175,11 @@ namespace Physics
 	{
 		if (hasStateFrame)
 		{
-			m_buffer[frame].scene->updateWithStateFrame(*m_buffer[previousFrame].scene, userInfos);
+			m_buffer[frame].scene.updateWithStateFrame(m_buffer[previousFrame].scene, userInfos);
 		}
 		else
 		{
-			m_buffer[frame].scene->updateWithoutStateFrame(*m_buffer[previousFrame].scene,
+			m_buffer[frame].scene.updateWithoutStateFrame(m_buffer[previousFrame].scene,
 				userInfos);
 		}
 	}

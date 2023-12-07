@@ -12,6 +12,8 @@ namespace Graphics
 	{
 	public:
 		ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+		ShaderProgram(const ShaderProgram&) = delete;
+		ShaderProgram(ShaderProgram&&) = delete;
 		void use() const;
 		void setUniform1b(const std::string& name, bool value) const;
 		void setUniform1i(const std::string& name, int value) const;

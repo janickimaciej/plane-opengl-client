@@ -4,6 +4,7 @@
 #include "graphics/day_night_cycle.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/mesh.hpp"
+#include "graphics/models/airport.hpp"
 #include "graphics/models/directional_light_model.hpp"
 #include "graphics/models/zeppelin.hpp"
 #include "graphics/shader_program.hpp"
@@ -25,6 +26,7 @@ namespace Graphics
 		virtual ~IslandMap() = default;
 
 	private:
+		Airport m_airport;
 		Zeppelin m_zeppelin;
 
 		DirectionalLightModel m_moon;

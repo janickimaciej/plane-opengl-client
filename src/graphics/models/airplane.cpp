@@ -62,7 +62,18 @@ namespace Graphics
 	}
 
 	Airplane::Airplane(const Airplane& airplane) :
-		Model{airplane.m_surfaceShaderProgram, m_lightShaderProgram},
+		Model{airplane.m_surfaceShaderProgram, airplane.m_lightShaderProgram},
+		m_cap{airplane.m_cap},
+		m_propeller{airplane.m_propeller},
+		m_body{airplane.m_body},
+		m_joins{airplane.m_joins},
+		m_tires{airplane.m_tires},
+		m_leftLight{airplane.m_leftLight},
+		m_rightLight{airplane.m_rightLight}
+	{ }
+
+	Airplane::Airplane(Airplane&& airplane) noexcept :
+		Model{airplane.m_surfaceShaderProgram, airplane.m_lightShaderProgram},
 		m_cap{airplane.m_cap},
 		m_propeller{airplane.m_propeller},
 		m_body{airplane.m_body},
@@ -80,15 +91,14 @@ namespace Graphics
 
 	void Airplane::setCtrl(const Common::AirplaneCtrl& airplaneCtrl)
 	{
-		airplaneCtrl; //tmp (warning suppression)
-		//m_elevator.resetRotation();
-		//m_elevator.pitch(-m_airplaneCtrl.elevatorAngleRad);
-		//m_rudder.resetRotation();
-		//m_rudder.yaw(m_airplaneCtrl.rudderAngleRad);
-		//m_leftAileron.resetRotation();
-		//m_leftAileron.pitch(m_airplaneCtrl.aileronsAngleRad);
-		//m_rightAileron.resetRotation();
-		//m_rightAileron.pitch(-m_airplaneCtrl.aileronsAngleRad);
+		/*m_elevator.resetRotation(); //tmpc
+		m_elevator.pitch(-m_airplaneCtrl.elevatorAngleRad);
+		m_rudder.resetRotation();
+		m_rudder.yaw(m_airplaneCtrl.rudderAngleRad);
+		m_leftAileron.resetRotation();
+		m_leftAileron.pitch(m_airplaneCtrl.aileronsAngleRad);
+		m_rightAileron.resetRotation();
+		m_rightAileron.pitch(-m_airplaneCtrl.aileronsAngleRad);*/ //tmpc
 	}
 
 	void Airplane::renderSurfaces() const

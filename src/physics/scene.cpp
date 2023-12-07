@@ -31,11 +31,13 @@ namespace Physics
 		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos;
 		for (const std::pair<const int, Airplane>& airplane : m_airplanes)
 		{
-			Common::AirplaneInfo airplaneInfo{};
-			airplaneInfo.state = airplane.second.getState();
-			airplaneInfo.airplaneCtrl = airplane.second.getCtrl();
-			airplaneInfo.airplaneTypeName = airplane.second.getAirplaneTypeName();
-			airplaneInfos.insert({airplane.first, airplaneInfo});
+			airplaneInfos.insert({airplane.first,
+				Common::AirplaneInfo
+				{
+					airplane.second.getState(),
+					airplane.second.getCtrl(),
+					airplane.second.getAirplaneTypeName()
+				}});
 		}
 		return airplaneInfos;
 	}
@@ -74,7 +76,7 @@ namespace Physics
 	void Scene::removeAirplanesWithStateFrame(
 		const std::unordered_map<int, Common::UserInfo>& userInfos)
 	{
-		std::vector<int> keysToBeDeleted;
+		std::vector<int> keysToBeDeleted{};
 		for (const std::pair<const int, Airplane>& airplane : m_airplanes)
 		{
 			if (!userInfos.contains(airplane.first))

@@ -25,7 +25,6 @@
     <ClCompile Include="src\physics\airplane_params\airplane_params.cpp" />
     <ClCompile Include="dep\stb_image.cpp" />
     <ClCompile Include="dep\glad.c" />
-    <ClCompile Include="src\graphics\paths.cpp" />
     <ClCompile Include="src\physics\atmosphere.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
     <ClCompile Include="src\graphics\models\airplane.cpp" />
@@ -40,9 +39,19 @@
     <ClCompile Include="src\physics\models\airplane.cpp" />
     <ClCompile Include="src\physics\models\model.cpp" />
     <ClCompile Include="src\physics\scene.cpp" />
-    <ClCompile Include="src\physics\airplane_params_database\mustang.cpp" />
     <ClCompile Include="src\graphics\time.cpp" />
     <ClCompile Include="src\physics\simulation_buffer.cpp" />
+    <ClCompile Include="src\graphics\rendering_buffer.cpp" />
+    <ClCompile Include="src\app\window_input.cpp" />
+    <ClCompile Include="src\app\own_input.cpp" />
+    <ClCompile Include="src\app\threads\network_thread.cpp" />
+    <ClCompile Include="src\app\threads\physics_thread.cpp" />
+    <ClCompile Include="src\app\threads\rendering_thread.cpp" />
+    <ClCompile Include="src\physics\simulation_clock.cpp" />
+    <ClCompile Include="src\common\sync\notification.cpp" />
+    <ClCompile Include="src\app\udp_server.cpp" />
+    <ClCompile Include="src\common\frame.cpp" />
+    <ClCompile Include="src\graphics\paths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
@@ -97,18 +106,28 @@
     <ClInclude Include="src\graphics\maps\map.hpp" />
     <ClInclude Include="src\graphics\maps\island_map.hpp" />
     <ClInclude Include="src\graphics\airplane_type.hpp" />
-    <ClInclude Include="src\graphics\airplane_types_database.hpp" />
+    <ClInclude Include="src\graphics\airplane_type_database.hpp" />
     <ClInclude Include="src\common\airplane_database.hpp" />
     <ClInclude Include="src\physics\models\airplane.hpp" />
     <ClInclude Include="src\physics\models\model.hpp" />
     <ClInclude Include="src\physics\scene.hpp" />
     <ClInclude Include="src\physics\airplane_params_database.hpp" />
     <ClInclude Include="src\physics\simulation_buffer.hpp" />
-    <ClInclude Include="src\graphics\simulation_buffer.hpp" />
-    <ClInclude Include="src\graphics\simulation_buffer_element.hpp" />
+    <ClInclude Include="src\graphics\rendering_buffer.hpp" />
+    <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\common\airplane_type_name.hpp" />
-    <ClInclude Include="src\physics\time.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
+    <ClInclude Include="src\app\window_input.hpp" />
+    <ClInclude Include="src\app\controller_type.hpp" />
+    <ClInclude Include="src\app\own_input.hpp" />
+    <ClInclude Include="src\app\threads\rendering_thread.hpp" />
+    <ClInclude Include="src\app\threads\physics_thread.hpp" />
+    <ClInclude Include="src\app\threads\network_thread.hpp" />
+    <ClInclude Include="src\app\game_mode.hpp" />
+    <ClInclude Include="src\physics\simulation_clock.hpp" />
+    <ClInclude Include="src\app\udp_server.hpp" />
+    <ClInclude Include="src\common\frame.hpp" />
+    <ClInclude Include="src\physics\airplane_params_database\mustang.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

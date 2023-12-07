@@ -1,6 +1,9 @@
 #pragma once
 
-struct WindowPayload
+namespace App
 {
-	//Scene* scene{};
+	struct WindowPayload
+	{
+		float aspectRatio;
+	};
 };

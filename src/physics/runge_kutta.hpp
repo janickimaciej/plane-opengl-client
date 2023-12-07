@@ -22,8 +22,8 @@ namespace Physics
 	template <std::size_t stateLength>
 	void RungeKutta<stateLength>::RK4(float oldTime, float timeStep,
 		const std::array<float, stateLength>& oldState,
-		const RungeKuttaRightHandSide<stateLength>& rightHandSide, std::array<float,
-		stateLength>& newState)
+		const RungeKuttaRightHandSide<stateLength>& rightHandSide,
+		std::array<float, stateLength>& newState)
 	{
 		std::array<std::array<float, stateLength>, 4> k{};
 

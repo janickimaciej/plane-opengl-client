@@ -1,6 +1,6 @@
 #include "physics/day_night_cycle.hpp"
 
-#include "physics/time.hpp"
+#include "physics/simulation_clock.hpp"
 
 namespace Physics
 {

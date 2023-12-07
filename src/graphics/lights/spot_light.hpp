@@ -14,6 +14,8 @@ namespace Graphics
 		SpotLight(const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
 			float attenuationLinear, float attenuationConstant, const glm::vec3& color,
 			float cutoffInnerDeg, float cutoffOuterDeg, const Submodel& submodel);
+		SpotLight(const SpotLight& spotlight) = default;
+		SpotLight(SpotLight&& spotlight) = default;
 		virtual void updateShaders(const glm::mat4& modelMatrix) const override;
 		virtual ~SpotLight() = default;
 

@@ -21,6 +21,20 @@ namespace Physics
 		m_dynamics{m_airplaneParams, m_flightCtrl}
 	{ }
 
+	Airplane::Airplane(const Airplane& airplane) :
+		m_airplaneTypeName{airplane.m_airplaneTypeName},
+		m_airplaneParams{airplane.m_airplaneParams},
+		m_flightCtrl{airplane.m_flightCtrl},
+		m_dynamics{m_airplaneParams, m_flightCtrl}
+	{ }
+
+	Airplane::Airplane(Airplane&& airplane) noexcept :
+		m_airplaneTypeName{airplane.m_airplaneTypeName},
+		m_airplaneParams{airplane.m_airplaneParams},
+		m_flightCtrl{airplane.m_flightCtrl},
+		m_dynamics{m_airplaneParams, m_flightCtrl}
+	{ }
+
 	void Airplane::update(const Airplane& previousAirplane)
 	{
 		setState(m_dynamics.computeNewState(previousAirplane.getState()));

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common/frame.hpp"
+#include "common/sync/airplane_info.hpp"
 #include "common/sync/user_info.hpp"
 #include "common/sync/user_input.hpp"
 #include "physics/simulation_buffer_element.hpp"
@@ -12,6 +14,8 @@ namespace Physics
 	class SimulationBuffer
 	{
 	public:
+		static constexpr int simulationBufferSize = Common::framesPerSecond;
+
 		SimulationBuffer(int ownId);
 
 		void writeControlFrame(int second, unsigned int frame, int id,
@@ -21,10 +25,10 @@ namespace Physics
 
 		void setOwnInput(int second, unsigned int frame, const Common::UserInput& ownInput);
 		void update(int second, unsigned int frame);
+		std::unordered_map<int, Common::AirplaneInfo> getAirplaneInfos(unsigned int frame);
 
 	private:
-		static constexpr int bufferSize = 100;
-		std::array<SimulationBufferElement, bufferSize> m_buffer;
+		std::array<SimulationBufferElement, simulationBufferSize> m_buffer{};
 		int m_ownId{};
 
 		void removeUserInputs(unsigned int frame,

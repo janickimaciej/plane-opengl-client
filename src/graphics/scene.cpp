@@ -2,7 +2,7 @@
 
 #include "common/airplane_type_name.hpp"
 #include "common/sync/airplane_info.hpp"
-#include "graphics/airplane_types_database.hpp"
+#include "graphics/airplane_type_database.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/cameras/model_camera.hpp"
@@ -35,8 +35,8 @@ namespace Graphics
 		m_camera = std::make_unique<ModelCamera>(FoVDeg, nearPlane, farPlane,
 			m_surfaceShaderProgram, m_lightShaderProgram, m_airplanes.at(ownId));
 		constexpr float cameraPitchDeg = -10;
-		constexpr glm::vec3 cameraPosition{0, 4, 16};
 		m_camera->rotatePitch(cameraPitchDeg);
+		constexpr glm::vec3 cameraPosition{0, 4, 16};
 		m_camera->translate(cameraPosition);
 
 		m_map = Map::createMap(mapName, m_worldShading, m_surfaceShaderProgram,

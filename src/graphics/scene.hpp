@@ -8,6 +8,7 @@
 #include "graphics/maps/map_name.hpp"
 #include "graphics/mesh.hpp"
 #include "graphics/models/airplane.hpp"
+#include "graphics/paths.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/world_shading.hpp"
