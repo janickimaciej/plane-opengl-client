@@ -1,6 +1,6 @@
 #include "app/window_input.hpp"
 
-#include "common/sync/user_input.hpp"
+#include "common/user_input.hpp"
 
 #include <glfw/glfw3.h>
 

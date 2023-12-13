@@ -1,12 +1,14 @@
 #pragma once
 
+#include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
-#include "app/udp_server.hpp"
-#include "common/sync/notification.hpp"
+#include "app/udp/udp_connection.hpp"
 #include "graphics/rendering_buffer.hpp"
+#include "physics/notification.hpp"
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
+#include "physics/timestep.hpp"
 
 #include <atomic>
 #include <memory>
@@ -18,31 +20,32 @@ namespace App
 	class PhysicsThread
 	{
 	public:
-		PhysicsThread(GameMode gameMode, std::binary_semaphore& renderingSemaphore,
+		PhysicsThread(ExitSignal& exitSignal, GameMode gameMode,
+			std::binary_semaphore& renderingSemaphore,
 			const Physics::SimulationClock& simulationClock,
-			Physics::SimulationBuffer& simulationBuffer, Common::Notification& notification,
-			Graphics::RenderingBuffer& renderingBuffer, OwnInput& ownInput, UDPServer& udpServer);
-		void stop();
+			Physics::SimulationBuffer& simulationBuffer, int ownId,
+			Physics::Notification& notification, Graphics::RenderingBuffer& renderingBuffer,
+			OwnInput& ownInput, UDPConnection* udpConnection);
 		void join();
 
 	private:
 		std::thread m_thread;
-		std::atomic<bool> m_shouldStop = false;
+		ExitSignal& m_exitSignal;
 
 		GameMode m_gameMode;
 
 		const Physics::SimulationClock& m_simulationClock;
 		Physics::SimulationBuffer& m_simulationBuffer;
-		Common::Notification& m_notification;
+		Physics::Notification& m_notification;
+		int m_ownId{};
 
 		Graphics::RenderingBuffer& m_renderingBuffer;
 		OwnInput& m_ownInput;
 
-		UDPServer& m_udpServer;
+		UDPConnection* m_udpConnection;
 
 		void start(std::binary_semaphore& renderingSemaphore);
-		void mainLoop(int initialSecond, unsigned int initialFrame);
-		void sleepIfFuture(int second, unsigned int frame);
-		void sendControlFrame();
+		void mainLoop(const Physics::Timestep& initialTimestep);
+		void sleepIfFuture(const Physics::Timestep& timestep);
 	};
 };

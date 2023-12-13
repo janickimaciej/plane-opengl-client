@@ -1,7 +1,7 @@
 #include "graphics/scene.hpp"
 
+#include "common/airplane_info.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/sync/airplane_info.hpp"
 #include "graphics/airplane_type_database.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"

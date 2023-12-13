@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace Common
 {
 	inline constexpr int airplaneTypeCount = 1;
@@ -8,4 +10,6 @@ namespace Common
 	{
 		mustang
 	};
+
+	unsigned char toUChar(AirplaneTypeName airplaneTypeName);
 };

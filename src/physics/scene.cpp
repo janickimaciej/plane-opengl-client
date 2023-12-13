@@ -1,6 +1,6 @@
 #include "scene.hpp"
 
-#include "common/sync/user_info.hpp"
+#include "common/user_info.hpp"
 #include "physics/airplane_params_database.hpp"
 #include "physics/models/airplane.hpp"
 

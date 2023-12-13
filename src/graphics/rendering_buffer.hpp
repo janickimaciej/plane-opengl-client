@@ -1,7 +1,7 @@
 #pragma once
 
+#include "common/airplane_info.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/sync/airplane_info.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/rendering_buffer_element.hpp"
 #include "graphics/scene.hpp"

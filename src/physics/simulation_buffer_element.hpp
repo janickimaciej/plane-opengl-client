@@ -1,7 +1,7 @@
 #pragma once
 
-#include "common/sync/user_info.hpp"
 #include "physics/scene.hpp"
+#include "physics/simulation_buffer_user.hpp"
 
 #include <mutex>
 #include <unordered_map>
@@ -12,7 +12,7 @@ namespace Physics
 	{
 		Scene scene{};
 		std::mutex mutex{};
-		std::unordered_map<int, Common::UserInfo> userInfos{};
+		std::unordered_map<int, SimulationBufferUser> users{};
 		bool hasStateFrame{};
 	};
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "app/controller_type.hpp"
+#include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
 #include "app/threads/network_thread.hpp"
@@ -12,6 +13,7 @@
 
 #include <glfw/glfw3.h>
 
+#include <atomic>
 #include <memory>
 #include <semaphore>
 #include <string>
@@ -21,11 +23,13 @@ namespace App
 	class RenderingThread
 	{
 	public:
-		RenderingThread(ControllerType controllerType);
+		RenderingThread(ExitSignal& exitSignal, ControllerType controllerType);
 		void start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
 			Graphics::MapName mapName, const std::string& ipAddress, int port);
 
 	private:
+		ExitSignal& m_exitSignal;
+
 		GLFWwindow* m_window{};
 		App::WindowPayload m_windowPayload{};
 		std::unique_ptr<Graphics::RenderingBuffer> m_renderingBuffer{};

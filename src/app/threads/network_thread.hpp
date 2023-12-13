@@ -1,12 +1,13 @@
 #pragma once
 
+#include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
-#include "app/udp_server.hpp"
+#include "app/udp/udp_connection.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/sync/notification.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
+#include "physics/notification.hpp"
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
 
@@ -21,26 +22,29 @@ namespace App
 	class NetworkThread
 	{
 	public:
-		NetworkThread(std::binary_semaphore& renderingSemaphore, GameMode gameMode,
+		NetworkThread(ExitSignal& exitSignal, std::binary_semaphore& renderingSemaphore,
+			GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
 			const std::string& ipAddress, int port, OwnInput& ownInput,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
-		void stop();
 		void join();
 
 	private:
 		std::thread m_thread;
-		std::atomic<bool> m_shouldStop = false;
-		std::binary_semaphore m_mainLoopSingleplayer{0};
+		ExitSignal& m_exitSignal;
 
-		std::unique_ptr<Physics::SimulationClock> m_simulationClock{};
+		Physics::SimulationClock m_simulationClock{};
 		std::unique_ptr<Physics::SimulationBuffer> m_simulationBuffer{};
-		Common::Notification m_notification{};
+		int m_ownId{};
 
-		UDPServer m_udpServer;
+		Physics::Notification m_notification{};
+		Physics::Timestep m_latestStateFrameTimestep{};
+		std::unique_ptr<UDPConnection> m_udpConnection;
 
 		void start(std::binary_semaphore& renderingSemaphore, GameMode gameMode,
-			OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
-		void startMultiplayer(std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
+			Common::AirplaneTypeName airplaneTypeName, OwnInput& ownInput,
+			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
+		bool startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
+			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void startSingleplayer(std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void mainLoopMultiplayer();
 	};

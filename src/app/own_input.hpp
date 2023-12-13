@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/sync/user_input.hpp"
+#include "common/user_input.hpp"
 
 #include <mutex>
 

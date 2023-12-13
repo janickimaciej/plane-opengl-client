@@ -1,24 +1,27 @@
 #pragma once
 
-#include "common/frame.hpp"
+#include "physics/timestamp.hpp"
+#include "physics/timestep.hpp"
 
 #include <chrono>
 
 namespace Physics
 {
-	inline constexpr float physicsTimeStep = 1.0f / Common::framesPerSecond;
+	inline constexpr float physicsTimeStep = 1.0f / framesPerSecond;
 
 	class SimulationClock
 	{
-		using Duration = std::chrono::duration<float>;
-		using TimePoint =
-			std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>>;
-
 	public:
-		SimulationClock(const Duration& offset);
-		void getTime(int& second, unsigned int& frame) const;
+		Timestep getTime() const;
+		void initializeOffset(const Timestamp& sendTimestamp, const Timestamp& receiveTimestamp,
+			const Timestamp& serverTimestamp);
+		void updateOffset(const Timestamp& sendTimestamp, const Timestamp& receiveTimestamp,
+			const Timestamp& serverTimestamp);
 
 	private:
-		Duration m_offset{};
+		Timestamp m_offset{};
+
+		Timestamp calculateOffset(const Timestamp& sendTimestamp, const Timestamp& receiveTimestamp,
+			const Timestamp& serverTimestamp) const;
 	};
 };

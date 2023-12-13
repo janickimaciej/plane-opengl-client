@@ -1,12 +1,15 @@
 #include "app/threads/physics_thread.hpp"
 
+#include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
-#include "common/frame.hpp"
-#include "common/sync/airplane_info.hpp"
+#include "app/udp/udp_connection.hpp"
+#include "common/airplane_info.hpp"
 #include "graphics/rendering_buffer.hpp"
+#include "physics/notification.hpp"
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
+#include "physics/timestep.hpp"
 
 #include <atomic>
 #include <memory>
@@ -15,17 +18,20 @@
 
 namespace App
 {
-	PhysicsThread::PhysicsThread(GameMode gameMode, std::binary_semaphore& renderingSemaphore,
-		const Physics::SimulationClock& simulationClock,
-		Physics::SimulationBuffer& simulationBuffer, Common::Notification& notification,
-		Graphics::RenderingBuffer& renderingBuffer, OwnInput& ownInput, UDPServer& udpServer) :
+	PhysicsThread::PhysicsThread(ExitSignal& exitSignal, GameMode gameMode,
+		std::binary_semaphore& renderingSemaphore, const Physics::SimulationClock& simulationClock,
+		Physics::SimulationBuffer& simulationBuffer, int ownId, Physics::Notification& notification,
+		Graphics::RenderingBuffer& renderingBuffer, OwnInput& ownInput,
+		UDPConnection* udpConnection) :
+		m_exitSignal{exitSignal},
 		m_gameMode{gameMode},
 		m_simulationClock{simulationClock},
 		m_simulationBuffer{simulationBuffer},
 		m_notification{notification},
+		m_ownId{ownId},
 		m_renderingBuffer{renderingBuffer},
 		m_ownInput{ownInput},
-		m_udpServer{udpServer},
+		m_udpConnection{udpConnection},
 		m_thread
 		{
 			[this, &renderingSemaphore]
@@ -35,11 +41,6 @@ namespace App
 		}
 	{ }
 
-	void PhysicsThread::stop()
-	{
-		m_shouldStop = true;
-	}
-
 	void PhysicsThread::join()
 	{
 		m_thread.join();
@@ -47,62 +48,51 @@ namespace App
 
 	void PhysicsThread::start(std::binary_semaphore& renderingSemaphore)
 	{
-		int initialSecond{};
-		unsigned int initialFrame{};
+		Physics::Timestep initialTimestep{};
 
-		m_notification.forceGetNotification(initialSecond, initialFrame);
+		m_notification.forceGetNotification(initialTimestep);
 		
-		m_simulationBuffer.setOwnInput(initialSecond, initialFrame, Common::UserInput{});
-		m_simulationBuffer.update(initialSecond, initialFrame);
+		m_simulationBuffer.setOwnInput(initialTimestep, Common::UserInput{});
+		m_simulationBuffer.update(initialTimestep);
 
 		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
-			m_simulationBuffer.getAirplaneInfos(initialFrame);
+			m_simulationBuffer.getAirplaneInfos(initialTimestep);
 		m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
 
 		renderingSemaphore.release();
-		mainLoop(initialSecond, initialFrame);
+		mainLoop(initialTimestep);
 	}
 
-	void PhysicsThread::mainLoop(int initialSecond, unsigned int initialFrame)
+	void PhysicsThread::mainLoop(const Physics::Timestep& initialTimestep)
 	{
-		int second = initialSecond;
-		unsigned int frame = initialFrame;
-		while(!m_shouldStop)
+		Physics::Timestep timestep = initialTimestep;
+		while(!m_exitSignal.shouldStop())
 		{
-			Common::nextFrame(second, frame);
-			m_notification.getNotification(second, frame);
-			sleepIfFuture(second, frame);
+			timestep = timestep.next();
+			m_notification.getNotification(timestep);
+			sleepIfFuture(timestep);
 
 			Common::UserInput ownInput = m_ownInput.getOwnInput();
-			m_simulationBuffer.setOwnInput(second, frame, ownInput);
-			m_simulationBuffer.update(second, frame);
+			bool inputSet = m_simulationBuffer.setOwnInput(timestep, ownInput);
+			m_simulationBuffer.update(timestep);
 
 			std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
-				m_simulationBuffer.getAirplaneInfos(frame);
+				m_simulationBuffer.getAirplaneInfos(timestep);
 			m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
 
-			if (m_gameMode == GameMode::multiplayer)
+			if (m_gameMode == GameMode::multiplayer && inputSet)
 			{
-				sendControlFrame();
+				m_udpConnection->sendControlFrame(timestep, m_ownId, ownInput);
 			}
 		}
 	}
 
-	void PhysicsThread::sleepIfFuture(int second, unsigned int frame)
+	void PhysicsThread::sleepIfFuture(const Physics::Timestep& timestep)
 	{
-		int currentSecond{};
-		unsigned int currentFrame{};
-		m_simulationClock.getTime(currentSecond, currentFrame);
-		while (Common::earlierThan(currentSecond, currentFrame, second, frame))
+		Physics::Timestep currentTimestep = m_simulationClock.getTime();
+		while (currentTimestep < timestep)
 		{
-			//constexpr int sleepMilliseconds = 1000 / Common::framesPerSecond;
-			//std::this_thread::sleep_for(std::chrono::milliseconds(sleepMilliseconds));
-			m_simulationClock.getTime(currentSecond, currentFrame);
+			currentTimestep = m_simulationClock.getTime();
 		}
-	}
-
-	void PhysicsThread::sendControlFrame()
-	{
-		// TODO
 	}
 };

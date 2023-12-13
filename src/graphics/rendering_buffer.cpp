@@ -1,13 +1,12 @@
 #include "graphics/rendering_buffer.hpp"
 
-#include "common/sync/airplane_info.hpp"
+#include "common/airplane_info.hpp"
 #include "graphics/rendering_buffer_element.hpp"
 #include "graphics/scene.hpp"
 
 #include <array>
 #include <mutex>
 #include <unordered_map>
-#include <iostream> //tmp
 
 namespace Graphics
 {
@@ -27,7 +26,6 @@ namespace Graphics
 
 		unsigned int index = (m_lastUpdated + 1) % 3 == m_beingRendered ?
 			(m_beingRendered + 1) % 3 : (m_lastUpdated + 1) % 3;
-		//std::cout << index << " UPDATE" << std::endl; //tmp
 
 		m_mutex.unlock();
 
@@ -46,7 +44,6 @@ namespace Graphics
 
 		unsigned int index = m_lastUpdated;
 		m_beingRendered = index;
-		//std::cout << index << "\t RENDER " << std::endl;//tmp
 
 		m_mutex.unlock();
 

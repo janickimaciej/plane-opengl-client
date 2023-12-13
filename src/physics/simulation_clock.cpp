@@ -1,19 +1,18 @@
-#include "physics/simulation_clock.hpp"
+	#include "physics/simulation_clock.hpp"
 
-#include "common/frame.hpp"
+#include "physics/timestamp.hpp"
+#include "physics/timestep.hpp"
 
 #include <chrono>
 
 namespace Physics
 {
-	SimulationClock::SimulationClock(const Duration& offset) :
-		m_offset{offset}
-	{ }
-
-	void SimulationClock::getTime(int& second, unsigned int& frame) const
+	Timestep SimulationClock::getTime() const
 	{
-		TimePoint currentTime = std::chrono::steady_clock::now();
-		Duration simulationTime = (currentTime + m_offset).time_since_epoch();
+		std::chrono::duration<float> simulationTime =
+			std::chrono::steady_clock::now().time_since_epoch() -
+			std::chrono::seconds(m_offset.second) - std::chrono::milliseconds(m_offset.millisecond);
+
 		std::chrono::minutes minutes =
 			std::chrono::duration_cast<std::chrono::minutes>(simulationTime);
 		std::chrono::seconds seconds =
@@ -21,9 +20,35 @@ namespace Physics
 		std::chrono::milliseconds milliseconds =
 			std::chrono::duration_cast<std::chrono::milliseconds>(simulationTime - minutes -
 				seconds);
-		second = static_cast<int>(seconds.count());
-		static constexpr float framesPerMillisecond =
-			static_cast<float>(Common::framesPerSecond) / 1000;
-		frame = static_cast<unsigned int>(milliseconds.count() * framesPerMillisecond);
+
+		static constexpr float framesPerMillisecond = static_cast<float>(framesPerSecond) /
+			millisecondsPerSecond;
+		return Timestep
+			{
+				static_cast<unsigned int>(seconds.count()),
+				static_cast<unsigned int>(milliseconds.count() * framesPerMillisecond)
+			};
+	}
+
+	void SimulationClock::initializeOffset(const Timestamp& sendTimestamp,
+		const Timestamp& receiveTimestamp, const Timestamp& serverTimestamp)
+	{
+		m_offset = calculateOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
+	}
+
+	void SimulationClock::updateOffset(const Timestamp& sendTimestamp,
+		const Timestamp& receiveTimestamp, const Timestamp& serverTimestamp)
+	{
+		constexpr float newOffsetWeight = 0.02f;
+		constexpr float oldOffsetWeight = 1 - newOffsetWeight;
+		m_offset = oldOffsetWeight * m_offset + newOffsetWeight *
+			calculateOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
+	}
+
+	Timestamp SimulationClock::calculateOffset(const Timestamp& sendTimestamp,
+		const Timestamp& receiveTimestamp, const Timestamp& serverTimestamp) const
+	{
+		Timestamp latency = (receiveTimestamp - sendTimestamp) / 2;
+		return receiveTimestamp - (serverTimestamp + latency);
 	}
 };

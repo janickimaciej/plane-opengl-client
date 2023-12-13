@@ -1,6 +1,6 @@
 #include "physics/models/airplane.hpp"
 
-#include "common/sync/user_input.hpp"
+#include "common/user_input.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/airplane_params_database.hpp"
 #include "physics/flight_ctrl.hpp"

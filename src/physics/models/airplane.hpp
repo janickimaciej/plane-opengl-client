@@ -1,8 +1,8 @@
 #pragma once
 
+#include "common/airplane_info.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/sync/airplane_info.hpp"
-#include "common/sync/user_input.hpp"
+#include "common/user_input.hpp"
 #include "physics/airplane_params/airplane_params.hpp"
 #include "physics/flight_ctrl.hpp"
 #include "physics/model_dynamics/airplane_dynamics.hpp"

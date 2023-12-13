@@ -48,7 +48,8 @@ namespace Physics
 		oldState.toArray(oldStateArr);
 	
 		std::array<float, Common::State::stateLength> newStateArr{};
-		RungeKutta<Common::State::stateLength>::RK4(0, physicsTimeStep, oldStateArr, *this, newStateArr);
+		RungeKutta<Common::State::stateLength>::RK4(0, physicsTimeStep, oldStateArr, *this,
+			newStateArr);
 
 		Common::State newState{newStateArr};
 		newState.normalize();

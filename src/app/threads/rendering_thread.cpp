@@ -1,11 +1,13 @@
 #include "app/threads/rendering_thread.hpp"
 
 #include "app/controller_type.hpp"
+#include "app/exit_code.hpp"
+#include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/threads/network_thread.hpp"
 #include "app/window_payload.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/sync/user_input.hpp"
+#include "common/user_input.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/time.hpp"
 
@@ -18,7 +20,8 @@
 
 namespace App
 {
-	RenderingThread::RenderingThread(ControllerType controllerType) :
+	RenderingThread::RenderingThread(ExitSignal& exitSignal, ControllerType controllerType) :
+		m_exitSignal{exitSignal},
 		m_windowInput{m_window, controllerType}
 	{ }
 
@@ -26,23 +29,27 @@ namespace App
 		Graphics::MapName mapName, const std::string& ipAddress, int port)
 	{
 		std::binary_semaphore semaphore{0};
-		NetworkThread networkThread{semaphore, gameMode, ipAddress, port, m_ownInput,
-			m_renderingBuffer};
+		NetworkThread networkThread{m_exitSignal, semaphore, gameMode, airplaneTypeName, ipAddress,
+			port, m_ownInput, m_renderingBuffer};
 		initializeWindow();
 		semaphore.acquire();
 		m_renderingBuffer->initialize(airplaneTypeName, mapName);
 		mainLoop();
-		networkThread.stop();
-		networkThread.join();
 		glfwTerminate();
+		networkThread.join();
 	}
 
 	void RenderingThread::mainLoop()
 	{
 		Graphics::Time time;
 		time.initialize();
-		while (!glfwWindowShouldClose(m_window))
+		while (!m_exitSignal.shouldStop())
 		{
+			if (glfwWindowShouldClose(m_window))
+			{
+				m_exitSignal.exit(ExitCode::ok);
+				break;
+			}
 			time.update();
 			processInput();
 			m_renderingBuffer->updateAndRenderScene(m_windowPayload.aspectRatio);
@@ -57,15 +64,12 @@ namespace App
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		static constexpr int initialWindowWidth = 1900;
-		static constexpr int initialWindowHeight = 950;
+		const int initialWindowWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
+		const int initialWindowHeight = glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
 		m_windowPayload.aspectRatio = static_cast<float>(initialWindowWidth) / initialWindowHeight;
-		m_window = glfwCreateWindow(static_cast<int>(initialWindowWidth),
-			static_cast<int>(initialWindowHeight), "Plane", nullptr, nullptr);
+		m_window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Plane",
+			glfwGetPrimaryMonitor(), nullptr);
 		glfwSetWindowUserPointer(m_window, &m_windowPayload);
-		static constexpr int initialWindowPositionX = 0;
-		static constexpr int initialWindowPositionY = 38;
-		glfwSetWindowPos(m_window, initialWindowPositionX, initialWindowPositionY);
 		glfwMakeContextCurrent(m_window);
 		glfwSetFramebufferSizeCallback(m_window, resizeWindow);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);

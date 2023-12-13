@@ -21,14 +21,18 @@
   <ItemGroup>
     <ClCompile Include="dep\glad.c" />
     <ClCompile Include="dep\stb_image.cpp" />
+    <ClCompile Include="src\app\command_line_argument.cpp" />
+    <ClCompile Include="src\app\exit_code.cpp" />
+    <ClCompile Include="src\app\exit_signal.cpp" />
     <ClCompile Include="src\app\threads\network_thread.cpp" />
     <ClCompile Include="src\app\own_input.cpp" />
     <ClCompile Include="src\app\threads\physics_thread.cpp" />
     <ClCompile Include="src\app\threads\rendering_thread.cpp" />
-    <ClCompile Include="src\app\udp_server.cpp" />
+    <ClCompile Include="src\app\udp\udp_frame_type.cpp" />
+    <ClCompile Include="src\app\udp\udp_serializer.cpp" />
+    <ClCompile Include="src\app\udp\udp_connection.cpp" />
     <ClCompile Include="src\app\window_input.cpp" />
-    <ClCompile Include="src\common\frame.cpp" />
-    <ClCompile Include="src\common\sync\notification.cpp" />
+    <ClCompile Include="src\common\airplane_type_name.cpp" />
     <ClCompile Include="src\graphics\cameras\camera.cpp" />
     <ClCompile Include="src\graphics\cameras\model_camera.cpp" />
     <ClCompile Include="src\graphics\cameras\perspective_camera.cpp" />
@@ -61,6 +65,7 @@
     <ClCompile Include="src\physics\model_dynamics\airplane_dynamics.cpp" />
     <ClCompile Include="src\physics\model_dynamics\rigid_body_dynamics.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
+    <ClCompile Include="src\physics\notification.cpp" />
     <ClCompile Include="src\physics\scene.cpp" />
     <ClCompile Include="src\common\transformable.cpp" />
     <ClCompile Include="src\graphics\obj_parser.cpp" />
@@ -70,25 +75,38 @@
     <ClCompile Include="src\common\state.cpp" />
     <ClCompile Include="src\physics\simulation_buffer.cpp" />
     <ClCompile Include="src\physics\simulation_clock.cpp" />
+    <ClCompile Include="src\physics\timestamp.cpp" />
+    <ClCompile Include="src\physics\timestep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\stb_image.h" />
+    <ClInclude Include="src\app\command_line_argument.hpp" />
     <ClInclude Include="src\app\controller_type.hpp" />
+    <ClInclude Include="src\app\exit_code.hpp" />
+    <ClInclude Include="src\app\exit_signal.hpp" />
     <ClInclude Include="src\app\game_mode.hpp" />
     <ClInclude Include="src\app\threads\network_thread.hpp" />
     <ClInclude Include="src\app\own_input.hpp" />
     <ClInclude Include="src\app\threads\physics_thread.hpp" />
     <ClInclude Include="src\app\threads\rendering_thread.hpp" />
-    <ClInclude Include="src\app\udp_server.hpp" />
+    <ClInclude Include="src\app\udp\frame\control_frame.hpp" />
+    <ClInclude Include="src\app\udp\frame\init_req_frame.hpp" />
+    <ClInclude Include="src\app\udp\frame\init_res_frame.hpp" />
+    <ClInclude Include="src\app\udp\frame\state_frame.hpp" />
+    <ClInclude Include="src\app\udp\frame\state_frame_user_info.hpp" />
+    <ClInclude Include="src\app\udp\udp_serializer.hpp" />
+    <ClInclude Include="src\physics\timestamp.hpp" />
+    <ClInclude Include="src\app\udp\udp_frame_type.hpp" />
+    <ClInclude Include="src\app\udp\udp_connection.hpp" />
     <ClInclude Include="src\app\window_input.hpp" />
     <ClInclude Include="src\common\airplane_ctrl.hpp" />
     <ClInclude Include="src\common\airplane_database.hpp" />
     <ClInclude Include="src\common\airplane_type_name.hpp" />
-    <ClInclude Include="src\common\frame.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
     <ClInclude Include="src\physics\airplane_params_database\mustang.hpp" />
+    <ClInclude Include="src\physics\notification.hpp" />
     <ClInclude Include="src\physics\simulation_buffer_element.hpp" />
     <ClInclude Include="src\graphics\airplane_type.hpp" />
     <ClInclude Include="src\graphics\airplane_type_database.hpp" />
@@ -127,12 +145,12 @@
     <ClInclude Include="src\physics\model_dynamics\rigid_body_dynamics.hpp" />
     <ClInclude Include="src\physics\scene.hpp" />
     <ClInclude Include="src\physics\simulation_buffer.hpp" />
+    <ClInclude Include="src\physics\simulation_buffer_user.hpp" />
     <ClInclude Include="src\physics\simulation_clock.hpp" />
-    <ClInclude Include="src\common\sync\airplane_info.hpp" />
-    <ClInclude Include="src\common\sync\notification.hpp" />
-    <ClInclude Include="src\common\sync\user_input.hpp" />
-    <ClInclude Include="src\common\sync\user_info.hpp" />
-    <ClInclude Include="src\common\sync\user_state.hpp" />
+    <ClInclude Include="src\common\airplane_info.hpp" />
+    <ClInclude Include="src\common\user_input.hpp" />
+    <ClInclude Include="src\common\user_info.hpp" />
+    <ClInclude Include="src\common\user_state.hpp" />
     <ClInclude Include="src\common\transformable.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\paths.hpp" />
@@ -146,6 +164,7 @@
     <ClInclude Include="src\physics\airplane_params\surface_params.hpp" />
     <ClInclude Include="src\graphics\vertex.hpp" />
     <ClInclude Include="src\app\window_payload.hpp" />
+    <ClInclude Include="src\physics\timestep.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

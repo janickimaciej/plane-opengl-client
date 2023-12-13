@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/sync/airplane_info.hpp"
+#include "common/airplane_info.hpp"
 
 #include <unordered_map>
 

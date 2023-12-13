@@ -1,15 +1,20 @@
 #include "app/threads/network_thread.hpp"
 
+#include "app/exit_code.hpp"
+#include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
 #include "app/threads/physics_thread.hpp"
+#include "app/udp/udp_connection.hpp"
+#include "app/udp/udp_frame_type.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/sync/user_info.hpp"
-#include "common/sync/user_state.hpp"
+#include "common/user_info.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
+#include "physics/notification.hpp"
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
+#include "physics/timestamp.hpp"
 
 #include <atomic>
 #include <memory>
@@ -20,23 +25,23 @@
 
 namespace App
 {
-	NetworkThread::NetworkThread(std::binary_semaphore& renderingSemaphore, GameMode gameMode,
-		const std::string& ipAddress, int port, OwnInput& ownInput,
-		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer) :
-		m_udpServer{ipAddress, port},
+	NetworkThread::NetworkThread(ExitSignal& exitSignal, std::binary_semaphore& renderingSemaphore,
+		GameMode gameMode, Common::AirplaneTypeName airplaneTypeName, const std::string& ipAddress,
+		int port, OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer) :
+		m_exitSignal{exitSignal},
 		m_thread
 		{
-			[this, &renderingSemaphore, gameMode, &ownInput, &renderingBuffer]
+			[this, &renderingSemaphore, gameMode, airplaneTypeName, &ownInput, &renderingBuffer]
 			{
-				this->start(renderingSemaphore, gameMode, ownInput, renderingBuffer);
+				this->start(renderingSemaphore, gameMode, airplaneTypeName, ownInput,
+					renderingBuffer);
 			}
 		}
-	{ }
-
-	void NetworkThread::stop()
 	{
-		m_mainLoopSingleplayer.release();
-		m_shouldStop = true;
+		if (gameMode == GameMode::multiplayer)
+		{
+			m_udpConnection = std::make_unique<UDPConnection>(ipAddress, port);
+		}
 	}
 
 	void NetworkThread::join()
@@ -45,34 +50,70 @@ namespace App
 	}
 
 	void NetworkThread::start(std::binary_semaphore& renderingSemaphore, GameMode gameMode,
-		OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
+		Common::AirplaneTypeName airplaneTypeName, OwnInput& ownInput,
+		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
 	{
 		if (gameMode == GameMode::multiplayer)
 		{
-			startMultiplayer(renderingBuffer);
+			if (!startMultiplayer(airplaneTypeName, renderingBuffer))
+			{
+				m_exitSignal.exit(ExitCode::failedToConnect);
+				return;
+			}
 		}
 		else
 		{
 			startSingleplayer(renderingBuffer);
 		}
-		PhysicsThread physicsThread{gameMode, renderingSemaphore, *m_simulationClock,
-			*m_simulationBuffer, m_notification, *renderingBuffer, ownInput, m_udpServer};
+		PhysicsThread physicsThread{m_exitSignal, gameMode, renderingSemaphore, m_simulationClock,
+			*m_simulationBuffer, m_ownId, m_notification, *renderingBuffer, ownInput,
+			m_udpConnection.get()};
 		if (gameMode == GameMode::multiplayer)
 		{
 			mainLoopMultiplayer();
 		}
 		else
 		{
-			m_mainLoopSingleplayer.acquire();
+			m_exitSignal.acquireNetworkThreadSemaphore();
 		}
-		physicsThread.stop();
 		physicsThread.join();
 	}
 
-	void NetworkThread::startMultiplayer(
+	bool NetworkThread::startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
 		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
 	{
-		// TODO
+		static constexpr int initFrameCount = 10;
+		for (int i = 0; i < initFrameCount; ++i)
+		{
+			m_udpConnection->sendInitReqFrame(airplaneTypeName);
+		}
+
+		Physics::Timestamp sendTimestamp{};
+		Physics::Timestamp receiveTimestamp{};
+		Physics::Timestamp serverTimestamp{};
+		if (!m_udpConnection->receiveInitResFrame(sendTimestamp, receiveTimestamp,
+			serverTimestamp, m_ownId))
+		{
+			return false;
+		}
+
+		m_simulationClock.initializeOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
+
+		m_simulationBuffer = std::make_unique<Physics::SimulationBuffer>(m_ownId);
+		renderingBuffer = std::make_unique<Graphics::RenderingBuffer>(m_ownId);
+
+		Physics::Timestep initialTimestep{};
+		std::unordered_map<int, Common::UserInfo> userInfos{};
+		if (!m_udpConnection->receiveStateFrameWithOwnId(initialTimestep, userInfos, m_ownId))
+		{
+			return false;
+		}
+		m_simulationBuffer->writeStateFrame(initialTimestep, userInfos);
+		m_latestStateFrameTimestep = initialTimestep;
+
+		m_notification.setNotification(initialTimestep, true);
+
+		return true;
 	}
 
 	void NetworkThread::startSingleplayer(
@@ -82,32 +123,59 @@ namespace App
 		m_simulationBuffer = std::make_unique<Physics::SimulationBuffer>(ownId);
 		renderingBuffer = std::make_unique<Graphics::RenderingBuffer>(ownId);
 
-		m_simulationClock =
-			std::make_unique<Physics::SimulationClock>(std::chrono::duration<float>{0});
-		int initialSecond{};
-		unsigned int initialFrame{};
-		m_simulationClock->getTime(initialSecond, initialFrame);
+		Physics::Timestep initialTimestep = m_simulationClock.getTime();
 		
-		std::unordered_map<int, Common::UserInfo> userInfos;
 		Common::UserInfo ownInfo;
-		ownInfo.second = initialSecond;
 		constexpr int initialHP = 100;
 		ownInfo.state.hp = initialHP;
 		constexpr glm::vec3 initialPosition{0, 50, 100};
 		ownInfo.state.state.position = initialPosition;
 		constexpr glm::vec3 initialVelocity{0, 0, -100};
 		ownInfo.state.state.velocity = initialVelocity;
-		userInfos.insert({ownId, ownInfo});
-		m_simulationBuffer->writeStateFrame(initialFrame, userInfos);
 
-		m_notification.setNotification(initialSecond, initialFrame, true);
+		std::unordered_map<int, Common::UserInfo> userInfos;
+		userInfos.insert({ownId, ownInfo});
+		m_simulationBuffer->writeStateFrame(initialTimestep, userInfos);
+
+		m_notification.setNotification(initialTimestep, true);
 	}
 
 	void NetworkThread::mainLoopMultiplayer()
 	{
-		while (!m_shouldStop)
+		while (!m_exitSignal.shouldStop())
 		{
-			// TODO
+			Physics::Timestamp sendTimestamp{};
+			Physics::Timestamp receiveTimestamp{};
+			Physics::Timestamp serverTimestamp{};
+			UDPFrameType udpFrameType{};
+			Physics::Timestep timestep{};
+			int userId{};
+			Common::UserInput userInput{};
+			std::unordered_map<int, Common::UserInfo> userInfos{};
+
+			if (!m_udpConnection->receiveControlOrStateFrame(sendTimestamp, receiveTimestamp,
+				serverTimestamp, udpFrameType, timestep, userId, userInput, userInfos, m_ownId))
+			{
+				m_exitSignal.exit(ExitCode::connectionLost);
+				return;
+			}
+
+			if (timestep <= m_latestStateFrameTimestep)
+			{
+				continue;
+			}
+
+			if (udpFrameType == UDPFrameType::control)
+			{
+				m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
+				m_simulationBuffer->writeControlFrame(timestep, userId, userInput);
+				m_notification.setNotification(timestep, false);
+			}
+			else
+			{
+				m_simulationBuffer->writeStateFrame(timestep, userInfos);
+				m_notification.setNotification(timestep, true);
+			}
 		}
 	}
 };

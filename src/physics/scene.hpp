@@ -1,7 +1,7 @@
 #pragma once
 
-#include "common/sync/airplane_info.hpp"
-#include "common/sync/user_info.hpp"
+#include "common/airplane_info.hpp"
+#include "common/user_info.hpp"
 #include "physics/day_night_cycle.hpp"
 #include "physics/models/airplane.hpp"
 
