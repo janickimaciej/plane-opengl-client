@@ -11,7 +11,9 @@
 #include <asio/asio.hpp>
 
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <unordered_map>
@@ -57,72 +59,94 @@ namespace App
 		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp, int& userId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
-		std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-		std::chrono::steady_clock::time_point expiration = now + timeout;
-		
-		static std::vector<std::uint8_t> buffer(maxFrameSize);
-		while(now < expiration)
-		{
-			std::chrono::duration<float> remainder = expiration - now;
-			setReceiveSocketTimeout(remainder);
-
-			asio::ip::udp::endpoint server{};
-			std::size_t receivedSize = m_receiveSocket.receive_from(asio::buffer(buffer), server);
-
-			if (buffer[0] == toUInt8(UDPFrameType::initRes))
+		return receiveFrameWithTimeout
+		(
+			[&sendTimestamp, &receiveTimestamp, &serverTimestamp, &userId]
+			(std::vector<std::uint8_t> buffer, std::size_t receivedSize)
 			{
-				receiveTimestamp = Physics::Timestamp::systemNow();
-				std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
-					buffer.begin() + static_cast<int>(receivedSize));
-				UDPSerializer::deserializeInitResFrame(receivedBuffer, sendTimestamp,
-					serverTimestamp, userId);
-				return true;
-			}
-
-			now = std::chrono::steady_clock::now();
-		}
-		return false;
+				if (buffer[0] == toUInt8(UDPFrameType::initRes))
+				{
+					receiveTimestamp = Physics::Timestamp::systemNow();
+					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
+						buffer.begin() + static_cast<int>(receivedSize));
+					UDPSerializer::deserializeInitResFrame(receivedBuffer, sendTimestamp,
+						serverTimestamp, userId);
+					return true;
+				}
+				return false;
+			},
+			timeout
+		);
 	}
 
-	bool UDPConnection::receiveStateFrameWithOwnId(Physics::Timestep& timestep,
+	bool UDPConnection::receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
 		std::unordered_map<int, Common::UserInfo>& userInfos, int ownId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
-		std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-		std::chrono::steady_clock::time_point expiration = now + timeout;
-		
-		static std::vector<std::uint8_t> buffer(maxFrameSize);
-		while(now < expiration)
-		{
-			std::chrono::duration<float> remainder = expiration - now;
-			setReceiveSocketTimeout(remainder);
-
-			asio::ip::udp::endpoint server{};
-			std::size_t receivedSize = m_receiveSocket.receive_from(asio::buffer(buffer), server);
-
-			if (buffer[0] == toUInt8(UDPFrameType::state))
+		return receiveFrameWithTimeout
+		(
+			[&timestep, &userInfos, ownId]
+			(std::vector<std::uint8_t> buffer, std::size_t receivedSize)
 			{
-				std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
-					buffer.begin() + static_cast<int>(receivedSize));
-				UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, userInfos);
-				if (userInfos.contains(ownId))
+				if (buffer[0] == toUInt8(UDPFrameType::state))
 				{
-					return true;
+					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
+						buffer.begin() + static_cast<int>(receivedSize));
+					UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, userInfos);
+					if (userInfos.contains(ownId))
+					{
+						return true;
+					}
 				}
-			}
-
-			now = std::chrono::steady_clock::now();
-		}
-		return false;
+				return false;
+			},
+			timeout
+		);
 	}
 
-	bool UDPConnection::receiveControlOrStateFrame(Physics::Timestamp& sendTimestamp,
+	bool UDPConnection::receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
 		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
 		UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& userId,
 		Common::UserInput& userInput, std::unordered_map<int, Common::UserInfo>& userInfos,
 		int ownId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
+		return receiveFrameWithTimeout
+		(
+			[&sendTimestamp, &receiveTimestamp, &serverTimestamp, &udpFrameType, &timestep, &userId,
+			&userInput, &userInfos, ownId]
+			(std::vector<std::uint8_t> buffer, std::size_t receivedSize)
+			{
+				if (buffer[0] == toUInt8(UDPFrameType::control))
+				{
+					udpFrameType = UDPFrameType::control;
+					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
+						buffer.begin() + static_cast<int>(receivedSize));
+					UDPSerializer::deserializeControlFrame(receivedBuffer, sendTimestamp,
+						serverTimestamp, timestep, userId, userInput);
+				}
+				else if (buffer[0] == toUInt8(UDPFrameType::state))
+				{
+					receiveTimestamp = Physics::Timestamp::systemNow();
+					udpFrameType = UDPFrameType::state;
+					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
+						buffer.begin() + static_cast<int>(receivedSize));
+					UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, userInfos);
+					if (userInfos.contains(ownId))
+					{
+						return true;
+					}
+				}
+				return false;
+			},
+			timeout
+		);
+	}
+
+	bool UDPConnection::receiveFrameWithTimeout(
+		std::function<bool(std::vector<std::uint8_t>, std::size_t)> frameHandler,
+		const std::chrono::seconds& timeout)
+	{
 		std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 		std::chrono::steady_clock::time_point expiration = now + timeout;
 		
@@ -133,36 +157,22 @@ namespace App
 			setReceiveSocketTimeout(remainder);
 
 			asio::ip::udp::endpoint server{};
-			std::size_t receivedSize = m_receiveSocket.receive_from(asio::buffer(buffer), server);
-
-			if (buffer[0] == toUInt8(UDPFrameType::control))
+			try
 			{
-				udpFrameType = UDPFrameType::control;
-				std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
-					buffer.begin() + static_cast<int>(receivedSize));
-				UDPSerializer::deserializeControlFrame(receivedBuffer, sendTimestamp,
-					serverTimestamp, timestep, userId, userInput);
-			}
-			else if (buffer[0] == toUInt8(UDPFrameType::state))
-			{
-				receiveTimestamp = Physics::Timestamp::systemNow();
-				udpFrameType = UDPFrameType::state;
-				std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
-					buffer.begin() + static_cast<int>(receivedSize));
-				UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, userInfos);
-				if (userInfos.contains(ownId))
+				std::size_t receivedSize =
+					m_receiveSocket.receive_from(asio::buffer(buffer), server);
+				if (frameHandler(buffer, receivedSize))
 				{
 					return true;
 				}
 			}
+			catch (std::exception&)
+			{ }
 
 			now = std::chrono::steady_clock::now();
 		}
 		return false;
 	}
-
-	void UDPConnection::completionHandler(std::shared_ptr<std::vector<std::uint8_t>>)
-	{ }
 
 	void UDPConnection::setReceiveSocketTimeout(const std::chrono::duration<float>& timeout)
 	{
@@ -174,4 +184,7 @@ namespace App
 				)
 			});
 	}
+
+	void UDPConnection::completionHandler(std::shared_ptr<std::vector<std::uint8_t>>)
+	{ }
 };

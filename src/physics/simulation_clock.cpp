@@ -1,4 +1,4 @@
-	#include "physics/simulation_clock.hpp"
+#include "physics/simulation_clock.hpp"
 
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
@@ -9,9 +9,10 @@ namespace Physics
 {
 	Timestep SimulationClock::getTime() const
 	{
+		Physics::Timestamp offset = m_offset.load();
 		std::chrono::duration<float> simulationTime =
 			std::chrono::steady_clock::now().time_since_epoch() -
-			std::chrono::seconds(m_offset.second) - std::chrono::milliseconds(m_offset.millisecond);
+			std::chrono::seconds(offset.second) - std::chrono::milliseconds(offset.millisecond);
 
 		std::chrono::minutes minutes =
 			std::chrono::duration_cast<std::chrono::minutes>(simulationTime);
@@ -33,7 +34,7 @@ namespace Physics
 	void SimulationClock::initializeOffset(const Timestamp& sendTimestamp,
 		const Timestamp& receiveTimestamp, const Timestamp& serverTimestamp)
 	{
-		m_offset = calculateOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
+		m_offset.store(calculateOffset(sendTimestamp, receiveTimestamp, serverTimestamp));
 	}
 
 	void SimulationClock::updateOffset(const Timestamp& sendTimestamp,
@@ -41,7 +42,7 @@ namespace Physics
 	{
 		constexpr float newOffsetWeight = 0.02f;
 		constexpr float oldOffsetWeight = 1 - newOffsetWeight;
-		m_offset = oldOffsetWeight * m_offset + newOffsetWeight *
+		m_offset = oldOffsetWeight * m_offset.load() + newOffsetWeight *
 			calculateOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
 	}
 

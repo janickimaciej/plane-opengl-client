@@ -3,6 +3,7 @@
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
 
+#include <atomic>
 #include <chrono>
 
 namespace Physics
@@ -19,7 +20,7 @@ namespace Physics
 			const Timestamp& serverTimestamp);
 
 	private:
-		Timestamp m_offset{};
+		std::atomic<Timestamp> m_offset{};
 
 		Timestamp calculateOffset(const Timestamp& sendTimestamp, const Timestamp& receiveTimestamp,
 			const Timestamp& serverTimestamp) const;

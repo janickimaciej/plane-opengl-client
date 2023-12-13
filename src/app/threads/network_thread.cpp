@@ -104,7 +104,7 @@ namespace App
 
 		Physics::Timestep initialTimestep{};
 		std::unordered_map<int, Common::UserInfo> userInfos{};
-		if (!m_udpConnection->receiveStateFrameWithOwnId(initialTimestep, userInfos, m_ownId))
+		if (!m_udpConnection->receiveStateFrameWithOwnInfo(initialTimestep, userInfos, m_ownId))
 		{
 			return false;
 		}
@@ -153,7 +153,7 @@ namespace App
 			Common::UserInput userInput{};
 			std::unordered_map<int, Common::UserInfo> userInfos{};
 
-			if (!m_udpConnection->receiveControlOrStateFrame(sendTimestamp, receiveTimestamp,
+			if (!m_udpConnection->receiveControlOrStateFrameWithOwnInfo(sendTimestamp, receiveTimestamp,
 				serverTimestamp, udpFrameType, timestep, userId, userInput, userInfos, m_ownId))
 			{
 				m_exitSignal.exit(ExitCode::connectionLost);

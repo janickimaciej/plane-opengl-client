@@ -9,7 +9,9 @@
 
 #include <asio/asio.hpp>
 
+#include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -27,9 +29,9 @@ namespace App
 
 		bool receiveInitResFrame(Physics::Timestamp& sendTimestamp,
 			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp, int& userId);
-		bool receiveStateFrameWithOwnId(Physics::Timestep& timestep,
+		bool receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
 			std::unordered_map<int, Common::UserInfo>& userInfos, int ownId);
-		bool receiveControlOrStateFrame(Physics::Timestamp& sendTimestamp,
+		bool receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
 			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
 			UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& userId,
 			Common::UserInput& userInput, std::unordered_map<int, Common::UserInfo>& userInfos,
@@ -43,7 +45,10 @@ namespace App
 		asio::io_context m_receiveIOContext{};
 		asio::ip::udp::socket m_receiveSocket;
 
-		static void completionHandler(std::shared_ptr<std::vector<std::uint8_t>>);
+		bool receiveFrameWithTimeout(
+			std::function<bool(std::vector<std::uint8_t>, std::size_t)> frameHandler,
+			const std::chrono::seconds& timeout);
 		void setReceiveSocketTimeout(const std::chrono::duration<float>& timeout);
+		static void completionHandler(std::shared_ptr<std::vector<std::uint8_t>>);
 	};
 };
