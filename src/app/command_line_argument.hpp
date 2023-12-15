@@ -18,5 +18,5 @@ namespace App
 		port
 	};
 
-	std::size_t toSizeT(App::CommandLineArgument commandLineArgument);
+	std::size_t toSizeT(CommandLineArgument commandLineArgument);
 };

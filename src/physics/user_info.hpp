@@ -1,9 +1,9 @@
 #pragma once
 
-#include "common/user_input.hpp"
-#include "common/user_state.hpp"
+#include "physics/user_input.hpp"
+#include "physics/user_state.hpp"
 
-namespace Common
+namespace Physics
 {
 	struct UserInfo
 	{

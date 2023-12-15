@@ -1,7 +1,7 @@
 #pragma once
 
 #include "app/controller_type.hpp"
-#include "common/user_input.hpp"
+#include "physics/user_input.hpp"
 
 #include <glfw/glfw3.h>
 
@@ -11,13 +11,13 @@ namespace App
 	{
 	public:
 		WindowInput(GLFWwindow*& window, ControllerType controller);
-		const Common::UserInput& getCurrentInput();
+		const Physics::UserInput& getCurrentInput();
 
 	private:
-		Common::UserInput m_ownInput{};
+		Physics::UserInput m_ownInput{};
 		GLFWwindow*& m_window;
 		ControllerType m_controller{};
 
-		const Common::UserInput& getCurrentInputKeyboard();
+		const Physics::UserInput& getCurrentInputKeyboard();
 	};
 };

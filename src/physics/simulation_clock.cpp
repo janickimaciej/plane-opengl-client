@@ -9,7 +9,7 @@ namespace Physics
 {
 	Timestep SimulationClock::getTime() const
 	{
-		Physics::Timestamp offset = m_offset.load();
+		Timestamp offset = m_offset.load();
 		std::chrono::duration<float> simulationTime =
 			std::chrono::steady_clock::now().time_since_epoch() -
 			std::chrono::seconds(offset.second) - std::chrono::milliseconds(offset.millisecond);

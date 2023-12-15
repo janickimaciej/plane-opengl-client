@@ -31,7 +31,7 @@ namespace App
 		ExitSignal& m_exitSignal;
 
 		GLFWwindow* m_window{};
-		App::WindowPayload m_windowPayload{};
+		WindowPayload m_windowPayload{};
 		std::unique_ptr<Graphics::RenderingBuffer> m_renderingBuffer{};
 
 		WindowInput m_windowInput;

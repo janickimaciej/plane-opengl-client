@@ -1,8 +1,10 @@
 #include "app/own_input.hpp"
 
+#include "physics/user_input.hpp"
+
 namespace App
 {
-	void OwnInput::setOwnInput(const Common::UserInput& ownInput)
+	void OwnInput::setOwnInput(const Physics::UserInput& ownInput)
 	{
 		m_mutex.lock();
 
@@ -11,11 +13,11 @@ namespace App
 		m_mutex.unlock();
 	}
 
-	Common::UserInput OwnInput::getOwnInput() const
+	Physics::UserInput OwnInput::getOwnInput() const
 	{
 		m_mutex.lock();
 
-		Common::UserInput ownInput = m_ownInput;
+		Physics::UserInput ownInput = m_ownInput;
 
 		m_mutex.unlock();
 

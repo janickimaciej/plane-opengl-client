@@ -36,8 +36,8 @@ namespace App
 		std::unique_ptr<Physics::SimulationBuffer> m_simulationBuffer{};
 		int m_ownId{};
 
-		Physics::Notification m_notification{};
-		Physics::Timestep m_latestStateFrameTimestep{};
+		Physics::Notification m_notification{m_simulationClock};
+		Physics::Timestep m_frameCutoff{};
 		std::unique_ptr<UDPConnection> m_udpConnection;
 
 		void start(std::binary_semaphore& renderingSemaphore, GameMode gameMode,

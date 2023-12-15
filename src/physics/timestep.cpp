@@ -9,25 +9,7 @@ namespace Physics
 
 	bool Timestep::operator<(const Timestep& timestep) const
 	{
-		if ((second == secondsPerMinute - 1 || second == secondsPerMinute - 2) &&
-			(timestep.second == 0 || timestep.second == 1))
-		{
-			return true;
-		}
-		else if ((second == 0 || second == 1) &&
-			(timestep.second == secondsPerMinute - 1 || timestep.second == secondsPerMinute - 2))
-		{
-			return false;
-		}
-		else if (second < timestep.second ||
-			(second == timestep.second && frame < timestep.frame))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return (*this - timestep).second >= 30;
 	}
 
 	bool Timestep::operator<=(const Timestep& timestep) const
@@ -79,5 +61,39 @@ namespace Physics
 			nextTimestep.frame = frame + 1;
 		}
 		return nextTimestep;
+	}
+
+	Timestep operator-(const Timestep& timestep1, const Timestep& timestep2)
+	{
+		int second = static_cast<int>(timestep1.second) - static_cast<int>(timestep2.second);
+		int frame = static_cast<int>(timestep1.frame) -
+			static_cast<int>(timestep2.frame);
+		Timestep::normalize(second, frame);
+		return Timestep{static_cast<unsigned int>(second), static_cast<unsigned int>(frame)};
+	}
+
+	void Timestep::normalize(int& second, int& frame)
+	{
+		while (frame < 0)
+		{
+			frame += framesPerSecond;
+			--second;
+		}
+
+		while (second < 0)
+		{
+			second += secondsPerMinute;
+		}
+
+		while (frame >= framesPerSecond)
+		{
+			frame -= framesPerSecond;
+			++second;
+		}
+
+		while (second >= secondsPerMinute)
+		{
+			second -= secondsPerMinute;
+		}
 	}
 };

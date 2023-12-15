@@ -14,7 +14,13 @@ namespace Physics
 		bool operator==(const Timestep& timestep) const;
 		bool operator<(const Timestep& timestep) const;
 		bool operator<=(const Timestep& timestep) const;
+
 		Timestep previous() const;
 		Timestep next() const;
+		
+		friend Timestep operator-(const Timestep& timestep1, const Timestep& timestep2);
+
+	private:
+		static void normalize(int& second, int& frame);
 	};
 };

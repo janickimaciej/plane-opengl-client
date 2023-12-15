@@ -2,10 +2,10 @@
 
 #include "app/udp/frame/state_frame.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/user_info.hpp"
-#include "common/user_input.hpp"
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
+#include "physics/user_info.hpp"
+#include "physics/user_input.hpp"
 
 #include <array>
 #include <cstdint>
@@ -24,15 +24,15 @@ namespace App
 			Common::AirplaneTypeName airplaneTypeName, std::vector<std::uint8_t>& buffer);
 		static void serializeControlFrame(const Physics::Timestamp& clientTimestamp,
 			const Physics::Timestamp& serverTimestamp, const Physics::Timestep& timestep,
-			int userId, const Common::UserInput& userInput, std::vector<std::uint8_t>& buffer);
+			int userId, const Physics::UserInput& userInput, std::vector<std::uint8_t>& buffer);
 
 		static void deserializeInitResFrame(const std::vector<std::uint8_t>& buffer,
 			Physics::Timestamp& clientTimestamp, Physics::Timestamp& serverTimestamp, int& userId);
 		static void deserializeControlFrame(const std::vector<std::uint8_t>& buffer,
 			Physics::Timestamp& clientTimestamp, Physics::Timestamp& serverTimestamp,
-			Physics::Timestep& timestep, int& userId, Common::UserInput& userInput);
+			Physics::Timestep& timestep, int& userId, Physics::UserInput& userInput);
 		static void deserializeStateFrame(const std::vector<std::uint8_t>& buffer,
-			Physics::Timestep& timestep, std::unordered_map<int, Common::UserInfo>& userInfos);
+			Physics::Timestep& timestep, std::unordered_map<int, Physics::UserInfo>& userInfos);
 
 	private:
 		static std::array<unsigned char, 2> packTimestamp(const Physics::Timestamp& timestamp);

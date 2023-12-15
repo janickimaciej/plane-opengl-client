@@ -53,7 +53,7 @@ namespace Graphics
 			m_hangars.push_back(hangarSubmodel);
 
 			constexpr float hangarsGapZ = 46;
-			m_hangars[i].translate(glm::vec3{0, 0, -hangarsGapZ*(int)i});
+			m_hangars[i].translate(glm::vec3{0, 0, -hangarsGapZ * static_cast<int>(i)});
 		}
 
 		const Submodel lightBodySubmodel{surfaceShaderProgram,
@@ -71,8 +71,8 @@ namespace Graphics
 			constexpr float lightsGapX = 14;
 			constexpr float lightsPositionY = 7;
 			constexpr float lightsPositionZ = 250;
-			glm::vec3 lightPosition{firstLightPositionX + lightsGapX*(int)i, lightsPositionY,
-				lightsPositionZ};
+			glm::vec3 lightPosition{firstLightPositionX + lightsGapX * static_cast<int>(i),
+				lightsPositionY, lightsPositionZ};
 			m_lightBodies[i].translate(lightPosition);
 			m_lights[i].translate(lightPosition);
 

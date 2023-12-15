@@ -6,10 +6,11 @@
 #include "app/udp/frame/state_frame.hpp"
 #include "app/udp/udp_frame_type.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/user_info.hpp"
-#include "common/user_input.hpp"
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
+#include "physics/user_info.hpp"
+#include "physics/user_input.hpp"
+#include "physics/user_state.hpp"
 
 #include <bitsery/adapter/buffer.h>
 #include <bitsery/bitsery.h>
@@ -38,7 +39,7 @@ namespace App
 
 	void UDPSerializer::serializeControlFrame(const Physics::Timestamp& clientTimestamp,
 		const Physics::Timestamp& serverTimestamp, const Physics::Timestep& timestep, int userId,
-		const Common::UserInput& userInput, std::vector<std::uint8_t>& buffer)
+		const Physics::UserInput& userInput, std::vector<std::uint8_t>& buffer)
 	{
 		ControlFrame frame{};
 		frame.clientTimestamp = packTimestamp(clientTimestamp);
@@ -68,7 +69,7 @@ namespace App
 
 	void UDPSerializer::deserializeControlFrame(const std::vector<std::uint8_t>& buffer,
 		Physics::Timestamp& clientTimestamp, Physics::Timestamp& serverTimestamp,
-		Physics::Timestep& timestep, int& userId, Common::UserInput& userInput)
+		Physics::Timestep& timestep, int& userId, Physics::UserInput& userInput)
 	{
 		ControlFrame frame{};
 		bitsery::quickDeserialization<InputAdapter>({buffer.begin(), buffer.size()}, frame);
@@ -85,7 +86,7 @@ namespace App
 	}
 
 	void UDPSerializer::deserializeStateFrame(const std::vector<std::uint8_t>& buffer,
-		Physics::Timestep& timestep, std::unordered_map<int, Common::UserInfo>& userInfos)
+		Physics::Timestep& timestep, std::unordered_map<int, Physics::UserInfo>& userInfos)
 	{
 		StateFrame frame{};
 		bitsery::quickDeserialization<InputAdapter>({buffer.begin(), buffer.size()}, frame);
@@ -94,9 +95,9 @@ namespace App
 		for (const StateFrameUserInfo& userInfo : frame.userInfos)
 		{
 			userInfos.insert({userInfo.userId,
-				Common::UserInfo
+				Physics::UserInfo
 				{
-					Common::UserInput
+					Physics::UserInput
 					{
 						static_cast<float>(userInfo.pitch) / 100,
 						static_cast<float>(userInfo.yaw) / 100,
@@ -104,7 +105,7 @@ namespace App
 						static_cast<float>(userInfo.thrust) / 100,
 						userInfo.trigger
 					},
-					Common::UserState
+					Physics::UserState
 					{
 						userInfo.hp,
 						Common::State(userInfo.state),

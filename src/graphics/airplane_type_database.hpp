@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/airplane_database.hpp"
+#include "common/airplane_center_of_mass_database.hpp"
 #include "common/airplane_type_name.hpp"
 #include "graphics/airplane_type.hpp"
 #include "graphics/paths.hpp"

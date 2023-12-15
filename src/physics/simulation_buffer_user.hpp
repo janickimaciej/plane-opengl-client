@@ -1,12 +1,14 @@
 #pragma once
 
-#include "common/user_info.hpp"
+#include "physics/user_info.hpp"
+
+#include <array>
 
 namespace Physics
 {
 	struct SimulationBufferUser
 	{
-		unsigned int second{};
-		Common::UserInfo info{};
+		std::array<bool, 2> hasControlFrame{};
+		UserInfo info{};
 	};
 };

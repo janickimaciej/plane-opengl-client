@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <functional>
 
 namespace Physics
 {
@@ -21,6 +22,6 @@ namespace Physics
 		friend Timestamp operator/(const Timestamp& timestamp, float number);
 
 	private:
-		void normalize();
+		static void normalize(int& second, int& millisecond);
 	};
 };

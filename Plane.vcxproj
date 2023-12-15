@@ -100,7 +100,7 @@
     <ClInclude Include="src\app\udp\udp_connection.hpp" />
     <ClInclude Include="src\app\window_input.hpp" />
     <ClInclude Include="src\common\airplane_ctrl.hpp" />
-    <ClInclude Include="src\common\airplane_database.hpp" />
+    <ClInclude Include="src\common\airplane_center_of_mass_database.hpp" />
     <ClInclude Include="src\common\airplane_type_name.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
@@ -148,9 +148,9 @@
     <ClInclude Include="src\physics\simulation_buffer_user.hpp" />
     <ClInclude Include="src\physics\simulation_clock.hpp" />
     <ClInclude Include="src\common\airplane_info.hpp" />
-    <ClInclude Include="src\common\user_input.hpp" />
-    <ClInclude Include="src\common\user_info.hpp" />
-    <ClInclude Include="src\common\user_state.hpp" />
+    <ClInclude Include="src\physics\user_input.hpp" />
+    <ClInclude Include="src\physics\user_info.hpp" />
+    <ClInclude Include="src\physics\user_state.hpp" />
     <ClInclude Include="src\common\transformable.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\paths.hpp" />

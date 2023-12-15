@@ -2,10 +2,10 @@
 
 #include "app/udp/udp_frame_type.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/user_info.hpp"
-#include "common/user_input.hpp"
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
+#include "physics/user_info.hpp"
+#include "physics/user_input.hpp"
 
 #include <asio/asio.hpp>
 
@@ -25,16 +25,16 @@ namespace App
 
 		void sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName);
 		void sendControlFrame(const Physics::Timestep& timestep, int userId,
-			const Common::UserInput& userInput);
+			const Physics::UserInput& userInput);
 
 		bool receiveInitResFrame(Physics::Timestamp& sendTimestamp,
 			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp, int& userId);
 		bool receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
-			std::unordered_map<int, Common::UserInfo>& userInfos, int ownId);
+			std::unordered_map<int, Physics::UserInfo>& userInfos, int ownId);
 		bool receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
 			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
 			UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& userId,
-			Common::UserInput& userInput, std::unordered_map<int, Common::UserInfo>& userInfos,
+			Physics::UserInput& userInput, std::unordered_map<int, Physics::UserInfo>& userInfos,
 			int ownId);
 
 	private:

@@ -116,7 +116,7 @@ namespace App
 	{
 		int fieldIndex = 0;
 		std::string fieldString{};
-		for (unsigned int i = 0; i < ipAddress.size(); ++i)
+		for (std::size_t i = 0; i < ipAddress.size(); ++i)
 		{
 			if (ipAddress[i] < '0' || ipAddress[i] > '9')
 			{

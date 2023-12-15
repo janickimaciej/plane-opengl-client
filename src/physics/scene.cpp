@@ -1,8 +1,8 @@
 #include "scene.hpp"
 
-#include "common/user_info.hpp"
 #include "physics/airplane_params_database.hpp"
 #include "physics/models/airplane.hpp"
+#include "physics/user_info.hpp"
 
 #include <cstddef>
 #include <unordered_map>
@@ -11,7 +11,7 @@
 namespace Physics
 {
 	void Scene::updateWithoutStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
 		removeAirplanesWithoutStateFrame(previousScene);
 		addAndUpdateAirplanesWithoutStateFrame(previousScene, userInfos);
@@ -19,7 +19,7 @@ namespace Physics
 	}
 
 	void Scene::updateWithStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
 		removeAirplanesWithStateFrame(userInfos);
 		addAndUpdateAirplanesWithStateFrame(userInfos);
@@ -59,7 +59,7 @@ namespace Physics
 	}
 
 	void Scene::addAndUpdateAirplanesWithoutStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
 		for (const std::pair<const int, Airplane>& previousAirplane : previousScene.m_airplanes)
 		{
@@ -74,7 +74,7 @@ namespace Physics
 	}
 
 	void Scene::removeAirplanesWithStateFrame(
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
 		std::vector<int> keysToBeDeleted{};
 		for (const std::pair<const int, Airplane>& airplane : m_airplanes)
@@ -91,9 +91,9 @@ namespace Physics
 	}
 
 	void Scene::addAndUpdateAirplanesWithStateFrame(
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
-		for (const std::pair<const int, Common::UserInfo>& userInfo : userInfos)
+		for (const std::pair<const int, UserInfo>& userInfo : userInfos)
 		{
 			if (!m_airplanes.contains(userInfo.first))
 			{

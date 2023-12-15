@@ -31,7 +31,7 @@ namespace Physics
 		stateDerivativeObj.position = stateObj.orientation * stateObj.velocity;
 
 		stateDerivativeObj.orientation = stateObj.orientation *
-			glm::quat{0, stateObj.angVelocityRad} / (float)2;
+			glm::quat{0, stateObj.angVelocityRad} / 2.0f;
 
 		stateDerivativeObj.velocity = netForce / m_mass - glm::cross(stateObj.angVelocityRad,
 			stateObj.velocity);

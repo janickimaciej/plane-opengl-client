@@ -7,9 +7,9 @@
 #include "app/threads/network_thread.hpp"
 #include "app/window_payload.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/user_input.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/time.hpp"
+#include "physics/user_input.hpp"
 
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
@@ -82,14 +82,14 @@ namespace App
 		{
 			return;
 		}
-		App::WindowPayload* windowPayload = (App::WindowPayload*)glfwGetWindowUserPointer(window);
+		WindowPayload* windowPayload = (WindowPayload*)glfwGetWindowUserPointer(window);
 		windowPayload->aspectRatio = static_cast<float>(width) / height;
 		glViewport(0, 0, width, height);
 	}
 
 	void RenderingThread::processInput()
 	{
-		const Common::UserInput& ownInput = m_windowInput.getCurrentInput();
+		const Physics::UserInput& ownInput = m_windowInput.getCurrentInput();
 		m_ownInput.setOwnInput(ownInput);
 	}
 };

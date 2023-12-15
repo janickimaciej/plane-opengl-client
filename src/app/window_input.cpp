@@ -1,6 +1,6 @@
 #include "app/window_input.hpp"
 
-#include "common/user_input.hpp"
+#include "physics/user_input.hpp"
 
 #include <glfw/glfw3.h>
 
@@ -11,7 +11,7 @@ namespace App
 		m_controller{controller}
 	{ }
 
-	const Common::UserInput& WindowInput::getCurrentInput()
+	const Physics::UserInput& WindowInput::getCurrentInput()
 	{
 		switch (m_controller)
 		{
@@ -22,7 +22,7 @@ namespace App
 		}
 	}
 
-	const Common::UserInput& WindowInput::getCurrentInputKeyboard()
+	const Physics::UserInput& WindowInput::getCurrentInputKeyboard()
 	{
 		int ctrlYawNegative = glfwGetKey(m_window, GLFW_KEY_A);
 		int ctrlYawPositive = glfwGetKey(m_window, GLFW_KEY_D);

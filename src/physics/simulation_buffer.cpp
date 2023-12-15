@@ -1,11 +1,12 @@
 #include "physics/simulation_buffer.hpp"
 
 #include "common/airplane_info.hpp"
-#include "common/user_info.hpp"
-#include "common/user_input.hpp"
 #include "physics/simulation_buffer_element.hpp"
 #include "physics/simulation_buffer_user.hpp"
 #include "physics/timestep.hpp"
+#include "physics/user_info.hpp"
+#include "physics/user_input.hpp"
+#include "physics/user_state.hpp"
 
 #include <array>
 #include <unordered_map>
@@ -19,26 +20,32 @@ namespace Physics
 	{ }
 
 	void SimulationBuffer::writeControlFrame(const Timestep& timestep, int userId,
-		const Common::UserInput& userInput)
+		const UserInput& userInput)
 	{
 		m_buffer[timestep.frame].mutex.lock();
 
+		bool isSecondOdd = timestep.second % 2;
 		if (!m_buffer[timestep.frame].users.contains(userId))
 		{
 			m_buffer[timestep.frame].users.insert({userId,
 				SimulationBufferUser
 				{
-					timestep.second,
-					Common::UserInfo
+					std::array<bool, 2>
+					{
+						!isSecondOdd,
+						isSecondOdd
+					},
+					UserInfo
 					{
 						userInput,
-						Common::UserState{}
+						UserState{}
 					}
 				}});
 		}
-		else if (m_buffer[timestep.frame].users.at(userId).second != timestep.second)
+		else if ((!isSecondOdd && !m_buffer[timestep.frame].users.at(userId).hasControlFrame[0]) ||
+			(isSecondOdd && !m_buffer[timestep.frame].users.at(userId).hasControlFrame[1]))
 		{
-			m_buffer[timestep.frame].users.at(userId).second = timestep.second;
+			m_buffer[timestep.frame].users.at(userId).hasControlFrame[isSecondOdd] = true;
 			m_buffer[timestep.frame].users.at(userId).info.input = userInput;
 		}
 
@@ -46,7 +53,7 @@ namespace Physics
 	}
 
 	void SimulationBuffer::writeStateFrame(const Timestep& timestep,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
 		m_buffer[timestep.frame].mutex.lock();
 
@@ -58,28 +65,34 @@ namespace Physics
 	}
 
 	bool SimulationBuffer::setOwnInput(const Timestep& timestep,
-		const Common::UserInput& ownInput)
+		const UserInput& ownInput)
 	{
 		m_buffer[timestep.frame].mutex.lock();
 
+		bool isSecondOdd = timestep.second % 2;
 		bool inputSet = false;
 		if (!m_buffer[timestep.frame].users.contains(m_ownId))
 		{
 			m_buffer[timestep.frame].users.insert({m_ownId,
 				SimulationBufferUser
 				{
-					timestep.second,
-					Common::UserInfo
+					std::array<bool, 2>
+					{
+						!isSecondOdd,
+						isSecondOdd
+					},
+					UserInfo
 					{
 						ownInput,
-						Common::UserState{}
+						UserState{}
 					}
 				}});
 			inputSet = true;
 		}
-		else if (m_buffer[timestep.frame].users.at(m_ownId).second != timestep.second)
+		else if ((!isSecondOdd && !m_buffer[timestep.frame].users.at(m_ownId).hasControlFrame[0]) ||
+			(isSecondOdd && !m_buffer[timestep.frame].users.at(m_ownId).hasControlFrame[1]))
 		{
-			m_buffer[timestep.frame].users.at(m_ownId).second = timestep.second;
+			m_buffer[timestep.frame].users.at(m_ownId).hasControlFrame[isSecondOdd] = true;
 			m_buffer[timestep.frame].users.at(m_ownId).info.input = ownInput;
 			inputSet = true;
 		}
@@ -101,7 +114,7 @@ namespace Physics
 			removeUserInputs(previousTimestep, timestep);
 			addAndUpdateUserInputs(previousTimestep, timestep);
 		}
-		std::unordered_map<int, Common::UserInfo> userInfos;
+		std::unordered_map<int, UserInfo> userInfos;
 		for (const std::pair<const int, SimulationBufferUser>& user :
 			m_buffer[timestep.frame].users)
 		{
@@ -130,15 +143,15 @@ namespace Physics
 	}
 
 	void SimulationBuffer::removeUserInputs(const Timestep& timestep,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
 		std::vector<int> keysToBeDeleted;
-		for (const std::pair<const int, SimulationBufferUser>& bufferUserInfo :
+		for (const std::pair<const int, SimulationBufferUser>& user :
 			m_buffer[timestep.frame].users)
 		{
-			if (!userInfos.contains(bufferUserInfo.first))
+			if (!userInfos.contains(user.first))
 			{
-				keysToBeDeleted.push_back(bufferUserInfo.first);
+				keysToBeDeleted.push_back(user.first);
 			}
 		}
 		for (int key : keysToBeDeleted)
@@ -148,11 +161,12 @@ namespace Physics
 	}
 
 	void SimulationBuffer::addAndUpdateUserInputs(const Timestep& timestep,
-		const std::unordered_map<int, Common::UserInfo>& userInfos)
+		const std::unordered_map<int, UserInfo>& userInfos)
 	{
-		for (const std::pair<const int, Common::UserInfo>& userInfo : userInfos)
+		bool isSecondOdd = timestep.second % 2;
+		for (const std::pair<const int, UserInfo>& userInfo : userInfos)
 		{
-			m_buffer[timestep.frame].users[userInfo.first].second = timestep.second;
+			m_buffer[timestep.frame].users[userInfo.first].hasControlFrame[isSecondOdd] = true;
 			m_buffer[timestep.frame].users[userInfo.first].info = userInfo.second;
 		}
 	}
@@ -161,12 +175,11 @@ namespace Physics
 		const Timestep& timestep)
 	{
 		std::vector<int> keysToBeDeleted;
-		for (const std::pair<const int, SimulationBufferUser>& userInfo :
-			m_buffer[timestep.frame].users)
+		for (std::pair<const int, SimulationBufferUser>& user : m_buffer[timestep.frame].users)
 		{
-			if (!m_buffer[previousTimestep.frame].users.contains(userInfo.first))
+			if (!m_buffer[previousTimestep.frame].users.contains(user.first))
 			{
-				keysToBeDeleted.push_back(userInfo.first);
+				keysToBeDeleted.push_back(user.first);
 			}
 		}
 		for (int key : keysToBeDeleted)
@@ -178,33 +191,42 @@ namespace Physics
 	void SimulationBuffer::addAndUpdateUserInputs(const Timestep& previousTimestep,
 		const Timestep& timestep)
 	{
-		for (const std::pair<const int, SimulationBufferUser>& previousUserInfo :
+		bool isSecondOdd = timestep.second % 2;
+		for (const std::pair<const int, SimulationBufferUser>& previousUser :
 			m_buffer[previousTimestep.frame].users)
 		{
-			if (!m_buffer[timestep.frame].users.contains(previousUserInfo.first))
+			if (!m_buffer[timestep.frame].users.contains(previousUser.first))
 			{
-				m_buffer[timestep.frame].users.insert({previousUserInfo.first,
+				m_buffer[timestep.frame].users.insert({previousUser.first,
 					SimulationBufferUser
 					{
-						secondsPerMinute, // invalid value
-						Common::UserInfo
+						std::array<bool, 2>
 						{
-							previousUserInfo.second.info.input,
-							Common::UserState{}
+							false,
+							false
+						},
+						UserInfo
+						{
+							previousUser.second.info.input,
+							UserState{}
 						}
 					}});
 			}
-			else if (m_buffer[timestep.frame].users[previousUserInfo.first].second !=
-				timestep.second)
+			else if (!m_buffer[timestep.frame].users[previousUser.first].
+				hasControlFrame[isSecondOdd])
 			{
-				m_buffer[timestep.frame].users[previousUserInfo.first].info.input =
-					previousUserInfo.second.info.input;
+				m_buffer[timestep.frame].users[previousUser.first].info.input =
+					previousUser.second.info.input;
 			}
+		}
+		for (std::pair<const int, SimulationBufferUser>& user : m_buffer[timestep.frame].users)
+		{
+			user.second.hasControlFrame[!isSecondOdd] = false;
 		}
 	}
 
 	void SimulationBuffer::updateScene(const Timestep& previousTimestep,
-		const Timestep& timestep, const std::unordered_map<int, Common::UserInfo>& userInfos,
+		const Timestep& timestep, const std::unordered_map<int, UserInfo>& userInfos,
 		bool hasStateFrame)
 	{
 		if (hasStateFrame)

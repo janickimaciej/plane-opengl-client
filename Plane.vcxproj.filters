@@ -95,10 +95,10 @@
     <ClInclude Include="src\physics\atmosphere.hpp" />
     <ClInclude Include="src\graphics\texture.hpp" />
     <ClInclude Include="src\graphics\asset_manager.hpp" />
-    <ClInclude Include="src\common\user_info.hpp" />
-    <ClInclude Include="src\common\user_input.hpp" />
+    <ClInclude Include="src\physics\user_info.hpp" />
+    <ClInclude Include="src\physics\user_input.hpp" />
     <ClInclude Include="src\physics\simulation_buffer_element.hpp" />
-    <ClInclude Include="src\common\user_state.hpp" />
+    <ClInclude Include="src\physics\user_state.hpp" />
     <ClInclude Include="src\graphics\models\airplane.hpp" />
     <ClInclude Include="src\graphics\models\airport.hpp" />
     <ClInclude Include="src\graphics\models\directional_light_model.hpp" />
@@ -113,7 +113,7 @@
     <ClInclude Include="src\graphics\maps\island_map.hpp" />
     <ClInclude Include="src\graphics\airplane_type.hpp" />
     <ClInclude Include="src\graphics\airplane_type_database.hpp" />
-    <ClInclude Include="src\common\airplane_database.hpp" />
+    <ClInclude Include="src\common\airplane_center_of_mass_database.hpp" />
     <ClInclude Include="src\physics\models\airplane.hpp" />
     <ClInclude Include="src\physics\models\model.hpp" />
     <ClInclude Include="src\physics\scene.hpp" />

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "common/airplane_info.hpp"
-#include "common/user_info.hpp"
 #include "physics/day_night_cycle.hpp"
 #include "physics/models/airplane.hpp"
+#include "physics/user_info.hpp"
 
 #include <unordered_map>
 
@@ -13,9 +13,9 @@ namespace Physics
 	{
 	public:
 		void updateWithoutStateFrame(const Scene& previousScene,
-			const std::unordered_map<int, Common::UserInfo>& userInfos);
+			const std::unordered_map<int, UserInfo>& userInfos);
 		void updateWithStateFrame(const Scene& previousScene,
-			const std::unordered_map<int, Common::UserInfo>& userInfos);
+			const std::unordered_map<int, UserInfo>& userInfos);
 		std::unordered_map<int, Common::AirplaneInfo> getAirplaneInfos() const;
 
 	private:
@@ -26,12 +26,12 @@ namespace Physics
 
 		void removeAirplanesWithoutStateFrame(const Scene& previousScene);
 		void addAndUpdateAirplanesWithoutStateFrame(const Scene& previousScene,
-			const std::unordered_map<int, Common::UserInfo>& userInfos);
+			const std::unordered_map<int, UserInfo>& userInfos);
 
 		void removeAirplanesWithStateFrame(
-			const std::unordered_map<int, Common::UserInfo>& userInfos);
+			const std::unordered_map<int, UserInfo>& userInfos);
 		void addAndUpdateAirplanesWithStateFrame(
-			const std::unordered_map<int, Common::UserInfo>& userInfos);
+			const std::unordered_map<int, UserInfo>& userInfos);
 
 		void updateCommon(const Scene& previousScene);
 

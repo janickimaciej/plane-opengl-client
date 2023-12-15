@@ -32,41 +32,39 @@ namespace Physics
 
 	Timestamp operator+(const Timestamp& timestamp1, const Timestamp& timestamp2)
 	{
-		Timestamp result{};
-		result.second = timestamp1.second + timestamp2.second;
-		result.millisecond = timestamp1.millisecond + timestamp2.millisecond;
-		result.normalize();
-		return result;
+		int second = static_cast<int>(timestamp1.second) + static_cast<int>(timestamp2.second);
+		int millisecond = static_cast<int>(timestamp1.millisecond) +
+			static_cast<int>(timestamp2.millisecond);
+		Timestamp::normalize(second, millisecond);
+		return Timestamp{static_cast<unsigned int>(second), static_cast<unsigned int>(millisecond)};
 	}
 
 	Timestamp operator-(const Timestamp& timestamp1, const Timestamp& timestamp2)
 	{
-		Timestamp result{};
-		result.second = timestamp1.second - timestamp2.second;
-		result.millisecond = timestamp1.millisecond - timestamp2.millisecond;
-		result.normalize();
-		return result;
+		int second = static_cast<int>(timestamp1.second) - static_cast<int>(timestamp2.second);
+		int millisecond = static_cast<int>(timestamp1.millisecond) -
+			static_cast<int>(timestamp2.millisecond);
+		Timestamp::normalize(second, millisecond);
+		return Timestamp{static_cast<unsigned int>(second), static_cast<unsigned int>(millisecond)};
 	}
 
 	Timestamp operator*(float number, const Timestamp& timestamp)
 	{
-		Timestamp result{};
-		result.second = static_cast<unsigned int>(timestamp.second * number + 0.5f);
-		result.millisecond = static_cast<unsigned int>(timestamp.millisecond * number + 0.5f);
-		result.normalize();
-		return result;
+		int second = static_cast<int>(static_cast<int>(timestamp.second) * number + 0.5f);
+		int millisecond = static_cast<int>(static_cast<int>(timestamp.millisecond) * number + 0.5f);
+		Timestamp::normalize(second, millisecond);
+		return Timestamp{static_cast<unsigned int>(second), static_cast<unsigned int>(millisecond)};
 	}
 
 	Timestamp operator/(const Timestamp& timestamp, float number)
 	{
-		Timestamp result{};
-		result.second = static_cast<unsigned int>(timestamp.second / number + 0.5f);
-		result.millisecond = static_cast<unsigned int>(timestamp.millisecond / number + 0.5f);
-		result.normalize();
-		return result;
+		int second = static_cast<int>(static_cast<int>(timestamp.second) / number + 0.5f);
+		int millisecond = static_cast<int>(static_cast<int>(timestamp.millisecond) / number + 0.5f);
+		Timestamp::normalize(second, millisecond);
+		return Timestamp{static_cast<unsigned int>(second), static_cast<unsigned int>(millisecond)};
 	}
 
-	void Timestamp::normalize()
+	void Timestamp::normalize(int& second, int& millisecond)
 	{
 		while (millisecond < 0)
 		{

@@ -65,7 +65,7 @@ namespace Physics
 	
 		vStab.orientation = glm::angleAxis(glm::radians(vStabIncidenceAngleDeg),
 			glm::vec3{1, 0, 0});
-		vStab.orientation = glm::angleAxis(glm::radians((float)-90), glm::vec3{0, 0, 1}) *
+		vStab.orientation = glm::angleAxis(glm::radians(-90.0f), glm::vec3{0, 0, 1}) *
 			vStab.orientation;
 		vStab.area = vStabArea;
 		vStab.liftCoefConst = vStabLiftCoefConst;

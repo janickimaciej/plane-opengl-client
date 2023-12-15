@@ -3,12 +3,12 @@
 #include "common/airplane_type_name.hpp"
 #include "common/state.hpp"
 
-namespace Common
+namespace Physics
 {
 	struct UserState
 	{
 		int hp{};
-		State state{};
-		AirplaneTypeName airplaneTypeName;
+		Common::State state{};
+		Common::AirplaneTypeName airplaneTypeName;
 	};
 };

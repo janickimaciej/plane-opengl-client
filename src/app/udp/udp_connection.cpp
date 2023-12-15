@@ -3,10 +3,10 @@
 #include "app/udp/udp_frame_type.hpp"
 #include "app/udp/udp_serializer.hpp"
 #include "common/airplane_type_name.hpp"
-#include "common/user_info.hpp"
-#include "common/user_input.hpp"
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
+#include "physics/user_info.hpp"
+#include "physics/user_input.hpp"
 
 #include <asio/asio.hpp>
 
@@ -42,7 +42,7 @@ namespace App
 	}
 
 	void UDPConnection::sendControlFrame(const Physics::Timestep& timestep, int userId,
-		const Common::UserInput& userInput)
+		const Physics::UserInput& userInput)
 	{
 		std::shared_ptr<std::vector<std::uint8_t>> buffer =
 			std::make_shared<std::vector<std::uint8_t>>();
@@ -80,7 +80,7 @@ namespace App
 	}
 
 	bool UDPConnection::receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
-		std::unordered_map<int, Common::UserInfo>& userInfos, int ownId)
+		std::unordered_map<int, Physics::UserInfo>& userInfos, int ownId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
 		return receiveFrameWithTimeout
@@ -107,7 +107,7 @@ namespace App
 	bool UDPConnection::receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
 		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
 		UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& userId,
-		Common::UserInput& userInput, std::unordered_map<int, Common::UserInfo>& userInfos,
+		Physics::UserInput& userInput, std::unordered_map<int, Physics::UserInfo>& userInfos,
 		int ownId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
