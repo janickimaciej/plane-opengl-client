@@ -7,10 +7,10 @@
 #include "common/airplane_info.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/notification.hpp"
+#include "physics/player_input.hpp"
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
 #include "physics/timestep.hpp"
-#include "physics/user_input.hpp"
 
 #include <atomic>
 #include <memory>
@@ -53,7 +53,7 @@ namespace App
 
 		m_notification.forceGetNotification(initialTimestep);
 		
-		m_simulationBuffer.setOwnInput(initialTimestep, Physics::UserInput{});
+		m_simulationBuffer.setOwnInput(initialTimestep, Physics::PlayerInput{});
 		m_simulationBuffer.update(initialTimestep);
 
 		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
@@ -73,7 +73,7 @@ namespace App
 			m_notification.getNotification(timestep);
 			sleepIfFuture(timestep);
 
-			Physics::UserInput ownInput = m_ownInput.getOwnInput();
+			Physics::PlayerInput ownInput = m_ownInput.getOwnInput();
 			bool inputSet = m_simulationBuffer.setOwnInput(timestep, ownInput);
 			m_simulationBuffer.update(timestep);
 

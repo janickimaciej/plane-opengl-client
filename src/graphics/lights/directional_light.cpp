@@ -30,7 +30,8 @@ namespace Graphics
 		m_surfaceShaderProgram.setUniform3f(prefix + "lightDirection", lightDirection);
 
 		m_surfaceShaderProgram.setUniform3f(prefix + "color", m_color);
-		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationQuadratic", m_attenuationQuadratic);
+		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationQuadratic",
+			m_attenuationQuadratic);
 		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationLinear", m_attenuationLinear);
 		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationConstant", m_attenuationConstant);
 	}

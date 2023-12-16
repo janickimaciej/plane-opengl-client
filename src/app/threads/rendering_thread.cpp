@@ -9,7 +9,7 @@
 #include "common/airplane_type_name.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/time.hpp"
-#include "physics/user_input.hpp"
+#include "physics/player_input.hpp"
 
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
@@ -89,7 +89,7 @@ namespace App
 
 	void RenderingThread::processInput()
 	{
-		const Physics::UserInput& ownInput = m_windowInput.getCurrentInput();
+		const Physics::PlayerInput& ownInput = m_windowInput.getCurrentInput();
 		m_ownInput.setOwnInput(ownInput);
 	}
 };

@@ -107,7 +107,7 @@ namespace Graphics
 					}});
 			}
 			m_airplanes.at(airplaneInfo.first).setState(airplaneInfo.second.state);
-			m_airplanes.at(airplaneInfo.first).setCtrl(airplaneInfo.second.airplaneCtrl);
+			m_airplanes.at(airplaneInfo.first).setCtrl(/*airplaneInfo.second.airplaneCtrl*/);
 		}
 	}
 };

@@ -6,7 +6,7 @@
 #include "physics/flight_ctrl.hpp"
 #include "physics/model_dynamics/airplane_dynamics.hpp"
 #include "physics/models/model.hpp"
-#include "physics/user_input.hpp"
+#include "physics/player_input.hpp"
 
 #include <memory>
 
@@ -21,7 +21,7 @@ namespace Physics
 		void update(const Airplane& previousAirplane);
 		Common::AirplaneTypeName getAirplaneTypeName() const;
 		Common::AirplaneCtrl getCtrl() const;
-		void setCtrl(const UserInput& input);
+		void setCtrl(const PlayerInput& input);
 		virtual ~Airplane() = default;
 
 	private:

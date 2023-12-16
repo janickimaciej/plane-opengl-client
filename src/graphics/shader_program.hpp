@@ -26,7 +26,8 @@ namespace Graphics
 		unsigned int m_id{};
 
 		unsigned int createShader(GLenum shaderType, const std::string& shaderPath) const;
-		unsigned int createShaderProgram(unsigned int vertexShader, unsigned int fragmentShader) const;
+		unsigned int createShaderProgram(unsigned int vertexShader,
+			unsigned int fragmentShader) const;
 		std::string readShaderFile(const std::string& shaderPath) const;
 		void printCompilationError(GLenum shaderType, unsigned int shaderId) const;
 		void printLinkingError(unsigned int programId) const;

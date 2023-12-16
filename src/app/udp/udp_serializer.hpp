@@ -2,10 +2,10 @@
 
 #include "app/udp/frame/state_frame.hpp"
 #include "common/airplane_type_name.hpp"
+#include "physics/player_info.hpp"
+#include "physics/player_input.hpp"
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
-#include "physics/user_info.hpp"
-#include "physics/user_input.hpp"
 
 #include <array>
 #include <cstdint>
@@ -14,8 +14,8 @@
 
 namespace App
 {
-	inline constexpr std::size_t maxFrameSize = emptyStateFrameSerializedSize + maxUserCount *
-		stateFrameUserInfoSerializedSize;
+	inline constexpr std::size_t maxFrameSize = emptyStateFrameSerializedSize + maxPlayerCount *
+		stateFramePlayerInfoSerializedSize;
 
 	class UDPSerializer
 	{
@@ -24,15 +24,17 @@ namespace App
 			Common::AirplaneTypeName airplaneTypeName, std::vector<std::uint8_t>& buffer);
 		static void serializeControlFrame(const Physics::Timestamp& clientTimestamp,
 			const Physics::Timestamp& serverTimestamp, const Physics::Timestep& timestep,
-			int userId, const Physics::UserInput& userInput, std::vector<std::uint8_t>& buffer);
+			int playerId, const Physics::PlayerInput& playerInput,
+			std::vector<std::uint8_t>& buffer);
 
 		static void deserializeInitResFrame(const std::vector<std::uint8_t>& buffer,
-			Physics::Timestamp& clientTimestamp, Physics::Timestamp& serverTimestamp, int& userId);
+			Physics::Timestamp& clientTimestamp, Physics::Timestamp& serverTimestamp,
+			int& playerId);
 		static void deserializeControlFrame(const std::vector<std::uint8_t>& buffer,
 			Physics::Timestamp& clientTimestamp, Physics::Timestamp& serverTimestamp,
-			Physics::Timestep& timestep, int& userId, Physics::UserInput& userInput);
+			Physics::Timestep& timestep, int& playerId, Physics::PlayerInput& playerInput);
 		static void deserializeStateFrame(const std::vector<std::uint8_t>& buffer,
-			Physics::Timestep& timestep, std::unordered_map<int, Physics::UserInfo>& userInfos);
+			Physics::Timestep& timestep, std::unordered_map<int, Physics::PlayerInfo>& playerInfos);
 
 	private:
 		static std::array<unsigned char, 2> packTimestamp(const Physics::Timestamp& timestamp);

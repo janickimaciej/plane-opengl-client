@@ -2,7 +2,7 @@
 
 #include "physics/airplane_params_database.hpp"
 #include "physics/models/airplane.hpp"
-#include "physics/user_info.hpp"
+#include "physics/player_info.hpp"
 
 #include <cstddef>
 #include <unordered_map>
@@ -11,18 +11,18 @@
 namespace Physics
 {
 	void Scene::updateWithoutStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, UserInfo>& userInfos)
+		const std::unordered_map<int, PlayerInfo>& playerInfos)
 	{
 		removeAirplanesWithoutStateFrame(previousScene);
-		addAndUpdateAirplanesWithoutStateFrame(previousScene, userInfos);
+		addAndUpdateAirplanesWithoutStateFrame(previousScene, playerInfos);
 		updateCommon(previousScene);
 	}
 
 	void Scene::updateWithStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, UserInfo>& userInfos)
+		const std::unordered_map<int, PlayerInfo>& playerInfos)
 	{
-		removeAirplanesWithStateFrame(userInfos);
-		addAndUpdateAirplanesWithStateFrame(userInfos);
+		removeAirplanesWithStateFrame(playerInfos);
+		addAndUpdateAirplanesWithStateFrame(playerInfos);
 		updateCommon(previousScene);
 	}
 
@@ -59,7 +59,7 @@ namespace Physics
 	}
 
 	void Scene::addAndUpdateAirplanesWithoutStateFrame(const Scene& previousScene,
-		const std::unordered_map<int, UserInfo>& userInfos)
+		const std::unordered_map<int, PlayerInfo>& playerInfos)
 	{
 		for (const std::pair<const int, Airplane>& previousAirplane : previousScene.m_airplanes)
 		{
@@ -68,18 +68,18 @@ namespace Physics
 				m_airplanes.insert(previousAirplane);
 			}
 			m_airplanes.at(previousAirplane.first).setCtrl(
-				userInfos.at(previousAirplane.first).input);
+				playerInfos.at(previousAirplane.first).input);
 			m_airplanes.at(previousAirplane.first).update(previousAirplane.second);
 		}
 	}
 
 	void Scene::removeAirplanesWithStateFrame(
-		const std::unordered_map<int, UserInfo>& userInfos)
+		const std::unordered_map<int, PlayerInfo>& playerInfos)
 	{
 		std::vector<int> keysToBeDeleted{};
 		for (const std::pair<const int, Airplane>& airplane : m_airplanes)
 		{
-			if (!userInfos.contains(airplane.first))
+			if (!playerInfos.contains(airplane.first))
 			{
 				keysToBeDeleted.push_back(airplane.first);
 			}
@@ -91,17 +91,17 @@ namespace Physics
 	}
 
 	void Scene::addAndUpdateAirplanesWithStateFrame(
-		const std::unordered_map<int, UserInfo>& userInfos)
+		const std::unordered_map<int, PlayerInfo>& playerInfos)
 	{
-		for (const std::pair<const int, UserInfo>& userInfo : userInfos)
+		for (const std::pair<const int, PlayerInfo>& playerInfo : playerInfos)
 		{
-			if (!m_airplanes.contains(userInfo.first))
+			if (!m_airplanes.contains(playerInfo.first))
 			{
-				m_airplanes.insert({userInfo.first,
-					Airplane{userInfo.second.state.airplaneTypeName}});
+				m_airplanes.insert({playerInfo.first,
+					Airplane{playerInfo.second.state.airplaneTypeName}});
 			}
-			m_airplanes.at(userInfo.first).setCtrl(userInfo.second.input);
-			m_airplanes.at(userInfo.first).setState(userInfo.second.state.state);
+			m_airplanes.at(playerInfo.first).setCtrl(playerInfo.second.input);
+			m_airplanes.at(playerInfo.first).setState(playerInfo.second.state.state);
 		}
 	}
 
@@ -112,7 +112,7 @@ namespace Physics
 		m_dayNightCycle.updateTime(previousScene.m_dayNightCycle);
 	}
 
-	void Scene::updateBullets()
+	void Scene::updateBullets(/*const Scene& previousScene*/)
 	{
 		// TODO (with bullet generation)
 	}

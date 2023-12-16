@@ -95,10 +95,10 @@
     <ClInclude Include="src\physics\atmosphere.hpp" />
     <ClInclude Include="src\graphics\texture.hpp" />
     <ClInclude Include="src\graphics\asset_manager.hpp" />
-    <ClInclude Include="src\physics\user_info.hpp" />
-    <ClInclude Include="src\physics\user_input.hpp" />
+    <ClInclude Include="src\physics\player_info.hpp" />
+    <ClInclude Include="src\physics\player_input.hpp" />
     <ClInclude Include="src\physics\simulation_buffer_element.hpp" />
-    <ClInclude Include="src\physics\user_state.hpp" />
+    <ClInclude Include="src\physics\player_state.hpp" />
     <ClInclude Include="src\graphics\models\airplane.hpp" />
     <ClInclude Include="src\graphics\models\airport.hpp" />
     <ClInclude Include="src\graphics\models\directional_light_model.hpp" />
@@ -134,7 +134,7 @@
     <ClInclude Include="src\app\udp\udp_connection.hpp" />
     <ClInclude Include="src\physics\airplane_params_database\mustang.hpp" />
     <ClInclude Include="src\app\udp\udp_frame_type.hpp" />
-    <ClInclude Include="src\physics\simulation_buffer_user.hpp" />
+    <ClInclude Include="src\physics\simulation_buffer_player.hpp" />
     <ClInclude Include="src\physics\timestamp.hpp" />
     <ClInclude Include="src\physics\notification.hpp" />
     <ClInclude Include="src\physics\timestep.hpp" />
@@ -146,7 +146,7 @@
     <ClInclude Include="src\app\udp\frame\state_frame.hpp" />
     <ClInclude Include="src\app\udp\frame\init_req_frame.hpp" />
     <ClInclude Include="src\app\udp\frame\init_res_frame.hpp" />
-    <ClInclude Include="src\app\udp\frame\state_frame_user_info.hpp" />
+    <ClInclude Include="src\app\udp\frame\state_frame_player_info.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

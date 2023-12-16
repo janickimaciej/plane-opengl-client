@@ -1,6 +1,6 @@
 #pragma once
 
-#include "physics/user_input.hpp"
+#include "physics/player_input.hpp"
 
 #include <mutex>
 
@@ -9,11 +9,11 @@ namespace App
 	class OwnInput
 	{
 	public:
-		void setOwnInput(const Physics::UserInput& ownInput);
-		Physics::UserInput getOwnInput() const;
+		void setOwnInput(const Physics::PlayerInput& ownInput);
+		Physics::PlayerInput getOwnInput() const;
 
 	private:
-		Physics::UserInput m_ownInput{};
+		Physics::PlayerInput m_ownInput{};
 		mutable std::mutex m_mutex{};
 	};
 };

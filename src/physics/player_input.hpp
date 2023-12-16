@@ -2,7 +2,7 @@
 
 namespace Physics
 {
-	struct UserInput
+	struct PlayerInput
 	{
 		float pitch{};
 		float yaw{};

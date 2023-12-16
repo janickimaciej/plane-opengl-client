@@ -93,7 +93,7 @@
     <ClInclude Include="src\app\udp\frame\init_req_frame.hpp" />
     <ClInclude Include="src\app\udp\frame\init_res_frame.hpp" />
     <ClInclude Include="src\app\udp\frame\state_frame.hpp" />
-    <ClInclude Include="src\app\udp\frame\state_frame_user_info.hpp" />
+    <ClInclude Include="src\app\udp\frame\state_frame_player_info.hpp" />
     <ClInclude Include="src\app\udp\udp_serializer.hpp" />
     <ClInclude Include="src\physics\timestamp.hpp" />
     <ClInclude Include="src\app\udp\udp_frame_type.hpp" />
@@ -145,12 +145,12 @@
     <ClInclude Include="src\physics\model_dynamics\rigid_body_dynamics.hpp" />
     <ClInclude Include="src\physics\scene.hpp" />
     <ClInclude Include="src\physics\simulation_buffer.hpp" />
-    <ClInclude Include="src\physics\simulation_buffer_user.hpp" />
+    <ClInclude Include="src\physics\simulation_buffer_player.hpp" />
     <ClInclude Include="src\physics\simulation_clock.hpp" />
     <ClInclude Include="src\common\airplane_info.hpp" />
-    <ClInclude Include="src\physics\user_input.hpp" />
-    <ClInclude Include="src\physics\user_info.hpp" />
-    <ClInclude Include="src\physics\user_state.hpp" />
+    <ClInclude Include="src\physics\player_input.hpp" />
+    <ClInclude Include="src\physics\player_info.hpp" />
+    <ClInclude Include="src\physics\player_state.hpp" />
     <ClInclude Include="src\common\transformable.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\paths.hpp" />

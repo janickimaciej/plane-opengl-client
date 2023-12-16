@@ -1,14 +1,14 @@
 #pragma once
 
-#include "physics/user_info.hpp"
+#include "physics/player_info.hpp"
 
 #include <array>
 
 namespace Physics
 {
-	struct SimulationBufferUser
+	struct SimulationBufferPlayer
 	{
 		std::array<bool, 2> hasControlFrame{};
-		UserInfo info{};
+		PlayerInfo info{};
 	};
 };

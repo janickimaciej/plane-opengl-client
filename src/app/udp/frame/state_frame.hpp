@@ -1,6 +1,6 @@
 #pragma once
 
-#include "app/udp/frame/state_frame_user_info.hpp"
+#include "app/udp/frame/state_frame_player_info.hpp"
 #include "app/udp/udp_frame_type.hpp"
 
 #include <bitsery/traits/array.h>
@@ -11,7 +11,7 @@
 
 namespace App
 {
-	inline constexpr std::size_t maxUserCount = 32;
+	inline constexpr std::size_t maxPlayerCount = 32;
 	inline constexpr std::size_t vectorSerializedSize = 4; // with margin
 	inline constexpr std::size_t emptyStateFrameSerializedSize = 3 + vectorSerializedSize;
 
@@ -19,7 +19,7 @@ namespace App
 	{
 		unsigned char frameType = toUInt8(UDPFrameType::state);
 		std::array<unsigned char, 2> timestep{};
-		std::vector<StateFrameUserInfo> userInfos{};
+		std::vector<StateFramePlayerInfo> playerInfos{};
 	};
 
 	template <typename T>
@@ -27,6 +27,6 @@ namespace App
 	{
 		t.value1b(frame.frameType);
 		t.container1b(frame.timestep);
-		t.container(frame.userInfos, maxUserCount);
+		t.container(frame.playerInfos, maxPlayerCount);
 	}
 };

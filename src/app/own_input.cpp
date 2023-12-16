@@ -1,10 +1,10 @@
 #include "app/own_input.hpp"
 
-#include "physics/user_input.hpp"
+#include "physics/player_input.hpp"
 
 namespace App
 {
-	void OwnInput::setOwnInput(const Physics::UserInput& ownInput)
+	void OwnInput::setOwnInput(const Physics::PlayerInput& ownInput)
 	{
 		m_mutex.lock();
 
@@ -13,11 +13,11 @@ namespace App
 		m_mutex.unlock();
 	}
 
-	Physics::UserInput OwnInput::getOwnInput() const
+	Physics::PlayerInput OwnInput::getOwnInput() const
 	{
 		m_mutex.lock();
 
-		Physics::UserInput ownInput = m_ownInput;
+		Physics::PlayerInput ownInput = m_ownInput;
 
 		m_mutex.unlock();
 

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "common/airplane_info.hpp"
+#include "physics/player_info.hpp"
+#include "physics/player_input.hpp"
 #include "physics/simulation_buffer_element.hpp"
-#include "physics/simulation_buffer_user.hpp"
+#include "physics/simulation_buffer_player.hpp"
 #include "physics/timestep.hpp"
-#include "physics/user_info.hpp"
-#include "physics/user_input.hpp"
 
 #include <array>
 #include <unordered_map>
@@ -19,12 +19,12 @@ namespace Physics
 
 		SimulationBuffer(int ownId);
 
-		void writeControlFrame(const Timestep& timestep, int userId,
-			const UserInput& userInput);
+		void writeControlFrame(const Timestep& timestep, int playerId,
+			const PlayerInput& playerInput);
 		void writeStateFrame(const Timestep& timestep,
-			const std::unordered_map<int, UserInfo>& userInfos);
+			const std::unordered_map<int, PlayerInfo>& playerInfos);
 
-		bool setOwnInput(const Timestep& timestep, const UserInput& ownInput);
+		bool setOwnInput(const Timestep& timestep, const PlayerInput& ownInput);
 		void update(const Timestep& timestep);
 		std::unordered_map<int, Common::AirplaneInfo> getAirplaneInfos(const Timestep& timestep);
 
@@ -32,14 +32,14 @@ namespace Physics
 		std::array<SimulationBufferElement, simulationBufferSize> m_buffer{};
 		int m_ownId{};
 
-		void removeUserInputs(const Timestep& timestep,
-			const std::unordered_map<int, UserInfo>& userInfos);
-		void addAndUpdateUserInputs(const Timestep& timestep,
-			const std::unordered_map<int, UserInfo>& userInfos);
+		void removePlayerInputs(const Timestep& timestep,
+			const std::unordered_map<int, PlayerInfo>& playerInfos);
+		void addAndUpdatePlayerInputs(const Timestep& timestep,
+			const std::unordered_map<int, PlayerInfo>& playerInfos);
 
-		void removeUserInputs(const Timestep& previousTimestep, const Timestep& timestep);
-		void addAndUpdateUserInputs(const Timestep& previousTimestep, const Timestep& timestep);
+		void removePlayerInputs(const Timestep& previousTimestep, const Timestep& timestep);
+		void addAndUpdatePlayerInputs(const Timestep& previousTimestep, const Timestep& timestep);
 		void updateScene(const Timestep& previousTimestep, const Timestep& timestep,
-			const std::unordered_map<int, UserInfo>& userInfos, bool hasStateFrame);
+			const std::unordered_map<int, PlayerInfo>& playerInfos, bool hasStateFrame);
 	};
 };

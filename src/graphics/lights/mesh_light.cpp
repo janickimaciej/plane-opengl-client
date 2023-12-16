@@ -52,8 +52,8 @@ namespace Graphics
 	MeshLight::MeshLight(unsigned int id, const ShaderProgram& surfaceShaderProgram,
 		float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
 		const glm::vec3& color, const Submodel& submodel) :
-		Light{id, surfaceShaderProgram, attenuationQuadratic, attenuationLinear, attenuationConstant,
-			color},
+		Light{id, surfaceShaderProgram, attenuationQuadratic, attenuationLinear,
+			attenuationConstant, color},
 		m_submodel{submodel}
 	{ }
 };

@@ -11,11 +11,11 @@
 #include "graphics/maps/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/notification.hpp"
+#include "physics/player_info.hpp"
+#include "physics/player_input.hpp"
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
 #include "physics/timestamp.hpp"
-#include "physics/user_info.hpp"
-#include "physics/user_input.hpp"
 
 #include <atomic>
 #include <memory>
@@ -104,12 +104,12 @@ namespace App
 		renderingBuffer = std::make_unique<Graphics::RenderingBuffer>(m_ownId);
 
 		Physics::Timestep initialTimestep{};
-		std::unordered_map<int, Physics::UserInfo> userInfos{};
-		if (!m_udpConnection->receiveStateFrameWithOwnInfo(initialTimestep, userInfos, m_ownId))
+		std::unordered_map<int, Physics::PlayerInfo> playerInfos{};
+		if (!m_udpConnection->receiveStateFrameWithOwnInfo(initialTimestep, playerInfos, m_ownId))
 		{
 			return false;
 		}
-		m_simulationBuffer->writeStateFrame(initialTimestep, userInfos);
+		m_simulationBuffer->writeStateFrame(initialTimestep, playerInfos);
 		m_frameCutoff = initialTimestep;
 
 		m_notification.setNotification(initialTimestep, true);
@@ -126,7 +126,7 @@ namespace App
 
 		Physics::Timestep initialTimestep = m_simulationClock.getTime();
 		
-		Physics::UserInfo ownInfo;
+		Physics::PlayerInfo ownInfo;
 		constexpr int initialHP = 100;
 		ownInfo.state.hp = initialHP;
 		constexpr glm::vec3 initialPosition{0, 50, 100};
@@ -134,9 +134,9 @@ namespace App
 		constexpr glm::vec3 initialVelocity{0, 0, -100};
 		ownInfo.state.state.velocity = initialVelocity;
 
-		std::unordered_map<int, Physics::UserInfo> userInfos;
-		userInfos.insert({ownId, ownInfo});
-		m_simulationBuffer->writeStateFrame(initialTimestep, userInfos);
+		std::unordered_map<int, Physics::PlayerInfo> playerInfos;
+		playerInfos.insert({ownId, ownInfo});
+		m_simulationBuffer->writeStateFrame(initialTimestep, playerInfos);
 
 		m_notification.setNotification(initialTimestep, true);
 	}
@@ -150,13 +150,13 @@ namespace App
 			Physics::Timestamp serverTimestamp{};
 			UDPFrameType udpFrameType{};
 			Physics::Timestep timestep{};
-			int userId{};
-			Physics::UserInput userInput{};
-			std::unordered_map<int, Physics::UserInfo> userInfos{};
+			int playerId{};
+			Physics::PlayerInput playerInput{};
+			std::unordered_map<int, Physics::PlayerInfo> playerInfos{};
 
 			if (!m_udpConnection->receiveControlOrStateFrameWithOwnInfo(sendTimestamp,
-				receiveTimestamp, serverTimestamp, udpFrameType, timestep, userId, userInput,
-				userInfos, m_ownId))
+				receiveTimestamp, serverTimestamp, udpFrameType, timestep, playerId, playerInput,
+				playerInfos, m_ownId))
 			{
 				m_exitSignal.exit(ExitCode::connectionLost);
 				return;
@@ -178,14 +178,14 @@ namespace App
 			if (udpFrameType == UDPFrameType::control)
 			{
 				m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
-				m_simulationBuffer->writeControlFrame(timestep, userId, userInput);
+				m_simulationBuffer->writeControlFrame(timestep, playerId, playerInput);
 				m_notification.setNotification(timestep, false);
 			}
 			else
 			{
 				m_frameCutoff = timestep;
 
-				m_simulationBuffer->writeStateFrame(timestep, userInfos);
+				m_simulationBuffer->writeStateFrame(timestep, playerInfos);
 				m_notification.setNotification(timestep, true);
 			}
 		}

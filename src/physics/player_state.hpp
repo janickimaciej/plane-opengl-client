@@ -5,7 +5,7 @@
 
 namespace Physics
 {
-	struct UserState
+	struct PlayerState
 	{
 		int hp{};
 		Common::State state{};

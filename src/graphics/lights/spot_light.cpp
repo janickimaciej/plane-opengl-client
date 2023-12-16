@@ -35,10 +35,13 @@ namespace Graphics
 		glm::vec3 lightPosition = modelMatrix * m_submodel.getMatrix() * glm::vec4{0, 0, 0, 1};
 		m_surfaceShaderProgram.setUniform3f(prefix + "lightPosition", lightPosition);
 
-		m_surfaceShaderProgram.setUniform1f(prefix + "cutoffInnerRad", glm::radians(m_cutoffInnerDeg));
-		m_surfaceShaderProgram.setUniform1f(prefix + "cutoffOuterRad", glm::radians(m_cutoffOuterDeg));
+		m_surfaceShaderProgram.setUniform1f(prefix + "cutoffInnerRad",
+			glm::radians(m_cutoffInnerDeg));
+		m_surfaceShaderProgram.setUniform1f(prefix + "cutoffOuterRad",
+			glm::radians(m_cutoffOuterDeg));
 		m_surfaceShaderProgram.setUniform3f(prefix + "color", m_color);
-		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationQuadratic", m_attenuationQuadratic);
+		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationQuadratic",
+			m_attenuationQuadratic);
 		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationLinear", m_attenuationLinear);
 		m_surfaceShaderProgram.setUniform1f(prefix + "attenuationConstant", m_attenuationConstant);
 	}

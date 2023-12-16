@@ -13,7 +13,7 @@ namespace App
 		unsigned char frameType = toUInt8(UDPFrameType::initRes);
 		std::array<unsigned char, 2> clientTimestamp{};
 		std::array<unsigned char, 2> serverTimestamp{};
-		unsigned char userId{};
+		unsigned char playerId{};
 	};
 
 	template <typename T>
@@ -22,6 +22,6 @@ namespace App
 		t.value1b(frame.frameType);
 		t.container1b(frame.clientTimestamp);
 		t.container1b(frame.serverTimestamp);
-		t.value1b(frame.userId);
+		t.value1b(frame.playerId);
 	}
 };

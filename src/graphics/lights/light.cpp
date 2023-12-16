@@ -11,8 +11,9 @@ namespace Graphics
 		this->m_color = color;
 	}
 
-	Light::Light(unsigned int id, const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
-		float attenuationLinear, float attenuationConstant, const glm::vec3& color) :
+	Light::Light(unsigned int id, const ShaderProgram& surfaceShaderProgram,
+		float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
+		const glm::vec3& color) :
 		m_id{id},
 		m_surfaceShaderProgram{surfaceShaderProgram},
 		m_attenuationQuadratic{attenuationQuadratic},

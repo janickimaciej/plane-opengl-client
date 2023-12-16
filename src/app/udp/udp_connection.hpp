@@ -2,10 +2,10 @@
 
 #include "app/udp/udp_frame_type.hpp"
 #include "common/airplane_type_name.hpp"
+#include "physics/player_info.hpp"
+#include "physics/player_input.hpp"
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
-#include "physics/user_info.hpp"
-#include "physics/user_input.hpp"
 
 #include <asio/asio.hpp>
 
@@ -24,18 +24,19 @@ namespace App
 		UDPConnection(const std::string& ipAddress, int port);
 
 		void sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName);
-		void sendControlFrame(const Physics::Timestep& timestep, int userId,
-			const Physics::UserInput& userInput);
+		void sendControlFrame(const Physics::Timestep& timestep, int playerId,
+			const Physics::PlayerInput& playerInput);
 
 		bool receiveInitResFrame(Physics::Timestamp& sendTimestamp,
-			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp, int& userId);
+			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
+			int& playerId);
 		bool receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
-			std::unordered_map<int, Physics::UserInfo>& userInfos, int ownId);
+			std::unordered_map<int, Physics::PlayerInfo>& playerInfos, int ownId);
 		bool receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
 			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
-			UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& userId,
-			Physics::UserInput& userInput, std::unordered_map<int, Physics::UserInfo>& userInfos,
-			int ownId);
+			UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& playerId,
+			Physics::PlayerInput& playerInput,
+			std::unordered_map<int, Physics::PlayerInfo>& playerInfos, int ownId);
 
 	private:
 		asio::io_context m_sendIOContext{};

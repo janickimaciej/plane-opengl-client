@@ -128,9 +128,9 @@ namespace Graphics
 		return normalVector;
 	}
 
-	void ObjParser::parseTriangle(const std::string_view line, const std::vector<glm::vec3>& positions,
-		const std::vector<glm::vec2>& texturePositions, const std::vector<glm::vec3>& normalVectors,
-		std::array<Vertex, 3>& triangle)
+	void ObjParser::parseTriangle(const std::string_view line,
+		const std::vector<glm::vec3>& positions, const std::vector<glm::vec2>& texturePositions,
+		const std::vector<glm::vec3>& normalVectors, std::array<Vertex, 3>& triangle)
 	{
 		std::size_t vertexIndex = 0;
 		std::string number = "";
@@ -147,7 +147,8 @@ namespace Graphics
 				if (vertexIndex < 3)
 				{
 					triangle[vertexIndex].position = positions[positionIndex - 1];
-					triangle[vertexIndex].texturePosition = texturePositions[texturePositionIndex - 1];
+					triangle[vertexIndex].texturePosition =
+						texturePositions[texturePositionIndex - 1];
 					triangle[vertexIndex].normalVector = normalVectors[normalVectorIndex - 1];
 				}
 				++vertexIndex;

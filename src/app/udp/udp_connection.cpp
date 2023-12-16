@@ -3,10 +3,10 @@
 #include "app/udp/udp_frame_type.hpp"
 #include "app/udp/udp_serializer.hpp"
 #include "common/airplane_type_name.hpp"
+#include "physics/player_info.hpp"
+#include "physics/player_input.hpp"
 #include "physics/timestamp.hpp"
 #include "physics/timestep.hpp"
-#include "physics/user_info.hpp"
-#include "physics/user_input.hpp"
 
 #include <asio/asio.hpp>
 
@@ -41,13 +41,13 @@ namespace App
 		m_sendSocket.send_to(asio::buffer(buffer), m_server);
 	}
 
-	void UDPConnection::sendControlFrame(const Physics::Timestep& timestep, int userId,
-		const Physics::UserInput& userInput)
+	void UDPConnection::sendControlFrame(const Physics::Timestep& timestep, int playerId,
+		const Physics::PlayerInput& playerInput)
 	{
 		std::shared_ptr<std::vector<std::uint8_t>> buffer =
 			std::make_shared<std::vector<std::uint8_t>>();
 		UDPSerializer::serializeControlFrame(Physics::Timestamp::systemNow(), Physics::Timestamp{},
-			timestep, userId, userInput, *buffer);
+			timestep, playerId, playerInput, *buffer);
 
 		m_sendIOContext.run();
 		m_sendIOContext.reset();
@@ -56,12 +56,12 @@ namespace App
 	}
 
 	bool UDPConnection::receiveInitResFrame(Physics::Timestamp& sendTimestamp,
-		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp, int& userId)
+		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp, int& playerId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
 		return receiveFrameWithTimeout
 		(
-			[&sendTimestamp, &receiveTimestamp, &serverTimestamp, &userId]
+			[&sendTimestamp, &receiveTimestamp, &serverTimestamp, &playerId]
 			(std::vector<std::uint8_t> buffer, std::size_t receivedSize)
 			{
 				if (buffer[0] == toUInt8(UDPFrameType::initRes))
@@ -70,7 +70,7 @@ namespace App
 					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
 						buffer.begin() + static_cast<int>(receivedSize));
 					UDPSerializer::deserializeInitResFrame(receivedBuffer, sendTimestamp,
-						serverTimestamp, userId);
+						serverTimestamp, playerId);
 					return true;
 				}
 				return false;
@@ -80,20 +80,20 @@ namespace App
 	}
 
 	bool UDPConnection::receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
-		std::unordered_map<int, Physics::UserInfo>& userInfos, int ownId)
+		std::unordered_map<int, Physics::PlayerInfo>& playerInfos, int ownId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
 		return receiveFrameWithTimeout
 		(
-			[&timestep, &userInfos, ownId]
+			[&timestep, &playerInfos, ownId]
 			(std::vector<std::uint8_t> buffer, std::size_t receivedSize)
 			{
 				if (buffer[0] == toUInt8(UDPFrameType::state))
 				{
 					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
 						buffer.begin() + static_cast<int>(receivedSize));
-					UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, userInfos);
-					if (userInfos.contains(ownId))
+					UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, playerInfos);
+					if (playerInfos.contains(ownId))
 					{
 						return true;
 					}
@@ -106,15 +106,15 @@ namespace App
 
 	bool UDPConnection::receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
 		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
-		UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& userId,
-		Physics::UserInput& userInput, std::unordered_map<int, Physics::UserInfo>& userInfos,
-		int ownId)
+		UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& playerId,
+		Physics::PlayerInput& playerInput,
+		std::unordered_map<int, Physics::PlayerInfo>& playerInfos, int ownId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
 		return receiveFrameWithTimeout
 		(
-			[&sendTimestamp, &receiveTimestamp, &serverTimestamp, &udpFrameType, &timestep, &userId,
-			&userInput, &userInfos, ownId]
+			[&sendTimestamp, &receiveTimestamp, &serverTimestamp, &udpFrameType, &timestep,
+			&playerId, &playerInput, &playerInfos, ownId]
 			(std::vector<std::uint8_t> buffer, std::size_t receivedSize)
 			{
 				if (buffer[0] == toUInt8(UDPFrameType::control))
@@ -123,7 +123,7 @@ namespace App
 					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
 						buffer.begin() + static_cast<int>(receivedSize));
 					UDPSerializer::deserializeControlFrame(receivedBuffer, sendTimestamp,
-						serverTimestamp, timestep, userId, userInput);
+						serverTimestamp, timestep, playerId, playerInput);
 				}
 				else if (buffer[0] == toUInt8(UDPFrameType::state))
 				{
@@ -131,8 +131,8 @@ namespace App
 					udpFrameType = UDPFrameType::state;
 					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
 						buffer.begin() + static_cast<int>(receivedSize));
-					UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, userInfos);
-					if (userInfos.contains(ownId))
+					UDPSerializer::deserializeStateFrame(receivedBuffer, timestep, playerInfos);
+					if (playerInfos.contains(ownId))
 					{
 						return true;
 					}

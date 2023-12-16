@@ -39,7 +39,8 @@ namespace Graphics
 		int width{};
 		int height{};
 		int nrOfChannels{};
-		unsigned char* textureData = stbi_load(path.c_str(), &width, &height, &nrOfChannels, STBI_rgb);
+		unsigned char* textureData = stbi_load(path.c_str(), &width, &height, &nrOfChannels,
+			STBI_rgb);
 		if (textureData)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE,

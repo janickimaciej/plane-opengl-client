@@ -2,21 +2,6 @@
 
 namespace Physics
 {
-	bool Timestep::operator==(const Timestep& timestep) const
-	{
-		return second == timestep.second && frame == timestep.frame;
-	}
-
-	bool Timestep::operator<(const Timestep& timestep) const
-	{
-		return (*this - timestep).second >= 30;
-	}
-
-	bool Timestep::operator<=(const Timestep& timestep) const
-	{
-		return *this < timestep || *this == timestep;
-	}
-
 	Timestep Timestep::previous() const
 	{
 		Timestep previousTimestep{};
@@ -70,6 +55,26 @@ namespace Physics
 			static_cast<int>(timestep2.frame);
 		Timestep::normalize(second, frame);
 		return Timestep{static_cast<unsigned int>(second), static_cast<unsigned int>(frame)};
+	}
+
+	bool operator==(const Timestep& timestep1, const Timestep& timestep2)
+	{
+		return timestep1.second == timestep2.second && timestep1.frame == timestep2.frame;
+	}
+
+	bool operator<(const Timestep& timestep1, const Timestep& timestep2)
+	{
+		return (timestep1 - timestep2).second >= 30;
+	}
+
+	bool operator<=(const Timestep& timestep1, const Timestep& timestep2)
+	{
+		return timestep1 < timestep2 || timestep1 == timestep2;
+	}
+
+	bool operator>(const Timestep& timestep1, const Timestep& timestep2)
+	{
+		return !(timestep1 <= timestep2);
 	}
 
 	void Timestep::normalize(int& second, int& frame)

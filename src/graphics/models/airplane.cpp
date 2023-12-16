@@ -89,7 +89,7 @@ namespace Graphics
 		m_rightLight.updateShaders(getMatrix());
 	}
 
-	void Airplane::setCtrl(const Common::AirplaneCtrl& airplaneCtrl)
+	void Airplane::setCtrl(/*const Common::AirplaneCtrl& airplaneCtrl*/)
 	{
 		/*m_elevator.resetRotation(); //tmpc
 		m_elevator.pitch(-m_airplaneCtrl.elevatorAngleRad);

@@ -5,7 +5,7 @@
 #include "physics/flight_ctrl.hpp"
 #include "physics/model_dynamics/airplane_dynamics.hpp"
 #include "physics/models/model.hpp"
-#include "physics/user_input.hpp"
+#include "physics/player_input.hpp"
 
 #include <glm/glm.hpp>
 
@@ -50,7 +50,7 @@ namespace Physics
 		return m_flightCtrl.getCtrl();
 	}
 
-	void Airplane::setCtrl(const UserInput& input)
+	void Airplane::setCtrl(const PlayerInput& input)
 	{
 		m_flightCtrl.ctrlPitch(input.pitch);
 		m_flightCtrl.ctrlYaw(input.yaw);

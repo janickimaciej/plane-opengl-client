@@ -14,7 +14,7 @@ namespace App
 		std::array<unsigned char, 2> clientTimestamp{};
 		std::array<unsigned char, 2> serverTimestamp{};
 		std::array<unsigned char, 2> timestep{};
-		unsigned char userId{};
+		unsigned char playerId{};
 		signed char pitch{};
 		signed char yaw{};
 		signed char roll{};
@@ -29,7 +29,7 @@ namespace App
 		t.container1b(frame.clientTimestamp);
 		t.container1b(frame.serverTimestamp);
 		t.container1b(frame.timestep);
-		t.value1b(frame.userId);
+		t.value1b(frame.playerId);
 		t.value1b(frame.pitch);
 		t.value1b(frame.yaw);
 		t.value1b(frame.roll);

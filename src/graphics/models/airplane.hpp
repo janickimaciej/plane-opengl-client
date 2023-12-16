@@ -21,7 +21,7 @@ namespace Graphics
 		Airplane(const Airplane&);
 		Airplane(Airplane&&) noexcept;
 		virtual void updateShaders() override;
-		void setCtrl(const Common::AirplaneCtrl& airplaneCtrl);
+		void setCtrl(/*const Common::AirplaneCtrl& airplaneCtrl*/);
 		virtual ~Airplane() = default;
 
 	private:
