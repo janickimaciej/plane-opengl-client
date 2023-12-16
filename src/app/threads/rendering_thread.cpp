@@ -67,7 +67,8 @@ namespace App
 		const int initialWindowWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
 		const int initialWindowHeight = glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
 		m_windowPayload.aspectRatio = static_cast<float>(initialWindowWidth) / initialWindowHeight;
-		m_window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Plane",
+		const std::string windowTitle = "plane-opengl-client";
+		m_window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, windowTitle.c_str(),
 			glfwGetPrimaryMonitor(), nullptr);
 		glfwSetWindowUserPointer(m_window, &m_windowPayload);
 		glfwMakeContextCurrent(m_window);
