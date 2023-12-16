@@ -1,4 +1,4 @@
-#include "app/udp/udp_connection.hpp"
+#include "app/udp/udp_communication.hpp"
 
 #include "app/udp/udp_frame_type.hpp"
 #include "app/udp/udp_serializer.hpp"
@@ -23,7 +23,7 @@ namespace App
 {
 	constexpr int clientPort = 34743;
 
-	UDPConnection::UDPConnection(const std::string& ipAddress, int port) :
+	UDPCommunication::UDPCommunication(const std::string& ipAddress, int port) :
 		m_server{asio::ip::address::from_string(ipAddress), static_cast<asio::ip::port_type>(port)},
 		m_sendSocket{m_sendIOContext},
 		m_receiveSocket{m_receiveIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
@@ -32,7 +32,7 @@ namespace App
 		m_sendSocket.open(asio::ip::udp::v4());
 	}
 
-	void UDPConnection::sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName)
+	void UDPCommunication::sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName)
 	{
 		std::vector<std::uint8_t> buffer{};
 		UDPSerializer::serializeInitReqFrame(Physics::Timestamp::systemNow(), airplaneTypeName,
@@ -41,7 +41,7 @@ namespace App
 		m_sendSocket.send_to(asio::buffer(buffer), m_server);
 	}
 
-	void UDPConnection::sendControlFrame(const Physics::Timestep& timestep, int playerId,
+	void UDPCommunication::sendControlFrame(const Physics::Timestep& timestep, int playerId,
 		const Physics::PlayerInput& playerInput)
 	{
 		std::shared_ptr<std::vector<std::uint8_t>> buffer =
@@ -55,7 +55,7 @@ namespace App
 			std::bind(completionHandler, buffer));
 	}
 
-	bool UDPConnection::receiveInitResFrame(Physics::Timestamp& sendTimestamp,
+	bool UDPCommunication::receiveInitResFrame(Physics::Timestamp& sendTimestamp,
 		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp, int& playerId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
@@ -79,7 +79,7 @@ namespace App
 		);
 	}
 
-	bool UDPConnection::receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
+	bool UDPCommunication::receiveStateFrameWithOwnInfo(Physics::Timestep& timestep,
 		std::unordered_map<int, Physics::PlayerInfo>& playerInfos, int ownId)
 	{
 		static constexpr std::chrono::seconds timeout(10);
@@ -104,7 +104,7 @@ namespace App
 		);
 	}
 
-	bool UDPConnection::receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
+	bool UDPCommunication::receiveControlOrStateFrameWithOwnInfo(Physics::Timestamp& sendTimestamp,
 		Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
 		UDPFrameType& udpFrameType, Physics::Timestep& timestep, int& playerId,
 		Physics::PlayerInput& playerInput,
@@ -143,7 +143,7 @@ namespace App
 		);
 	}
 
-	bool UDPConnection::receiveFrameWithTimeout(
+	bool UDPCommunication::receiveFrameWithTimeout(
 		std::function<bool(std::vector<std::uint8_t>, std::size_t)> frameHandler,
 		const std::chrono::seconds& timeout)
 	{
@@ -174,7 +174,7 @@ namespace App
 		return false;
 	}
 
-	void UDPConnection::setReceiveSocketTimeout(const std::chrono::duration<float>& timeout)
+	void UDPCommunication::setReceiveSocketTimeout(const std::chrono::duration<float>& timeout)
 	{
 		m_receiveSocket.set_option(asio::detail::socket_option::integer<SOL_SOCKET, SO_RCVTIMEO>
 			{
@@ -185,6 +185,6 @@ namespace App
 			});
 	}
 
-	void UDPConnection::completionHandler(std::shared_ptr<std::vector<std::uint8_t>>)
+	void UDPCommunication::completionHandler(std::shared_ptr<std::vector<std::uint8_t>>)
 	{ }
 };

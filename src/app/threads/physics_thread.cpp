@@ -3,7 +3,7 @@
 #include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
-#include "app/udp/udp_connection.hpp"
+#include "app/udp/udp_communication.hpp"
 #include "common/airplane_info.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/notification.hpp"
@@ -12,8 +12,6 @@
 #include "physics/simulation_clock.hpp"
 #include "physics/timestep.hpp"
 
-#include <atomic>
-#include <memory>
 #include <semaphore>
 #include <thread>
 
@@ -23,7 +21,7 @@ namespace App
 		std::binary_semaphore& renderingSemaphore, const Physics::SimulationClock& simulationClock,
 		Physics::SimulationBuffer& simulationBuffer, int ownId, Physics::Notification& notification,
 		Graphics::RenderingBuffer& renderingBuffer, OwnInput& ownInput,
-		UDPConnection* udpConnection) :
+		UDPCommunication* udpCommunication) :
 		m_exitSignal{exitSignal},
 		m_gameMode{gameMode},
 		m_simulationClock{simulationClock},
@@ -32,7 +30,7 @@ namespace App
 		m_ownId{ownId},
 		m_renderingBuffer{renderingBuffer},
 		m_ownInput{ownInput},
-		m_udpConnection{udpConnection},
+		m_udpCommunication{udpCommunication},
 		m_thread
 		{
 			[this, &renderingSemaphore]
@@ -83,7 +81,7 @@ namespace App
 
 			if (m_gameMode == GameMode::multiplayer && inputSet)
 			{
-				m_udpConnection->sendControlFrame(timestep, m_ownId, ownInput);
+				m_udpCommunication->sendControlFrame(timestep, m_ownId, ownInput);
 			}
 		}
 	}

@@ -18,10 +18,10 @@
 
 namespace App
 {
-	class UDPConnection
+	class UDPCommunication
 	{
 	public:
-		UDPConnection(const std::string& ipAddress, int port);
+		UDPCommunication(const std::string& ipAddress, int port);
 
 		void sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName);
 		void sendControlFrame(const Physics::Timestep& timestep, int playerId,

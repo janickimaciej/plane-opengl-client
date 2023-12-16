@@ -13,9 +13,7 @@
 
 #include <glfw/glfw3.h>
 
-#include <atomic>
 #include <memory>
-#include <semaphore>
 #include <string>
 
 namespace App

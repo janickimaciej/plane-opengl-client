@@ -5,7 +5,7 @@
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
 #include "app/threads/physics_thread.hpp"
-#include "app/udp/udp_connection.hpp"
+#include "app/udp/udp_communication.hpp"
 #include "app/udp/udp_frame_type.hpp"
 #include "common/airplane_type_name.hpp"
 #include "graphics/maps/map_name.hpp"
@@ -41,7 +41,7 @@ namespace App
 	{
 		if (gameMode == GameMode::multiplayer)
 		{
-			m_udpConnection = std::make_unique<UDPConnection>(ipAddress, port);
+			m_udpCommunication = std::make_unique<UDPCommunication>(ipAddress, port);
 		}
 	}
 
@@ -68,7 +68,7 @@ namespace App
 		}
 		PhysicsThread physicsThread{m_exitSignal, gameMode, renderingSemaphore, m_simulationClock,
 			*m_simulationBuffer, m_ownId, m_notification, *renderingBuffer, ownInput,
-			m_udpConnection.get()};
+			m_udpCommunication.get()};
 		if (gameMode == GameMode::multiplayer)
 		{
 			mainLoopMultiplayer();
@@ -86,13 +86,13 @@ namespace App
 		static constexpr int initFrameCount = 10;
 		for (int i = 0; i < initFrameCount; ++i)
 		{
-			m_udpConnection->sendInitReqFrame(airplaneTypeName);
+			m_udpCommunication->sendInitReqFrame(airplaneTypeName);
 		}
 
 		Physics::Timestamp sendTimestamp{};
 		Physics::Timestamp receiveTimestamp{};
 		Physics::Timestamp serverTimestamp{};
-		if (!m_udpConnection->receiveInitResFrame(sendTimestamp, receiveTimestamp,
+		if (!m_udpCommunication->receiveInitResFrame(sendTimestamp, receiveTimestamp,
 			serverTimestamp, m_ownId))
 		{
 			return false;
@@ -105,7 +105,7 @@ namespace App
 
 		Physics::Timestep initialTimestep{};
 		std::unordered_map<int, Physics::PlayerInfo> playerInfos{};
-		if (!m_udpConnection->receiveStateFrameWithOwnInfo(initialTimestep, playerInfos, m_ownId))
+		if (!m_udpCommunication->receiveStateFrameWithOwnInfo(initialTimestep, playerInfos, m_ownId))
 		{
 			return false;
 		}
@@ -154,7 +154,7 @@ namespace App
 			Physics::PlayerInput playerInput{};
 			std::unordered_map<int, Physics::PlayerInfo> playerInfos{};
 
-			if (!m_udpConnection->receiveControlOrStateFrameWithOwnInfo(sendTimestamp,
+			if (!m_udpCommunication->receiveControlOrStateFrameWithOwnInfo(sendTimestamp,
 				receiveTimestamp, serverTimestamp, udpFrameType, timestep, playerId, playerInput,
 				playerInfos, m_ownId))
 			{

@@ -3,7 +3,7 @@
 #include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
-#include "app/udp/udp_connection.hpp"
+#include "app/udp/udp_communication.hpp"
 #include "common/airplane_type_name.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
@@ -11,7 +11,6 @@
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
 
-#include <atomic>
 #include <memory>
 #include <semaphore>
 #include <string>
@@ -38,7 +37,7 @@ namespace App
 
 		Physics::Notification m_notification{m_simulationClock};
 		Physics::Timestep m_frameCutoff{};
-		std::unique_ptr<UDPConnection> m_udpConnection;
+		std::unique_ptr<UDPCommunication> m_udpCommunication;
 
 		void start(std::binary_semaphore& renderingSemaphore, GameMode gameMode,
 			Common::AirplaneTypeName airplaneTypeName, OwnInput& ownInput,

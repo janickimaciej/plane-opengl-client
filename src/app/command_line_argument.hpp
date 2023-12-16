@@ -4,8 +4,8 @@
 
 namespace App
 {
-	constexpr int multiplayerArgumentCount = 7;
-	constexpr int singleplayerArgumentCount = 5;
+	inline constexpr int multiplayerArgumentCount = 7;
+	inline constexpr int singleplayerArgumentCount = 5;
 
 	enum class CommandLineArgument
 	{
