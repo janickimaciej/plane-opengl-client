@@ -123,6 +123,7 @@ namespace App
 						buffer.begin() + static_cast<int>(receivedSize));
 					UDPSerializer::deserializeControlFrame(receivedBuffer, sendTimestamp,
 						serverTimestamp, timestep, playerId, playerInput);
+					return true;
 				}
 				else if (buffer[0] == toUInt8(UDPFrameType::state))
 				{

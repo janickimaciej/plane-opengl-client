@@ -177,9 +177,16 @@ namespace App
 
 			if (udpFrameType == UDPFrameType::control)
 			{
-				m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
-				m_simulationBuffer->writeControlFrame(timestep, playerId, playerInput);
-				m_notification.setNotification(timestep, false);
+				if (playerId == m_ownId)
+				{
+					//m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp,
+						//serverTimestamp);
+				}
+				else
+				{
+					m_simulationBuffer->writeControlFrame(timestep, playerId, playerInput);
+					m_notification.setNotification(timestep, false);
+				}
 			}
 			else if (udpFrameType == UDPFrameType::state)
 			{
