@@ -15,8 +15,9 @@ namespace App
 {
 	bool parseArguments(int argc, char** argv, GameMode& gameMode,
 		ControllerType& controllerType, Common::AirplaneTypeName& airplaneTypeName,
-		Graphics::MapName& mapName, std::string& ipAddress, int& port);
-	bool isValidIPAddress(const std::string& ipAddress);
+		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverPort,
+		int& networkThreadPort, int& physicsThreadPort);
+	bool isValidIPAddress(const std::string& serverIPAddress);
 };
 
 int main(int argc, char** argv)
@@ -27,18 +28,21 @@ int main(int argc, char** argv)
 	ControllerType controllerType{};
 	Common::AirplaneTypeName airplaneTypeName{};
 	Graphics::MapName mapName{};
-	std::string ipAddress{};
-	int port{};
+	std::string serverIPAddress{};
+	int serverPort{};
+	int networkThreadPort{};
+	int physicsThreadPort{};
 
-	if (!parseArguments(argc, argv, gameMode, controllerType, airplaneTypeName, mapName, ipAddress,
-		port))
+	if (!parseArguments(argc, argv, gameMode, controllerType, airplaneTypeName, mapName,
+		serverIPAddress, serverPort, networkThreadPort, physicsThreadPort))
 	{
 		return toInt(ExitCode::badArguments);
 	}
 
 	ExitSignal exitSignal{};
 	RenderingThread renderingThread{exitSignal, controllerType};
-	renderingThread.start(gameMode, airplaneTypeName, mapName, ipAddress, port);
+	renderingThread.start(gameMode, airplaneTypeName, mapName, serverIPAddress, serverPort,
+		networkThreadPort, physicsThreadPort);
 
 	return toInt(exitSignal.getExitCode());
 }
@@ -47,7 +51,8 @@ namespace App
 {
 	bool parseArguments(int argc, char** argv, GameMode& gameMode,
 		ControllerType& controllerType, Common::AirplaneTypeName& airplaneTypeName,
-		Graphics::MapName& mapName, std::string& ipAddress, int& port)
+		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverPort,
+		int& networkThreadPort, int& physicsThreadPort)
 	{
 		if (argc < 2)
 		{
@@ -95,16 +100,29 @@ namespace App
 			return true;
 		}
 
-		ipAddress = argv[toSizeT(CommandLineArgument::ipAddress)];
-		if (!isValidIPAddress(ipAddress))
+		serverIPAddress = argv[toSizeT(CommandLineArgument::serverIPAddress)];
+		if (!isValidIPAddress(serverIPAddress))
 		{
 			return false;
 		}
 
-		port = std::stoi(argv[toSizeT(CommandLineArgument::port)]);
 		constexpr int minPortValue = 0;
 		constexpr int maxPortValue = 1 << 16;
-		if (port < minPortValue || port >= maxPortValue)
+
+		serverPort = std::stoi(argv[toSizeT(CommandLineArgument::serverPort)]);
+		if (serverPort < minPortValue || serverPort >= maxPortValue)
+		{
+			return false;
+		}
+
+		networkThreadPort = std::stoi(argv[toSizeT(CommandLineArgument::networkThreadPort)]);
+		if (networkThreadPort < minPortValue || networkThreadPort >= maxPortValue)
+		{
+			return false;
+		}
+
+		physicsThreadPort = std::stoi(argv[toSizeT(CommandLineArgument::physicsThreadPort)]);
+		if (physicsThreadPort < minPortValue || physicsThreadPort >= maxPortValue)
 		{
 			return false;
 		}
@@ -112,15 +130,15 @@ namespace App
 		return true;
 	}
 
-	bool isValidIPAddress(const std::string& ipAddress)
+	bool isValidIPAddress(const std::string& serverIPAddress)
 	{
 		int fieldIndex = 0;
 		std::string fieldString{};
-		for (std::size_t i = 0; i < ipAddress.size(); ++i)
+		for (std::size_t i = 0; i < serverIPAddress.size(); ++i)
 		{
-			if (ipAddress[i] < '0' || ipAddress[i] > '9')
+			if (serverIPAddress[i] < '0' || serverIPAddress[i] > '9')
 			{
-				if (!fieldString.empty() && ipAddress[i] == '.')
+				if (!fieldString.empty() && serverIPAddress[i] == '.')
 				{
 					int fieldInt = std::stoi(fieldString);
 					constexpr int maxFieldValue = 256;
@@ -138,7 +156,7 @@ namespace App
 			}
 			else
 			{
-				fieldString.push_back(ipAddress[i]);
+				fieldString.push_back(serverIPAddress[i]);
 			}
 		}
 

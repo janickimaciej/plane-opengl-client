@@ -27,13 +27,15 @@
 namespace App
 {
 	NetworkThread::NetworkThread(ExitSignal& exitSignal, GameMode gameMode,
-		Common::AirplaneTypeName airplaneTypeName, const std::string& ipAddress, int port,
-		OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer) :
+		Common::AirplaneTypeName airplaneTypeName, const std::string& serverIPAddress,
+		int serverPort, int networkThreadPort, int physicsThreadPort, OwnInput& ownInput,
+		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer) :
 		m_exitSignal{exitSignal}
 	{
 		if (gameMode == GameMode::multiplayer)
 		{
-			m_udpCommunication = std::make_unique<UDPCommunication>(ipAddress, port);
+			m_udpCommunication = std::make_unique<UDPCommunication>(serverIPAddress, serverPort,
+				networkThreadPort, physicsThreadPort);
 		}
 		m_thread = std::thread(
 			[this, gameMode, airplaneTypeName, &ownInput, &renderingBuffer]

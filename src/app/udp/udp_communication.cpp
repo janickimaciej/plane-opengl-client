@@ -21,15 +21,14 @@
 
 namespace App
 {
-	constexpr int networkThreadPort = 34743;
-	constexpr int physicsThreadPort = 34744;
-
-	UDPCommunication::UDPCommunication(const std::string& ipAddress, int port) :
-		m_server{asio::ip::address::from_string(ipAddress), static_cast<asio::ip::port_type>(port)},
+	UDPCommunication::UDPCommunication(const std::string& serverIPAddress, int serverPort,
+		int networkThreadPort, int physicsThreadPort) :
+		m_server{asio::ip::address::from_string(serverIPAddress),
+			static_cast<asio::ip::port_type>(serverPort)},
 		m_networkThreadSocket{m_networkThreadIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
-			networkThreadPort}},
+			static_cast<asio::ip::port_type>(networkThreadPort)}},
 		m_physicsThreadSocket{m_physicsThreadIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
-			physicsThreadPort}}
+			static_cast<asio::ip::port_type>(physicsThreadPort)}}
 	{ }
 
 	void UDPCommunication::sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName)

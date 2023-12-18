@@ -21,7 +21,8 @@ namespace App
 	class UDPCommunication
 	{
 	public:
-		UDPCommunication(const std::string& ipAddress, int port);
+		UDPCommunication(const std::string& serverIPAddress, int serverPort, int networkThreadPort,
+			int physicsThreadPort);
 
 		void sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName);
 		void sendControlFrame(const Physics::Timestep& timestep, int playerId,
