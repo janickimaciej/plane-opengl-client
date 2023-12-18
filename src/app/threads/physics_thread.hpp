@@ -19,7 +19,6 @@ namespace App
 	{
 	public:
 		PhysicsThread(ExitSignal& exitSignal, GameMode gameMode,
-			std::binary_semaphore& renderingSemaphore,
 			const Physics::SimulationClock& simulationClock,
 			Physics::SimulationBuffer& simulationBuffer, int ownId,
 			Physics::Notification& notification, Graphics::RenderingBuffer& renderingBuffer,
@@ -27,7 +26,7 @@ namespace App
 		void join();
 
 	private:
-		std::thread m_thread;
+		std::thread m_thread{};
 		ExitSignal& m_exitSignal;
 
 		GameMode m_gameMode;
@@ -42,7 +41,7 @@ namespace App
 
 		UDPCommunication* m_udpCommunication;
 
-		void start(std::binary_semaphore& renderingSemaphore);
+		void start();
 		void mainLoop(const Physics::Timestep& initialTimestep);
 		void sleepIfFuture(const Physics::Timestep& timestep);
 	};

@@ -28,14 +28,16 @@ namespace App
 	void RenderingThread::start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
 		Graphics::MapName mapName, const std::string& ipAddress, int port)
 	{
-		std::binary_semaphore semaphore{0};
-		NetworkThread networkThread{m_exitSignal, semaphore, gameMode, airplaneTypeName, ipAddress,
-			port, m_ownInput, m_renderingBuffer};
+		NetworkThread networkThread{m_exitSignal, gameMode, airplaneTypeName, ipAddress, port,
+			m_ownInput, m_renderingBuffer};
 		initializeWindow();
-		semaphore.acquire();
-		m_renderingBuffer->initialize(airplaneTypeName, mapName);
-		mainLoop();
-		glfwTerminate();
+		m_exitSignal.acquireRenderingThreadSemaphore();
+		if (!m_exitSignal.shouldStop())
+		{
+			m_renderingBuffer->initialize(airplaneTypeName, mapName);
+			mainLoop();
+			glfwTerminate();
+		}
 		networkThread.join();
 	}
 

@@ -18,7 +18,7 @@
 namespace App
 {
 	PhysicsThread::PhysicsThread(ExitSignal& exitSignal, GameMode gameMode,
-		std::binary_semaphore& renderingSemaphore, const Physics::SimulationClock& simulationClock,
+		const Physics::SimulationClock& simulationClock,
 		Physics::SimulationBuffer& simulationBuffer, int ownId, Physics::Notification& notification,
 		Graphics::RenderingBuffer& renderingBuffer, OwnInput& ownInput,
 		UDPCommunication* udpCommunication) :
@@ -30,35 +30,34 @@ namespace App
 		m_ownId{ownId},
 		m_renderingBuffer{renderingBuffer},
 		m_ownInput{ownInput},
-		m_udpCommunication{udpCommunication},
-		m_thread
-		{
-			[this, &renderingSemaphore]
-			{ 
-				this->start(renderingSemaphore);
-			}
-		}
-	{ }
+		m_udpCommunication{udpCommunication}
+	{
+		m_thread = std::thread(
+			[this]
+			{
+				this->start();
+			});
+	}
 
 	void PhysicsThread::join()
 	{
 		m_thread.join();
 	}
 
-	void PhysicsThread::start(std::binary_semaphore& renderingSemaphore)
+	void PhysicsThread::start()
 	{
 		Physics::Timestep initialTimestep{};
 
 		m_notification.forceGetNotification(initialTimestep);
 		
-		m_simulationBuffer.setOwnInput(initialTimestep, Physics::PlayerInput{});
+		m_simulationBuffer.writeControlFrame(initialTimestep, m_ownId, Physics::PlayerInput{});
 		m_simulationBuffer.update(initialTimestep);
 
 		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
 			m_simulationBuffer.getAirplaneInfos(initialTimestep);
 		m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
 
-		renderingSemaphore.release();
+		m_exitSignal.releaseRenderingThreadSemaphore();
 		mainLoop(initialTimestep);
 	}
 
@@ -72,7 +71,7 @@ namespace App
 			sleepIfFuture(timestep);
 
 			Physics::PlayerInput ownInput = m_ownInput.getOwnInput();
-			bool inputSet = m_simulationBuffer.setOwnInput(timestep, ownInput);
+			bool inputSet = m_simulationBuffer.writeControlFrame(timestep, m_ownId, ownInput);
 			m_simulationBuffer.update(timestep);
 
 			std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =

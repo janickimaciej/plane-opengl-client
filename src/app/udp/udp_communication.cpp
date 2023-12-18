@@ -21,16 +21,16 @@
 
 namespace App
 {
-	constexpr int clientPort = 34743;
+	constexpr int networkThreadPort = 34743;
+	constexpr int physicsThreadPort = 34744;
 
 	UDPCommunication::UDPCommunication(const std::string& ipAddress, int port) :
 		m_server{asio::ip::address::from_string(ipAddress), static_cast<asio::ip::port_type>(port)},
-		m_sendSocket{m_sendIOContext},
-		m_receiveSocket{m_receiveIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
-			clientPort}}
-	{
-		m_sendSocket.open(asio::ip::udp::v4());
-	}
+		m_networkThreadSocket{m_networkThreadIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
+			networkThreadPort}},
+		m_physicsThreadSocket{m_physicsThreadIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
+			physicsThreadPort}}
+	{ }
 
 	void UDPCommunication::sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName)
 	{
@@ -38,7 +38,7 @@ namespace App
 		UDPSerializer::serializeInitReqFrame(Physics::Timestamp::systemNow(), airplaneTypeName,
 			buffer);
 
-		m_sendSocket.send_to(asio::buffer(buffer), m_server);
+		m_networkThreadSocket.send_to(asio::buffer(buffer), m_server);
 	}
 
 	void UDPCommunication::sendControlFrame(const Physics::Timestep& timestep, int playerId,
@@ -49,9 +49,9 @@ namespace App
 		UDPSerializer::serializeControlFrame(Physics::Timestamp::systemNow(), Physics::Timestamp{},
 			timestep, playerId, playerInput, *buffer);
 
-		m_sendIOContext.run();
-		m_sendIOContext.reset();
-		m_sendSocket.async_send_to(asio::buffer(*buffer), m_server,
+		m_physicsThreadIOContext.run();
+		m_physicsThreadIOContext.reset();
+		m_physicsThreadSocket.async_send_to(asio::buffer(*buffer), m_server,
 			std::bind(completionHandler, buffer));
 	}
 
@@ -160,7 +160,7 @@ namespace App
 			try
 			{
 				std::size_t receivedSize =
-					m_receiveSocket.receive_from(asio::buffer(buffer), server);
+					m_networkThreadSocket.receive_from(asio::buffer(buffer), server);
 				if (frameHandler(buffer, receivedSize))
 				{
 					return true;
@@ -176,7 +176,8 @@ namespace App
 
 	void UDPCommunication::setReceiveSocketTimeout(const std::chrono::duration<float>& timeout)
 	{
-		m_receiveSocket.set_option(asio::detail::socket_option::integer<SOL_SOCKET, SO_RCVTIMEO>
+		m_networkThreadSocket.set_option(
+			asio::detail::socket_option::integer<SOL_SOCKET, SO_RCVTIMEO>
 			{
 				static_cast<int>
 				(

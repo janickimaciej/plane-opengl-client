@@ -39,12 +39,12 @@ namespace App
 			std::unordered_map<int, Physics::PlayerInfo>& playerInfos, int ownId);
 
 	private:
-		asio::io_context m_sendIOContext{};
+		asio::io_context m_networkThreadIOContext{};
 		asio::ip::udp::endpoint m_server{};
-		asio::ip::udp::socket m_sendSocket;
+		asio::ip::udp::socket m_networkThreadSocket;
 		
-		asio::io_context m_receiveIOContext{};
-		asio::ip::udp::socket m_receiveSocket;
+		asio::io_context m_physicsThreadIOContext{};
+		asio::ip::udp::socket m_physicsThreadSocket;
 
 		bool receiveFrameWithTimeout(
 			std::function<bool(std::vector<std::uint8_t>, std::size_t)> frameHandler,

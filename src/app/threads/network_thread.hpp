@@ -21,14 +21,13 @@ namespace App
 	class NetworkThread
 	{
 	public:
-		NetworkThread(ExitSignal& exitSignal, std::binary_semaphore& renderingSemaphore,
-			GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
-			const std::string& ipAddress, int port, OwnInput& ownInput,
-			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
+		NetworkThread(ExitSignal& exitSignal, GameMode gameMode,
+			Common::AirplaneTypeName airplaneTypeName, const std::string& ipAddress, int port,
+			OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void join();
 
 	private:
-		std::thread m_thread;
+		std::thread m_thread{};
 		ExitSignal& m_exitSignal;
 
 		Physics::SimulationClock m_simulationClock{};
@@ -39,8 +38,7 @@ namespace App
 		Physics::Timestep m_frameCutoff{};
 		std::unique_ptr<UDPCommunication> m_udpCommunication;
 
-		void start(std::binary_semaphore& renderingSemaphore, GameMode gameMode,
-			Common::AirplaneTypeName airplaneTypeName, OwnInput& ownInput,
+		void start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName, OwnInput& ownInput,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		bool startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);

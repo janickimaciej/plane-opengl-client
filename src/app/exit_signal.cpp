@@ -20,6 +20,7 @@ namespace App
 		if (!m_exiting)
 		{
 			m_exiting = true;
+			m_renderingThreadSemaphore.release();
 			m_networkThreadSemaphore.release();
 			m_exitCode = exitCode;
 		}
@@ -30,6 +31,16 @@ namespace App
 	ExitCode ExitSignal::getExitCode() const
 	{
 		return m_exitCode;
+	}
+
+	void ExitSignal::acquireRenderingThreadSemaphore()
+	{
+		m_renderingThreadSemaphore.acquire();
+	}
+
+	void ExitSignal::releaseRenderingThreadSemaphore()
+	{
+		m_renderingThreadSemaphore.release();
 	}
 
 	void ExitSignal::acquireNetworkThreadSemaphore()
