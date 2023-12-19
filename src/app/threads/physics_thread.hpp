@@ -38,6 +38,7 @@ namespace App
 
 		Graphics::RenderingBuffer& m_renderingBuffer;
 		OwnInput& m_ownInput;
+		Physics::Timestep m_newestStateFrameTimestep{};
 
 		UDPCommunication* m_udpCommunication;
 

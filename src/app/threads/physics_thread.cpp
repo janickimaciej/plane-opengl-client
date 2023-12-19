@@ -56,31 +56,42 @@ namespace App
 		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
 			m_simulationBuffer.getAirplaneInfos(initialTimestep);
 		m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
-
 		m_exitSignal.releaseRenderingThreadSemaphore();
+
+		m_newestStateFrameTimestep = initialTimestep;
 		mainLoop(initialTimestep);
 	}
 
 	void PhysicsThread::mainLoop(const Physics::Timestep& initialTimestep)
 	{
 		Physics::Timestep timestep = initialTimestep;
-		while(!m_exitSignal.shouldStop())
+		while (!m_exitSignal.shouldStop())
 		{
 			timestep = timestep.next();
 			m_notification.getNotification(timestep);
 			sleepIfFuture(timestep);
 
-			Physics::PlayerInput ownInput = m_ownInput.getOwnInput();
-			bool inputSet = m_simulationBuffer.writeControlFrame(timestep, m_ownId, ownInput);
-			m_simulationBuffer.update(timestep);
-
-			std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
-				m_simulationBuffer.getAirplaneInfos(timestep);
-			m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
-
-			if (m_gameMode == GameMode::multiplayer && inputSet)
+			if (timestep > m_newestStateFrameTimestep)
 			{
-				m_udpCommunication->sendControlFrame(timestep, m_ownId, ownInput);
+				Physics::PlayerInput ownInput = m_ownInput.getOwnInput();
+				m_simulationBuffer.writeOwnInput(timestep, ownInput);
+
+				m_simulationBuffer.update(timestep);
+
+				std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
+					m_simulationBuffer.getAirplaneInfos(timestep);
+				m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
+
+				if (m_gameMode == GameMode::multiplayer)
+				{
+					m_udpCommunication->sendControlFrame(timestep, m_ownId, ownInput);
+				}
+
+				m_newestStateFrameTimestep = timestep;
+			}
+			else
+			{
+				m_simulationBuffer.update(timestep);
 			}
 		}
 	}
