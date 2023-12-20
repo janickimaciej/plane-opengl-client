@@ -118,6 +118,7 @@ namespace App
 			{
 				if (buffer[0] == toUInt8(UDPFrameType::control))
 				{
+					receiveTimestamp = Physics::Timestamp::systemNow();
 					udpFrameType = UDPFrameType::control;
 					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
 						buffer.begin() + static_cast<int>(receivedSize));
@@ -127,7 +128,6 @@ namespace App
 				}
 				else if (buffer[0] == toUInt8(UDPFrameType::state))
 				{
-					receiveTimestamp = Physics::Timestamp::systemNow();
 					udpFrameType = UDPFrameType::state;
 					std::vector<std::uint8_t> receivedBuffer(buffer.begin(),
 						buffer.begin() + static_cast<int>(receivedSize));

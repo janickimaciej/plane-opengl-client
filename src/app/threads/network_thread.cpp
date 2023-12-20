@@ -179,8 +179,8 @@ namespace App
 			{
 				if (playerId == m_ownId)
 				{
-					//m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp,
-						//serverTimestamp);
+					m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp,
+						serverTimestamp);
 				}
 				else
 				{
