@@ -35,14 +35,9 @@ namespace Graphics
 		m_lightShaderProgram{lightShaderProgram}
 	{ }
 
-	glm::mat4 Camera::getOriginMatrix() const
-	{
-		return glm::mat4{1};
-	}
-
 	glm::mat4 Camera::getCameraMatrix() const
 	{
-		return getOriginMatrix() * getMatrix();
+		return getMatrix();
 	}
 
 	glm::vec3 Camera::getCameraPosition() const

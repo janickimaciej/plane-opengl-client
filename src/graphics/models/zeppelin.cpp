@@ -4,7 +4,7 @@
 #include "graphics/models/model.hpp"
 #include "graphics/paths.hpp"
 #include "graphics/shader_program.hpp"
-#include "graphics/submodel.hpp"
+#include "graphics/submodels/submodel.hpp"
 
 namespace Graphics
 {

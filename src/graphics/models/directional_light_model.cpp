@@ -11,7 +11,7 @@ namespace Graphics
 	DirectionalLightModel::DirectionalLightModel(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram, const glm::vec3& lightColor) :
 		Model{surfaceShaderProgram, lightShaderProgram},
-		m_light{surfaceShaderProgram, 0.0f, 0.0f, 1.0f, lightColor}
+		m_light{surfaceShaderProgram, lightColor}
 	{ }
 
 	void DirectionalLightModel::setLightColor(const glm::vec3& color)

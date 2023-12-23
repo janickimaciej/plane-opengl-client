@@ -8,7 +8,7 @@
 #include "graphics/models/model.hpp"
 #include "graphics/paths.hpp"
 #include "graphics/shader_program.hpp"
-#include "graphics/submodel.hpp"
+#include "graphics/submodels/submodel.hpp"
 #include "graphics/texture.hpp"
 
 #include <glm/glm.hpp>
@@ -39,12 +39,16 @@ namespace Graphics
 			textureManager.get(airplaneType.camo)},
 		m_joins{surfaceShaderProgram, meshManager.get(airplaneType.joins), metal},
 		m_tires{surfaceShaderProgram, meshManager.get(airplaneType.tires), rubber},
-		m_leftLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
-			lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
-			Submodel{lightShaderProgram, meshManager.get(airplaneType.light), whiteLightGlass}},
-		m_rightLight{surfaceShaderProgram, lightsAttenuationQuadratic, lightsAttenuationLinear,
-			lightsAttenuationConstant, lightsColor, lightsCutoffInnerDeg, lightsCutoffOuterDeg,
-			Submodel{lightShaderProgram, meshManager.get(airplaneType.light), whiteLightGlass}}
+		m_leftLight{surfaceShaderProgram, lightsColor, lightsAttenuationQuadratic,
+			lightsAttenuationLinear, lightsAttenuationConstant, lightsCutoffInnerDeg,
+			lightsCutoffOuterDeg},
+		m_leftLightSubmodel{m_leftLight, lightShaderProgram, meshManager.get(airplaneType.light),
+			whiteLightGlass},
+		m_rightLight{surfaceShaderProgram, lightsColor, lightsAttenuationQuadratic,
+			lightsAttenuationLinear, lightsAttenuationConstant, lightsCutoffInnerDeg,
+			lightsCutoffOuterDeg},
+		m_rightLightSubmodel{m_rightLight, lightShaderProgram, meshManager.get(airplaneType.light),
+			whiteLightGlass}
 	{
 		constexpr float lightsPositionXAbs = 2.14f;
 		constexpr float lightsPositionY = -0.474f;
@@ -69,7 +73,9 @@ namespace Graphics
 		m_joins{airplane.m_joins},
 		m_tires{airplane.m_tires},
 		m_leftLight{airplane.m_leftLight},
-		m_rightLight{airplane.m_rightLight}
+		m_leftLightSubmodel{m_leftLight, airplane.m_leftLightSubmodel},
+		m_rightLight{airplane.m_rightLight},
+		m_rightLightSubmodel{m_rightLight, airplane.m_rightLightSubmodel}
 	{ }
 
 	Airplane::Airplane(Airplane&& airplane) noexcept :
@@ -80,7 +86,9 @@ namespace Graphics
 		m_joins{airplane.m_joins},
 		m_tires{airplane.m_tires},
 		m_leftLight{airplane.m_leftLight},
-		m_rightLight{airplane.m_rightLight}
+		m_leftLightSubmodel{m_leftLight, airplane.m_leftLightSubmodel},
+		m_rightLight{airplane.m_rightLight},
+		m_rightLightSubmodel{m_rightLight, airplane.m_rightLightSubmodel}
 	{ }
 
 	void Airplane::updateShaders()
@@ -112,7 +120,7 @@ namespace Graphics
 
 	void Airplane::renderLights() const
 	{
-		m_leftLight.render(getMatrix());
-		m_rightLight.render(getMatrix());
+		m_leftLightSubmodel.render(getMatrix());
+		m_rightLightSubmodel.render(getMatrix());
 	}
 };

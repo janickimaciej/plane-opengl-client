@@ -9,8 +9,7 @@
     <ClCompile Include="src\app\main.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
     <ClCompile Include="src\graphics\mesh.cpp" />
-    <ClCompile Include="src\graphics\submodel.cpp" />
-    <ClCompile Include="src\graphics\lights\mesh_light.cpp" />
+    <ClCompile Include="src\graphics\submodels\submodel.cpp" />
     <ClCompile Include="src\graphics\cameras\model_camera.cpp" />
     <ClCompile Include="src\graphics\obj_parser.cpp" />
     <ClCompile Include="src\graphics\cameras\perspective_camera.cpp" />
@@ -59,6 +58,8 @@
     <ClCompile Include="core\physics\simulation_clock.cpp" />
     <ClCompile Include="core\physics\timestamp.cpp" />
     <ClCompile Include="core\physics\timestep.cpp" />
+    <ClCompile Include="src\graphics\submodels\light_submodel.cpp" />
+    <ClCompile Include="src\graphics\lights\point_light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
@@ -68,8 +69,7 @@
     <ClInclude Include="src\graphics\lights\light.hpp" />
     <ClInclude Include="src\graphics\material.hpp" />
     <ClInclude Include="src\graphics\mesh.hpp" />
-    <ClInclude Include="src\graphics\submodel.hpp" />
-    <ClInclude Include="src\graphics\lights\mesh_light.hpp" />
+    <ClInclude Include="src\graphics\submodels\submodel.hpp" />
     <ClInclude Include="src\graphics\cameras\model_camera.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\cameras\perspective_camera.hpp" />
@@ -147,6 +147,8 @@
     <ClInclude Include="core\physics\simulation_clock.hpp" />
     <ClInclude Include="core\physics\timestamp.hpp" />
     <ClInclude Include="core\physics\timestep.hpp" />
+    <ClInclude Include="src\graphics\submodels\light_submodel.hpp" />
+    <ClInclude Include="src\graphics\lights\point_light.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

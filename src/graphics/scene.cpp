@@ -32,8 +32,8 @@ namespace Graphics
 		constexpr float FoVDeg = 60;
 		constexpr float nearPlane = 1;
 		constexpr float farPlane = 10000;
-		m_camera = std::make_unique<ModelCamera>(FoVDeg, nearPlane, farPlane,
-			m_surfaceShaderProgram, m_lightShaderProgram, m_airplanes.at(ownId));
+		m_camera = std::make_unique<ModelCamera>(m_airplanes.at(ownId), FoVDeg, nearPlane, farPlane,
+			m_surfaceShaderProgram, m_lightShaderProgram);
 		constexpr float cameraPitchDeg = -10;
 		m_camera->rotatePitch(cameraPitchDeg);
 		constexpr glm::vec3 cameraPosition{0, 4, 16};

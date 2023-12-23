@@ -1,7 +1,8 @@
 #version 330 core
 
-#define SPOT_LIGHTS_COUNT 18
-#define DIRECTIONAL_LIGHTS_COUNT 2
+#define DIRECTIONAL_LIGHT_COUNT 2
+#define POINT_LIGHT_COUNT 1
+#define SPOT_LIGHT_COUNT 18
 #define EPS 1e-9
 
 // ... – vector in global coordinate system
@@ -23,25 +24,31 @@ struct Material
 	float shininess;
 };
 
-struct SpotLight
+struct DirectionalLight
 {
-	vec3 lightDirection;
-	vec3 lightPosition;
-	float cutoffInnerRad;
-	float cutoffOuterRad;
+	vec3 direction;
+	vec3 color;
+};
+
+struct PointLight
+{
+	vec3 position;
 	vec3 color;
 	float attenuationQuadratic;
 	float attenuationLinear;
 	float attenuationConstant;
 };
 
-struct DirectionalLight
+struct SpotLight
 {
-	vec3 lightDirection;
+	vec3 direction;
+	vec3 position;
 	vec3 color;
 	float attenuationQuadratic;
 	float attenuationLinear;
 	float attenuationConstant;
+	float cutoffInnerRad;
+	float cutoffOuterRad;
 };
 
 in vec4 position;
@@ -53,15 +60,17 @@ uniform WorldShading worldShading;
 uniform Material material;
 uniform bool isTextureEnabled;
 uniform sampler2D textureSampler;
-uniform SpotLight spotLights[SPOT_LIGHTS_COUNT];
-uniform DirectionalLight directionalLights[DIRECTIONAL_LIGHTS_COUNT];
+uniform DirectionalLight directionalLights[DIRECTIONAL_LIGHT_COUNT];
+uniform PointLight pointLights[POINT_LIGHT_COUNT];
+uniform SpotLight spotLights[SPOT_LIGHT_COUNT];
 
 out vec4 outColor;
 
 vec3 calcViewVector();
 
-vec3 calcPseudoColorSpotLight(int i, vec3 viewVector);
 vec3 calcPseudoColorDirectionalLight(int i, vec3 viewVector);
+vec3 calcPseudoColorPointLight(int i, vec3 viewVector);
+vec3 calcPseudoColorSpotLight(int i, vec3 viewVector);
 
 float calcBrightness(vec3 viewVector, vec3 lightVector);
 float calcAttenuation(float attenuationQuadratic, float attenuationLinear,
@@ -74,13 +83,17 @@ void main()
 {
 	vec3 pseudoColor = vec3(worldShading.ambient, worldShading.ambient, worldShading.ambient);
 	vec3 viewVector = calcViewVector();
-	for (int i = 0; i < SPOT_LIGHTS_COUNT; ++i)
-	{
-		pseudoColor += calcPseudoColorSpotLight(i, viewVector);
-	}
-	for (int i = 0; i < DIRECTIONAL_LIGHTS_COUNT; ++i)
+	for (int i = 0; i < DIRECTIONAL_LIGHT_COUNT; ++i)
 	{
 		pseudoColor += calcPseudoColorDirectionalLight(i, viewVector);
+	}
+	for (int i = 0; i < POINT_LIGHT_COUNT; ++i)
+	{
+		pseudoColor += calcPseudoColorPointLight(i, viewVector);
+	}
+	for (int i = 0; i < SPOT_LIGHT_COUNT; ++i)
+	{
+		pseudoColor += calcPseudoColorSpotLight(i, viewVector);
 	}
 
 	vec3 surfaceColor;
@@ -93,14 +106,7 @@ void main()
 		surfaceColor = material.color;
 	}
 
-	outColor = vec4
-	(
-		pseudoColor.x * surfaceColor.x,
-		pseudoColor.y * surfaceColor.y,
-		pseudoColor.z * surfaceColor.z,
-		1
-	);
-	outColor = vec4(applyFog(outColor.xyz), 1);
+	outColor = vec4(applyFog(pseudoColor * surfaceColor), 1);
 }
 
 vec3 calcViewVector()
@@ -108,12 +114,33 @@ vec3 calcViewVector()
 	return normalize(cameraPosition - position.xyz);
 }
 
+vec3 calcPseudoColorDirectionalLight(int i, vec3 viewVector)
+{
+	vec3 lightVector = directionalLights[i].direction;
+
+	float brightness = calcBrightness(viewVector, lightVector);
+
+	return brightness * directionalLights[i].color;
+}
+
+vec3 calcPseudoColorPointLight(int i, vec3 viewVector)
+{
+	vec3 lightVector = normalize(pointLights[i].position - position.xyz);
+
+	float brightness = calcBrightness(viewVector, lightVector);
+	float attenuation = calcAttenuation(pointLights[i].attenuationQuadratic,
+		pointLights[i].attenuationLinear, pointLights[i].attenuationConstant, position.xyz,
+		pointLights[i].position);
+
+	return attenuation * brightness * pointLights[i].color;
+}
+
 vec3 calcPseudoColorSpotLight(int i, vec3 viewVector)
 {
-	vec3 lightVector = normalize(spotLights[i].lightPosition - position.xyz);
+	vec3 lightVector = normalize(spotLights[i].position - position.xyz);
 
 	float cutoffCoef = calcCutoffCoef(spotLights[i].cutoffInnerRad, spotLights[i].cutoffOuterRad,
-		lightVector, spotLights[i].lightDirection);
+		lightVector, spotLights[i].direction);
 	if (cutoffCoef < EPS)
 	{
 		return vec3(0, 0, 0);
@@ -122,18 +149,9 @@ vec3 calcPseudoColorSpotLight(int i, vec3 viewVector)
 	float brightness = calcBrightness(viewVector, lightVector);
 	float attenuation = calcAttenuation(spotLights[i].attenuationQuadratic,
 		spotLights[i].attenuationLinear, spotLights[i].attenuationConstant, position.xyz,
-		spotLights[i].lightPosition);
+		spotLights[i].position);
 
 	return attenuation * cutoffCoef * brightness * spotLights[i].color;
-}
-
-vec3 calcPseudoColorDirectionalLight(int i, vec3 viewVector)
-{
-	vec3 lightVector = directionalLights[i].lightDirection;
-
-	float brightness = calcBrightness(viewVector, lightVector);
-
-	return brightness * directionalLights[i].color;
 }
 
 float calcBrightness(vec3 viewVector, vec3 lightVector)
@@ -142,11 +160,17 @@ float calcBrightness(vec3 viewVector, vec3 lightVector)
 	vec3 reflectionVector = normalize(2 * cosNormalLight * normalVector.xyz - lightVector);
 	float cosViewReflection = dot(viewVector, reflectionVector);
 
-	if (cosNormalLight < 0) cosNormalLight = 0;
-	if (cosViewReflection < 0) cosViewReflection = 0;
+	if (cosNormalLight < 0)
+	{
+		cosNormalLight = 0;
+	}
+	if (cosViewReflection < 0)
+	{
+		cosViewReflection = 0;
+	}
 
-	return material.diffuse * cosNormalLight + material.specular * pow(cosViewReflection,
-		material.shininess);
+	return material.diffuse * cosNormalLight + material.specular *
+		pow(cosViewReflection, material.shininess);
 }
 
 float calcAttenuation(float attenuationQuadratic, float attenuationLinear,

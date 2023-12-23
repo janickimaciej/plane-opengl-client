@@ -129,7 +129,7 @@ namespace App
 		Physics::PlayerInfo ownInfo;
 		constexpr int initialHP = 100;
 		ownInfo.state.hp = initialHP;
-		constexpr glm::vec3 initialPosition{0, 50, 100};
+		constexpr glm::vec3 initialPosition{0, 500, 5000};
 		ownInfo.state.state.position = initialPosition;
 		constexpr glm::vec3 initialVelocity{0, 0, -100};
 		ownInfo.state.state.velocity = initialVelocity;

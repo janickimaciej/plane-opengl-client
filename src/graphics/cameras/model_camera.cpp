@@ -8,15 +8,14 @@
 
 namespace Graphics
 {
-	ModelCamera::ModelCamera(float FoVDeg, float nearPlane, float farPlane,
-		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		const Model& model) :
+	ModelCamera::ModelCamera(const Model& model, float FoVDeg, float nearPlane, float farPlane,
+		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
 		PerspectiveCamera{FoVDeg, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram},
 		m_model{model}
 	{ }
 
-	glm::mat4 ModelCamera::getOriginMatrix() const
+	glm::mat4 ModelCamera::getCameraMatrix() const
 	{
-		return m_model.getModelMatrix();
+		return m_model.getModelMatrix() * getMatrix();
 	}
 };

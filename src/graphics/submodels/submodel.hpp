@@ -21,7 +21,7 @@ namespace Graphics
 		Submodel(Submodel&& submodel) noexcept;
 		void render(const glm::mat4& modelMatrix) const;
 		void scale(float scaleRatio);
-		glm::mat4 getMatrix() const;
+		virtual glm::mat4 getSubmodelMatrix() const;
 		virtual ~Submodel() = default;
 	
 	private:

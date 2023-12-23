@@ -7,7 +7,8 @@
 #include "graphics/mesh.hpp"
 #include "graphics/models/model.hpp"
 #include "graphics/shader_program.hpp"
-#include "graphics/submodel.hpp"
+#include "graphics/submodels/light_submodel.hpp"
+#include "graphics/submodels/submodel.hpp"
 #include "graphics/texture.hpp"
 
 namespace Graphics
@@ -31,7 +32,9 @@ namespace Graphics
 		Submodel m_joins;
 		Submodel m_tires;
 		SpotLight m_leftLight;
+		LightSubmodel m_leftLightSubmodel;
 		SpotLight m_rightLight;
+		LightSubmodel m_rightLightSubmodel;
 
 		virtual void renderSurfaces() const override;
 		virtual void renderLights() const override;

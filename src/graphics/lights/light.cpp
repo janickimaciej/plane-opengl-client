@@ -8,17 +8,23 @@ namespace Graphics
 {
 	void Light::setColor(const glm::vec3& color)
 	{
-		this->m_color = color;
+		m_color = color;
 	}
 
 	Light::Light(unsigned int id, const ShaderProgram& surfaceShaderProgram,
-		float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
 		const glm::vec3& color) :
 		m_id{id},
 		m_surfaceShaderProgram{surfaceShaderProgram},
-		m_attenuationQuadratic{attenuationQuadratic},
-		m_attenuationLinear{attenuationLinear},
-		m_attenuationConstant{attenuationConstant},
 		m_color{color}
 	{ }
+
+	glm::vec3 Light::getGlobalPosition(const glm::mat4& modelMatrix) const
+	{
+		return glm::vec3{modelMatrix * glm::vec4{getState().position, 1}};
+	}
+
+	glm::vec3 Light::getGlobalDirection(const glm::mat4& modelMatrix) const
+	{
+		return glm::normalize(glm::mat3{modelMatrix} * getState().direction());
+	}
 };

@@ -1,12 +1,13 @@
 #pragma once
 
+#include "common/transformable.hpp"
 #include "graphics/shader_program.hpp"
 
 #include <glm/glm.hpp>
 
 namespace Graphics
 {
-	class Light
+	class Light : public Common::Transformable
 	{
 	public:
 		virtual void updateShaders(const glm::mat4& modelMatrix) const = 0;
@@ -16,15 +17,12 @@ namespace Graphics
 	protected:
 		unsigned int m_id{};
 		const ShaderProgram& m_surfaceShaderProgram;
-		float m_attenuationQuadratic{};
-		float m_attenuationLinear{};
-		float m_attenuationConstant{};
 		glm::vec3 m_color{};
 
-		Light(unsigned int id, const ShaderProgram& surfaceShaderProgram,
-			float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
-			const glm::vec3& color);
+		Light(unsigned int id, const ShaderProgram& surfaceShaderProgram, const glm::vec3& color);
 		Light(const Light& light) = default;
 		Light(Light&& light) = default;
+		glm::vec3 getGlobalPosition(const glm::mat4& modelMatrix) const;
+		glm::vec3 getGlobalDirection(const glm::mat4& modelMatrix) const;
 	};
 };

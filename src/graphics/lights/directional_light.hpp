@@ -10,8 +10,9 @@ namespace Graphics
 	class DirectionalLight : public Light
 	{
 	public:
-		DirectionalLight(const ShaderProgram& surfaceShaderProgram, float attenuationQuadratic,
-			float attenuationLinear, float attenuationConstant, const glm::vec3& color);
+		DirectionalLight(const ShaderProgram& surfaceShaderProgram, const glm::vec3& color);
+		DirectionalLight(const DirectionalLight& directionalLight) = default;
+		DirectionalLight(DirectionalLight&& directionalLight) = default;
 		virtual void updateShaders(const glm::mat4& modelMatrix) const override;
 		virtual ~DirectionalLight() = default;
 

@@ -26,8 +26,7 @@ namespace Graphics
 	
 		Camera(float FoVDeg, float nearPlane, float farPlane,
 			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
-		virtual glm::mat4 getOriginMatrix() const;
-		glm::mat4 getCameraMatrix() const;
+		virtual glm::mat4 getCameraMatrix() const;
 		glm::vec3 getCameraPosition() const;
 		glm::mat4 getViewMatrix() const;
 	};

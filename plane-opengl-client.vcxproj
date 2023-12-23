@@ -54,6 +54,8 @@
     <ClCompile Include="src\graphics\cameras\perspective_camera.cpp" />
     <ClCompile Include="src\graphics\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\graphics\day_night_cycle.cpp" />
+    <ClCompile Include="src\graphics\lights\point_light.cpp" />
+    <ClCompile Include="src\graphics\submodels\light_submodel.cpp" />
     <ClCompile Include="src\graphics\maps\island_map.cpp" />
     <ClCompile Include="src\graphics\maps\map.cpp" />
     <ClCompile Include="src\graphics\models\airplane.cpp" />
@@ -68,11 +70,10 @@
     <ClCompile Include="src\graphics\world_shading.cpp" />
     <ClCompile Include="src\graphics\lights\directional_light.cpp" />
     <ClCompile Include="src\graphics\lights\light.cpp" />
-    <ClCompile Include="src\graphics\lights\mesh_light.cpp" />
     <ClCompile Include="src\graphics\lights\spot_light.cpp" />
     <ClCompile Include="src\app\main.cpp" />
     <ClCompile Include="src\graphics\mesh.cpp" />
-    <ClCompile Include="src\graphics\submodel.cpp" />
+    <ClCompile Include="src\graphics\submodels\submodel.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
     <ClCompile Include="src\graphics\obj_parser.cpp" />
     <ClCompile Include="src\graphics\shader_program.cpp" />
@@ -131,6 +132,8 @@
     <ClInclude Include="src\app\threads\rendering_thread.hpp" />
     <ClInclude Include="src\app\udp\udp_communication.hpp" />
     <ClInclude Include="src\app\window_input.hpp" />
+    <ClInclude Include="src\graphics\lights\point_light.hpp" />
+    <ClInclude Include="src\graphics\submodels\light_submodel.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
@@ -155,10 +158,9 @@
     <ClInclude Include="src\graphics\world_shading.hpp" />
     <ClInclude Include="src\graphics\lights\directional_light.hpp" />
     <ClInclude Include="src\graphics\lights\light.hpp" />
-    <ClInclude Include="src\graphics\lights\mesh_light.hpp" />
     <ClInclude Include="src\graphics\lights\spot_light.hpp" />
     <ClInclude Include="src\graphics\mesh.hpp" />
-    <ClInclude Include="src\graphics\submodel.hpp" />
+    <ClInclude Include="src\graphics\submodels\submodel.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
     <ClInclude Include="src\graphics\paths.hpp" />
     <ClInclude Include="src\graphics\shader_program.hpp" />
