@@ -17,8 +17,7 @@
 
 namespace Graphics
 {
-	constexpr std::size_t hangarsCount = 3;
-	constexpr std::size_t lightsCount = 8;
+	constexpr std::size_t hangarCount = 3;
 	constexpr float lightsAttenuationQuadratic = 0.0001f;
 	constexpr float lightsAttenuationLinear = 0.0005f;
 	constexpr float lightsAttenuationConstant = 1;
@@ -51,7 +50,7 @@ namespace Graphics
 	{
 		const Submodel hangarSubmodel{surfaceShaderProgram, meshManager.get(SM_AIRPORT_HANGAR),
 			defaultMaterial, textureManager.get(T_TENT)};
-		for (std::size_t i = 0; i < hangarsCount; ++i)
+		for (std::size_t i = 0; i < hangarCount; ++i)
 		{
 			m_hangars.push_back(hangarSubmodel);
 
@@ -61,12 +60,7 @@ namespace Graphics
 
 		const Submodel lightBodySubmodel{surfaceShaderProgram,
 			meshManager.get(SM_AIRPORT_LIGHT_BODY), metal};
-		const Submodel lightSubmodel{lightShaderProgram, meshManager.get(SM_AIRPORT_LIGHT),
-			yellowLightGlass};
-		const SpotLight light{surfaceShaderProgram, lightsColor, lightsAttenuationQuadratic,
-			lightsAttenuationLinear, lightsAttenuationConstant, lightsCutoffInnerDeg,
-			lightsCutoffOuterDeg};
-		for (std::size_t i = 0; i < lightsCount; ++i)
+		for (std::size_t i = 0; i < SpotLight::airportLightCount; ++i)
 		{
 			m_lightBodies.push_back(lightBodySubmodel);
 			m_lights.push_back(std::make_unique<SpotLight>(surfaceShaderProgram, lightsColor,

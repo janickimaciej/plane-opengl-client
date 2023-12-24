@@ -1,5 +1,3 @@
-#version 330 core
-
 // ...Mesh – vector in mesh coordinate system
 // ... – vector in global coordinate system
 

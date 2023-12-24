@@ -1,5 +1,3 @@
-#version 330 core
-
 // ... – vector in global coordinate system
 
 struct WorldShading

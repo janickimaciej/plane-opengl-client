@@ -1,5 +1,9 @@
 #include "graphics/shader_program.hpp"
 
+#include "graphics/lights/directional_light.hpp"
+#include "graphics/lights/point_light.hpp"
+#include "graphics/lights/spot_light.hpp"
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -64,7 +68,14 @@ namespace Graphics
 
 	unsigned int ShaderProgram::createShader(GLenum shaderType, const std::string& shaderPath) const
 	{
-		const std::string shaderCode = readShaderFile(shaderPath);
+		std::string shaderCode = "#version 330 core\n\n";
+		shaderCode += "#define MAX_DIRECTIONAL_LIGHT_COUNT " +
+			std::to_string(DirectionalLight::maxDirectionalLightCount) + "\n";
+		shaderCode += "#define MAX_POINT_LIGHT_COUNT " +
+			std::to_string(PointLight::maxPointLightCount) + "\n";
+		shaderCode += "#define MAX_SPOT_LIGHT_COUNT " +
+			std::to_string(SpotLight::maxSpotLightCount) + "\n";
+		shaderCode += readShaderFile(shaderPath);
 
 		unsigned int shader = glCreateShader(shaderType);
 		const char* shaderCodeCStr = shaderCode.c_str();

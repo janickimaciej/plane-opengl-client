@@ -11,12 +11,21 @@ namespace Graphics
 		m_color = color;
 	}
 
-	Light::Light(unsigned int id, const ShaderProgram& surfaceShaderProgram,
-		const glm::vec3& color) :
+	Light::Light(unsigned int id, const std::string& prefix,
+		const ShaderProgram& surfaceShaderProgram, const glm::vec3& color) :
 		m_id{id},
+		m_prefix{prefix + "[" + std::to_string(id) + "]."},
 		m_surfaceShaderProgram{surfaceShaderProgram},
 		m_color{color}
 	{ }
+
+	Light::Light(unsigned int id, const std::string& prefix,
+		const ShaderProgram& surfaceShaderProgram, const glm::vec3& color,
+		const Common::State& state) :
+		Light{id, prefix, surfaceShaderProgram, color}
+	{
+		setState(state);
+	}
 
 	glm::vec3 Light::getGlobalPosition(const glm::mat4& modelMatrix) const
 	{

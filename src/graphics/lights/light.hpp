@@ -1,9 +1,12 @@
 #pragma once
 
 #include "common/transformable.hpp"
+#include "common/state.hpp"
 #include "graphics/shader_program.hpp"
 
 #include <glm/glm.hpp>
+
+#include <string>
 
 namespace Graphics
 {
@@ -16,12 +19,14 @@ namespace Graphics
 
 	protected:
 		unsigned int m_id{};
+		std::string m_prefix{};
 		const ShaderProgram& m_surfaceShaderProgram;
 		glm::vec3 m_color{};
 
-		Light(unsigned int id, const ShaderProgram& surfaceShaderProgram, const glm::vec3& color);
-		Light(const Light& light) = default;
-		Light(Light&& light) = default;
+		Light(unsigned int id, const std::string& prefix,
+			const ShaderProgram& surfaceShaderProgram, const glm::vec3& color);
+		Light(unsigned int id, const std::string& prefix, const ShaderProgram& surfaceShaderProgram,
+			const glm::vec3& color, const Common::State& state);
 		glm::vec3 getGlobalPosition(const glm::mat4& modelMatrix) const;
 		glm::vec3 getGlobalDirection(const glm::mat4& modelMatrix) const;
 	};

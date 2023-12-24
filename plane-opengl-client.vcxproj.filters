@@ -149,6 +149,7 @@
     <ClInclude Include="core\physics\timestep.hpp" />
     <ClInclude Include="src\graphics\submodels\light_submodel.hpp" />
     <ClInclude Include="src\graphics\lights\point_light.hpp" />
+    <ClInclude Include="core\common\config.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

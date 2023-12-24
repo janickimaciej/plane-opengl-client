@@ -8,6 +8,7 @@
 #include "app/udp/udp_communication.hpp"
 #include "app/udp/udp_frame_type.hpp"
 #include "common/airplane_type_name.hpp"
+#include "common/config.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/notification.hpp"
@@ -163,7 +164,7 @@ namespace App
 			}
 			
 			constexpr Physics::Timestep frameAgeCutoffOffset{0,
-				static_cast<unsigned int>(Physics::framesPerSecond * 0.9f)};
+				static_cast<unsigned int>(Common::framesPerSecond * 0.9f)};
 			Physics::Timestep frameAgeCutoff = m_simulationClock.getTime() - frameAgeCutoffOffset;
 			if (m_frameCutoff < frameAgeCutoff)
 			{

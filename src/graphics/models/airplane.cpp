@@ -85,9 +85,9 @@ namespace Graphics
 		m_body{airplane.m_body},
 		m_joins{airplane.m_joins},
 		m_tires{airplane.m_tires},
-		m_leftLight{airplane.m_leftLight},
+		m_leftLight{std::move(airplane.m_leftLight)},
 		m_leftLightSubmodel{m_leftLight, airplane.m_leftLightSubmodel},
-		m_rightLight{airplane.m_rightLight},
+		m_rightLight{std::move(airplane.m_rightLight)},
 		m_rightLightSubmodel{m_rightLight, airplane.m_rightLightSubmodel}
 	{ }
 

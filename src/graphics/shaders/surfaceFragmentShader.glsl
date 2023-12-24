@@ -1,8 +1,3 @@
-#version 330 core
-
-#define DIRECTIONAL_LIGHT_COUNT 2
-#define POINT_LIGHT_COUNT 1
-#define SPOT_LIGHT_COUNT 18
 #define EPS 1e-9
 
 // ... – vector in global coordinate system
@@ -26,12 +21,14 @@ struct Material
 
 struct DirectionalLight
 {
+	bool isActive;
 	vec3 direction;
 	vec3 color;
 };
 
 struct PointLight
 {
+	bool isActive;
 	vec3 position;
 	vec3 color;
 	float attenuationQuadratic;
@@ -41,8 +38,9 @@ struct PointLight
 
 struct SpotLight
 {
-	vec3 direction;
+	bool isActive;
 	vec3 position;
+	vec3 direction;
 	vec3 color;
 	float attenuationQuadratic;
 	float attenuationLinear;
@@ -60,9 +58,9 @@ uniform WorldShading worldShading;
 uniform Material material;
 uniform bool isTextureEnabled;
 uniform sampler2D textureSampler;
-uniform DirectionalLight directionalLights[DIRECTIONAL_LIGHT_COUNT];
-uniform PointLight pointLights[POINT_LIGHT_COUNT];
-uniform SpotLight spotLights[SPOT_LIGHT_COUNT];
+uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHT_COUNT];
+uniform PointLight pointLights[MAX_POINT_LIGHT_COUNT];
+uniform SpotLight spotLights[MAX_SPOT_LIGHT_COUNT];
 
 out vec4 outColor;
 
@@ -83,17 +81,26 @@ void main()
 {
 	vec3 pseudoColor = vec3(worldShading.ambient, worldShading.ambient, worldShading.ambient);
 	vec3 viewVector = calcViewVector();
-	for (int i = 0; i < DIRECTIONAL_LIGHT_COUNT; ++i)
+	for (int i = 0; i < MAX_DIRECTIONAL_LIGHT_COUNT; ++i)
 	{
-		pseudoColor += calcPseudoColorDirectionalLight(i, viewVector);
+		if (directionalLights[i].isActive)
+		{
+			pseudoColor += calcPseudoColorDirectionalLight(i, viewVector);
+		}
 	}
-	for (int i = 0; i < POINT_LIGHT_COUNT; ++i)
+	for (int i = 0; i < MAX_POINT_LIGHT_COUNT; ++i)
 	{
-		pseudoColor += calcPseudoColorPointLight(i, viewVector);
+		if (pointLights[i].isActive)
+		{
+			pseudoColor += calcPseudoColorPointLight(i, viewVector);
+		}
 	}
-	for (int i = 0; i < SPOT_LIGHT_COUNT; ++i)
+	for (int i = 0; i < MAX_SPOT_LIGHT_COUNT; ++i)
 	{
-		pseudoColor += calcPseudoColorSpotLight(i, viewVector);
+		if (spotLights[i].isActive)
+		{
+			pseudoColor += calcPseudoColorSpotLight(i, viewVector);
+		}
 	}
 
 	vec3 surfaceColor;
