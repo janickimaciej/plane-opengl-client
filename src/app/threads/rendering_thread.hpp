@@ -23,8 +23,9 @@ namespace App
 	public:
 		RenderingThread(ExitSignal& exitSignal, ControllerType controllerType);
 		void start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
-			Graphics::MapName mapName, const std::string& serverIPAddress, int serverPort,
-			int networkThreadPort, int physicsThreadPort);
+			Graphics::MapName mapName, const std::string& serverIPAddress,
+			int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
+			int clientPhysicsThreadPort);
 
 	private:
 		ExitSignal& m_exitSignal;

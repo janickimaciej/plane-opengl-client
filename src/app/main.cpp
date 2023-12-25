@@ -15,8 +15,8 @@ namespace App
 {
 	bool parseArguments(int argc, char** argv, GameMode& gameMode,
 		ControllerType& controllerType, Common::AirplaneTypeName& airplaneTypeName,
-		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverPort,
-		int& networkThreadPort, int& physicsThreadPort);
+		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverNetworkThreadPort,
+		int& serverPhysicsThreadPort, int& clientNetworkThreadPort, int& clientPhysicsThreadPort);
 	bool isValidIPAddress(const std::string& serverIPAddress);
 };
 
@@ -29,20 +29,23 @@ int main(int argc, char** argv)
 	Common::AirplaneTypeName airplaneTypeName{};
 	Graphics::MapName mapName{};
 	std::string serverIPAddress{};
-	int serverPort{};
-	int networkThreadPort{};
-	int physicsThreadPort{};
+	int serverNetworkThreadPort{};
+	int serverPhysicsThreadPort{};
+	int clientNetworkThreadPort{};
+	int clientPhysicsThreadPort{};
 
 	if (!parseArguments(argc, argv, gameMode, controllerType, airplaneTypeName, mapName,
-		serverIPAddress, serverPort, networkThreadPort, physicsThreadPort))
+		serverIPAddress, serverNetworkThreadPort, serverPhysicsThreadPort, clientNetworkThreadPort,
+		clientPhysicsThreadPort))
 	{
 		return toInt(ExitCode::badArguments);
 	}
 
 	ExitSignal exitSignal{};
 	RenderingThread renderingThread{exitSignal, controllerType};
-	renderingThread.start(gameMode, airplaneTypeName, mapName, serverIPAddress, serverPort,
-		networkThreadPort, physicsThreadPort);
+	renderingThread.start(gameMode, airplaneTypeName, mapName, serverIPAddress,
+		serverNetworkThreadPort, serverPhysicsThreadPort, clientNetworkThreadPort,
+		clientPhysicsThreadPort);
 
 	return toInt(exitSignal.getExitCode());
 }
@@ -51,8 +54,8 @@ namespace App
 {
 	bool parseArguments(int argc, char** argv, GameMode& gameMode,
 		ControllerType& controllerType, Common::AirplaneTypeName& airplaneTypeName,
-		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverPort,
-		int& networkThreadPort, int& physicsThreadPort)
+		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverNetworkThreadPort,
+		int& serverPhysicsThreadPort, int& clientNetworkThreadPort, int& clientPhysicsThreadPort)
 	{
 		if (argc < 2)
 		{
@@ -109,20 +112,30 @@ namespace App
 		constexpr int minPortValue = 0;
 		constexpr int maxPortValue = 1 << 16;
 
-		serverPort = std::stoi(argv[toSizeT(CommandLineArgument::serverPort)]);
-		if (serverPort < minPortValue || serverPort >= maxPortValue)
+		serverNetworkThreadPort =
+			std::stoi(argv[toSizeT(CommandLineArgument::serverNetworkThreadPort)]);
+		if (serverNetworkThreadPort < minPortValue || serverNetworkThreadPort >= maxPortValue)
 		{
 			return false;
 		}
 
-		networkThreadPort = std::stoi(argv[toSizeT(CommandLineArgument::networkThreadPort)]);
-		if (networkThreadPort < minPortValue || networkThreadPort >= maxPortValue)
+		serverPhysicsThreadPort =
+			std::stoi(argv[toSizeT(CommandLineArgument::serverPhysicsThreadPort)]);
+		if (serverPhysicsThreadPort < minPortValue || serverPhysicsThreadPort >= maxPortValue)
 		{
 			return false;
 		}
 
-		physicsThreadPort = std::stoi(argv[toSizeT(CommandLineArgument::physicsThreadPort)]);
-		if (physicsThreadPort < minPortValue || physicsThreadPort >= maxPortValue)
+		clientNetworkThreadPort =
+			std::stoi(argv[toSizeT(CommandLineArgument::clientNetworkThreadPort)]);
+		if (clientNetworkThreadPort < minPortValue || clientNetworkThreadPort >= maxPortValue)
+		{
+			return false;
+		}
+
+		clientPhysicsThreadPort =
+			std::stoi(argv[toSizeT(CommandLineArgument::clientPhysicsThreadPort)]);
+		if (clientPhysicsThreadPort < minPortValue || clientPhysicsThreadPort >= maxPortValue)
 		{
 			return false;
 		}

@@ -4,7 +4,7 @@
 
 namespace App
 {
-	inline constexpr int multiplayerArgumentCount = 9;
+	inline constexpr int multiplayerArgumentCount = 10;
 	inline constexpr int singleplayerArgumentCount = 5;
 
 	enum class CommandLineArgument
@@ -15,9 +15,10 @@ namespace App
 		airplaneType,
 		map,
 		serverIPAddress,
-		serverPort,
-		networkThreadPort,
-		physicsThreadPort
+		serverNetworkThreadPort,
+		serverPhysicsThreadPort,
+		clientNetworkThreadPort,
+		clientPhysicsThreadPort
 	};
 
 	std::size_t toSizeT(CommandLineArgument commandLineArgument);

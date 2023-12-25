@@ -23,7 +23,8 @@ namespace App
 	public:
 		NetworkThread(ExitSignal& exitSignal, GameMode gameMode,
 			Common::AirplaneTypeName airplaneTypeName, const std::string& serverIPAddress,
-			int serverPort, int networkThreadPort, int physicsThreadPort, OwnInput& ownInput,
+			int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
+			int clientPhysicsThreadPort, OwnInput& ownInput,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void join();
 

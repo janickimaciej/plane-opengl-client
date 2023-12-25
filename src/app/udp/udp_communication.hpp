@@ -21,12 +21,14 @@ namespace App
 	class UDPCommunication
 	{
 	public:
-		UDPCommunication(const std::string& serverIPAddress, int serverPort, int networkThreadPort,
-			int physicsThreadPort);
+		UDPCommunication(const std::string& serverIPAddress, int serverNetworkThreadPort,
+			int serverPhysicsThreadPort, int clientNetworkThreadPort, int clientPhysicsThreadPort);
 
 		void sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName);
 		void sendControlFrame(const Physics::Timestep& timestep, int playerId,
 			const Physics::PlayerInput& playerInput);
+		void sendKeepAliveFrameSync();
+		void sendKeepAliveFrameAsync();
 
 		bool receiveInitResFrame(Physics::Timestamp& sendTimestamp,
 			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,
@@ -41,7 +43,8 @@ namespace App
 
 	private:
 		asio::io_context m_networkThreadIOContext{};
-		asio::ip::udp::endpoint m_server{};
+		asio::ip::udp::endpoint m_serverNetworkThread{};
+		asio::ip::udp::endpoint m_serverPhysicsThread{};
 		asio::ip::udp::socket m_networkThreadSocket;
 		
 		asio::io_context m_physicsThreadIOContext{};

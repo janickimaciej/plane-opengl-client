@@ -29,14 +29,16 @@ namespace App
 {
 	NetworkThread::NetworkThread(ExitSignal& exitSignal, GameMode gameMode,
 		Common::AirplaneTypeName airplaneTypeName, const std::string& serverIPAddress,
-		int serverPort, int networkThreadPort, int physicsThreadPort, OwnInput& ownInput,
+		int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
+		int clientPhysicsThreadPort, OwnInput& ownInput,
 		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer) :
 		m_exitSignal{exitSignal}
 	{
 		if (gameMode == GameMode::multiplayer)
 		{
-			m_udpCommunication = std::make_unique<UDPCommunication>(serverIPAddress, serverPort,
-				networkThreadPort, physicsThreadPort);
+			m_udpCommunication = std::make_unique<UDPCommunication>(serverIPAddress,
+				serverNetworkThreadPort, serverPhysicsThreadPort, clientNetworkThreadPort,
+				clientPhysicsThreadPort);
 		}
 		m_thread = std::thread(
 			[this, gameMode, airplaneTypeName, &ownInput, &renderingBuffer]
@@ -96,6 +98,8 @@ namespace App
 			m_exitSignal.exit(ExitCode::failedToConnect);
 			return false;
 		}
+
+		m_udpCommunication->sendKeepAliveFrameSync();
 
 		m_simulationClock.initializeOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
 

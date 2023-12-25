@@ -21,14 +21,17 @@
 
 namespace App
 {
-	UDPCommunication::UDPCommunication(const std::string& serverIPAddress, int serverPort,
-		int networkThreadPort, int physicsThreadPort) :
-		m_server{asio::ip::address::from_string(serverIPAddress),
-			static_cast<asio::ip::port_type>(serverPort)},
+	UDPCommunication::UDPCommunication(const std::string& serverIPAddress,
+		int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
+		int clientPhysicsThreadPort) :
+		m_serverNetworkThread{asio::ip::address::from_string(serverIPAddress),
+			static_cast<asio::ip::port_type>(serverNetworkThreadPort)},
+		m_serverPhysicsThread{asio::ip::address::from_string(serverIPAddress),
+			static_cast<asio::ip::port_type>(serverPhysicsThreadPort)},
 		m_networkThreadSocket{m_networkThreadIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
-			static_cast<asio::ip::port_type>(networkThreadPort)}},
+			static_cast<asio::ip::port_type>(clientNetworkThreadPort)}},
 		m_physicsThreadSocket{m_physicsThreadIOContext, asio::ip::udp::endpoint{asio::ip::udp::v4(),
-			static_cast<asio::ip::port_type>(physicsThreadPort)}}
+			static_cast<asio::ip::port_type>(clientPhysicsThreadPort)}}
 	{ }
 
 	void UDPCommunication::sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName)
@@ -37,7 +40,7 @@ namespace App
 		UDPSerializer::serializeInitReqFrame(Physics::Timestamp::systemNow(), airplaneTypeName,
 			buffer);
 
-		m_networkThreadSocket.send_to(asio::buffer(buffer), m_server);
+		m_networkThreadSocket.send_to(asio::buffer(buffer), m_serverNetworkThread);
 	}
 
 	void UDPCommunication::sendControlFrame(const Physics::Timestep& timestep, int playerId,
@@ -50,7 +53,25 @@ namespace App
 
 		m_physicsThreadIOContext.run();
 		m_physicsThreadIOContext.reset();
-		m_physicsThreadSocket.async_send_to(asio::buffer(*buffer), m_server,
+		m_physicsThreadSocket.async_send_to(asio::buffer(*buffer), m_serverNetworkThread,
+			std::bind(completionHandler, buffer));
+	}
+	
+	void UDPCommunication::sendKeepAliveFrameSync()
+	{
+		std::vector<std::uint8_t> buffer{};
+
+		m_networkThreadSocket.send_to(asio::buffer(buffer), m_serverNetworkThread);
+	}
+	
+	void UDPCommunication::sendKeepAliveFrameAsync()
+	{
+		std::shared_ptr<std::vector<std::uint8_t>> buffer =
+			std::make_shared<std::vector<std::uint8_t>>();
+
+		m_physicsThreadIOContext.run();
+		m_physicsThreadIOContext.reset();
+		m_physicsThreadSocket.async_send_to(asio::buffer(*buffer), m_serverPhysicsThread,
 			std::bind(completionHandler, buffer));
 	}
 

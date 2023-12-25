@@ -26,11 +26,12 @@ namespace App
 	{ }
 
 	void RenderingThread::start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
-		Graphics::MapName mapName, const std::string& serverIPAddress, int serverPort,
-		int networkThreadPort, int physicsThreadPort)
+		Graphics::MapName mapName, const std::string& serverIPAddress, int serverNetworkThreadPort,
+		int serverPhysicsThreadPort, int clientNetworkThreadPort, int clientPhysicsThreadPort)
 	{
 		NetworkThread networkThread{m_exitSignal, gameMode, airplaneTypeName, serverIPAddress,
-			serverPort, networkThreadPort, physicsThreadPort, m_ownInput, m_renderingBuffer};
+			serverNetworkThreadPort, serverPhysicsThreadPort, clientNetworkThreadPort,
+			clientPhysicsThreadPort, m_ownInput, m_renderingBuffer};
 		initializeWindow();
 		m_exitSignal.acquireRenderingThreadSemaphore();
 		if (!m_exitSignal.shouldStop())

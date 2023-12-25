@@ -84,6 +84,11 @@ namespace App
 
 				if (m_gameMode == GameMode::multiplayer)
 				{
+					if (timestep.frame == 0)
+					{
+						m_udpCommunication->sendKeepAliveFrameAsync();
+					}
+
 					m_udpCommunication->sendControlFrame(timestep, m_ownId, ownInput);
 				}
 
