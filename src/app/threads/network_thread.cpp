@@ -182,24 +182,38 @@ namespace App
 
 			if (udpFrameType == UDPFrameType::control)
 			{
-				if (playerId == m_ownId)
-				{
-					m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp,
-						serverTimestamp);
-				}
-				else
-				{
-					m_simulationBuffer->writeControlFrame(timestep, playerId, playerInput);
-					m_notification.setNotification(timestep, false);
-				}
+				handleControlFrame(sendTimestamp, receiveTimestamp, serverTimestamp, timestep,
+					playerId, playerInput);
 			}
 			else if (udpFrameType == UDPFrameType::state)
 			{
-				m_frameCutoff = timestep;
-
-				m_simulationBuffer->writeStateFrame(timestep, playerInfos);
-				m_notification.setNotification(timestep, true);
+				handleStateFrame(timestep, playerInfos);
 			}
 		}
+	}
+
+	void NetworkThread::handleControlFrame(const Physics::Timestamp& sendTimestamp,
+		const Physics::Timestamp& receiveTimestamp, const Physics::Timestamp& serverTimestamp,
+		const Physics::Timestep& timestep, int playerId, const Physics::PlayerInput& playerInput)
+	{
+		if (playerId == m_ownId)
+		{
+			m_simulationClock.updateOffset(sendTimestamp, receiveTimestamp,
+				serverTimestamp);
+		}
+		else
+		{
+			m_simulationBuffer->writeControlFrame(timestep, playerId, playerInput);
+			m_notification.setNotification(timestep, false);
+		}
+	}
+
+	void NetworkThread::handleStateFrame(const Physics::Timestep& timestep,
+		const std::unordered_map<int, Physics::PlayerInfo>& playerInfos)
+	{
+		m_frameCutoff = timestep;
+
+		m_simulationBuffer->writeStateFrame(timestep, playerInfos);
+		m_notification.setNotification(timestep, true);
 	}
 };

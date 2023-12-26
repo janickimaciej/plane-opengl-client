@@ -46,5 +46,12 @@ namespace App
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void startSingleplayer(std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void mainLoopMultiplayer();
+
+		void handleControlFrame(const Physics::Timestamp& sendTimestamp,
+			const Physics::Timestamp& receiveTimestamp, const Physics::Timestamp& serverTimestamp,
+			const Physics::Timestep& timestep, int playerId,
+			const Physics::PlayerInput& playerInput);
+		void handleStateFrame(const Physics::Timestep& timestep,
+			const std::unordered_map<int, Physics::PlayerInfo>& playerInfos);
 	};
 };
