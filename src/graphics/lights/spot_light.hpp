@@ -20,7 +20,7 @@ namespace Graphics
 
 		SpotLight(const ShaderProgram& surfaceShaderProgram, const glm::vec3& color,
 			float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
-			float cutoffInnerDeg, float cutoffOuterDeg);
+			float cutoffInnerRad, float cutoffOuterRad);
 		SpotLight(const SpotLight& spotLight);
 		SpotLight(SpotLight&& spotLight) noexcept;
 		virtual void updateShaders(const glm::mat4& modelMatrix) const override;
@@ -30,8 +30,8 @@ namespace Graphics
 		float m_attenuationQuadratic{};
 		float m_attenuationLinear{};
 		float m_attenuationConstant{};
-		float m_cutoffInnerDeg{};
-		float m_cutoffOuterDeg{};
+		float m_cutoffInnerRad{};
+		float m_cutoffOuterRad{};
 
 	private:
 		static std::array<int, maxSpotLightCount> m_isActive;

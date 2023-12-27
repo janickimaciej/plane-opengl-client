@@ -10,10 +10,10 @@
 
 namespace Graphics
 {
-	TrackingCamera::TrackingCamera(float FoVDeg, float nearPlane, float farPlane,
+	TrackingCamera::TrackingCamera(float FoVRad, float nearPlane, float farPlane,
 		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		const Model& model) :
-		PerspectiveCamera{FoVDeg, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram},
+		PerspectiveCamera{FoVRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram},
 		m_model{model}
 	{ }
 

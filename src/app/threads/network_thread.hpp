@@ -44,7 +44,8 @@ namespace App
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		bool startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
-		void startSingleplayer(std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
+		void startSingleplayer(Common::AirplaneTypeName airplaneTypeName,
+			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void mainLoopMultiplayer();
 
 		void handleControlFrame(const Physics::Timestamp& sendTimestamp,

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common/config.hpp"
 #include "graphics/lights/light.hpp"
 #include "graphics/shader_program.hpp"
 
@@ -13,7 +14,7 @@ namespace Graphics
 	class PointLight : public Light
 	{
 	public:
-		static constexpr std::size_t maxPointLightCount = 1;
+		static constexpr std::size_t maxPointLightCount = 1 + 2 * Common::maxPlayerCount;
 
 		PointLight(const ShaderProgram& surfaceShaderProgram, const glm::vec3& color,
 			float attenuationQuadratic, float attenuationLinear, float attenuationConstant);

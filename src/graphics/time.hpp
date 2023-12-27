@@ -7,12 +7,13 @@ namespace Graphics
 	class Time
 	{
 	public:
-		void initialize();
-		void update();
-		int getFPS();
+		static void initialize();
+		static void update();
+		static float getDeltaTime();
+		static int getFPS();
 	
 	private:
-		std::chrono::time_point<std::chrono::system_clock> m_time{};
-		std::chrono::duration<float> m_deltaTime{};
+		static std::chrono::time_point<std::chrono::system_clock> m_time;
+		static std::chrono::duration<float> m_deltaTime;
 	};
 };

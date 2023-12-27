@@ -51,6 +51,21 @@ namespace Graphics
 		Transformable::scale(scaleRatio);
 	}
 
+	void Submodel::mirrorX()
+	{
+		Transformable::mirrorX();
+	}
+
+	void Submodel::mirrorY()
+	{
+		Transformable::mirrorY();
+	}
+
+	void Submodel::mirrorZ()
+	{
+		Transformable::mirrorZ();
+	}
+
 	glm::mat4 Submodel::getSubmodelMatrix() const
 	{
 		return getMatrix();

@@ -33,11 +33,11 @@ namespace Graphics
 		constexpr glm::vec3 zeppelinPosition{100, 150, -250};
 		m_zeppelin.translate(zeppelinPosition);
 
-		constexpr float moonRotationPitch = -45;
-		m_moon.rotatePitch(moonRotationPitch);
+		constexpr float moonRotationPitchDeg = -45;
+		m_moon.rotatePitch(glm::radians(moonRotationPitchDeg));
 
-		constexpr float sunRotationPitch = -90;
-		m_sun.rotatePitch(sunRotationPitch);
+		constexpr float sunRotationPitchDeg = -90;
+		m_sun.rotatePitch(glm::radians(sunRotationPitchDeg));
 	}
 
 	void IslandMap::update(int day, float timeOfDay)

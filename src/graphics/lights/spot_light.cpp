@@ -15,13 +15,13 @@ namespace Graphics
 
 	SpotLight::SpotLight(const ShaderProgram& surfaceShaderProgram, const glm::vec3& color,
 		float attenuationQuadratic, float attenuationLinear, float attenuationConstant,
-		float cutoffInnerDeg, float cutoffOuterDeg) :
+		float cutoffInnerRad, float cutoffOuterRad) :
 		Light{getAvailableId(surfaceShaderProgram), prefix, surfaceShaderProgram, color},
 		m_attenuationQuadratic{attenuationQuadratic},
 		m_attenuationLinear{attenuationLinear},
 		m_attenuationConstant{attenuationConstant},
-		m_cutoffInnerDeg{cutoffInnerDeg},
-		m_cutoffOuterDeg{cutoffOuterDeg}
+		m_cutoffInnerRad{cutoffInnerRad},
+		m_cutoffOuterRad{cutoffOuterRad}
 	{ }
 
 	SpotLight::SpotLight(const SpotLight& spotLight) :
@@ -30,8 +30,8 @@ namespace Graphics
 		m_attenuationQuadratic{spotLight.m_attenuationQuadratic},
 		m_attenuationLinear{spotLight.m_attenuationLinear},
 		m_attenuationConstant{spotLight.m_attenuationConstant},
-		m_cutoffInnerDeg{spotLight.m_cutoffInnerDeg},
-		m_cutoffOuterDeg{spotLight.m_cutoffOuterDeg}
+		m_cutoffInnerRad{spotLight.m_cutoffInnerRad},
+		m_cutoffOuterRad{spotLight.m_cutoffOuterRad}
 	{ }
 
 	SpotLight::SpotLight(SpotLight&& spotLight) noexcept :
@@ -40,8 +40,8 @@ namespace Graphics
 		m_attenuationQuadratic{spotLight.m_attenuationQuadratic},
 		m_attenuationLinear{spotLight.m_attenuationLinear},
 		m_attenuationConstant{spotLight.m_attenuationConstant},
-		m_cutoffInnerDeg{spotLight.m_cutoffInnerDeg},
-		m_cutoffOuterDeg{spotLight.m_cutoffOuterDeg}
+		m_cutoffInnerRad{spotLight.m_cutoffInnerRad},
+		m_cutoffOuterRad{spotLight.m_cutoffOuterRad}
 	{
 		++m_isActive[m_id];
 	}
@@ -58,10 +58,8 @@ namespace Graphics
 		m_surfaceShaderProgram.setUniform1f(m_prefix + "attenuationLinear", m_attenuationLinear);
 		m_surfaceShaderProgram.setUniform1f(m_prefix + "attenuationConstant",
 			m_attenuationConstant);
-		m_surfaceShaderProgram.setUniform1f(m_prefix + "cutoffInnerRad",
-			glm::radians(m_cutoffInnerDeg));
-		m_surfaceShaderProgram.setUniform1f(m_prefix + "cutoffOuterRad",
-			glm::radians(m_cutoffOuterDeg));
+		m_surfaceShaderProgram.setUniform1f(m_prefix + "cutoffInnerRad", m_cutoffInnerRad);
+		m_surfaceShaderProgram.setUniform1f(m_prefix + "cutoffOuterRad", m_cutoffOuterRad);
 	}
 
 	SpotLight::~SpotLight()

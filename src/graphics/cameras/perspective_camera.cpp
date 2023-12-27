@@ -7,14 +7,13 @@
 
 namespace Graphics
 {
-	PerspectiveCamera::PerspectiveCamera(float FoVDeg, float nearPlane, float farPlane,
+	PerspectiveCamera::PerspectiveCamera(float FoVRad, float nearPlane, float farPlane,
 		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-		Camera{FoVDeg, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram}
+		Camera{FoVRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram}
 	{ }
 
 	void PerspectiveCamera::updateProjectionMatrix()
 	{
-		m_projectionMatrix = glm::perspective(glm::radians(m_FoVDeg), m_aspectRatio, m_nearPlane,
-			m_farPlane);
+		m_projectionMatrix = glm::perspective(m_FoVRad, m_aspectRatio, m_nearPlane, m_farPlane);
 	}
 };

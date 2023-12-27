@@ -55,15 +55,17 @@
     <ClCompile Include="src\graphics\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\graphics\day_night_cycle.cpp" />
     <ClCompile Include="src\graphics\lights\point_light.cpp" />
+    <ClCompile Include="src\graphics\models\airplanes\jw1.cpp" />
+    <ClCompile Include="src\graphics\models\airplanes\mustang.cpp" />
     <ClCompile Include="src\graphics\submodels\light_submodel.cpp" />
     <ClCompile Include="src\graphics\maps\island_map.cpp" />
     <ClCompile Include="src\graphics\maps\map.cpp" />
-    <ClCompile Include="src\graphics\models\airplane.cpp" />
+    <ClCompile Include="src\graphics\models\airplanes\airplane.cpp" />
     <ClCompile Include="src\graphics\models\airport.cpp" />
     <ClCompile Include="src\graphics\models\directional_light_model.cpp" />
     <ClCompile Include="src\graphics\models\model.cpp" />
     <ClCompile Include="src\graphics\models\zeppelin.cpp" />
-    <ClCompile Include="src\graphics\paths.cpp" />
+    <ClCompile Include="src\graphics\path.cpp" />
     <ClCompile Include="src\graphics\rendering_buffer.cpp" />
     <ClCompile Include="src\graphics\scene.cpp" />
     <ClCompile Include="src\graphics\time.cpp" />
@@ -99,7 +101,8 @@
     <ClInclude Include="core\physics\airplane_params\inertia_params.hpp" />
     <ClInclude Include="core\physics\airplane_params\propulsion_params.hpp" />
     <ClInclude Include="core\physics\airplane_params\surface_params.hpp" />
-    <ClInclude Include="core\physics\airplane_params_database.hpp" />
+    <ClInclude Include="core\physics\airplane_params_database\airplane_params_database.hpp" />
+    <ClInclude Include="core\physics\airplane_params_database\jw1.hpp" />
     <ClInclude Include="core\physics\airplane_params_database\mustang.hpp" />
     <ClInclude Include="core\physics\atmosphere.hpp" />
     <ClInclude Include="core\physics\day_night_cycle.hpp" />
@@ -134,17 +137,17 @@
     <ClInclude Include="src\app\udp\udp_communication.hpp" />
     <ClInclude Include="src\app\window_input.hpp" />
     <ClInclude Include="src\graphics\lights\point_light.hpp" />
+    <ClInclude Include="src\graphics\models\airplanes\jw1.hpp" />
+    <ClInclude Include="src\graphics\models\airplanes\mustang.hpp" />
     <ClInclude Include="src\graphics\submodels\light_submodel.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
-    <ClInclude Include="src\graphics\airplane_type.hpp" />
-    <ClInclude Include="src\graphics\airplane_type_database.hpp" />
     <ClInclude Include="src\graphics\asset_manager.hpp" />
     <ClInclude Include="src\graphics\maps\island_map.hpp" />
     <ClInclude Include="src\graphics\maps\map.hpp" />
     <ClInclude Include="src\graphics\maps\map_name.hpp" />
-    <ClInclude Include="src\graphics\models\airplane.hpp" />
+    <ClInclude Include="src\graphics\models\airplanes\airplane.hpp" />
     <ClInclude Include="src\graphics\models\airport.hpp" />
     <ClInclude Include="src\graphics\models\directional_light_model.hpp" />
     <ClInclude Include="src\graphics\models\model.hpp" />
@@ -163,7 +166,7 @@
     <ClInclude Include="src\graphics\mesh.hpp" />
     <ClInclude Include="src\graphics\submodels\submodel.hpp" />
     <ClInclude Include="src\graphics\obj_parser.hpp" />
-    <ClInclude Include="src\graphics\paths.hpp" />
+    <ClInclude Include="src\graphics\path.hpp" />
     <ClInclude Include="src\graphics\shader_program.hpp" />
     <ClInclude Include="src\graphics\material.hpp" />
     <ClInclude Include="src\graphics\vertex.hpp" />
@@ -306,6 +309,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(SolutionDir)src\graphics\shaders\ $(TargetDir)src\graphics\shaders\ /E/Y
+xcopy $(SolutionDir)res\ $(TargetDir)res\ /E/Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -330,6 +337,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(SolutionDir)src\graphics\shaders\ $(TargetDir)src\graphics\shaders\ /E/Y
+xcopy $(SolutionDir)res\ $(TargetDir)res\ /E/Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

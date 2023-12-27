@@ -49,7 +49,7 @@ namespace Graphics
 		}
 		else
 		{
-			std::cerr << "Error loading texture: \n" << path;
+			std::cerr << "Error loading texture: \n" << path << '\n';
 		}
 		stbi_image_free(textureData);
 	}

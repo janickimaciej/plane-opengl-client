@@ -45,8 +45,7 @@ namespace App
 
 	void RenderingThread::mainLoop()
 	{
-		Graphics::Time time;
-		time.initialize();
+		Graphics::Time::initialize();
 		while (!m_exitSignal.shouldStop())
 		{
 			if (glfwWindowShouldClose(m_window))
@@ -54,7 +53,7 @@ namespace App
 				m_exitSignal.exit(ExitCode::ok);
 				break;
 			}
-			time.update();
+			Graphics::Time::update();
 			processInput();
 			m_renderingBuffer->updateAndRenderScene(m_windowPayload.aspectRatio);
 			glfwPollEvents();
@@ -88,7 +87,8 @@ namespace App
 		{
 			return;
 		}
-		WindowPayload* windowPayload = (WindowPayload*)glfwGetWindowUserPointer(window);
+		WindowPayload* windowPayload =
+			static_cast<WindowPayload*>(glfwGetWindowUserPointer(window));
 		windowPayload->aspectRatio = static_cast<float>(width) / height;
 		glViewport(0, 0, width, height);
 	}

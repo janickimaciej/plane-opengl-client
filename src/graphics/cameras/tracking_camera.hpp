@@ -9,7 +9,7 @@ namespace Graphics
 	class TrackingCamera : public PerspectiveCamera
 	{
 	public:
-		TrackingCamera(float FoVDeg, float nearPlane, float farPlane,
+		TrackingCamera(float FoVRad, float nearPlane, float farPlane,
 			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 			const Model& model);
 		virtual void updateShaders(float aspectRatio) override;

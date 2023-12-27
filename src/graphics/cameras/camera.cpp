@@ -26,9 +26,9 @@ namespace Graphics
 		m_lightShaderProgram.setUniform3f("cameraPosition", cameraPosition);
 	}
 
-	Camera::Camera(float FoVDeg, float nearPlane, float farPlane,
+	Camera::Camera(float FoVRad, float nearPlane, float farPlane,
 		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-		m_FoVDeg{FoVDeg},
+		m_FoVRad{FoVRad},
 		m_nearPlane{nearPlane},
 		m_farPlane{farPlane},
 		m_surfaceShaderProgram{surfaceShaderProgram},

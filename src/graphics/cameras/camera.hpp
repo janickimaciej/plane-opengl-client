@@ -16,7 +16,7 @@ namespace Graphics
 
 	protected:
 		glm::mat4 m_projectionMatrix{};
-		const float m_FoVDeg{};
+		const float m_FoVRad{};
 		float m_aspectRatio{};
 		const float m_nearPlane{};
 		const float m_farPlane{};
@@ -24,7 +24,7 @@ namespace Graphics
 		const ShaderProgram& m_surfaceShaderProgram;
 		const ShaderProgram& m_lightShaderProgram;
 	
-		Camera(float FoVDeg, float nearPlane, float farPlane,
+		Camera(float FoVRad, float nearPlane, float farPlane,
 			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
 		virtual glm::mat4 getCameraMatrix() const;
 		glm::vec3 getCameraPosition() const;

@@ -65,7 +65,7 @@ namespace App
 		}
 		else
 		{
-			startSingleplayer(renderingBuffer);
+			startSingleplayer(airplaneTypeName, renderingBuffer);
 		}
 		PhysicsThread physicsThread{m_exitSignal, gameMode, m_simulationClock, *m_simulationBuffer,
 			m_ownId, m_notification, *renderingBuffer, ownInput, m_udpCommunication.get()};
@@ -122,7 +122,7 @@ namespace App
 		return true;
 	}
 
-	void NetworkThread::startSingleplayer(
+	void NetworkThread::startSingleplayer(Common::AirplaneTypeName airplaneTypeName,
 		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
 	{
 		constexpr int ownId = 0;
@@ -132,12 +132,25 @@ namespace App
 		Physics::Timestep initialTimestep = m_simulationClock.getTime();
 		
 		Physics::PlayerInfo ownInfo;
+
 		constexpr int initialHP = 100;
 		ownInfo.state.hp = initialHP;
+
 		constexpr glm::vec3 initialPosition{0, 500, 5000};
 		ownInfo.state.state.position = initialPosition;
-		constexpr glm::vec3 initialVelocity{0, 0, -100};
-		ownInfo.state.state.velocity = initialVelocity;
+
+		switch (airplaneTypeName)
+		{
+		case Common::AirplaneTypeName::mustang:
+			ownInfo.state.state.velocity = glm::vec3{0, 0, -100};
+			break;
+
+		case Common::AirplaneTypeName::jw1:
+			ownInfo.state.state.velocity = glm::vec3{0, 0, -343};
+			break;
+		}
+
+		ownInfo.state.airplaneTypeName = airplaneTypeName;
 
 		std::unordered_map<int, Physics::PlayerInfo> playerInfos;
 		playerInfos.insert({ownId, ownInfo});

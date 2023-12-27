@@ -4,7 +4,7 @@
 #include "graphics/lights/spot_light.hpp"
 #include "graphics/mesh.hpp"
 #include "graphics/models/model.hpp"
-#include "graphics/paths.hpp"
+#include "graphics/path.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/submodels/submodel.hpp"
 #include "graphics/texture.hpp"
@@ -17,6 +17,22 @@
 
 namespace Graphics
 {
+	const std::string modelName = "airport";
+
+	const std::string apronPath = meshPath(modelName, "apron");
+	const std::string groundPath = meshPath(modelName, "ground");
+	const std::string hangarPath = meshPath(modelName, "hangar");
+	const std::string lightPath = meshPath(modelName, "light");
+	const std::string lightBodyPath = meshPath(modelName, "lightBody");
+	const std::string runwayPath = meshPath(modelName, "runway");
+	const std::string towerPath = meshPath(modelName, "tower");
+	
+	const std::string asphaltPath = texturePath(modelName, "asphalt");
+	const std::string asphaltBrightPath = texturePath(modelName, "asphaltBright"); 
+	const std::string concretePath = texturePath(modelName, "concrete");
+	const std::string grassPath = texturePath(modelName, "grass");
+	const std::string tentPath = texturePath(modelName, "tent");
+
 	constexpr std::size_t hangarCount = 3;
 	constexpr float lightsAttenuationQuadratic = 0.0001f;
 	constexpr float lightsAttenuationLinear = 0.0005f;
@@ -37,19 +53,19 @@ namespace Graphics
 		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
 		AssetManager<const Texture>& textureManager) :
 		Model{surfaceShaderProgram, lightShaderProgram},
-		m_ground{surfaceShaderProgram, meshManager.get(SM_AIRPORT_GROUND), defaultMaterial,
-			textureManager.get(T_GRASS)},
-		m_runway{surfaceShaderProgram, meshManager.get(SM_AIRPORT_RUNWAY), defaultMaterial,
-			textureManager.get(T_ASPHALT)},
-		m_apron{surfaceShaderProgram, meshManager.get(SM_AIRPORT_APRON), defaultMaterial,
-			textureManager.get(T_ASPHALT_BRIGHT)},
-		m_tower{surfaceShaderProgram, meshManager.get(SM_AIRPORT_TOWER), concrete,
-			textureManager.get(T_CONCRETE)},
+		m_ground{surfaceShaderProgram, meshManager.get(groundPath), defaultMaterial,
+			textureManager.get(grassPath)},
+		m_runway{surfaceShaderProgram, meshManager.get(runwayPath), defaultMaterial,
+			textureManager.get(asphaltPath)},
+		m_apron{surfaceShaderProgram, meshManager.get(apronPath), defaultMaterial,
+			textureManager.get(asphaltBrightPath)},
+		m_tower{surfaceShaderProgram, meshManager.get(towerPath), concrete,
+			textureManager.get(concretePath)},
 		m_pointLight{surfaceShaderProgram, glm::vec3{1, 1, 1}, lightsAttenuationQuadratic / 10,
 			lightsAttenuationLinear / 10, lightsAttenuationConstant / 10}
 	{
-		const Submodel hangarSubmodel{surfaceShaderProgram, meshManager.get(SM_AIRPORT_HANGAR),
-			defaultMaterial, textureManager.get(T_TENT)};
+		const Submodel hangarSubmodel{surfaceShaderProgram, meshManager.get(hangarPath),
+			defaultMaterial, textureManager.get(tentPath)};
 		for (std::size_t i = 0; i < hangarCount; ++i)
 		{
 			m_hangars.push_back(hangarSubmodel);
@@ -59,15 +75,15 @@ namespace Graphics
 		}
 
 		const Submodel lightBodySubmodel{surfaceShaderProgram,
-			meshManager.get(SM_AIRPORT_LIGHT_BODY), metal};
+			meshManager.get(lightBodyPath), metal};
 		for (std::size_t i = 0; i < SpotLight::airportLightCount; ++i)
 		{
 			m_lightBodies.push_back(lightBodySubmodel);
 			m_lights.push_back(std::make_unique<SpotLight>(surfaceShaderProgram, lightsColor,
 				lightsAttenuationQuadratic, lightsAttenuationLinear, lightsAttenuationConstant,
-				lightsCutoffInnerDeg, lightsCutoffOuterDeg));
+				glm::radians(lightsCutoffInnerDeg), glm::radians(lightsCutoffOuterDeg)));
 			m_lightSubmodels.push_back(LightSubmodel{*m_lights[i], lightShaderProgram,
-				meshManager.get(SM_AIRPORT_LIGHT), yellowLightGlass});
+				meshManager.get(lightPath), yellowLightGlass});
 
 			constexpr float firstLightPositionX = -49;
 			constexpr float lightsGapX = 14;
@@ -78,13 +94,13 @@ namespace Graphics
 			m_lightBodies[i].translate(lightPosition);
 			m_lights[i]->translate(lightPosition);
 
-			constexpr float lightsRotationYaw = 180;
-			m_lightBodies[i].rotateYaw(lightsRotationYaw);
-			m_lights[i]->rotateYaw(lightsRotationYaw);
+			constexpr float lightsRotationYawDeg = 180;
+			m_lightBodies[i].rotateYaw(glm::radians(lightsRotationYawDeg));
+			m_lights[i]->rotateYaw(glm::radians(lightsRotationYawDeg));
 
-			constexpr float lightsRotationPitch = 15;
-			m_lightBodies[i].rotatePitch(lightsRotationPitch);
-			m_lights[i]->rotatePitch(lightsRotationPitch);
+			constexpr float lightsRotationPitchDeg = 15;
+			m_lightBodies[i].rotatePitch(glm::radians(lightsRotationPitchDeg));
+			m_lights[i]->rotatePitch(glm::radians(lightsRotationPitchDeg));
 		}
 
 		m_pointLight.translate(glm::vec3{0, 10, 0});

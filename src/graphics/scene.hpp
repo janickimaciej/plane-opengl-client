@@ -7,8 +7,8 @@
 #include "graphics/maps/map.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/mesh.hpp"
-#include "graphics/models/airplane.hpp"
-#include "graphics/paths.hpp"
+#include "graphics/models/airplanes/airplane.hpp"
+#include "graphics/path.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/world_shading.hpp"
@@ -29,15 +29,16 @@ namespace Graphics
 
 	private:
 		std::unique_ptr<Map> m_map{};
-		std::unordered_map<int, Airplane> m_airplanes{};
+		std::unordered_map<int, std::unique_ptr<Airplane>> m_airplanes{};
 		// TODO: m_bullets
 
 		std::unique_ptr<Camera> m_camera{};
 
 		WorldShading m_worldShading;
-
-		const ShaderProgram m_surfaceShaderProgram{SH_SURFACE_VERTEX, SH_SURFACE_FRAGMENT};
-		const ShaderProgram m_lightShaderProgram{SH_LIGHT_VERTEX, SH_LIGHT_FRAGMENT};
+		
+		const ShaderProgram m_surfaceShaderProgram{shaderPath("surfaceVertex"),
+			shaderPath("surfaceFragment")};
+		const ShaderProgram m_lightShaderProgram{shaderPath("lightVertex"), shaderPath("lightFragment")};
 
 		AssetManager<const Mesh> m_meshManager;
 		AssetManager<const Texture> m_textureManager;
