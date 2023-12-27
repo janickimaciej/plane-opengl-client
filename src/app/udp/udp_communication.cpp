@@ -61,7 +61,7 @@ namespace App
 	{
 		std::vector<std::uint8_t> buffer{};
 
-		m_networkThreadSocket.send_to(asio::buffer(buffer), m_serverNetworkThread);
+		m_networkThreadSocket.send_to(asio::buffer(buffer), m_serverPhysicsThread);
 	}
 	
 	void UDPCommunication::sendKeepAliveFrameAsync()
