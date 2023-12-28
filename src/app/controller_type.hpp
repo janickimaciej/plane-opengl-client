@@ -2,10 +2,11 @@
 
 namespace App
 {
-	inline constexpr int controllerTypeCount = 1;
+	inline constexpr int controllerTypeCount = 2;
 
 	enum class ControllerType
 	{
-		keyboard
+		keyboard,
+		gamepad
 	};
 };

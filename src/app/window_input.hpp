@@ -19,5 +19,6 @@ namespace App
 		ControllerType m_controller{};
 
 		const Physics::PlayerInput& getCurrentInputKeyboard();
+		const Physics::PlayerInput& getCurrentInputGamepad();
 	};
 };
