@@ -24,7 +24,7 @@ namespace Graphics
 	private:
 		Submodel m_cap;
 		Submodel m_propeller;
-		Submodel m_fuselage;
+		Submodel m_body;
 		Submodel m_joins;
 		Submodel m_tires;
 		SpotLight m_leftLight;

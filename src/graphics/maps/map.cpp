@@ -1,6 +1,6 @@
 #include "graphics/maps/map.hpp"
 
-#include "graphics/maps/island_map.hpp"
+#include "graphics/maps/airport_map.hpp"
 #include "graphics/maps/map_name.hpp"
 
 #include <memory>
@@ -13,8 +13,8 @@ namespace Graphics
 	{
 		switch (mapName)
 		{
-		case MapName::island:
-			return std::make_unique<IslandMap>(worldShading, surfaceShaderProgram,
+		case MapName::airport:
+			return std::make_unique<AirportMap>(worldShading, surfaceShaderProgram,
 				lightShaderProgram, meshManager, textureManager);
 		}
 		return nullptr;

@@ -32,7 +32,6 @@ namespace Graphics
 		std::vector<Submodel> m_lightBodies{};
 		std::vector<std::unique_ptr<SpotLight>> m_lights{};
 		std::vector<LightSubmodel> m_lightSubmodels{};
-		PointLight m_pointLight;
 
 		virtual void renderSurfaces() const override;
 		virtual void renderLights() const override;

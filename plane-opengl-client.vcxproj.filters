@@ -26,7 +26,7 @@
     <ClCompile Include="src\graphics\models\zeppelin.cpp" />
     <ClCompile Include="src\graphics\scene.cpp" />
     <ClCompile Include="src\graphics\maps\map.cpp" />
-    <ClCompile Include="src\graphics\maps\island_map.cpp" />
+    <ClCompile Include="src\graphics\maps\airport_map.cpp" />
     <ClCompile Include="src\graphics\time.cpp" />
     <ClCompile Include="src\graphics\rendering_buffer.cpp" />
     <ClCompile Include="src\app\window_input.cpp" />
@@ -92,7 +92,7 @@
     <ClInclude Include="src\graphics\scene.hpp" />
     <ClInclude Include="src\graphics\maps\map_name.hpp" />
     <ClInclude Include="src\graphics\maps\map.hpp" />
-    <ClInclude Include="src\graphics\maps\island_map.hpp" />
+    <ClInclude Include="src\graphics\maps\airport_map.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />

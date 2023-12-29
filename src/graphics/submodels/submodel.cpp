@@ -70,6 +70,11 @@ namespace Graphics
 	{
 		return getMatrix();
 	}
+	
+	void Submodel::setMaterial(const Material& material)
+	{
+		m_material = material;
+	}
 
 	void Submodel::updateShaders(const glm::mat4& modelSubmodelMatrix) const
 	{
@@ -78,6 +83,7 @@ namespace Graphics
 		m_shaderProgram.setUniform1f("material.diffuse", m_material.diffuse);
 		m_shaderProgram.setUniform1f("material.specular", m_material.specular);
 		m_shaderProgram.setUniform1f("material.shininess", m_material.shininess);
+		m_shaderProgram.setUniform1b("material.isMetal", m_material.isMetal);
 		m_shaderProgram.setUniform1b("isTextureEnabled", static_cast<bool>(m_texture));
 	}
 };

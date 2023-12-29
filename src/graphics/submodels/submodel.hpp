@@ -25,12 +25,13 @@ namespace Graphics
 		void mirrorY();
 		void mirrorZ();
 		virtual glm::mat4 getSubmodelMatrix() const;
+		void setMaterial(const Material& material);
 		virtual ~Submodel() = default;
 	
 	private:
 		const ShaderProgram& m_shaderProgram;
 		const std::shared_ptr<const Mesh> m_mesh;
-		const Material m_material;
+		Material m_material;
 		const std::shared_ptr<const Texture> m_texture;
 
 		void updateShaders(const glm::mat4& modelSubmodelMatrix) const;

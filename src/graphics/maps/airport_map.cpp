@@ -1,4 +1,4 @@
-#include "graphics/maps/island_map.hpp"
+#include "graphics/maps/airport_map.hpp"
 
 #include "graphics/asset_manager.hpp"
 #include "graphics/day_night_cycle.hpp"
@@ -14,7 +14,7 @@ namespace Graphics
 	constexpr glm::vec3 moonLight{0.2, 0.2, 0.2};
 	constexpr glm::vec3 sunLight{1, 1, 1};
 
-	IslandMap::IslandMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
+	AirportMap::AirportMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
 		AssetManager<const Texture>& textureManager) :
 		m_airport{surfaceShaderProgram, lightShaderProgram, meshManager, textureManager},
@@ -26,28 +26,28 @@ namespace Graphics
 		setModels();
 	}
 
-	void IslandMap::setModels()
+	void AirportMap::setModels()
 	{
 		m_airport.scale(10);
 
 		constexpr glm::vec3 zeppelinPosition{100, 150, -250};
 		m_zeppelin.translate(zeppelinPosition);
 
-		constexpr float moonRotationPitchDeg = -45;
+		constexpr float moonRotationPitchDeg = -135;
 		m_moon.rotatePitch(glm::radians(moonRotationPitchDeg));
 
-		constexpr float sunRotationPitchDeg = -90;
+		constexpr float sunRotationPitchDeg = -135;
 		m_sun.rotatePitch(glm::radians(sunRotationPitchDeg));
 	}
 
-	void IslandMap::update(int day, float timeOfDay)
+	void AirportMap::update(int day, float timeOfDay)
 	{
 		m_dayNightCycle.setDay(day);
 		m_dayNightCycle.setTimeOfDay(timeOfDay);
 		m_dayNightCycle.updateWorldShading();
 	}
 
-	void IslandMap::updateShaders()
+	void AirportMap::updateShaders()
 	{
 		m_airport.updateShaders();
 		m_zeppelin.updateShaders();
@@ -55,13 +55,13 @@ namespace Graphics
 		m_sun.updateShaders();
 	}
 
-	void IslandMap::render() const
+	void AirportMap::render() const
 	{
 		m_airport.render();
 		m_zeppelin.render();
 	}
 
-	const DayNightCycle& IslandMap::getDayNightCycle() const
+	const DayNightCycle& AirportMap::getDayNightCycle() const
 	{
 		return m_dayNightCycle;
 	}

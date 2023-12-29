@@ -28,6 +28,8 @@ namespace Graphics
 		Submodel m_rightEngine;
 		Submodel m_leftNozzle;
 		Submodel m_rightNozzle;
+		Submodel m_leftNozzleGlass;
+		Submodel m_rightNozzleGlass;
 		Submodel m_leftWing;
 		Submodel m_rightWing;
 		Submodel m_leftVStab;
@@ -38,8 +40,6 @@ namespace Graphics
 		Submodel m_rightRudder;
 		Submodel m_leftAileron;
 		Submodel m_rightAileron;
-		PointLight m_leftNozzleLight;
-		PointLight m_rightNozzleLight;
 
 		virtual void renderSurfaces() const override;
 		virtual void renderLights() const override;

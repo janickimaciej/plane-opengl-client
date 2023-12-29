@@ -14,6 +14,7 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
+#include <iostream>
 #include <memory>
 #include <semaphore>
 #include <string>
@@ -46,6 +47,7 @@ namespace App
 	void RenderingThread::mainLoop()
 	{
 		Graphics::Time::initialize();
+		int frameCounter = 0;
 		while (!m_exitSignal.shouldStop())
 		{
 			if (glfwWindowShouldClose(m_window))
@@ -54,6 +56,14 @@ namespace App
 				break;
 			}
 			Graphics::Time::update();
+
+			++frameCounter;
+			if (frameCounter == 60)
+			{
+				std::cout << Graphics::Time::getFPS() << " fps\n";
+				frameCounter = 0;
+			}
+
 			processInput();
 			m_renderingBuffer->updateAndRenderScene(m_windowPayload.aspectRatio);
 			glfwPollEvents();
@@ -67,6 +77,7 @@ namespace App
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_SAMPLES, 4);
 		const int initialWindowWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width / 2; //tmp
 		//const int initialWindowWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width; //tmpc
 		const int initialWindowHeight = glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
@@ -79,6 +90,7 @@ namespace App
 		glfwSetFramebufferSizeCallback(m_window, resizeWindow);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_MULTISAMPLE);
 	}
 
 	void RenderingThread::resizeWindow(GLFWwindow* window, int width, int height)

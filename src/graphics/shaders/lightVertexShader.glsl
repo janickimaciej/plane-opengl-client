@@ -9,9 +9,11 @@ uniform mat4 modelSubmodelMatrix;
 uniform mat4 projectionViewMatrix;
 
 out vec4 position;
+out vec2 texturePosition;
 
 void main()
 {
 	position = modelSubmodelMatrix * vec4(inPositionMesh, 1);
+	texturePosition = inTexturePosition;
 	gl_Position = projectionViewMatrix * position;
 }

@@ -41,31 +41,27 @@ namespace Graphics
 	constexpr float lightsCutoffInnerDeg = 25;
 	constexpr float lightsCutoffOuterDeg = 35;
 
-	// dummy color
-	const Material defaultMaterial{glm::vec3{1, 0, 0}, 0.75, 0.25, 10};
-	// dummy color
-	const Material concrete{glm::vec3{1, 0, 0}, 0.75, 0, 10};
-	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10};
-	// dummy surface params
-	const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1};
+	const Material ground{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
+	const Material tent{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
+	const Material concrete{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
+	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10, true};
+	const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1, false};
 
 	Airport::Airport(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
 		AssetManager<const Texture>& textureManager) :
 		Model{surfaceShaderProgram, lightShaderProgram},
-		m_ground{surfaceShaderProgram, meshManager.get(groundPath), defaultMaterial,
+		m_ground{surfaceShaderProgram, meshManager.get(groundPath), ground,
 			textureManager.get(grassPath)},
-		m_runway{surfaceShaderProgram, meshManager.get(runwayPath), defaultMaterial,
+		m_runway{surfaceShaderProgram, meshManager.get(runwayPath), ground,
 			textureManager.get(asphaltPath)},
-		m_apron{surfaceShaderProgram, meshManager.get(apronPath), defaultMaterial,
+		m_apron{surfaceShaderProgram, meshManager.get(apronPath), ground,
 			textureManager.get(asphaltBrightPath)},
 		m_tower{surfaceShaderProgram, meshManager.get(towerPath), concrete,
-			textureManager.get(concretePath)},
-		m_pointLight{surfaceShaderProgram, glm::vec3{1, 1, 1}, lightsAttenuationQuadratic / 10,
-			lightsAttenuationLinear / 10, lightsAttenuationConstant / 10}
+			textureManager.get(concretePath)}
 	{
 		const Submodel hangarSubmodel{surfaceShaderProgram, meshManager.get(hangarPath),
-			defaultMaterial, textureManager.get(tentPath)};
+			tent, textureManager.get(tentPath)};
 		for (std::size_t i = 0; i < hangarCount; ++i)
 		{
 			m_hangars.push_back(hangarSubmodel);
@@ -102,8 +98,6 @@ namespace Graphics
 			m_lightBodies[i].rotatePitch(glm::radians(lightsRotationPitchDeg));
 			m_lights[i]->rotatePitch(glm::radians(lightsRotationPitchDeg));
 		}
-
-		m_pointLight.translate(glm::vec3{0, 10, 0});
 	}
 
 	void Airport::updateShaders()
@@ -112,7 +106,6 @@ namespace Graphics
 		{
 			light->updateShaders(getMatrix());
 		}
-		m_pointLight.updateShaders(getMatrix());
 	}
 
 	void Airport::renderSurfaces() const

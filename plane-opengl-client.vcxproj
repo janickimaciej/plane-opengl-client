@@ -58,7 +58,7 @@
     <ClCompile Include="src\graphics\models\airplanes\jw1.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\mustang.cpp" />
     <ClCompile Include="src\graphics\submodels\light_submodel.cpp" />
-    <ClCompile Include="src\graphics\maps\island_map.cpp" />
+    <ClCompile Include="src\graphics\maps\airport_map.cpp" />
     <ClCompile Include="src\graphics\maps\map.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\airplane.cpp" />
     <ClCompile Include="src\graphics\models\airport.cpp" />
@@ -144,7 +144,7 @@
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
     <ClInclude Include="src\graphics\asset_manager.hpp" />
-    <ClInclude Include="src\graphics\maps\island_map.hpp" />
+    <ClInclude Include="src\graphics\maps\airport_map.hpp" />
     <ClInclude Include="src\graphics\maps\map.hpp" />
     <ClInclude Include="src\graphics\maps\map_name.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\airplane.hpp" />
@@ -179,6 +179,10 @@
     <None Include="src\graphics\shaders\lightVertexShader.glsl" />
     <None Include="src\graphics\shaders\surfaceFragmentShader.glsl" />
     <None Include="src\graphics\shaders\surfaceVertexShader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="res\**\*.obj" />
+    <UpToDateCheckInput Include="res\**\*.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

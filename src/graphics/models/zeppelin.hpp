@@ -17,7 +17,7 @@ namespace Graphics
 		virtual ~Zeppelin() = default;
 
 	private:
-		Submodel m_fuselage;
+		Submodel m_body;
 
 		virtual void renderSurfaces() const override;
 		virtual void renderLights() const override;

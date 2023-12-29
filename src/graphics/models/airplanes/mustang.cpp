@@ -34,12 +34,10 @@ namespace Graphics
 	constexpr float lightsCutoffInnerDeg = 8;
 	constexpr float lightsCutoffOuterDeg = 10;
 
-	// dummy color
-	const Material defaultMaterial{glm::vec3{1, 0, 0}, 0.75, 0.25, 10};
-	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10};
-	const Material rubber{glm::vec3{0.1, 0.1, 0.1}, 0.75, 0.25, 10};
-	// dummy surface params
-	const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1};
+	const Material texturedMetal{glm::vec3{1, 1, 1}, 0.75, 0.5, 30, true};
+	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.5, 30, true};
+	const Material rubber{glm::vec3{0.1, 0.1, 0.1}, 0.75, 0, 1, false};
+	const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1, false};
 
 	Mustang::Mustang(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
@@ -47,7 +45,7 @@ namespace Graphics
 		Airplane{surfaceShaderProgram, lightShaderProgram},
 		m_cap{surfaceShaderProgram, meshManager.get(capPath), metal},
 		m_propeller{surfaceShaderProgram, meshManager.get(propellerPath), metal},
-		m_fuselage{surfaceShaderProgram, meshManager.get(fuselagePath), defaultMaterial,
+		m_body{surfaceShaderProgram, meshManager.get(fuselagePath), texturedMetal,
 			textureManager.get(camoPath)},
 		m_joins{surfaceShaderProgram, meshManager.get(joinsPath), metal},
 		m_tires{surfaceShaderProgram, meshManager.get(tiresPath), rubber},
@@ -72,7 +70,7 @@ namespace Graphics
 			static_cast<std::size_t>(Common::AirplaneTypeName::mustang)];
 		m_cap.translate(nosePosition);
 		m_propeller.translate(nosePosition);
-		m_fuselage.translate(nosePosition);
+		m_body.translate(nosePosition);
 		m_joins.translate(nosePosition);
 		m_tires.translate(nosePosition);
 		m_leftLight.translate(nosePosition);
@@ -96,7 +94,7 @@ namespace Graphics
 	{
 		m_cap.render(getMatrix());
 		m_propeller.render(getMatrix());
-		m_fuselage.render(getMatrix());
+		m_body.render(getMatrix());
 		m_joins.render(getMatrix());
 		m_tires.render(getMatrix());
 	}
