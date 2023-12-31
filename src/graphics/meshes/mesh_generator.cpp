@@ -1,6 +1,7 @@
 #include "graphics/meshes/mesh_generator.hpp"
 
 #include "common/terrains/maps/hills_map.hpp"
+#include "graphics/meshes/bullet_generator.hpp"
 #include "graphics/meshes/map_generator.hpp"
 #include "graphics/meshes/procedural_mesh_name.hpp"
 #include "graphics/meshes/vertex.hpp"
@@ -16,6 +17,9 @@ namespace Graphics
 	{
 		switch (name)
 		{
+		case ProceduralMeshName::bullet:
+			return BulletGenerator::generate();
+
 		case ProceduralMeshName::hills:
 			return MapGenerator::generate(Common::Terrains::HillsMap{});
 		}

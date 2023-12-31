@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/airplane_info.hpp"
+#include "common/scene_info.hpp"
 
 #include <unordered_map>
 
@@ -8,7 +8,7 @@ namespace Graphics
 {
 	struct RenderingBufferElement
 	{
-		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos{};
+		Common::SceneInfo sceneInfo{};
 		int day{};
 		float timeOfDay{};
 	};

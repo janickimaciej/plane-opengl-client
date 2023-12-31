@@ -9,7 +9,6 @@
 #include <array>
 #include <memory>
 #include <mutex>
-#include <unordered_map>
 
 namespace Graphics
 {
@@ -19,7 +18,7 @@ namespace Graphics
 		RenderingBuffer(int ownId);
 		void initialize(Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName);
 
-		void updateBuffer(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos);
+		void updateBuffer(const Common::SceneInfo& sceneInfo);
 
 		void updateAndRenderScene(float aspectRatio);
 

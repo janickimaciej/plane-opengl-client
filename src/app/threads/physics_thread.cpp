@@ -4,7 +4,7 @@
 #include "app/game_mode.hpp"
 #include "app/own_input.hpp"
 #include "app/udp/udp_communication.hpp"
-#include "common/airplane_info.hpp"
+#include "common/scene_info.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/notification.hpp"
 #include "physics/player_input.hpp"
@@ -53,9 +53,8 @@ namespace App
 		m_simulationBuffer.writeControlFrame(initialTimestep, m_ownId, Physics::PlayerInput{});
 		m_simulationBuffer.update(initialTimestep);
 
-		std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
-			m_simulationBuffer.getAirplaneInfos(initialTimestep);
-		m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
+		Common::SceneInfo sceneInfo = m_simulationBuffer.getSceneInfo(initialTimestep);
+		m_renderingBuffer.updateBuffer(std::move(sceneInfo));
 		m_exitSignal.releaseRenderingThreadSemaphore();
 
 		m_newestStateFrameTimestep = initialTimestep;
@@ -78,9 +77,8 @@ namespace App
 
 				m_simulationBuffer.update(timestep);
 
-				std::unordered_map<int, Common::AirplaneInfo> airplaneInfos =
-					m_simulationBuffer.getAirplaneInfos(timestep);
-				m_renderingBuffer.updateBuffer(std::move(airplaneInfos));
+				Common::SceneInfo sceneInfo = m_simulationBuffer.getSceneInfo(timestep);
+				m_renderingBuffer.updateBuffer(std::move(sceneInfo));
 
 				if (m_gameMode == GameMode::multiplayer)
 				{

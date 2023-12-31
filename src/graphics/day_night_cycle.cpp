@@ -62,7 +62,7 @@ namespace Graphics
 
 	float DayNightCycle::getLightCoefficient()
 	{
-		return 0.9f; //tmp
+		return 0.1f; //tmp
 		/*if (m_timeOfDay <= (1 - 2*transitionLength)/4) //tmpc
 		{
 			return 0;

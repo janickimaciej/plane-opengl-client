@@ -1,12 +1,11 @@
 #include "graphics/rendering_buffer.hpp"
 
-#include "common/airplane_info.hpp"
+#include "common/scene_info.hpp"
 #include "graphics/rendering_buffer_element.hpp"
 #include "graphics/scene.hpp"
 
 #include <array>
 #include <mutex>
-#include <unordered_map>
 
 namespace Graphics
 {
@@ -19,8 +18,7 @@ namespace Graphics
 		m_scene = std::make_unique<Scene>(m_ownId, ownAirplaneTypeName, mapName);
 	}
 
-	void RenderingBuffer::updateBuffer(
-		const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos)
+	void RenderingBuffer::updateBuffer(const Common::SceneInfo& sceneInfo)
 	{
 		m_mutex.lock();
 
@@ -29,7 +27,7 @@ namespace Graphics
 
 		m_mutex.unlock();
 
-		m_buffer[index].airplaneInfos = airplaneInfos;
+		m_buffer[index].sceneInfo = sceneInfo;
 
 		m_mutex.lock();
 
@@ -47,8 +45,7 @@ namespace Graphics
 
 		m_mutex.unlock();
 
-		m_scene->update(m_buffer[index].airplaneInfos, m_buffer[index].day,
-			m_buffer[index].timeOfDay);
+		m_scene->update(m_buffer[index].sceneInfo);
 		m_scene->updateShaders(aspectRatio);
 		m_scene->render();
 	}

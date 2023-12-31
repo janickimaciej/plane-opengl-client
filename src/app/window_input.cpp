@@ -96,6 +96,8 @@ namespace App
 			m_ownInput.thrust = 1;
 		}
 
+		m_ownInput.trigger = glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS;
+
 		return m_ownInput;
 	}
 

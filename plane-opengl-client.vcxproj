@@ -36,8 +36,10 @@
     <ClCompile Include="core\physics\day_night_cycle.cpp" />
     <ClCompile Include="core\physics\flight_ctrl.cpp" />
     <ClCompile Include="core\physics\models\airplane.cpp" />
+    <ClCompile Include="core\physics\models\bullet.cpp" />
     <ClCompile Include="core\physics\models\model.cpp" />
     <ClCompile Include="core\physics\model_dynamics\airplane_dynamics.cpp" />
+    <ClCompile Include="core\physics\model_dynamics\bullet_dynamics.cpp" />
     <ClCompile Include="core\physics\model_dynamics\rigid_body_dynamics.cpp" />
     <ClCompile Include="core\physics\notification.cpp" />
     <ClCompile Include="core\physics\scene.cpp" />
@@ -63,9 +65,11 @@
     <ClCompile Include="src\graphics\day_night_cycle.cpp" />
     <ClCompile Include="src\graphics\lights\point_light.cpp" />
     <ClCompile Include="src\graphics\maps\hills_map.cpp" />
+    <ClCompile Include="src\graphics\meshes\bullet_generator.cpp" />
     <ClCompile Include="src\graphics\meshes\map_generator.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\jw1.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\mustang.cpp" />
+    <ClCompile Include="src\graphics\models\bullet.cpp" />
     <ClCompile Include="src\graphics\models\hills.cpp" />
     <ClCompile Include="src\graphics\meshes\mesh_generator.cpp" />
     <ClCompile Include="src\graphics\submodels\light_submodel.cpp" />
@@ -104,7 +108,9 @@
     <ClInclude Include="core\common\airplane_ctrl.hpp" />
     <ClInclude Include="core\common\airplane_info.hpp" />
     <ClInclude Include="core\common\airplane_type_name.hpp" />
+    <ClInclude Include="core\common\bullet_info.hpp" />
     <ClInclude Include="core\common\config.hpp" />
+    <ClInclude Include="core\common\scene_info.hpp" />
     <ClInclude Include="core\common\terrains\maps\airport_map.hpp" />
     <ClInclude Include="core\common\terrains\composite_terrain.hpp" />
     <ClInclude Include="core\common\terrains\maps\hills_map.hpp" />
@@ -127,8 +133,10 @@
     <ClInclude Include="core\physics\day_night_cycle.hpp" />
     <ClInclude Include="core\physics\flight_ctrl.hpp" />
     <ClInclude Include="core\physics\models\airplane.hpp" />
+    <ClInclude Include="core\physics\models\bullet.hpp" />
     <ClInclude Include="core\physics\models\model.hpp" />
     <ClInclude Include="core\physics\model_dynamics\airplane_dynamics.hpp" />
+    <ClInclude Include="core\physics\model_dynamics\bullet_dynamics.hpp" />
     <ClInclude Include="core\physics\model_dynamics\rigid_body_dynamics.hpp" />
     <ClInclude Include="core\physics\notification.hpp" />
     <ClInclude Include="core\physics\player_info.hpp" />
@@ -157,9 +165,11 @@
     <ClInclude Include="src\app\window_input.hpp" />
     <ClInclude Include="src\graphics\lights\point_light.hpp" />
     <ClInclude Include="src\graphics\maps\hills_map.hpp" />
+    <ClInclude Include="src\graphics\meshes\bullet_generator.hpp" />
     <ClInclude Include="src\graphics\meshes\map_generator.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\jw1.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\mustang.hpp" />
+    <ClInclude Include="src\graphics\models\bullet.hpp" />
     <ClInclude Include="src\graphics\models\hills.hpp" />
     <ClInclude Include="src\graphics\meshes\mesh_generator.hpp" />
     <ClInclude Include="src\graphics\meshes\procedural_mesh_name.hpp" />

@@ -2,6 +2,8 @@
 
 #include "common/airplane_info.hpp"
 #include "common/airplane_type_name.hpp"
+#include "common/bullet_info.hpp"
+#include "common/scene_info.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/cameras/model_camera.hpp"
@@ -30,7 +32,7 @@ namespace Graphics
 		constexpr float FoVDeg = 60;
 		constexpr float nearPlane = 1;
 		constexpr float farPlane = 10000;
-		m_camera = std::make_unique<ModelCamera>(*m_airplanes.at(ownId).get(), glm::radians(FoVDeg),
+		m_camera = std::make_unique<ModelCamera>(*m_airplanes.at(ownId), glm::radians(FoVDeg),
 			nearPlane, farPlane, m_surfaceShaderProgram, m_lightShaderProgram);
 		constexpr float cameraPitchDeg = -10;
 		m_camera->rotatePitch(glm::radians(cameraPitchDeg));
@@ -50,13 +52,12 @@ namespace Graphics
 			m_lightShaderProgram, m_fileMeshManager, m_proceduralMeshManager, m_textureManager);
 	}
 
-	void Scene::update(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos, int day,
-		float timeOfDay)
+	void Scene::update(const Common::SceneInfo& sceneInfo)
 	{
-		m_map->update(day, timeOfDay);
-		removeAirplanes(airplaneInfos);
-		addAndUpdateAirplanes(airplaneInfos);
-		// TODO: update bullets
+		m_map->update(sceneInfo.day, sceneInfo.timeOfDay);
+		removeAirplanes(sceneInfo.airplaneInfos);
+		addAndUpdateAirplanes(sceneInfo.airplaneInfos);
+		updateBullets(sceneInfo.bulletInfos);
 	}
 
 	void Scene::updateShaders(float aspectRatio)
@@ -77,7 +78,10 @@ namespace Graphics
 		{
 			airplane.second->render();
 		}
-		// TODO: render bullets
+		for (const std::unique_ptr<Bullet>& bullet : m_bullets)
+		{
+			bullet->render();
+		}
 	}
 
 	void Scene::removeAirplanes(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos)
@@ -114,6 +118,26 @@ namespace Graphics
 			}
 			m_airplanes.at(airplaneInfo.first)->setState(airplaneInfo.second.state);
 			m_airplanes.at(airplaneInfo.first)->setCtrl(airplaneInfo.second.airplaneCtrl);
+		}
+	}
+
+	void Scene::updateBullets(const std::vector<Common::BulletInfo>& bulletInfos)
+	{
+		int sizeDiff = static_cast<int>(m_bullets.size()) - static_cast<int>(bulletInfos.size());
+		if (m_bullets.size() > bulletInfos.size())
+		{
+			m_bullets.erase(m_bullets.end() - sizeDiff, m_bullets.end());
+		}
+
+		for (std::size_t i = m_bullets.size(); i < bulletInfos.size(); ++i)
+		{
+			m_bullets.push_back(std::make_unique<Bullet>(m_surfaceShaderProgram,
+				m_lightShaderProgram, m_proceduralMeshManager));
+		}
+
+		for (std::size_t i = 0; i < bulletInfos.size(); ++i)
+		{
+			m_bullets.at(i)->setState(bulletInfos.at(i).state);
 		}
 	}
 };
