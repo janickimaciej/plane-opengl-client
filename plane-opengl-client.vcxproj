@@ -22,7 +22,14 @@
     <ClCompile Include="core\app\udp\udp_frame_type.cpp" />
     <ClCompile Include="core\app\udp\udp_serializer.cpp" />
     <ClCompile Include="core\common\airplane_type_name.cpp" />
+    <ClCompile Include="core\common\terrains\composite_terrain.cpp" />
+    <ClCompile Include="core\common\terrains\hill.cpp" />
+    <ClCompile Include="core\common\terrains\maps\airport_map.cpp" />
+    <ClCompile Include="core\common\terrains\maps\hills_map.cpp" />
     <ClCompile Include="core\common\state.cpp" />
+    <ClCompile Include="core\common\terrains\maps\map.cpp" />
+    <ClCompile Include="core\common\terrains\wave_x.cpp" />
+    <ClCompile Include="core\common\terrains\wave_z.cpp" />
     <ClCompile Include="core\common\transformable.cpp" />
     <ClCompile Include="core\physics\airplane_params\airplane_params.cpp" />
     <ClCompile Include="core\physics\atmosphere.cpp" />
@@ -55,8 +62,12 @@
     <ClCompile Include="src\graphics\cameras\tracking_camera.cpp" />
     <ClCompile Include="src\graphics\day_night_cycle.cpp" />
     <ClCompile Include="src\graphics\lights\point_light.cpp" />
+    <ClCompile Include="src\graphics\maps\hills_map.cpp" />
+    <ClCompile Include="src\graphics\meshes\map_generator.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\jw1.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\mustang.cpp" />
+    <ClCompile Include="src\graphics\models\hills.cpp" />
+    <ClCompile Include="src\graphics\meshes\mesh_generator.cpp" />
     <ClCompile Include="src\graphics\submodels\light_submodel.cpp" />
     <ClCompile Include="src\graphics\maps\airport_map.cpp" />
     <ClCompile Include="src\graphics\maps\map.cpp" />
@@ -74,10 +85,10 @@
     <ClCompile Include="src\graphics\lights\light.cpp" />
     <ClCompile Include="src\graphics\lights\spot_light.cpp" />
     <ClCompile Include="src\app\main.cpp" />
-    <ClCompile Include="src\graphics\mesh.cpp" />
+    <ClCompile Include="src\graphics\meshes\mesh.cpp" />
     <ClCompile Include="src\graphics\submodels\submodel.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
-    <ClCompile Include="src\graphics\obj_parser.cpp" />
+    <ClCompile Include="src\graphics\meshes\obj_parser.cpp" />
     <ClCompile Include="src\graphics\shader_program.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
   </ItemGroup>
@@ -94,7 +105,15 @@
     <ClInclude Include="core\common\airplane_info.hpp" />
     <ClInclude Include="core\common\airplane_type_name.hpp" />
     <ClInclude Include="core\common\config.hpp" />
+    <ClInclude Include="core\common\terrains\maps\airport_map.hpp" />
+    <ClInclude Include="core\common\terrains\composite_terrain.hpp" />
+    <ClInclude Include="core\common\terrains\maps\hills_map.hpp" />
+    <ClInclude Include="core\common\terrains\maps\map.hpp" />
+    <ClInclude Include="core\common\terrains\terrain.hpp" />
+    <ClInclude Include="core\common\terrains\hill.hpp" />
     <ClInclude Include="core\common\state.hpp" />
+    <ClInclude Include="core\common\terrains\wave_x.hpp" />
+    <ClInclude Include="core\common\terrains\wave_z.hpp" />
     <ClInclude Include="core\common\transformable.hpp" />
     <ClInclude Include="core\physics\airplane_params\airplane_params.hpp" />
     <ClInclude Include="core\physics\airplane_params\fuselage_params.hpp" />
@@ -137,8 +156,13 @@
     <ClInclude Include="src\app\udp\udp_communication.hpp" />
     <ClInclude Include="src\app\window_input.hpp" />
     <ClInclude Include="src\graphics\lights\point_light.hpp" />
+    <ClInclude Include="src\graphics\maps\hills_map.hpp" />
+    <ClInclude Include="src\graphics\meshes\map_generator.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\jw1.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\mustang.hpp" />
+    <ClInclude Include="src\graphics\models\hills.hpp" />
+    <ClInclude Include="src\graphics\meshes\mesh_generator.hpp" />
+    <ClInclude Include="src\graphics\meshes\procedural_mesh_name.hpp" />
     <ClInclude Include="src\graphics\submodels\light_submodel.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
@@ -163,13 +187,13 @@
     <ClInclude Include="src\graphics\lights\directional_light.hpp" />
     <ClInclude Include="src\graphics\lights\light.hpp" />
     <ClInclude Include="src\graphics\lights\spot_light.hpp" />
-    <ClInclude Include="src\graphics\mesh.hpp" />
+    <ClInclude Include="src\graphics\meshes\mesh.hpp" />
     <ClInclude Include="src\graphics\submodels\submodel.hpp" />
-    <ClInclude Include="src\graphics\obj_parser.hpp" />
+    <ClInclude Include="src\graphics\meshes\obj_parser.hpp" />
     <ClInclude Include="src\graphics\path.hpp" />
     <ClInclude Include="src\graphics\shader_program.hpp" />
     <ClInclude Include="src\graphics\material.hpp" />
-    <ClInclude Include="src\graphics\vertex.hpp" />
+    <ClInclude Include="src\graphics\meshes\vertex.hpp" />
     <ClInclude Include="src\app\window_payload.hpp" />
   </ItemGroup>
   <ItemGroup>

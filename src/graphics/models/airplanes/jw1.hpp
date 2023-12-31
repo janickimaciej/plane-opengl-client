@@ -3,11 +3,13 @@
 #include "common/airplane_ctrl.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/lights/point_light.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/submodels/submodel.hpp"
 #include "graphics/texture.hpp"
+
+#include <string>
 
 namespace Graphics
 {
@@ -15,7 +17,8 @@ namespace Graphics
 	{
 	public:
 		JW1(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-			AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager);
+			AssetManager<std::string, const Mesh>& fileMeshManager,
+			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
 		virtual void setCtrl(const Common::AirplaneCtrl& airplaneCtrl) override;
 

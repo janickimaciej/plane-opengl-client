@@ -60,7 +60,7 @@ namespace App
 			++frameCounter;
 			if (frameCounter == 60)
 			{
-				std::cout << Graphics::Time::getFPS() << " fps\n";
+				std::cout << Graphics::Time::getFPS() << " fps" << std::endl;
 				frameCounter = 0;
 			}
 

@@ -6,7 +6,8 @@
 #include "graphics/cameras/camera.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/maps/map_name.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
+#include "graphics/meshes/procedural_mesh_name.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/path.hpp"
 #include "graphics/shader_program.hpp"
@@ -14,6 +15,7 @@
 #include "graphics/world_shading.hpp"
 
 #include <memory>
+#include <string>
 #include <unordered_map>
 
 namespace Graphics
@@ -38,10 +40,12 @@ namespace Graphics
 		
 		const ShaderProgram m_surfaceShaderProgram{shaderPath("surfaceVertex"),
 			shaderPath("surfaceFragment")};
-		const ShaderProgram m_lightShaderProgram{shaderPath("lightVertex"), shaderPath("lightFragment")};
+		const ShaderProgram m_lightShaderProgram{shaderPath("lightVertex"),
+			shaderPath("lightFragment")};
 
-		AssetManager<const Mesh> m_meshManager;
-		AssetManager<const Texture> m_textureManager;
+		AssetManager<std::string, const Mesh> m_fileMeshManager{};
+		AssetManager<ProceduralMeshName, const Mesh> m_proceduralMeshManager{};
+		AssetManager<std::string, const Texture> m_textureManager{};
 
 		void removeAirplanes(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos);
 		void addAndUpdateAirplanes(

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "graphics/vertex.hpp"
+#include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/meshes/vertex.hpp"
 
 #include <cstddef>
 #include <string>
@@ -12,6 +13,7 @@ namespace Graphics
 	{
 	public:
 		Mesh(const std::string& path);
+		Mesh(ProceduralMeshName name);
 		void render() const;
 		~Mesh();
 	

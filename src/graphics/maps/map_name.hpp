@@ -2,10 +2,11 @@
 
 namespace Graphics
 {
-	inline constexpr int mapCount = 1;
+	inline constexpr int mapCount = 2;
 
 	enum class MapName
 	{
-		airport
+		airport,
+		hills
 	};
 };

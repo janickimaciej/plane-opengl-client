@@ -1,7 +1,9 @@
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 
-#include "graphics/obj_parser.hpp"
-#include "graphics/vertex.hpp"
+#include "graphics/meshes/mesh_generator.hpp"
+#include "graphics/meshes/obj_parser.hpp"
+#include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/meshes/vertex.hpp"
 
 #include <glad/glad.h>
 
@@ -12,8 +14,14 @@ namespace Graphics
 {
 	Mesh::Mesh(const std::string& path)
 	{
-		std::vector<Vertex> vertices{};
-		ObjParser::parse(path, vertices);
+		std::vector<Vertex> vertices = ObjParser::parse(path);
+		m_vertexCount = vertices.size();
+		createBuffers(vertices);
+	}
+
+	Mesh::Mesh(ProceduralMeshName name)
+	{
+		std::vector<Vertex> vertices = MeshGenerator::generate(name);
 		m_vertexCount = vertices.size();
 		createBuffers(vertices);
 	}

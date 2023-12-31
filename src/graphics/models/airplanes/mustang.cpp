@@ -3,7 +3,7 @@
 #include "common/airplane_center_of_mass_database.hpp"
 #include "common/airplane_ctrl.hpp"
 #include "graphics/asset_manager.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/path.hpp"
 #include "graphics/shader_program.hpp"
@@ -40,24 +40,25 @@ namespace Graphics
 	const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1, false};
 
 	Mustang::Mustang(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
-		AssetManager<const Texture>& textureManager) :
+		const ShaderProgram& lightShaderProgram,
+		AssetManager<std::string, const Mesh>& fileMeshManager,
+		AssetManager<std::string, const Texture>& textureManager) :
 		Airplane{surfaceShaderProgram, lightShaderProgram},
-		m_cap{surfaceShaderProgram, meshManager.get(capPath), metal},
-		m_propeller{surfaceShaderProgram, meshManager.get(propellerPath), metal},
-		m_body{surfaceShaderProgram, meshManager.get(fuselagePath), texturedMetal,
+		m_cap{surfaceShaderProgram, fileMeshManager.get(capPath), metal},
+		m_propeller{surfaceShaderProgram, fileMeshManager.get(propellerPath), metal},
+		m_body{surfaceShaderProgram, fileMeshManager.get(fuselagePath), texturedMetal,
 			textureManager.get(camoPath)},
-		m_joins{surfaceShaderProgram, meshManager.get(joinsPath), metal},
-		m_tires{surfaceShaderProgram, meshManager.get(tiresPath), rubber},
+		m_joins{surfaceShaderProgram, fileMeshManager.get(joinsPath), metal},
+		m_tires{surfaceShaderProgram, fileMeshManager.get(tiresPath), rubber},
 		m_leftLight{surfaceShaderProgram, lightsColor, lightsAttenuationQuadratic,
 			lightsAttenuationLinear, lightsAttenuationConstant, glm::radians(lightsCutoffInnerDeg),
 			glm::radians(lightsCutoffOuterDeg)},
-		m_leftLightSubmodel{m_leftLight, lightShaderProgram, meshManager.get(lightPath),
+		m_leftLightSubmodel{m_leftLight, lightShaderProgram, fileMeshManager.get(lightPath),
 			whiteLightGlass},
 		m_rightLight{surfaceShaderProgram, lightsColor, lightsAttenuationQuadratic,
 			lightsAttenuationLinear, lightsAttenuationConstant, glm::radians(lightsCutoffInnerDeg),
 			glm::radians(lightsCutoffOuterDeg)},
-		m_rightLightSubmodel{m_rightLight, lightShaderProgram, meshManager.get(lightPath),
+		m_rightLightSubmodel{m_rightLight, lightShaderProgram, fileMeshManager.get(lightPath),
 			whiteLightGlass}
 	{
 		constexpr float lightsPositionXAbs = 2.14f;

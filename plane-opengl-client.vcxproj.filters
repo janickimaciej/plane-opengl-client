@@ -8,10 +8,10 @@
     <ClCompile Include="src\graphics\lights\light.cpp" />
     <ClCompile Include="src\app\main.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
-    <ClCompile Include="src\graphics\mesh.cpp" />
+    <ClCompile Include="src\graphics\meshes\mesh.cpp" />
     <ClCompile Include="src\graphics\submodels\submodel.cpp" />
     <ClCompile Include="src\graphics\cameras\model_camera.cpp" />
-    <ClCompile Include="src\graphics\obj_parser.cpp" />
+    <ClCompile Include="src\graphics\meshes\obj_parser.cpp" />
     <ClCompile Include="src\graphics\cameras\perspective_camera.cpp" />
     <ClCompile Include="src\graphics\shader_program.cpp" />
     <ClCompile Include="src\graphics\lights\spot_light.cpp" />
@@ -62,6 +62,17 @@
     <ClCompile Include="src\graphics\lights\point_light.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\mustang.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\jw1.cpp" />
+    <ClCompile Include="src\graphics\maps\hills_map.cpp" />
+    <ClCompile Include="src\graphics\models\hills.cpp" />
+    <ClCompile Include="src\graphics\meshes\mesh_generator.cpp" />
+    <ClCompile Include="core\common\terrains\maps\hills_map.cpp" />
+    <ClCompile Include="core\common\terrains\hill.cpp" />
+    <ClCompile Include="core\common\terrains\composite_terrain.cpp" />
+    <ClCompile Include="core\common\terrains\wave_x.cpp" />
+    <ClCompile Include="core\common\terrains\wave_z.cpp" />
+    <ClCompile Include="src\graphics\meshes\map_generator.cpp" />
+    <ClCompile Include="core\common\terrains\maps\map.cpp" />
+    <ClCompile Include="core\common\terrains\maps\airport_map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
@@ -70,15 +81,15 @@
     <ClInclude Include="src\graphics\world_shading.hpp" />
     <ClInclude Include="src\graphics\lights\light.hpp" />
     <ClInclude Include="src\graphics\material.hpp" />
-    <ClInclude Include="src\graphics\mesh.hpp" />
+    <ClInclude Include="src\graphics\meshes\mesh.hpp" />
     <ClInclude Include="src\graphics\submodels\submodel.hpp" />
     <ClInclude Include="src\graphics\cameras\model_camera.hpp" />
-    <ClInclude Include="src\graphics\obj_parser.hpp" />
+    <ClInclude Include="src\graphics\meshes\obj_parser.hpp" />
     <ClInclude Include="src\graphics\cameras\perspective_camera.hpp" />
     <ClInclude Include="src\graphics\shader_program.hpp" />
     <ClInclude Include="src\graphics\lights\spot_light.hpp" />
     <ClInclude Include="src\graphics\cameras\tracking_camera.hpp" />
-    <ClInclude Include="src\graphics\vertex.hpp" />
+    <ClInclude Include="src\graphics\meshes\vertex.hpp" />
     <ClInclude Include="src\app\window_payload.hpp" />
     <ClInclude Include="src\graphics\path.hpp" />
     <ClInclude Include="dep\stb_image.h" />
@@ -153,6 +164,19 @@
     <ClInclude Include="core\physics\airplane_params_database\jw1.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\mustang.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\jw1.hpp" />
+    <ClInclude Include="src\graphics\meshes\procedural_mesh_name.hpp" />
+    <ClInclude Include="src\graphics\meshes\mesh_generator.hpp" />
+    <ClInclude Include="src\graphics\maps\hills_map.hpp" />
+    <ClInclude Include="src\graphics\models\hills.hpp" />
+    <ClInclude Include="src\graphics\meshes\map_generator.hpp" />
+    <ClInclude Include="core\common\terrains\terrain.hpp" />
+    <ClInclude Include="core\common\terrains\maps\hills_map.hpp" />
+    <ClInclude Include="core\common\terrains\maps\airport_map.hpp" />
+    <ClInclude Include="core\common\terrains\hill.hpp" />
+    <ClInclude Include="core\common\terrains\composite_terrain.hpp" />
+    <ClInclude Include="core\common\terrains\wave_x.hpp" />
+    <ClInclude Include="core\common\terrains\wave_z.hpp" />
+    <ClInclude Include="core\common\terrains\maps\map.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

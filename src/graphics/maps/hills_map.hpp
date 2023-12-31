@@ -4,9 +4,9 @@
 #include "graphics/day_night_cycle.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/meshes/mesh.hpp"
-#include "graphics/models/airport.hpp"
+#include "graphics/meshes/procedural_mesh_name.hpp"
 #include "graphics/models/directional_light_model.hpp"
-#include "graphics/models/zeppelin.hpp"
+#include "graphics/models/hills.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/world_shading.hpp"
 
@@ -14,21 +14,20 @@
 
 namespace Graphics
 {
-	class AirportMap : public Map
+	class HillsMap : public Map
 	{
 	public:
-		AirportMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
+		HillsMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
 			const ShaderProgram& lightShaderProgram,
-			AssetManager<std::string, const Mesh>& fileMeshManager,
+			AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
 			AssetManager<std::string, const Texture>& textureManager);
 		virtual void update(int day, float timeOfDay) override;
 		virtual void updateShaders() override;
 		virtual void render() const override;
-		virtual ~AirportMap() = default;
+		virtual ~HillsMap() = default;
 
 	private:
-		Airport m_airport;
-		Zeppelin m_zeppelin;
+		Hills m_hills;
 
 		DirectionalLightModel m_moon;
 		DirectionalLightModel m_sun;

@@ -3,7 +3,7 @@
 #include "graphics/asset_manager.hpp"
 #include "graphics/lights/point_light.hpp"
 #include "graphics/lights/spot_light.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 #include "graphics/models/model.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/submodels/light_submodel.hpp"
@@ -11,6 +11,7 @@
 #include "graphics/texture.hpp"
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace Graphics
@@ -19,7 +20,8 @@ namespace Graphics
 	{
 	public:
 		Airport(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-			AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager);
+			AssetManager<std::string, const Mesh>& fileMeshManager,
+			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
 		virtual ~Airport() = default;
 

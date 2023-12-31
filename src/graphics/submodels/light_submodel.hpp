@@ -2,7 +2,7 @@
 
 #include "graphics/lights/light.hpp"
 #include "graphics/material.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/submodels/submodel.hpp"
 #include "graphics/texture.hpp"

@@ -2,7 +2,7 @@
 
 #include "graphics/asset_manager.hpp"
 #include "graphics/lights/spot_light.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 #include "graphics/models/model.hpp"
 #include "graphics/path.hpp"
 #include "graphics/shader_program.hpp"
@@ -13,6 +13,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace Graphics
@@ -48,19 +49,20 @@ namespace Graphics
 	const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1, false};
 
 	Airport::Airport(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram, AssetManager<const Mesh>& meshManager,
-		AssetManager<const Texture>& textureManager) :
+		const ShaderProgram& lightShaderProgram,
+		AssetManager<std::string, const Mesh>& fileMeshManager,
+		AssetManager<std::string, const Texture>& textureManager) :
 		Model{surfaceShaderProgram, lightShaderProgram},
-		m_ground{surfaceShaderProgram, meshManager.get(groundPath), ground,
+		m_ground{surfaceShaderProgram, fileMeshManager.get(groundPath), ground,
 			textureManager.get(grassPath)},
-		m_runway{surfaceShaderProgram, meshManager.get(runwayPath), ground,
+		m_runway{surfaceShaderProgram, fileMeshManager.get(runwayPath), ground,
 			textureManager.get(asphaltPath)},
-		m_apron{surfaceShaderProgram, meshManager.get(apronPath), ground,
+		m_apron{surfaceShaderProgram, fileMeshManager.get(apronPath), ground,
 			textureManager.get(asphaltBrightPath)},
-		m_tower{surfaceShaderProgram, meshManager.get(towerPath), concrete,
+		m_tower{surfaceShaderProgram, fileMeshManager.get(towerPath), concrete,
 			textureManager.get(concretePath)}
 	{
-		const Submodel hangarSubmodel{surfaceShaderProgram, meshManager.get(hangarPath),
+		const Submodel hangarSubmodel{surfaceShaderProgram, fileMeshManager.get(hangarPath),
 			tent, textureManager.get(tentPath)};
 		for (std::size_t i = 0; i < hangarCount; ++i)
 		{
@@ -71,7 +73,7 @@ namespace Graphics
 		}
 
 		const Submodel lightBodySubmodel{surfaceShaderProgram,
-			meshManager.get(lightBodyPath), metal};
+			fileMeshManager.get(lightBodyPath), metal};
 		for (std::size_t i = 0; i < SpotLight::airportLightCount; ++i)
 		{
 			m_lightBodies.push_back(lightBodySubmodel);
@@ -79,7 +81,7 @@ namespace Graphics
 				lightsAttenuationQuadratic, lightsAttenuationLinear, lightsAttenuationConstant,
 				glm::radians(lightsCutoffInnerDeg), glm::radians(lightsCutoffOuterDeg)));
 			m_lightSubmodels.push_back(LightSubmodel{*m_lights[i], lightShaderProgram,
-				meshManager.get(lightPath), yellowLightGlass});
+				fileMeshManager.get(lightPath), yellowLightGlass});
 
 			constexpr float firstLightPositionX = -49;
 			constexpr float lightsGapX = 14;

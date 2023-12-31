@@ -7,7 +7,7 @@
 #include "graphics/cameras/model_camera.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/maps/map_name.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
@@ -25,7 +25,7 @@ namespace Graphics
 		m_worldShading{m_surfaceShaderProgram, m_lightShaderProgram}
 	{
 		m_airplanes.insert({ownId, Airplane::createAirplane(m_surfaceShaderProgram,
-			m_lightShaderProgram, m_meshManager, m_textureManager, ownAirplaneTypeName)});
+			m_lightShaderProgram, m_fileMeshManager, m_textureManager, ownAirplaneTypeName)});
 
 		constexpr float FoVDeg = 60;
 		constexpr float nearPlane = 1;
@@ -47,7 +47,7 @@ namespace Graphics
 		}
 
 		m_map = Map::createMap(mapName, m_worldShading, m_surfaceShaderProgram,
-			m_lightShaderProgram, m_meshManager, m_textureManager);
+			m_lightShaderProgram, m_fileMeshManager, m_proceduralMeshManager, m_textureManager);
 	}
 
 	void Scene::update(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos, int day,
@@ -107,7 +107,7 @@ namespace Graphics
 					(
 						m_surfaceShaderProgram,
 						m_lightShaderProgram,
-						m_meshManager,
+						m_fileMeshManager,
 						m_textureManager,
 						airplaneInfo.second.airplaneTypeName
 					)});

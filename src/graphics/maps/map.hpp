@@ -2,12 +2,13 @@
 
 #include "graphics/asset_manager.hpp"
 #include "graphics/maps/map_name.hpp"
-#include "graphics/mesh.hpp"
+#include "graphics/meshes/mesh.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/world_shading.hpp"
 
 #include <memory>
+#include <string>
 
 namespace Graphics
 {
@@ -21,7 +22,9 @@ namespace Graphics
 
 		static std::unique_ptr<Map> createMap(MapName mapName, WorldShading& worldShading,
 			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-			AssetManager<const Mesh>& meshManager, AssetManager<const Texture>& textureManager);
+			AssetManager<std::string, const Mesh>& fileMeshManager,
+			AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
+			AssetManager<std::string, const Texture>& textureManager);
 
 	protected:
 		Map() = default;

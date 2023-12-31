@@ -1,6 +1,6 @@
 #include "obj_parser.hpp"
 
-#include "graphics/vertex.hpp"
+#include "graphics/meshes/vertex.hpp"
 
 #include <glm/glm.hpp>
 
@@ -14,19 +14,21 @@
 
 namespace Graphics
 {
-	void ObjParser::parse(const std::string& path, std::vector<Vertex>& vertices)
+	std::vector<Vertex> ObjParser::parse(const std::string& path)
 	{
-		std::vector<glm::vec3> positions{};
-		std::vector<glm::vec2> texturePositions{};
-		std::vector<glm::vec3> normalVectors{};
-
 		std::ifstream file{path};
 		if (!file)
 		{
 			std::cerr << "File does not exist:\n" << path << '\n';
 			assert(false);
-			return;
+			return std::vector<Vertex>{};
 		}
+		
+		std::vector<Vertex> vertices{};
+
+		std::vector<glm::vec3> positions{};
+		std::vector<glm::vec2> texturePositions{};
+		std::vector<glm::vec3> normalVectors{};
 
 		std::string line{};
 		while (std::getline(file, line))
@@ -45,15 +47,15 @@ namespace Graphics
 			}
 			else if (line[0] == 'f' && line[1] == ' ')
 			{
-				std::array<Vertex, 3> triangle{};
-				parseTriangle(line, positions, texturePositions, normalVectors, triangle);
+				std::array<Vertex, 3> triangle =
+					parseTriangle(line, positions, texturePositions, normalVectors);
 				vertices.push_back(triangle[0]);
 				vertices.push_back(triangle[1]);
 				vertices.push_back(triangle[2]);
 			}
 		}
 
-		file.close();
+		return vertices;
 	}
 
 	glm::vec3 ObjParser::parsePosition(const std::string_view line)
@@ -128,10 +130,12 @@ namespace Graphics
 		return normalVector;
 	}
 
-	void ObjParser::parseTriangle(const std::string_view line,
+	std::array<Vertex, 3> ObjParser::parseTriangle(const std::string_view line,
 		const std::vector<glm::vec3>& positions, const std::vector<glm::vec2>& texturePositions,
-		const std::vector<glm::vec3>& normalVectors, std::array<Vertex, 3>& triangle)
+		const std::vector<glm::vec3>& normalVectors)
 	{
+		std::array<Vertex, 3> triangle;
+
 		std::size_t vertexIndex = 0;
 		std::string number = "";
 		std::size_t positionIndex = 0;
@@ -178,5 +182,7 @@ namespace Graphics
 			triangle[vertexIndex].texturePosition = texturePositions[texturePositionIndex - 1];
 			triangle[vertexIndex].normalVector = normalVectors[normalVectorIndex - 1];
 		}
+		
+		return triangle;
 	}
 };
