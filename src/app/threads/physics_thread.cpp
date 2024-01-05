@@ -12,6 +12,7 @@
 #include "physics/simulation_clock.hpp"
 #include "physics/timestep.hpp"
 
+#include <memory>
 #include <semaphore>
 #include <thread>
 
@@ -21,7 +22,8 @@ namespace App
 		const Physics::SimulationClock& simulationClock,
 		Physics::SimulationBuffer& simulationBuffer, int ownId, Physics::Notification& notification,
 		Graphics::RenderingBuffer& renderingBuffer, OwnInput& ownInput,
-		UDPCommunication* udpCommunication) :
+		UDPCommunication* udpCommunication,
+		const std::shared_ptr<std::binary_semaphore>& renderingThreadSemaphore) :
 		m_exitSignal{exitSignal},
 		m_gameMode{gameMode},
 		m_simulationClock{simulationClock},
@@ -33,9 +35,9 @@ namespace App
 		m_udpCommunication{udpCommunication}
 	{
 		m_thread = std::thread(
-			[this]
+			[this, renderingThreadSemaphore]
 			{
-				this->start();
+				this->start(std::move(renderingThreadSemaphore));
 			});
 	}
 
@@ -44,7 +46,7 @@ namespace App
 		m_thread.join();
 	}
 
-	void PhysicsThread::start()
+	void PhysicsThread::start(std::shared_ptr<std::binary_semaphore> renderingThreadSemaphore)
 	{
 		Physics::Timestep initialTimestep{};
 
@@ -55,7 +57,7 @@ namespace App
 
 		Common::SceneInfo sceneInfo = m_simulationBuffer.getSceneInfo(initialTimestep);
 		m_renderingBuffer.updateBuffer(std::move(sceneInfo));
-		m_exitSignal.releaseRenderingThreadSemaphore();
+		renderingThreadSemaphore->release();
 
 		m_newestStateFrameTimestep = initialTimestep;
 		mainLoop(initialTimestep);
@@ -82,7 +84,7 @@ namespace App
 
 				if (m_gameMode == GameMode::multiplayer)
 				{
-					if (timestep.frame == 0)
+					if (timestep.step == 0)
 					{
 						m_udpCommunication->sendKeepAliveFrameAsync();
 					}

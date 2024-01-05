@@ -30,11 +30,19 @@ namespace App
 		Graphics::MapName mapName, const std::string& serverIPAddress, int serverNetworkThreadPort,
 		int serverPhysicsThreadPort, int clientNetworkThreadPort, int clientPhysicsThreadPort)
 	{
+		std::shared_ptr<std::binary_semaphore> semaphore =
+			std::make_shared<std::binary_semaphore>(0);
+		m_exitSignal.registerOnExit([semaphore] ()
+			{
+				semaphore->release();
+			});
+
 		NetworkThread networkThread{m_exitSignal, gameMode, airplaneTypeName, serverIPAddress,
 			serverNetworkThreadPort, serverPhysicsThreadPort, clientNetworkThreadPort,
-			clientPhysicsThreadPort, m_ownInput, m_renderingBuffer};
+			clientPhysicsThreadPort, m_ownInput, m_renderingBuffer, semaphore};
+
 		initializeWindow();
-		m_exitSignal.acquireRenderingThreadSemaphore();
+		semaphore->acquire();
 		if (!m_exitSignal.shouldStop())
 		{
 			m_renderingBuffer->initialize(airplaneTypeName, mapName);

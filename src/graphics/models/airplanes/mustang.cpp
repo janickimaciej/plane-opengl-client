@@ -1,6 +1,6 @@
 #include "graphics/models/airplanes/mustang.hpp"
 
-#include "common/airplane_center_of_mass_database.hpp"
+#include "common/airplane_centers_of_mass.hpp"
 #include "common/airplane_ctrl.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/meshes/mesh.hpp"
@@ -67,8 +67,8 @@ namespace Graphics
 		m_leftLight.translate(glm::vec3{lightsPositionXAbs, lightsPositionY, lightsPositionZ});
 		m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ});
 
-		constexpr glm::vec3 nosePosition = -Common::airplaneCenterOfMassDatabase[
-			static_cast<std::size_t>(Common::AirplaneTypeName::mustang)];
+		constexpr glm::vec3 nosePosition = -Common::airplaneCentersOfMass[
+			toSizeT(Common::AirplaneTypeName::mustang)];
 		m_cap.translate(nosePosition);
 		m_propeller.translate(nosePosition);
 		m_body.translate(nosePosition);

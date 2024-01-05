@@ -1,6 +1,6 @@
 #include "graphics/models/airplanes/jw1.hpp"
 
-#include "common/airplane_center_of_mass_database.hpp"
+#include "common/airplane_centers_of_mass.hpp"
 #include "common/airplane_ctrl.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/meshes/mesh.hpp"
@@ -99,8 +99,8 @@ namespace Graphics
 		m_leftAileron.translate(glm::vec3{-4.107, 0.535, 14.57});
 		m_rightAileron.translate(glm::vec3{4.107, 0.535, 14.57});
 
-		constexpr glm::vec3 nosePosition = -Common::airplaneCenterOfMassDatabase[
-			static_cast<std::size_t>(Common::AirplaneTypeName::jw1)];
+		constexpr glm::vec3 nosePosition = -Common::airplaneCentersOfMass[
+			toSizeT(Common::AirplaneTypeName::jw1)];
 		m_cone.translate(nosePosition);
 		m_gun.translate(nosePosition);
 		m_cockpit.translate(nosePosition);

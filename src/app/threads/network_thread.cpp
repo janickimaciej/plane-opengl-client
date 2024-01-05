@@ -11,6 +11,7 @@
 #include "common/config.hpp"
 #include "graphics/maps/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
+#include "physics/airplane_definitions.hpp"
 #include "physics/notification.hpp"
 #include "physics/player_info.hpp"
 #include "physics/player_input.hpp"
@@ -31,7 +32,8 @@ namespace App
 		Common::AirplaneTypeName airplaneTypeName, const std::string& serverIPAddress,
 		int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
 		int clientPhysicsThreadPort, OwnInput& ownInput,
-		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer) :
+		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
+		const std::shared_ptr<std::binary_semaphore>& renderingThreadSemaphore) :
 		m_exitSignal{exitSignal}
 	{
 		if (gameMode == GameMode::multiplayer)
@@ -41,9 +43,11 @@ namespace App
 				clientPhysicsThreadPort);
 		}
 		m_thread = std::thread(
-			[this, gameMode, airplaneTypeName, &ownInput, &renderingBuffer]
+			[this, gameMode, airplaneTypeName, &ownInput, &renderingBuffer,
+				renderingThreadSemaphore]
 			{
-				this->start(gameMode, airplaneTypeName, ownInput, renderingBuffer);
+				this->start(gameMode, airplaneTypeName, ownInput, renderingBuffer,
+					std::move(renderingThreadSemaphore));
 			});
 	}
 
@@ -53,7 +57,8 @@ namespace App
 	}
 
 	void NetworkThread::start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
-		OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
+		OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
+		std::shared_ptr<std::binary_semaphore> renderingThreadSemaphore)
 	{
 		if (gameMode == GameMode::multiplayer)
 		{
@@ -68,14 +73,21 @@ namespace App
 			startSingleplayer(airplaneTypeName, renderingBuffer);
 		}
 		PhysicsThread physicsThread{m_exitSignal, gameMode, m_simulationClock, *m_simulationBuffer,
-			m_ownId, m_notification, *renderingBuffer, ownInput, m_udpCommunication.get()};
+			m_ownId, m_notification, *renderingBuffer, ownInput, m_udpCommunication.get(),
+			renderingThreadSemaphore};
 		if (gameMode == GameMode::multiplayer)
 		{
 			mainLoopMultiplayer();
 		}
 		else
 		{
-			m_exitSignal.acquireNetworkThreadSemaphore();
+			std::shared_ptr<std::binary_semaphore> semaphore =
+				std::make_shared<std::binary_semaphore>(0);
+			m_exitSignal.registerOnExit([semaphore] ()
+				{
+					semaphore->release();
+				});
+			semaphore->acquire();
 		}
 		physicsThread.join();
 	}
@@ -83,8 +95,8 @@ namespace App
 	bool NetworkThread::startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
 		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
 	{
-		static constexpr int initFrameCount = 10;
-		for (int i = 0; i < initFrameCount; ++i)
+		static constexpr int initReqFrameCount = 10;
+		for (int i = 0; i < initReqFrameCount; ++i)
 		{
 			m_udpCommunication->sendInitReqFrame(airplaneTypeName);
 		}
@@ -133,28 +145,16 @@ namespace App
 		
 		Physics::PlayerInfo ownInfo;
 
-		constexpr int initialHP = 100;
-		ownInfo.state.hp = initialHP;
-
+		ownInfo.state.hp = Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialHP;
 		constexpr glm::vec3 initialPosition{0, 500, 5000};
 		ownInfo.state.state.position = initialPosition;
-
-		switch (airplaneTypeName)
-		{
-		case Common::AirplaneTypeName::mustang:
-			ownInfo.state.state.velocity = glm::vec3{0, 0, -100};
-			break;
-
-		case Common::AirplaneTypeName::jw1:
-			ownInfo.state.state.velocity = glm::vec3{0, 0, -343};
-			break;
-		}
-
+		ownInfo.state.state.velocity =
+			Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialVelocity;
 		ownInfo.state.airplaneTypeName = airplaneTypeName;
 
 		std::unordered_map<int, Physics::PlayerInfo> playerInfos;
 		playerInfos.insert({ownId, ownInfo});
-		m_simulationBuffer->writeStateFrame(initialTimestep, playerInfos);
+		m_simulationBuffer->writeStateFrame(initialTimestep, std::move(playerInfos));
 
 		m_notification.setNotification(initialTimestep, true);
 	}
@@ -181,7 +181,7 @@ namespace App
 			}
 			
 			constexpr Physics::Timestep frameAgeCutoffOffset{0,
-				static_cast<unsigned int>(Common::framesPerSecond * 0.9f)};
+				static_cast<unsigned int>(Common::stepsPerSecond * 0.9f)};
 			Physics::Timestep frameAgeCutoff = m_simulationClock.getTime() - frameAgeCutoffOffset;
 			if (m_frameCutoff < frameAgeCutoff)
 			{

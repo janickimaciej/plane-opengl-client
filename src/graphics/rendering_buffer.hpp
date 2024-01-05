@@ -17,9 +17,7 @@ namespace Graphics
 	public:
 		RenderingBuffer(int ownId);
 		void initialize(Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName);
-
 		void updateBuffer(const Common::SceneInfo& sceneInfo);
-
 		void updateAndRenderScene(float aspectRatio);
 
 	private:

@@ -55,8 +55,8 @@ namespace Graphics
 	void Scene::update(const Common::SceneInfo& sceneInfo)
 	{
 		m_map->update(sceneInfo.day, sceneInfo.timeOfDay);
-		removeAirplanes(sceneInfo.airplaneInfos);
 		addAndUpdateAirplanes(sceneInfo.airplaneInfos);
+		removeAirplanes(sceneInfo.airplaneInfos);
 		updateBullets(sceneInfo.bulletInfos);
 	}
 
@@ -84,22 +84,6 @@ namespace Graphics
 		}
 	}
 
-	void Scene::removeAirplanes(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos)
-	{
-		std::vector<int> keysToBeDeleted;
-		for (const std::pair<const int, std::unique_ptr<Airplane>>& airplane : m_airplanes)
-		{
-			if (!airplaneInfos.contains(airplane.first))
-			{
-				keysToBeDeleted.push_back(airplane.first);
-			}
-		}
-		for (int key : keysToBeDeleted)
-		{
-			m_airplanes.erase(key);
-		}
-	}
-
 	void Scene::addAndUpdateAirplanes(
 		const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos)
 	{
@@ -118,6 +102,22 @@ namespace Graphics
 			}
 			m_airplanes.at(airplaneInfo.first)->setState(airplaneInfo.second.state);
 			m_airplanes.at(airplaneInfo.first)->setCtrl(airplaneInfo.second.airplaneCtrl);
+		}
+	}
+
+	void Scene::removeAirplanes(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos)
+	{
+		std::vector<int> keysToBeDeleted;
+		for (const std::pair<const int, std::unique_ptr<Airplane>>& airplane : m_airplanes)
+		{
+			if (!airplaneInfos.contains(airplane.first))
+			{
+				keysToBeDeleted.push_back(airplane.first);
+			}
+		}
+		for (int key : keysToBeDeleted)
+		{
+			m_airplanes.erase(key);
 		}
 	}
 

@@ -25,7 +25,8 @@ namespace App
 			Common::AirplaneTypeName airplaneTypeName, const std::string& serverIPAddress,
 			int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
 			int clientPhysicsThreadPort, OwnInput& ownInput,
-			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
+			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
+			const std::shared_ptr<std::binary_semaphore>& renderingThreadSemaphore);
 		void join();
 
 	private:
@@ -41,7 +42,8 @@ namespace App
 		std::unique_ptr<UDPCommunication> m_udpCommunication;
 
 		void start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName, OwnInput& ownInput,
-			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
+			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
+			std::shared_ptr<std::binary_semaphore> renderingThreadSemaphore);
 		bool startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void startSingleplayer(Common::AirplaneTypeName airplaneTypeName,

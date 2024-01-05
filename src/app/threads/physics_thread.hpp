@@ -10,6 +10,7 @@
 #include "physics/simulation_clock.hpp"
 #include "physics/timestep.hpp"
 
+#include <memory>
 #include <semaphore>
 #include <thread>
 
@@ -22,7 +23,8 @@ namespace App
 			const Physics::SimulationClock& simulationClock,
 			Physics::SimulationBuffer& simulationBuffer, int ownId,
 			Physics::Notification& notification, Graphics::RenderingBuffer& renderingBuffer,
-			OwnInput& ownInput, UDPCommunication* udpCommunication);
+			OwnInput& ownInput, UDPCommunication* udpCommunication,
+			const std::shared_ptr<std::binary_semaphore>& renderingThreadSemaphore);
 		void join();
 
 	private:
@@ -42,7 +44,7 @@ namespace App
 
 		UDPCommunication* m_udpCommunication;
 
-		void start();
+		void start(std::shared_ptr<std::binary_semaphore> renderingThreadSemaphore);
 		void mainLoop(const Physics::Timestep& initialTimestep);
 		void sleepIfFuture(const Physics::Timestep& timestep);
 	};

@@ -28,70 +28,60 @@ namespace App
 
 	const Physics::PlayerInput& WindowInput::getCurrentInputKeyboard()
 	{
-		int ctrlPitchNegative = glfwGetKey(m_window, GLFW_KEY_UP);
-		int ctrlPitchPositive = glfwGetKey(m_window, GLFW_KEY_DOWN);
+		int ctrlPitchNegative = glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS;
+		int ctrlPitchPositive = glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS;
 		m_ownInput.pitch = static_cast<float>(ctrlPitchPositive - ctrlPitchNegative);
 
-		int ctrlYawNegative = glfwGetKey(m_window, GLFW_KEY_A);
-		int ctrlYawPositive = glfwGetKey(m_window, GLFW_KEY_D);
+		int ctrlYawNegative = glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS;
+		int ctrlYawPositive = glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS;
 		m_ownInput.yaw = static_cast<float>(ctrlYawPositive - ctrlYawNegative);
 	
-		int ctrlRollNegative = glfwGetKey(m_window, GLFW_KEY_LEFT);
-		int ctrlRollPositive = glfwGetKey(m_window, GLFW_KEY_RIGHT);
+		int ctrlRollNegative = glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS;
+		int ctrlRollPositive = glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS;
 		m_ownInput.roll = static_cast<float>(ctrlRollPositive - ctrlRollNegative);
 	
-		if (glfwGetKey(m_window, GLFW_KEY_0) == GLFW_PRESS ||
-		glfwGetKey(m_window, GLFW_KEY_KP_0) == GLFW_PRESS)
+		static bool wasDecreaseThrustPressed = false;
+		if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			if (!wasDecreaseThrustPressed)
+			{
+				m_ownInput.thrust -= 0.1f;
+			}
+			wasDecreaseThrustPressed = true;
+		}
+		else
+		{
+			wasDecreaseThrustPressed = false;
+		}
+		if (m_ownInput.thrust < 0)
 		{
 			m_ownInput.thrust = 0;
 		}
-		else if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_1) == GLFW_PRESS)
+
+		static bool wasIncreaseThrustPressed = false;
+		if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			m_ownInput.thrust = 0.1f;
+			if (!wasIncreaseThrustPressed)
+			{
+				m_ownInput.thrust += 0.1f;
+			}
+			wasIncreaseThrustPressed = true;
 		}
-		else if (glfwGetKey(m_window, GLFW_KEY_2) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_2) == GLFW_PRESS)
+		else
 		{
-			m_ownInput.thrust = 0.2f;
+			wasIncreaseThrustPressed = false;
 		}
-		else if (glfwGetKey(m_window, GLFW_KEY_3) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_3) == GLFW_PRESS)
+		if (m_ownInput.thrust > 1)
 		{
-			m_ownInput.thrust = 0.3f;
+			m_ownInput.thrust = 1;
 		}
-		else if (glfwGetKey(m_window, GLFW_KEY_4) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_4) == GLFW_PRESS)
+
+		if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS)
 		{
-			m_ownInput.thrust = 0.4f;
+			m_ownInput.thrust = 0;
 		}
-		else if (glfwGetKey(m_window, GLFW_KEY_5) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_5) == GLFW_PRESS)
-		{
-			m_ownInput.thrust = 0.5f;
-		}
-		else if (glfwGetKey(m_window, GLFW_KEY_6) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_6) == GLFW_PRESS)
-		{
-			m_ownInput.thrust = 0.6f;
-		}
-		else if (glfwGetKey(m_window, GLFW_KEY_7) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_7) == GLFW_PRESS)
-		{
-			m_ownInput.thrust = 0.7f;
-		}
-		else if (glfwGetKey(m_window, GLFW_KEY_8) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_8) == GLFW_PRESS)
-		{
-			m_ownInput.thrust = 0.8f;
-		}
-		else if (glfwGetKey(m_window, GLFW_KEY_9) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_9) == GLFW_PRESS)
-		{
-			m_ownInput.thrust = 0.9f;
-		}
-		else if (glfwGetKey(m_window, GLFW_KEY_MINUS) == GLFW_PRESS ||
-			glfwGetKey(m_window, GLFW_KEY_KP_DIVIDE) == GLFW_PRESS)
+
+		if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS)
 		{
 			m_ownInput.thrust = 1;
 		}
@@ -113,7 +103,7 @@ namespace App
 		m_ownInput.roll = gamepad.axes[2];
 
 		static bool wasDecreaseThrustPressed = false;
-		if (gamepad.buttons[0] == GLFW_PRESS)
+		if (gamepad.buttons[2] == GLFW_PRESS)
 		{
 			if (!wasDecreaseThrustPressed)
 			{
@@ -131,7 +121,7 @@ namespace App
 		}
 
 		static bool wasIncreaseThrustPressed = false;
-		if (gamepad.buttons[3] == GLFW_PRESS)
+		if (gamepad.buttons[1] == GLFW_PRESS)
 		{
 			if (!wasIncreaseThrustPressed)
 			{
@@ -147,6 +137,18 @@ namespace App
 		{
 			m_ownInput.thrust = 1;
 		}
+
+		if (gamepad.buttons[0] == GLFW_PRESS)
+		{
+			m_ownInput.thrust = 0;
+		}
+
+		if (gamepad.buttons[3] == GLFW_PRESS)
+		{
+			m_ownInput.thrust = 1;
+		}
+
+		m_ownInput.trigger = gamepad.buttons[5] == GLFW_PRESS;
 
 		return m_ownInput;
 	}

@@ -49,10 +49,10 @@ namespace Graphics
 		AssetManager<std::string, const Mesh> m_fileMeshManager{};
 		AssetManager<ProceduralMeshName, const Mesh> m_proceduralMeshManager{};
 		AssetManager<std::string, const Texture> m_textureManager{};
-
-		void removeAirplanes(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos);
+		
 		void addAndUpdateAirplanes(
 			const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos);
+		void removeAirplanes(const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos);
 		void updateBullets(const std::vector<Common::BulletInfo>& bulletInfos);
 	};
 };
