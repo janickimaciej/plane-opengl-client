@@ -3,6 +3,8 @@
 #include "common/config.hpp"
 #include "graphics/meshes/vertex.hpp"
 
+#include <glm/glm.hpp>
+
 #include <array>
 #include <vector>
 
@@ -15,38 +17,35 @@ namespace Graphics
 
 		std::vector<Vertex> vertices{};
 
-		std::array<Vertex, 3> triangle1{};
-		triangle1[0].position = glm::vec3{0, -tracerWidth / 2, 0};
-		vertices.push_back(triangle1[0]);
-		triangle1[1].position = glm::vec3{0, tracerWidth / 2, 0};
-		vertices.push_back(triangle1[1]);
-		triangle1[2].position = glm::vec3{0, tracerWidth / 2, tracerLength};
-		vertices.push_back(triangle1[2]);
-
-		std::array<Vertex, 3> triangle2{};
-		triangle2[0].position = glm::vec3{0, -tracerWidth / 2, 0};
-		vertices.push_back(triangle2[0]);
-		triangle2[1].position = glm::vec3{0, -tracerWidth / 2, tracerLength};
-		vertices.push_back(triangle2[1]);
-		triangle2[2].position = glm::vec3{0, tracerWidth / 2, tracerLength};
-		vertices.push_back(triangle2[2]);
-
-		std::array<Vertex, 3> triangle3{};
-		triangle3[0].position = glm::vec3{-tracerWidth / 2, 0, 0};
-		vertices.push_back(triangle3[0]);
-		triangle3[1].position = glm::vec3{tracerWidth / 2, 0, 0};
-		vertices.push_back(triangle3[1]);
-		triangle3[2].position = glm::vec3{tracerWidth / 2, 0, tracerLength};
-		vertices.push_back(triangle3[2]);
-
-		std::array<Vertex, 3> triangle4{};
-		triangle4[0].position = glm::vec3{-tracerWidth / 2, 0, 0};
-		vertices.push_back(triangle4[0]);
-		triangle4[1].position = glm::vec3{-tracerWidth / 2, 0, tracerLength};
-		vertices.push_back(triangle4[1]);
-		triangle4[2].position = glm::vec3{tracerWidth / 2, 0, tracerLength};
-		vertices.push_back(triangle4[2]);
+		addDoubleSidedTriangle(vertices, glm::vec3{0, -tracerWidth / 2, 0},
+			glm::vec3{0, tracerWidth / 2, 0}, glm::vec3{0, tracerWidth / 2, tracerLength});
+		addDoubleSidedTriangle(vertices, glm::vec3{0, -tracerWidth / 2, 0},
+			glm::vec3{0, -tracerWidth / 2, tracerLength},
+			glm::vec3{0, tracerWidth / 2, tracerLength});
+		addDoubleSidedTriangle(vertices, glm::vec3{-tracerWidth / 2, 0, 0},
+			glm::vec3{tracerWidth / 2, 0, 0}, glm::vec3{tracerWidth / 2, 0, tracerLength});
+		addDoubleSidedTriangle(vertices, glm::vec3{-tracerWidth / 2, 0, 0},
+			glm::vec3{-tracerWidth / 2, 0, tracerLength},
+			glm::vec3{tracerWidth / 2, 0, tracerLength});
 
 		return vertices;
+	}
+
+	void BulletGenerator::addDoubleSidedTriangle(std::vector<Vertex>& vertices,
+		const glm::vec3& vertex1Position, const glm::vec3& vertex2Position,
+		const glm::vec3& vertex3Position)
+	{
+		std::array<Vertex, 3> triangle{};
+		triangle[0].position = vertex1Position;
+		triangle[1].position = vertex2Position;
+		triangle[2].position = vertex3Position;
+
+		vertices.push_back(triangle[0]);
+		vertices.push_back(triangle[1]);
+		vertices.push_back(triangle[2]);
+
+		vertices.push_back(triangle[2]);
+		vertices.push_back(triangle[1]);
+		vertices.push_back(triangle[0]);
 	}
 };

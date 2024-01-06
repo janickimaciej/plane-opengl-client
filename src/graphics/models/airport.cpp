@@ -22,7 +22,8 @@ namespace Graphics
 
 	const std::string apronPath = meshPath(modelName, "apron");
 	const std::string groundPath = meshPath(modelName, "ground");
-	const std::string hangarPath = meshPath(modelName, "hangar");
+	const std::string hangarExteriorPath = meshPath(modelName, "hangarExterior");
+	const std::string hangarInteriorPath = meshPath(modelName, "hangarInterior");
 	const std::string lightPath = meshPath(modelName, "light");
 	const std::string lightBodyPath = meshPath(modelName, "lightBody");
 	const std::string runwayPath = meshPath(modelName, "runway");
@@ -43,7 +44,8 @@ namespace Graphics
 	constexpr float lightsCutoffOuterDeg = 35;
 
 	const Material ground{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
-	const Material tent{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
+	const Material tentExterior{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
+	const Material tentInterior{glm::vec3{0.5, 0.5, 0.5}, 0.75, 0, 10, false};
 	const Material concrete{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
 	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10, true};
 	const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1, false};
@@ -62,14 +64,18 @@ namespace Graphics
 		m_tower{surfaceShaderProgram, fileMeshManager.get(towerPath), concrete,
 			textureManager.get(concretePath)}
 	{
-		const Submodel hangarSubmodel{surfaceShaderProgram, fileMeshManager.get(hangarPath),
-			tent, textureManager.get(tentPath)};
+		const Submodel hangarExteriorSubmodel{surfaceShaderProgram,
+			fileMeshManager.get(hangarExteriorPath), tentExterior, textureManager.get(tentPath)};
+		const Submodel hangarInteriorSubmodel{surfaceShaderProgram,
+			fileMeshManager.get(hangarInteriorPath), tentInterior, textureManager.get(tentPath)};
 		for (std::size_t i = 0; i < hangarCount; ++i)
 		{
-			m_hangars.push_back(hangarSubmodel);
+			m_hangarExteriors.push_back(hangarExteriorSubmodel);
+			m_hangarInteriors.push_back(hangarInteriorSubmodel);
 
 			constexpr float hangarsGapZ = 46;
-			m_hangars[i].translate(glm::vec3{0, 0, -hangarsGapZ * static_cast<int>(i)});
+			m_hangarExteriors[i].translate(glm::vec3{0, 0, -hangarsGapZ * static_cast<int>(i)});
+			m_hangarInteriors[i].translate(glm::vec3{0, 0, -hangarsGapZ * static_cast<int>(i)});
 		}
 
 		const Submodel lightBodySubmodel{surfaceShaderProgram,
@@ -116,9 +122,13 @@ namespace Graphics
 		m_runway.render(getMatrix());
 		m_apron.render(getMatrix());
 		m_tower.render(getMatrix());
-		for (const Submodel& hangar : m_hangars)
+		for (const Submodel& hangarExterior : m_hangarExteriors)
 		{
-			hangar.render(getMatrix());
+			hangarExterior.render(getMatrix());
+		}
+		for (const Submodel& hangarInterior : m_hangarInteriors)
+		{
+			hangarInterior.render(getMatrix());
 		}
 		for (const Submodel& lightBody : m_lightBodies)
 		{

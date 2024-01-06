@@ -99,6 +99,7 @@ namespace App
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
+		glEnable(GL_CULL_FACE);
 	}
 
 	void RenderingThread::resizeWindow(GLFWwindow* window, int width, int height)

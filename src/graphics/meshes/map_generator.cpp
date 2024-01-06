@@ -28,26 +28,6 @@ namespace Graphics
 				std::array<Vertex, 3> triangle1{};
 				std::array<Vertex, 3> triangle2{};
 
-				triangle1[0].position = calcPosition(i * spacingX, j * spacingZ, terrain);
-				triangle1[0].texturePosition = glm::vec2{0, 0};
-				triangle1[0].normalVector = calcNormalVector(i * spacingX, j * spacingZ,
-					terrain);
-
-				triangle1[1].position = calcPosition((i + 1) * spacingX, j * spacingZ, terrain);
-				triangle1[1].texturePosition = glm::vec2{1, 0};
-				triangle1[1].normalVector = calcNormalVector((i + 1) * spacingX, j * spacingZ,
-					terrain);
-
-				triangle1[2].position = calcPosition((i + 1) * spacingX, (j + 1) * spacingZ,
-					terrain);
-				triangle1[2].texturePosition = glm::vec2{1, 1};
-				triangle1[2].normalVector = calcNormalVector((i + 1) * spacingX, (j + 1) * spacingZ,
-					terrain);
-
-				vertices.push_back(triangle1[0]);
-				vertices.push_back(triangle1[1]);
-				vertices.push_back(triangle1[2]);
-
 				triangle2[0].position = calcPosition(i * spacingX, j * spacingZ, terrain);
 				triangle2[0].texturePosition = glm::vec2{0, 0};
 				triangle2[0].normalVector = calcNormalVector(i * spacingX, j * spacingZ, terrain);
@@ -66,6 +46,26 @@ namespace Graphics
 				vertices.push_back(triangle2[0]);
 				vertices.push_back(triangle2[1]);
 				vertices.push_back(triangle2[2]);
+
+				triangle1[0].position = calcPosition(i * spacingX, j * spacingZ, terrain);
+				triangle1[0].texturePosition = glm::vec2{0, 0};
+				triangle1[0].normalVector = calcNormalVector(i * spacingX, j * spacingZ,
+					terrain);
+
+				triangle1[1].position = calcPosition((i + 1) * spacingX, (j + 1) * spacingZ,
+					terrain);
+				triangle1[1].texturePosition = glm::vec2{1, 1};
+				triangle1[1].normalVector = calcNormalVector((i + 1) * spacingX, (j + 1) * spacingZ,
+					terrain);
+
+				triangle1[2].position = calcPosition((i + 1) * spacingX, j * spacingZ, terrain);
+				triangle1[2].texturePosition = glm::vec2{1, 0};
+				triangle1[2].normalVector = calcNormalVector((i + 1) * spacingX, j * spacingZ,
+					terrain);
+
+				vertices.push_back(triangle1[0]);
+				vertices.push_back(triangle1[1]);
+				vertices.push_back(triangle1[2]);
 			}
 		}
 

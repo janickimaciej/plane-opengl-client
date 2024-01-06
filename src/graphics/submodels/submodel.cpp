@@ -6,6 +6,7 @@
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 #include <memory>
@@ -43,6 +44,16 @@ namespace Graphics
 		{
 			m_texture->use();
 		}
+
+		if (isWindingOrderClockwise())
+		{
+			glFrontFace(GL_CW);
+		}
+		else
+		{
+			glFrontFace(GL_CCW);
+		}
+
 		m_mesh->render();
 	}
 

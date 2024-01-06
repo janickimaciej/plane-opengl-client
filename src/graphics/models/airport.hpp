@@ -30,7 +30,8 @@ namespace Graphics
 		Submodel m_runway;
 		Submodel m_apron;
 		Submodel m_tower;
-		std::vector<Submodel> m_hangars{};
+		std::vector<Submodel> m_hangarExteriors{};
+		std::vector<Submodel> m_hangarInteriors{};
 		std::vector<Submodel> m_lightBodies{};
 		std::vector<std::unique_ptr<SpotLight>> m_lights{};
 		std::vector<LightSubmodel> m_lightSubmodels{};
