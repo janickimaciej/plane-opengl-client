@@ -155,7 +155,7 @@ namespace Graphics
 	void JW1::setHP(int hp)
 	{
 		Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
-		if (m_hp > 0 && hp == 0)
+		if (!m_isDestroyed && hp == 0)
 		{
 			m_cone.setMaterial(red);
 			m_gun.setMaterial(red);
@@ -175,8 +175,9 @@ namespace Graphics
 			m_rightRudder.setMaterial(red);
 			m_leftAileron.setMaterial(red);
 			m_rightAileron.setMaterial(red);
+			m_isDestroyed = true;
 		}
-		else if (m_hp == 0 && hp > 0)
+		else if (m_isDestroyed && hp > 0)
 		{
 			m_cone.setMaterial(texturedMetal);
 			m_gun.setMaterial(texturedMetal);
@@ -196,6 +197,7 @@ namespace Graphics
 			m_rightRudder.setMaterial(texturedMetal);
 			m_leftAileron.setMaterial(texturedMetal);
 			m_rightAileron.setMaterial(texturedMetal);
+			m_isDestroyed = false;
 		}
 		Airplane::setHP(hp);
 	}

@@ -35,6 +35,7 @@ namespace Graphics
 		SpotLight m_rightLight;
 		LightSubmodel m_rightLightSubmodel;
 
+		bool m_isDestroyed = false;
 		float m_propellerAngVelocityDeg{};
 
 		virtual void renderSurfaces() const override;

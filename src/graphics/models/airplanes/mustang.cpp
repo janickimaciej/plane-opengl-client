@@ -94,7 +94,7 @@ namespace Graphics
 	void Mustang::setHP(int hp)
 	{
 		Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
-		if (m_hp > 0 && hp == 0)
+		if (!m_isDestroyed && hp == 0)
 		{
 			m_cap.setMaterial(red);
 			m_propeller.setMaterial(red);
@@ -103,8 +103,9 @@ namespace Graphics
 			m_tires.setMaterial(red);
 			m_leftLightSubmodel.setMaterial(red);
 			m_rightLightSubmodel.setMaterial(red);
+			m_isDestroyed = true;
 		}
-		else if (m_hp == 0 && hp > 0)
+		else if (m_isDestroyed && hp > 0)
 		{
 			m_cap.setMaterial(metal);
 			m_propeller.setMaterial(metal);
@@ -113,6 +114,7 @@ namespace Graphics
 			m_tires.setMaterial(rubber);
 			m_leftLightSubmodel.setMaterial(whiteLightGlass);
 			m_rightLightSubmodel.setMaterial(whiteLightGlass);
+			m_isDestroyed = false;
 		}
 		Airplane::setHP(hp);
 	}

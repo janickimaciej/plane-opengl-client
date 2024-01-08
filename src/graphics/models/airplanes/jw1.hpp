@@ -45,6 +45,8 @@ namespace Graphics
 		Submodel m_leftAileron;
 		Submodel m_rightAileron;
 
+		bool m_isDestroyed = false;
+
 		virtual void renderSurfaces() const override;
 		virtual void renderLights() const override;
 	};
