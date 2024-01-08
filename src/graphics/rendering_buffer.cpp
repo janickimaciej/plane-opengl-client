@@ -1,5 +1,6 @@
 #include "graphics/rendering_buffer.hpp"
 
+#include "common/map_name.hpp"
 #include "common/scene_info.hpp"
 #include "graphics/rendering_buffer_element.hpp"
 #include "graphics/scene.hpp"
@@ -13,7 +14,8 @@ namespace Graphics
 		m_ownId{ownId}
 	{ }
 
-	void RenderingBuffer::initialize(Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName)
+	void RenderingBuffer::initialize(Common::AirplaneTypeName ownAirplaneTypeName,
+		Common::MapName mapName)
 	{
 		m_scene = std::make_unique<Scene>(m_ownId, ownAirplaneTypeName, mapName);
 	}

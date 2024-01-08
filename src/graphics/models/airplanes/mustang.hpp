@@ -22,6 +22,7 @@ namespace Graphics
 			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
 		virtual void setCtrl(const Common::AirplaneCtrl& airplaneCtrl) override;
+		virtual void setHP(int hp) override;
 
 	private:
 		Submodel m_cap;

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "common/map_name.hpp"
 #include "graphics/asset_manager.hpp"
-#include "graphics/maps/map_name.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
@@ -20,7 +20,7 @@ namespace Graphics
 		virtual void render() const = 0;
 		virtual ~Map() = default;
 
-		static std::unique_ptr<Map> createMap(MapName mapName, WorldShading& worldShading,
+		static std::unique_ptr<Map> createMap(Common::MapName mapName, WorldShading& worldShading,
 			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 			AssetManager<std::string, const Mesh>& fileMeshManager,
 			AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,

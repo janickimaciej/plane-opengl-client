@@ -42,4 +42,9 @@ namespace Graphics
 		const ShaderProgram& lightShaderProgram) :
 		Model{surfaceShaderProgram, lightShaderProgram}
 	{ }
+
+	void Airplane::setHP(int hp)
+	{
+		m_hp = hp;
+	}
 };

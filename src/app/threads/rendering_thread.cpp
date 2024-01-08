@@ -7,7 +7,7 @@
 #include "app/threads/network_thread.hpp"
 #include "app/window_payload.hpp"
 #include "common/airplane_type_name.hpp"
-#include "graphics/maps/map_name.hpp"
+#include "common/map_name.hpp"
 #include "graphics/time.hpp"
 #include "physics/player_input.hpp"
 
@@ -27,7 +27,7 @@ namespace App
 	{ }
 
 	void RenderingThread::start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
-		Graphics::MapName mapName, const std::string& serverIPAddress, int serverNetworkThreadPort,
+		Common::MapName mapName, const std::string& serverIPAddress, int serverNetworkThreadPort,
 		int serverPhysicsThreadPort, int clientNetworkThreadPort, int clientPhysicsThreadPort)
 	{
 		std::shared_ptr<std::binary_semaphore> semaphore =
@@ -37,9 +37,10 @@ namespace App
 				semaphore->release();
 			});
 
-		NetworkThread networkThread{m_exitSignal, gameMode, airplaneTypeName, serverIPAddress,
-			serverNetworkThreadPort, serverPhysicsThreadPort, clientNetworkThreadPort,
-			clientPhysicsThreadPort, m_ownInput, m_renderingBuffer, semaphore};
+		NetworkThread networkThread{m_exitSignal, gameMode, airplaneTypeName, mapName,
+			serverIPAddress, serverNetworkThreadPort, serverPhysicsThreadPort,
+			clientNetworkThreadPort, clientPhysicsThreadPort, m_ownInput, m_renderingBuffer,
+			semaphore};
 
 		initializeWindow();
 		semaphore->acquire();

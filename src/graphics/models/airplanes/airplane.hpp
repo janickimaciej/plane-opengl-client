@@ -22,10 +22,13 @@ namespace Graphics
 			AssetManager<std::string, const Texture>& textureManager,
 			Common::AirplaneTypeName airplaneTypeName);
 		virtual void setCtrl(const Common::AirplaneCtrl& airplaneCtrl) = 0;
+		virtual void setHP(int hp);
 		virtual ~Airplane() = default;
 
 	protected:
 		Airplane(const ShaderProgram& surfaceShaderProgram,
 			const ShaderProgram& lightShaderProgram);
+
+		int m_hp{};
 	};
 };

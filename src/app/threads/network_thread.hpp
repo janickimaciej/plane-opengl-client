@@ -5,7 +5,7 @@
 #include "app/own_input.hpp"
 #include "app/udp/udp_communication.hpp"
 #include "common/airplane_type_name.hpp"
-#include "graphics/maps/map_name.hpp"
+#include "common/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/notification.hpp"
 #include "physics/simulation_buffer.hpp"
@@ -22,10 +22,10 @@ namespace App
 	{
 	public:
 		NetworkThread(ExitSignal& exitSignal, GameMode gameMode,
-			Common::AirplaneTypeName airplaneTypeName, const std::string& serverIPAddress,
-			int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
-			int clientPhysicsThreadPort, OwnInput& ownInput,
-			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
+			Common::AirplaneTypeName airplaneTypeName, Common::MapName mapName,
+			const std::string& serverIPAddress, int serverNetworkThreadPort,
+			int serverPhysicsThreadPort, int clientNetworkThreadPort, int clientPhysicsThreadPort,
+			OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
 			const std::shared_ptr<std::binary_semaphore>& renderingThreadSemaphore);
 		void join();
 
@@ -41,12 +41,13 @@ namespace App
 		Physics::Timestep m_frameCutoff{};
 		std::unique_ptr<UDPCommunication> m_udpCommunication;
 
-		void start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName, OwnInput& ownInput,
+		void start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
+			Common::MapName mapName, OwnInput& ownInput,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
 			std::shared_ptr<std::binary_semaphore> renderingThreadSemaphore);
-		bool startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
+		bool startMultiplayer(Common::AirplaneTypeName airplaneTypeName, Common::MapName mapName,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
-		void startSingleplayer(Common::AirplaneTypeName airplaneTypeName,
+		void startSingleplayer(Common::AirplaneTypeName airplaneTypeName, Common::MapName mapName,
 			std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer);
 		void mainLoopMultiplayer();
 

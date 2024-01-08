@@ -152,6 +152,54 @@ namespace Graphics
 		m_rightNozzleGlass.setMaterial(nozzleGlass);
 	}
 
+	void JW1::setHP(int hp)
+	{
+		Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
+		if (m_hp > 0 && hp == 0)
+		{
+			m_cone.setMaterial(red);
+			m_gun.setMaterial(red);
+			m_cockpit.setMaterial(red);
+			m_fuselage.setMaterial(red);
+			m_leftEngine.setMaterial(red);
+			m_rightEngine.setMaterial(red);
+			m_leftNozzle.setMaterial(red);
+			m_rightNozzle.setMaterial(red);
+			m_leftWing.setMaterial(red);
+			m_rightWing.setMaterial(red);
+			m_leftVStab.setMaterial(red);
+			m_rightVStab.setMaterial(red);
+			m_leftElevator.setMaterial(red);
+			m_rightElevator.setMaterial(red);
+			m_leftRudder.setMaterial(red);
+			m_rightRudder.setMaterial(red);
+			m_leftAileron.setMaterial(red);
+			m_rightAileron.setMaterial(red);
+		}
+		else if (m_hp == 0 && hp > 0)
+		{
+			m_cone.setMaterial(texturedMetal);
+			m_gun.setMaterial(texturedMetal);
+			m_cockpit.setMaterial(blackGlass);
+			m_fuselage.setMaterial(texturedMetal);
+			m_leftEngine.setMaterial(texturedMetal);
+			m_rightEngine.setMaterial(texturedMetal);
+			m_leftNozzle.setMaterial(darkMetal);
+			m_rightNozzle.setMaterial(darkMetal);
+			m_leftWing.setMaterial(texturedMetal);
+			m_rightWing.setMaterial(texturedMetal);
+			m_leftVStab.setMaterial(texturedMetal);
+			m_rightVStab.setMaterial(texturedMetal);
+			m_leftElevator.setMaterial(texturedMetal);
+			m_rightElevator.setMaterial(texturedMetal);
+			m_leftRudder.setMaterial(texturedMetal);
+			m_rightRudder.setMaterial(texturedMetal);
+			m_leftAileron.setMaterial(texturedMetal);
+			m_rightAileron.setMaterial(texturedMetal);
+		}
+		Airplane::setHP(hp);
+	}
+
 	void JW1::renderSurfaces() const
 	{
 		m_cone.render(getMatrix());

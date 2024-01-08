@@ -23,6 +23,7 @@
     <ClCompile Include="core\app\udp\udp_frame_type.cpp" />
     <ClCompile Include="core\app\udp\udp_serializer.cpp" />
     <ClCompile Include="core\common\airplane_type_name.cpp" />
+    <ClCompile Include="core\common\map_name.cpp" />
     <ClCompile Include="core\common\terrains\composite_terrain.cpp" />
     <ClCompile Include="core\common\terrains\hill.cpp" />
     <ClCompile Include="core\common\terrains\maps\airport_map.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="core\common\transformable.cpp" />
     <ClCompile Include="core\physics\airplane_params\airplane_params.cpp" />
     <ClCompile Include="core\physics\atmosphere.cpp" />
+    <ClCompile Include="core\physics\collisions\collision_test.cpp" />
     <ClCompile Include="core\physics\day_night_cycle.cpp" />
     <ClCompile Include="core\physics\flight_ctrl.cpp" />
     <ClCompile Include="core\physics\models\airplane.cpp" />
@@ -45,6 +47,7 @@
     <ClCompile Include="core\physics\notification.cpp" />
     <ClCompile Include="core\physics\scene.cpp" />
     <ClCompile Include="core\physics\simulation_buffer.cpp" />
+    <ClCompile Include="core\physics\simulation_buffer_element.cpp" />
     <ClCompile Include="core\physics\simulation_clock.cpp" />
     <ClCompile Include="core\physics\timestamp.cpp" />
     <ClCompile Include="core\physics\timestep.cpp" />
@@ -111,11 +114,13 @@
     <ClInclude Include="core\common\airplane_type_name.hpp" />
     <ClInclude Include="core\common\bullet_info.hpp" />
     <ClInclude Include="core\common\config.hpp" />
+    <ClInclude Include="core\common\map_name.hpp" />
     <ClInclude Include="core\common\scene_info.hpp" />
     <ClInclude Include="core\common\terrains\maps\airport_map.hpp" />
     <ClInclude Include="core\common\terrains\composite_terrain.hpp" />
     <ClInclude Include="core\common\terrains\maps\hills_map.hpp" />
     <ClInclude Include="core\common\terrains\maps\map.hpp" />
+    <ClInclude Include="core\common\terrains\maps\maps.hpp" />
     <ClInclude Include="core\common\terrains\terrain.hpp" />
     <ClInclude Include="core\common\terrains\hill.hpp" />
     <ClInclude Include="core\common\state.hpp" />
@@ -132,6 +137,9 @@
     <ClInclude Include="core\physics\airplane_params_database\jw1.hpp" />
     <ClInclude Include="core\physics\airplane_params_database\mustang.hpp" />
     <ClInclude Include="core\physics\atmosphere.hpp" />
+    <ClInclude Include="core\physics\collisions\collision_test.hpp" />
+    <ClInclude Include="core\physics\collisions\airplane.hpp" />
+    <ClInclude Include="core\physics\collisions\ellipsoid.hpp" />
     <ClInclude Include="core\physics\day_night_cycle.hpp" />
     <ClInclude Include="core\physics\flight_ctrl.hpp" />
     <ClInclude Include="core\physics\models\airplane.hpp" />
@@ -181,7 +189,6 @@
     <ClInclude Include="src\graphics\asset_manager.hpp" />
     <ClInclude Include="src\graphics\maps\airport_map.hpp" />
     <ClInclude Include="src\graphics\maps\map.hpp" />
-    <ClInclude Include="src\graphics\maps\map_name.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\airplane.hpp" />
     <ClInclude Include="src\graphics\models\airport.hpp" />
     <ClInclude Include="src\graphics\models\directional_light_model.hpp" />

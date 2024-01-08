@@ -3,11 +3,11 @@
 #include "common/airplane_info.hpp"
 #include "common/airplane_type_name.hpp"
 #include "common/bullet_info.hpp"
+#include "common/map_name.hpp"
 #include "common/scene_info.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/maps/map.hpp"
-#include "graphics/maps/map_name.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/meshes/procedural_mesh_name.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
@@ -27,7 +27,7 @@ namespace Graphics
 	class Scene
 	{
 	public:
-		Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName);
+		Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, Common::MapName mapName);
 		void update(const Common::SceneInfo& sceneInfo);
 		void updateShaders(float aspectRatio);
 		void render() const;

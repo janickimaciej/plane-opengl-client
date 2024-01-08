@@ -3,12 +3,12 @@
 #include "common/airplane_info.hpp"
 #include "common/airplane_type_name.hpp"
 #include "common/bullet_info.hpp"
+#include "common/map_name.hpp"
 #include "common/scene_info.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/cameras/model_camera.hpp"
 #include "graphics/maps/map.hpp"
-#include "graphics/maps/map_name.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/shader_program.hpp"
@@ -23,7 +23,7 @@
 
 namespace Graphics
 {
-	Scene::Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, MapName mapName) :
+	Scene::Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, Common::MapName mapName) :
 		m_worldShading{m_surfaceShaderProgram, m_lightShaderProgram}
 	{
 		m_airplanes.insert({ownId, Airplane::createAirplane(m_surfaceShaderProgram,
@@ -102,6 +102,7 @@ namespace Graphics
 			}
 			m_airplanes.at(airplaneInfo.first)->setState(airplaneInfo.second.state);
 			m_airplanes.at(airplaneInfo.first)->setCtrl(airplaneInfo.second.airplaneCtrl);
+			m_airplanes.at(airplaneInfo.first)->setHP(airplaneInfo.second.hp);
 		}
 	}
 

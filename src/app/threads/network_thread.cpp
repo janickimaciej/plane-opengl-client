@@ -9,7 +9,7 @@
 #include "app/udp/udp_frame_type.hpp"
 #include "common/airplane_type_name.hpp"
 #include "common/config.hpp"
-#include "graphics/maps/map_name.hpp"
+#include "common/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/airplane_definitions.hpp"
 #include "physics/notification.hpp"
@@ -29,10 +29,10 @@
 namespace App
 {
 	NetworkThread::NetworkThread(ExitSignal& exitSignal, GameMode gameMode,
-		Common::AirplaneTypeName airplaneTypeName, const std::string& serverIPAddress,
-		int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
-		int clientPhysicsThreadPort, OwnInput& ownInput,
-		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
+		Common::AirplaneTypeName airplaneTypeName, Common::MapName mapName,
+		const std::string& serverIPAddress, int serverNetworkThreadPort,
+		int serverPhysicsThreadPort, int clientNetworkThreadPort, int clientPhysicsThreadPort,
+		OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
 		const std::shared_ptr<std::binary_semaphore>& renderingThreadSemaphore) :
 		m_exitSignal{exitSignal}
 	{
@@ -43,10 +43,10 @@ namespace App
 				clientPhysicsThreadPort);
 		}
 		m_thread = std::thread(
-			[this, gameMode, airplaneTypeName, &ownInput, &renderingBuffer,
+			[this, gameMode, airplaneTypeName, mapName, &ownInput, &renderingBuffer,
 				renderingThreadSemaphore]
 			{
-				this->start(gameMode, airplaneTypeName, ownInput, renderingBuffer,
+				this->start(gameMode, airplaneTypeName, mapName, ownInput, renderingBuffer,
 					std::move(renderingThreadSemaphore));
 			});
 	}
@@ -57,12 +57,13 @@ namespace App
 	}
 
 	void NetworkThread::start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
-		OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
+		Common::MapName mapName, OwnInput& ownInput,
+		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
 		std::shared_ptr<std::binary_semaphore> renderingThreadSemaphore)
 	{
 		if (gameMode == GameMode::multiplayer)
 		{
-			if (!startMultiplayer(airplaneTypeName, renderingBuffer))
+			if (!startMultiplayer(airplaneTypeName, mapName, renderingBuffer))
 			{
 				m_exitSignal.exit(ExitCode::failedToConnect);
 				return;
@@ -70,7 +71,7 @@ namespace App
 		}
 		else
 		{
-			startSingleplayer(airplaneTypeName, renderingBuffer);
+			startSingleplayer(airplaneTypeName, mapName, renderingBuffer);
 		}
 		PhysicsThread physicsThread{m_exitSignal, gameMode, m_simulationClock, *m_simulationBuffer,
 			m_ownId, m_notification, *renderingBuffer, ownInput, m_udpCommunication.get(),
@@ -93,7 +94,7 @@ namespace App
 	}
 
 	bool NetworkThread::startMultiplayer(Common::AirplaneTypeName airplaneTypeName,
-		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
+		Common::MapName mapName, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
 	{
 		static constexpr int initReqFrameCount = 10;
 		for (int i = 0; i < initReqFrameCount; ++i)
@@ -115,7 +116,7 @@ namespace App
 
 		m_simulationClock.initializeOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
 
-		m_simulationBuffer = std::make_unique<Physics::SimulationBuffer>(m_ownId);
+		m_simulationBuffer = std::make_unique<Physics::SimulationBuffer>(m_ownId, mapName);
 		renderingBuffer = std::make_unique<Graphics::RenderingBuffer>(m_ownId);
 
 		Physics::Timestep initialTimestep{};
@@ -135,10 +136,10 @@ namespace App
 	}
 
 	void NetworkThread::startSingleplayer(Common::AirplaneTypeName airplaneTypeName,
-		std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
+		Common::MapName mapName, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer)
 	{
 		constexpr int ownId = 0;
-		m_simulationBuffer = std::make_unique<Physics::SimulationBuffer>(ownId);
+		m_simulationBuffer = std::make_unique<Physics::SimulationBuffer>(ownId, mapName);
 		renderingBuffer = std::make_unique<Graphics::RenderingBuffer>(ownId);
 
 		Physics::Timestep initialTimestep = m_simulationClock.getTime();

@@ -8,7 +8,7 @@
 #include "app/window_input.hpp"
 #include "app/window_payload.hpp"
 #include "common/airplane_type_name.hpp"
-#include "graphics/maps/map_name.hpp"
+#include "common/map_name.hpp"
 #include "graphics/rendering_buffer.hpp"
 
 #include <glfw/glfw3.h>
@@ -23,7 +23,7 @@ namespace App
 	public:
 		RenderingThread(ExitSignal& exitSignal, ControllerType controllerType);
 		void start(GameMode gameMode, Common::AirplaneTypeName airplaneTypeName,
-			Graphics::MapName mapName, const std::string& serverIPAddress,
+			Common::MapName mapName, const std::string& serverIPAddress,
 			int serverNetworkThreadPort, int serverPhysicsThreadPort, int clientNetworkThreadPort,
 			int clientPhysicsThreadPort);
 

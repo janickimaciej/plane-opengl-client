@@ -90,6 +90,32 @@ namespace Graphics
 		m_propellerAngVelocityDeg = airplaneCtrl.thrustRelative * maxPropellerAngVelocityDeg;
 		m_propeller.rotateRoll(glm::radians(m_propellerAngVelocityDeg) * Time::getDeltaTime());
 	}
+
+	void Mustang::setHP(int hp)
+	{
+		Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
+		if (m_hp > 0 && hp == 0)
+		{
+			m_cap.setMaterial(red);
+			m_propeller.setMaterial(red);
+			m_body.setMaterial(red);
+			m_joins.setMaterial(red);
+			m_tires.setMaterial(red);
+			m_leftLightSubmodel.setMaterial(red);
+			m_rightLightSubmodel.setMaterial(red);
+		}
+		else if (m_hp == 0 && hp > 0)
+		{
+			m_cap.setMaterial(metal);
+			m_propeller.setMaterial(metal);
+			m_body.setMaterial(texturedMetal);
+			m_joins.setMaterial(metal);
+			m_tires.setMaterial(rubber);
+			m_leftLightSubmodel.setMaterial(whiteLightGlass);
+			m_rightLightSubmodel.setMaterial(whiteLightGlass);
+		}
+		Airplane::setHP(hp);
+	}
 	
 	void Mustang::renderSurfaces() const
 	{

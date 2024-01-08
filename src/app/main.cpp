@@ -5,7 +5,7 @@
 #include "app/exit_signal.hpp"
 #include "app/game_mode.hpp"
 #include "common/airplane_type_name.hpp"
-#include "graphics/maps/map_name.hpp"
+#include "common/map_name.hpp"
 
 #include <cstddef>
 #include <semaphore>
@@ -15,7 +15,7 @@ namespace App
 {
 	bool parseArguments(int argc, char** argv, GameMode& gameMode,
 		ControllerType& controllerType, Common::AirplaneTypeName& airplaneTypeName,
-		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverNetworkThreadPort,
+		Common::MapName& mapName, std::string& serverIPAddress, int& serverNetworkThreadPort,
 		int& serverPhysicsThreadPort, int& clientNetworkThreadPort, int& clientPhysicsThreadPort);
 	bool isValidIPAddress(const std::string& serverIPAddress);
 };
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	GameMode gameMode{};
 	ControllerType controllerType{};
 	Common::AirplaneTypeName airplaneTypeName{};
-	Graphics::MapName mapName{};
+	Common::MapName mapName{};
 	std::string serverIPAddress{};
 	int serverNetworkThreadPort{};
 	int serverPhysicsThreadPort{};
@@ -54,7 +54,7 @@ namespace App
 {
 	bool parseArguments(int argc, char** argv, GameMode& gameMode,
 		ControllerType& controllerType, Common::AirplaneTypeName& airplaneTypeName,
-		Graphics::MapName& mapName, std::string& serverIPAddress, int& serverNetworkThreadPort,
+		Common::MapName& mapName, std::string& serverIPAddress, int& serverNetworkThreadPort,
 		int& serverPhysicsThreadPort, int& clientNetworkThreadPort, int& clientPhysicsThreadPort)
 	{
 		if (argc < 2)
@@ -92,11 +92,11 @@ namespace App
 		airplaneTypeName = static_cast<Common::AirplaneTypeName>(airplaneTypeNameIndex);
 
 		int mapNameIndex = std::stoi(argv[toSizeT(CommandLineArgument::map)]);
-		if (mapNameIndex < 0 || mapNameIndex >= Graphics::mapCount)
+		if (mapNameIndex < 0 || mapNameIndex >= Common::mapCount)
 		{
 			return false;
 		}
-		mapName = static_cast<Graphics::MapName>(mapNameIndex);
+		mapName = static_cast<Common::MapName>(mapNameIndex);
 
 		if (gameMode == GameMode::singleplayer)
 		{
