@@ -112,7 +112,7 @@ namespace App
 			return false;
 		}
 
-		m_udpCommunication->sendKeepAliveFrameSync();
+		m_udpCommunication->sendKeepaliveFrames();
 
 		m_simulationClock.initializeOffset(sendTimestamp, receiveTimestamp, serverTimestamp);
 
@@ -147,7 +147,7 @@ namespace App
 		Physics::PlayerInfo ownInfo;
 
 		ownInfo.state.hp = Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialHP;
-		constexpr glm::vec3 initialPosition{0, 500, 5000};
+		constexpr glm::vec3 initialPosition{10000, 500, 20000};
 		ownInfo.state.state.position = initialPosition;
 		ownInfo.state.state.velocity =
 			Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialVelocity;
@@ -201,6 +201,7 @@ namespace App
 			}
 			else if (udpFrameType == UDPFrameType::state)
 			{
+				m_udpCommunication->sendKeepaliveFrames();
 				handleStateFrame(timestep, playerInfos);
 			}
 		}

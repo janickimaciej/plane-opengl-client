@@ -27,8 +27,7 @@ namespace App
 		void sendInitReqFrame(Common::AirplaneTypeName airplaneTypeName);
 		void sendControlFrame(const Physics::Timestep& timestep, int playerId,
 			const Physics::PlayerInput& playerInput);
-		void sendKeepAliveFrameSync();
-		void sendKeepAliveFrameAsync();
+		void sendKeepaliveFrames();
 
 		bool receiveInitResFrame(Physics::Timestamp& sendTimestamp,
 			Physics::Timestamp& receiveTimestamp, Physics::Timestamp& serverTimestamp,

@@ -57,22 +57,12 @@ namespace App
 			std::bind(completionHandler, buffer));
 	}
 	
-	void UDPCommunication::sendKeepAliveFrameSync()
+	void UDPCommunication::sendKeepaliveFrames()
 	{
 		std::vector<std::uint8_t> buffer{};
 
+		m_networkThreadSocket.send_to(asio::buffer(buffer), m_serverNetworkThread);
 		m_networkThreadSocket.send_to(asio::buffer(buffer), m_serverPhysicsThread);
-	}
-	
-	void UDPCommunication::sendKeepAliveFrameAsync()
-	{
-		std::shared_ptr<std::vector<std::uint8_t>> buffer =
-			std::make_shared<std::vector<std::uint8_t>>();
-
-		m_physicsThreadIOContext.run();
-		m_physicsThreadIOContext.reset();
-		m_physicsThreadSocket.async_send_to(asio::buffer(*buffer), m_serverPhysicsThread,
-			std::bind(completionHandler, buffer));
 	}
 
 	bool UDPCommunication::receiveInitResFrame(Physics::Timestamp& sendTimestamp,
