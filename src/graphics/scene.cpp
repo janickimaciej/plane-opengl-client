@@ -30,8 +30,8 @@ namespace Graphics
 			m_lightShaderProgram, m_fileMeshManager, m_textureManager, ownAirplaneTypeName)});
 
 		constexpr float FoVDeg = 60;
-		constexpr float nearPlane = 1;
-		constexpr float farPlane = 10000;
+		constexpr float nearPlane = 4;
+		constexpr float farPlane = 20000;
 		m_camera = std::make_unique<ModelCamera>(*m_airplanes.at(ownId), glm::radians(FoVDeg),
 			nearPlane, farPlane, m_surfaceShaderProgram, m_lightShaderProgram);
 		constexpr float cameraPitchDeg = -10;

@@ -46,10 +46,14 @@ namespace Graphics
 	
 	void HillsMap::setModels()
 	{
-		constexpr float moonRotationPitchDeg = -135;
+		constexpr float moonRotationPitchDeg = -15;
+		constexpr float moonRotationYawDeg = 75;
 		m_moon.rotatePitch(glm::radians(moonRotationPitchDeg));
+		m_moon.rotateYaw(glm::radians(moonRotationYawDeg));
 
-		constexpr float sunRotationPitchDeg = -135;
+		constexpr float sunRotationPitchDeg = -15;
+		constexpr float sunRotationYawDeg = 75;
 		m_sun.rotatePitch(glm::radians(sunRotationPitchDeg));
+		m_sun.rotateYaw(glm::radians(sunRotationYawDeg));
 	}
 };

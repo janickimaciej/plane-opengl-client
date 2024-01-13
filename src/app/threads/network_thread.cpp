@@ -147,7 +147,7 @@ namespace App
 		Physics::PlayerInfo ownInfo;
 
 		ownInfo.state.hp = Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialHP;
-		constexpr glm::vec3 initialPosition{10000, 500, 20000};
+		constexpr glm::vec3 initialPosition{10000, 3000, 20000};
 		ownInfo.state.state.position = initialPosition;
 		ownInfo.state.state.velocity =
 			Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialVelocity;

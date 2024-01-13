@@ -30,6 +30,7 @@
     <ClCompile Include="core\common\terrains\maps\hills_map.cpp" />
     <ClCompile Include="core\common\state.cpp" />
     <ClCompile Include="core\common\terrains\maps\map.cpp" />
+    <ClCompile Include="core\common\terrains\value_noise.cpp" />
     <ClCompile Include="core\common\terrains\wave_x.cpp" />
     <ClCompile Include="core\common\terrains\wave_z.cpp" />
     <ClCompile Include="core\common\transformable.cpp" />
@@ -124,9 +125,11 @@
     <ClInclude Include="core\common\terrains\terrain.hpp" />
     <ClInclude Include="core\common\terrains\hill.hpp" />
     <ClInclude Include="core\common\state.hpp" />
+    <ClInclude Include="core\common\terrains\value_noise.hpp" />
     <ClInclude Include="core\common\terrains\wave_x.hpp" />
     <ClInclude Include="core\common\terrains\wave_z.hpp" />
     <ClInclude Include="core\common\transformable.hpp" />
+    <ClInclude Include="core\common\value_noise.hpp" />
     <ClInclude Include="core\physics\airplane_definition.hpp" />
     <ClInclude Include="core\physics\airplane_definitions.hpp" />
     <ClInclude Include="core\physics\airplane_params\airplane_params.hpp" />
