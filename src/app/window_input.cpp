@@ -96,11 +96,11 @@ namespace App
 		GLFWgamepadstate gamepad{};
 		glfwGetGamepadState(GLFW_JOYSTICK_1, &gamepad);
 
-		m_ownInput.pitch = gamepad.axes[3];
+		m_ownInput.pitch = gamepad.axes[1];
 
 		m_ownInput.yaw = (gamepad.axes[5] - gamepad.axes[4]) / 2;
 
-		m_ownInput.roll = gamepad.axes[2];
+		m_ownInput.roll = gamepad.axes[0];
 
 		static bool wasDecreaseThrustPressed = false;
 		if (gamepad.buttons[2] == GLFW_PRESS)
