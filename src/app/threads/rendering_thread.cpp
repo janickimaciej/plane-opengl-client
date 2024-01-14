@@ -87,14 +87,14 @@ namespace App
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_SAMPLES, 4);
-		const int initialWindowWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width / 2; //tmp
-		//const int initialWindowWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width; //tmpc
+		const int initialWindowWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
 		const int initialWindowHeight = glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
 		m_windowPayload.aspectRatio = static_cast<float>(initialWindowWidth) / initialWindowHeight;
 		const std::string windowTitle = "plane-opengl-client";
 		m_window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, windowTitle.c_str(),
-			/*glfwGetPrimaryMonitor()*/nullptr, nullptr); //tmpc
+			glfwGetPrimaryMonitor(), nullptr);
 		glfwSetWindowUserPointer(m_window, &m_windowPayload);
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		glfwMakeContextCurrent(m_window);
 		glfwSetFramebufferSizeCallback(m_window, resizeWindow);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);

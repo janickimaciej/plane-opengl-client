@@ -40,7 +40,7 @@ namespace Graphics
 		switch (ownAirplaneTypeName)
 		{
 		case Common::AirplaneTypeName::mustang:
-			m_camera->translate(glm::vec3{0, 4, 16});
+			m_camera->translate(glm::vec3{0, 5, 16});
 			break;
 
 		case Common::AirplaneTypeName::jw1:
