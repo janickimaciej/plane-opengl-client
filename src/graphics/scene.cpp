@@ -14,7 +14,6 @@
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
-#include "graphics/time.hpp"
 #include "graphics/world_shading.hpp"
 
 #include <cstddef>
@@ -53,19 +52,11 @@ namespace Graphics
 
 	void Scene::update(const Common::SceneInfo& sceneInfo)
 	{
-		m_lastHUDUpdateTime += Time::getDeltaTime();
 		m_map->update(sceneInfo.day, sceneInfo.timeOfDay);
 		addAndUpdateAirplanes(sceneInfo.airplaneInfos);
 		removeAirplanes(sceneInfo.airplaneInfos);
 		updateBullets(sceneInfo.bulletInfos);
-		m_hud.setState(m_airplanes[m_ownId]->getState());
-		if (m_lastHUDUpdateTime >= 1)
-		{
-			Common::State ownAirplaneState = m_airplanes[m_ownId]->getState();
-			m_hud.update(static_cast<int>(glm::length(3.6f * ownAirplaneState.velocity)),
-				static_cast<int>(ownAirplaneState.position.y), m_airplanes[m_ownId]->getHP());
-			m_lastHUDUpdateTime = 0;
-		}
+		m_hud.update(*m_airplanes[m_ownId], *m_map);
 	}
 
 	void Scene::updateShaders(float aspectRatio)

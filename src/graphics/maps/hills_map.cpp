@@ -1,11 +1,13 @@
 #include "graphics/maps/hills_map.hpp"
 
+#include "common/terrains/maps/map.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/meshes/procedural_mesh_name.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/world_shading.hpp"
 
+#include <memory>
 #include <string>
 
 namespace Graphics
@@ -15,7 +17,9 @@ namespace Graphics
 
 	HillsMap::HillsMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
 		AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
-		AssetManager<std::string, const Texture>& textureManager) :
+		AssetManager<std::string, const Texture>& textureManager,
+		std::unique_ptr<Common::Terrains::Map> terrain) :
+		Map{std::move(terrain)},
 		m_hills{surfaceShaderProgram, proceduralMeshManager, textureManager},
 		m_moon{surfaceShaderProgram, moonLight},
 		m_sun{surfaceShaderProgram, sunLight},

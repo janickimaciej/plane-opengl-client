@@ -8,9 +8,9 @@ out vec4 outColor;
 
 void main()
 {
-	vec3 color = texture(textureSampler, texturePosition).xyz;
+	vec4 color = texture(textureSampler, texturePosition);
 	float threshold = 0.01;
-	if (color.x > threshold || color.y > threshold || color.z > threshold)
+	if (color.a < 0.01)
 	{
 		discard;
 	}

@@ -55,8 +55,6 @@ namespace Graphics
 		std::unique_ptr<Camera> m_camera{};
 
 		WorldShading m_worldShading;
-		
-		float m_lastHUDUpdateTime = 1;
 
 		void addAndUpdateAirplanes(
 			const std::unordered_map<int, Common::AirplaneInfo>& airplaneInfos);
