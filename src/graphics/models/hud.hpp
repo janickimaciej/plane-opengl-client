@@ -12,7 +12,9 @@
 
 #include <glm/glm.hpp>
 
+#include <memory>
 #include <string>
+#include <vector>
 
 namespace Graphics
 {
@@ -43,6 +45,8 @@ namespace Graphics
 		TextField m_radarAltitudeUnit;
 		TextField m_hpNumber;
 		TextField m_hpUnit;
+
+		std::vector<std::shared_ptr<const Texture>> m_textureLocks{};
 
 		float m_lastUpdateTime = 1;
 

@@ -3,6 +3,7 @@
 #include "graphics/asset_manager.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/path.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/text_field.hpp"
 #include "graphics/texture.hpp"
@@ -48,7 +49,12 @@ namespace Graphics
 			offset + glm::vec3{-0.3, -3.7, 0}, 0.004f},
 		m_hpUnit{hudShaderProgram, proceduralMeshManager, textureManager, "HP",
 			offset + glm::vec3{0.3, -3.82, 0}, 0.002f}
-	{ }
+	{
+		for (char i = '0'; i <= '9'; ++i)
+		{
+			m_textureLocks.push_back(textureManager.get(texturePath("characters", std::string{i})));
+		}
+	}
 
 	void HUD::updateShaders()
 	{ }
@@ -67,11 +73,13 @@ namespace Graphics
 		if (m_lastUpdateTime >= refreshTime)
 		{
 			Common::State state = ownAirplane.getState();
-			refresh(m_airspeedNumber, 3.6f * glm::length(state.velocity), 4, false);
-			refresh(m_verticalSpeedNumber, (state.orientation * state.velocity).y, 4, true);
-			refresh(m_altitudeNumber, state.position.y, 5, true);
-			refresh(m_radarAltitudeNumber, state.position.y -
-				map.getHeight(state.position.x, state.position.z), 5, true);
+			refresh(m_airspeedNumber, static_cast<int>(3.6f * glm::length(state.velocity)), 4,
+				false);
+			refresh(m_verticalSpeedNumber, static_cast<int>((state.orientation * state.velocity).y),
+				4, true);
+			refresh(m_altitudeNumber, static_cast<int>(state.position.y), 5, true);
+			refresh(m_radarAltitudeNumber, static_cast<int>(state.position.y -
+				map.getHeight(state.position.x, state.position.z)), 5, true);
 			refresh(m_hpNumber, ownAirplane.getHP(), 3, false);
 			m_lastUpdateTime = 0;
 		}

@@ -103,7 +103,7 @@ namespace App
 		m_ownInput.roll = gamepad.axes[0];
 
 		static bool wasDecreaseThrustPressed = false;
-		if (gamepad.buttons[2] == GLFW_PRESS)
+		if (gamepad.buttons[0] == GLFW_PRESS)
 		{
 			if (!wasDecreaseThrustPressed)
 			{
@@ -121,7 +121,7 @@ namespace App
 		}
 
 		static bool wasIncreaseThrustPressed = false;
-		if (gamepad.buttons[1] == GLFW_PRESS)
+		if (gamepad.buttons[3] == GLFW_PRESS)
 		{
 			if (!wasIncreaseThrustPressed)
 			{
@@ -138,12 +138,12 @@ namespace App
 			m_ownInput.thrust = 1;
 		}
 
-		if (gamepad.buttons[0] == GLFW_PRESS)
+		if (gamepad.buttons[2] == GLFW_PRESS)
 		{
 			m_ownInput.thrust = 0;
 		}
 
-		if (gamepad.buttons[3] == GLFW_PRESS)
+		if (gamepad.buttons[1] == GLFW_PRESS)
 		{
 			m_ownInput.thrust = 1;
 		}
