@@ -9,7 +9,8 @@ namespace Graphics
 	{
 	public:
 		PerspectiveCamera(float FoVRad, float nearPlane, float farPlane,
-			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
+			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+			const ShaderProgram& hudShaderProgram);
 		virtual void updateProjectionMatrix() override;
 		virtual ~PerspectiveCamera() = default;
 	};

@@ -24,7 +24,7 @@ namespace Graphics
 
 		case Common::MapName::hills:
 			return std::make_unique<HillsMap>(worldShading, surfaceShaderProgram,
-				lightShaderProgram, proceduralMeshManager, textureManager);
+				proceduralMeshManager, textureManager);
 		}
 		assert(false);
 		return nullptr;

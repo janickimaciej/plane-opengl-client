@@ -12,15 +12,13 @@ namespace Graphics
 	{
 	public:
 		DirectionalLightModel(const ShaderProgram& surfaceShaderProgram,
-			const ShaderProgram& lightShaderProgram, const glm::vec3& lightColor);
+			const glm::vec3& lightColor);
 		void setLightColor(const glm::vec3& color);
 		virtual void updateShaders() override;
+		virtual void render() const override;
 		virtual ~DirectionalLightModel() = default;
 
 	private:
 		DirectionalLight m_light;
-
-		virtual void renderSurfaces() const override;
-		virtual void renderLights() const override;
 	};
 };

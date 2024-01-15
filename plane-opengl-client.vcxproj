@@ -69,6 +69,7 @@
     <ClCompile Include="src\graphics\day_night_cycle.cpp" />
     <ClCompile Include="src\graphics\lights\point_light.cpp" />
     <ClCompile Include="src\graphics\maps\hills_map.cpp" />
+    <ClCompile Include="src\graphics\meshes\billboard_generator.cpp" />
     <ClCompile Include="src\graphics\meshes\bullet_generator.cpp" />
     <ClCompile Include="src\graphics\meshes\map_generator.cpp" />
     <ClCompile Include="src\graphics\models\airplanes\jw1.cpp" />
@@ -76,6 +77,7 @@
     <ClCompile Include="src\graphics\models\bullet.cpp" />
     <ClCompile Include="src\graphics\models\hills.cpp" />
     <ClCompile Include="src\graphics\meshes\mesh_generator.cpp" />
+    <ClCompile Include="src\graphics\models\hud.cpp" />
     <ClCompile Include="src\graphics\submodels\light_submodel.cpp" />
     <ClCompile Include="src\graphics\maps\airport_map.cpp" />
     <ClCompile Include="src\graphics\maps\map.cpp" />
@@ -87,6 +89,7 @@
     <ClCompile Include="src\graphics\path.cpp" />
     <ClCompile Include="src\graphics\rendering_buffer.cpp" />
     <ClCompile Include="src\graphics\scene.cpp" />
+    <ClCompile Include="src\graphics\text_field.cpp" />
     <ClCompile Include="src\graphics\time.cpp" />
     <ClCompile Include="src\graphics\world_shading.cpp" />
     <ClCompile Include="src\graphics\lights\directional_light.cpp" />
@@ -175,19 +178,24 @@
     <ClInclude Include="src\app\threads\rendering_thread.hpp" />
     <ClInclude Include="src\app\udp\udp_communication.hpp" />
     <ClInclude Include="src\app\window_input.hpp" />
+    <ClInclude Include="src\graphics\airplane_camera_positions.hpp" />
+    <ClInclude Include="src\graphics\config.hpp" />
     <ClInclude Include="src\graphics\lights\point_light.hpp" />
     <ClInclude Include="src\graphics\maps\hills_map.hpp" />
+    <ClInclude Include="src\graphics\meshes\billboard_generator.hpp" />
     <ClInclude Include="src\graphics\meshes\bullet_generator.hpp" />
     <ClInclude Include="src\graphics\meshes\map_generator.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\jw1.hpp" />
     <ClInclude Include="src\graphics\models\airplanes\mustang.hpp" />
     <ClInclude Include="src\graphics\models\bullet.hpp" />
+    <ClInclude Include="src\graphics\models\hud.hpp" />
     <ClInclude Include="src\graphics\models\hills.hpp" />
     <ClInclude Include="src\graphics\meshes\mesh_generator.hpp" />
     <ClInclude Include="src\graphics\meshes\procedural_mesh_name.hpp" />
     <ClInclude Include="src\graphics\submodels\light_submodel.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
+    <ClInclude Include="src\graphics\text_field.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
     <ClInclude Include="src\graphics\asset_manager.hpp" />
     <ClInclude Include="src\graphics\maps\airport_map.hpp" />
@@ -224,6 +232,8 @@
     <None Include="src\graphics\shaders\lightVertexShader.glsl" />
     <None Include="src\graphics\shaders\surfaceFragmentShader.glsl" />
     <None Include="src\graphics\shaders\surfaceVertexShader.glsl" />
+    <None Include="src\graphics\shaders\hudFragmentShader.glsl" />
+    <None Include="src\graphics\shaders\hudVertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="res\**\*.obj" />

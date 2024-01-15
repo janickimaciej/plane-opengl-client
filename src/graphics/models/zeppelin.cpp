@@ -17,9 +17,8 @@ namespace Graphics
 	const Material canvas{glm::vec3{0.9, 0.9, 0.9}, 0.75, 0.25, 10, false};
 
 	Zeppelin::Zeppelin(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram,
 		AssetManager<std::string, const Mesh>& fileMeshManager) :
-		Model{surfaceShaderProgram, lightShaderProgram},
+		m_surfaceShaderProgram{surfaceShaderProgram},
 		m_body{surfaceShaderProgram, fileMeshManager.get(fuselagePath), canvas}
 	{
 		constexpr float zeppelinScale = 57;
@@ -29,11 +28,14 @@ namespace Graphics
 	void Zeppelin::updateShaders()
 	{ }
 
+	void Zeppelin::render() const
+	{
+		m_surfaceShaderProgram.use();
+		renderSurfaces();
+	}
+
 	void Zeppelin::renderSurfaces() const
 	{
 		m_body.render(getMatrix());
 	}
-
-	void Zeppelin::renderLights() const
-	{ }
 };

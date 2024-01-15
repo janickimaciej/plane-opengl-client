@@ -13,13 +13,10 @@ namespace Graphics
 	constexpr float transitionLength = 0.1f;
 
 	DayNightCycle::DayNightCycle(DirectionalLightModel& moon, DirectionalLightModel& sun,
-		WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram) :
+		WorldShading& worldShading) :
 		m_moon{moon},
 		m_sun{sun},
-		m_worldShading{worldShading},
-		m_surfaceShaderProgram{surfaceShaderProgram},
-		m_lightShaderProgram{lightShaderProgram}
+		m_worldShading{worldShading}
 	{ }
 
 	void DayNightCycle::setDay(int day)

@@ -38,10 +38,10 @@ namespace Graphics
 		return nullptr;
 	}
 
-	Airplane::Airplane(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram) :
-		Model{surfaceShaderProgram, lightShaderProgram}
-	{ }
+	int Airplane::getHP() const
+	{
+		return m_hp;
+	}
 
 	void Airplane::setHP(int hp)
 	{

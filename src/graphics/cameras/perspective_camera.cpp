@@ -8,8 +8,10 @@
 namespace Graphics
 {
 	PerspectiveCamera::PerspectiveCamera(float FoVRad, float nearPlane, float farPlane,
-		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-		Camera{FoVRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram}
+		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		const ShaderProgram& hudShaderProgram) :
+		Camera{FoVRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram,
+		hudShaderProgram}
 	{ }
 
 	void PerspectiveCamera::updateProjectionMatrix()

@@ -81,6 +81,9 @@
     <ClCompile Include="core\physics\simulation_buffer_element.cpp" />
     <ClCompile Include="core\common\map_name.cpp" />
     <ClCompile Include="core\common\terrains\value_noise.cpp" />
+    <ClCompile Include="src\graphics\meshes\billboard_generator.cpp" />
+    <ClCompile Include="src\graphics\text_field.cpp" />
+    <ClCompile Include="src\graphics\models\hud.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
@@ -198,6 +201,11 @@
     <ClInclude Include="core\common\terrains\maps\maps.hpp" />
     <ClInclude Include="core\common\value_noise.hpp" />
     <ClInclude Include="core\common\terrains\value_noise.hpp" />
+    <ClInclude Include="src\graphics\meshes\billboard_generator.hpp" />
+    <ClInclude Include="src\graphics\text_field.hpp" />
+    <ClInclude Include="src\graphics\models\hud.hpp" />
+    <ClInclude Include="src\graphics\config.hpp" />
+    <ClInclude Include="src\graphics\airplane_camera_positions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />
@@ -206,5 +214,7 @@
     <None Include="src\graphics\shaders\surfaceVertexShader.glsl" />
     <None Include=".gitignore" />
     <None Include=".gitmodules" />
+    <None Include="src\graphics\shaders\hudFragmentShader.glsl" />
+    <None Include="src\graphics\shaders\hudVertexShader.glsl" />
   </ItemGroup>
 </Project>

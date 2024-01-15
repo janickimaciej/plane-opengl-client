@@ -9,8 +9,7 @@
 namespace Graphics
 {
 	DirectionalLightModel::DirectionalLightModel(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram, const glm::vec3& lightColor) :
-		Model{surfaceShaderProgram, lightShaderProgram},
+		const glm::vec3& lightColor) :
 		m_light{surfaceShaderProgram, lightColor}
 	{ }
 
@@ -24,9 +23,6 @@ namespace Graphics
 		m_light.updateShaders(getMatrix());
 	}
 
-	void DirectionalLightModel::renderSurfaces() const
-	{ }
-
-	void DirectionalLightModel::renderLights() const
+	void DirectionalLightModel::render() const
 	{ }
 };

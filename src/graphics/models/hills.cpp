@@ -15,10 +15,10 @@ namespace Graphics
 
 	const Material ground{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
 
-	Hills::Hills(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+	Hills::Hills(const ShaderProgram& surfaceShaderProgram,
 		AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
-		Model{surfaceShaderProgram, lightShaderProgram},
+		m_surfaceShaderProgram{surfaceShaderProgram},
 		m_ground{surfaceShaderProgram, proceduralMeshManager.get(ProceduralMeshName::hills), ground,
 			textureManager.get(grassPath)}
 	{ }
@@ -26,11 +26,14 @@ namespace Graphics
 	void Hills::updateShaders()
 	{ }
 
+	void Hills::render() const
+	{
+		m_surfaceShaderProgram.use();
+		renderSurfaces();
+	}
+
 	void Hills::renderSurfaces() const
 	{
 		m_ground.render(getMatrix());
 	}
-
-	void Hills::renderLights() const
-	{ }
 };

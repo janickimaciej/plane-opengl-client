@@ -8,15 +8,6 @@
 
 namespace Graphics
 {
-	void Model::render() const
-	{
-		m_surfaceShaderProgram.use();
-		renderSurfaces();
-
-		m_lightShaderProgram.use();
-		renderLights();
-	}
-
 	glm::mat4 Model::getModelMatrix() const
 	{
 		return getMatrix();
@@ -31,10 +22,4 @@ namespace Graphics
 	{
 		Transformable::scale(scaleRatio);
 	}
-
-	Model::Model(const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram) :
-		m_surfaceShaderProgram{surfaceShaderProgram},
-		m_lightShaderProgram{lightShaderProgram}
-	{ }
 };

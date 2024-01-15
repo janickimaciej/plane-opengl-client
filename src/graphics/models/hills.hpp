@@ -15,16 +15,18 @@ namespace Graphics
 	class Hills : public Model
 	{
 	public:
-		Hills(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		Hills(const ShaderProgram& surfaceShaderProgram,
 			AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
 			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
+		virtual void render() const override;
 		virtual ~Hills() = default;
 
 	private:
+		const ShaderProgram& m_surfaceShaderProgram;
+
 		Submodel m_ground;
 		
-		virtual void renderSurfaces() const override;
-		virtual void renderLights() const override;
+		void renderSurfaces() const;
 	};
 };

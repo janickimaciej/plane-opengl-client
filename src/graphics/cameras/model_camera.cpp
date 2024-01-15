@@ -9,8 +9,10 @@
 namespace Graphics
 {
 	ModelCamera::ModelCamera(const Model& model, float FoVRad, float nearPlane, float farPlane,
-		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
-		PerspectiveCamera{FoVRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram},
+		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+			const ShaderProgram& hudShaderProgram) :
+		PerspectiveCamera{FoVRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram,
+			hudShaderProgram},
 		m_model{model}
 	{ }
 

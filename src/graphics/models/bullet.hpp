@@ -12,15 +12,17 @@ namespace Graphics
 	class Bullet : public Model
 	{
 	public:
-		Bullet(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		Bullet(const ShaderProgram& lightShaderProgram,
 			AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager);
 		virtual void updateShaders() override;
+		virtual void render() const override;
 		virtual ~Bullet() = default;
 		
 	private:
+		const ShaderProgram& m_lightShaderProgram;
+
 		Submodel m_tracer;
 
-		virtual void renderSurfaces() const override;
-		virtual void renderLights() const override;
+		void renderLights() const;
 	};
 };

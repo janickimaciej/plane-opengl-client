@@ -18,7 +18,6 @@ namespace Graphics
 	{
 	public:
 		HillsMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
-			const ShaderProgram& lightShaderProgram,
 			AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
 			AssetManager<std::string, const Texture>& textureManager);
 		virtual void update(int day, float timeOfDay) override;

@@ -54,7 +54,8 @@ namespace Graphics
 		const ShaderProgram& lightShaderProgram,
 		AssetManager<std::string, const Mesh>& fileMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
-		Model{surfaceShaderProgram, lightShaderProgram},
+		m_surfaceShaderProgram{surfaceShaderProgram},
+		m_lightShaderProgram{lightShaderProgram},
 		m_ground{surfaceShaderProgram, fileMeshManager.get(groundPath), ground,
 			textureManager.get(grassPath)},
 		m_runway{surfaceShaderProgram, fileMeshManager.get(runwayPath), ground,
@@ -114,6 +115,15 @@ namespace Graphics
 		{
 			light->updateShaders(getMatrix());
 		}
+	}
+
+	void Airport::render() const
+	{
+		m_surfaceShaderProgram.use();
+		renderSurfaces();
+
+		m_lightShaderProgram.use();
+		renderLights();
 	}
 
 	void Airport::renderSurfaces() const

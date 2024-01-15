@@ -20,10 +20,14 @@ namespace Graphics
 			AssetManager<std::string, const Mesh>& fileMeshManager,
 			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
+		virtual void render() const override;
 		virtual void setCtrl(const Common::AirplaneCtrl& airplaneCtrl) override;
 		virtual void setHP(int hp) override;
 
 	private:
+		const ShaderProgram& m_surfaceShaderProgram;
+		const ShaderProgram& m_lightShaderProgram;
+
 		Submodel m_cone;
 		Submodel m_gun;
 		Submodel m_cockpit;
@@ -47,7 +51,7 @@ namespace Graphics
 
 		bool m_isDestroyed = false;
 
-		virtual void renderSurfaces() const override;
-		virtual void renderLights() const override;
+		void renderSurfaces() const;
+		void renderLights() const;
 	};
 };

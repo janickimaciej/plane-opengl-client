@@ -21,10 +21,10 @@ namespace Graphics
 		AssetManager<std::string, const Mesh>& fileMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
 		m_airport{surfaceShaderProgram, lightShaderProgram, fileMeshManager, textureManager},
-		m_zeppelin{surfaceShaderProgram, lightShaderProgram, fileMeshManager},
-		m_moon{surfaceShaderProgram, lightShaderProgram, moonLight},
-		m_sun{surfaceShaderProgram, lightShaderProgram, sunLight},
-		m_dayNightCycle{m_moon, m_sun, worldShading, surfaceShaderProgram, lightShaderProgram}
+		m_zeppelin{surfaceShaderProgram, fileMeshManager},
+		m_moon{surfaceShaderProgram, moonLight},
+		m_sun{surfaceShaderProgram, sunLight},
+		m_dayNightCycle{m_moon, m_sun, worldShading}
 	{
 		setModels();
 	}

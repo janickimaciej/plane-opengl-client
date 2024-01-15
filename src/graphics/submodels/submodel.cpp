@@ -87,6 +87,11 @@ namespace Graphics
 		m_material = material;
 	}
 
+	void Submodel::setTexture(const std::shared_ptr<const Texture>& texture)
+	{
+		m_texture = texture;
+	}
+
 	void Submodel::updateShaders(const glm::mat4& modelSubmodelMatrix) const
 	{
 		m_shaderProgram.setUniformMatrix4f("modelSubmodelMatrix", modelSubmodelMatrix);

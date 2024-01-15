@@ -14,13 +14,12 @@ namespace Graphics
 	constexpr glm::vec3 sunLight{1, 1, 1};
 
 	HillsMap::HillsMap(WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
-		const ShaderProgram& lightShaderProgram,
 		AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
-		m_hills{surfaceShaderProgram, lightShaderProgram, proceduralMeshManager, textureManager},
-		m_moon{surfaceShaderProgram, lightShaderProgram, moonLight},
-		m_sun{surfaceShaderProgram, lightShaderProgram, sunLight},
-		m_dayNightCycle{m_moon, m_sun, worldShading, surfaceShaderProgram, lightShaderProgram}
+		m_hills{surfaceShaderProgram, proceduralMeshManager, textureManager},
+		m_moon{surfaceShaderProgram, moonLight},
+		m_sun{surfaceShaderProgram, sunLight},
+		m_dayNightCycle{m_moon, m_sun, worldShading}
 	{
 		setModels();
 	}

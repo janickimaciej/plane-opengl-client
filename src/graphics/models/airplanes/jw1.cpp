@@ -44,7 +44,8 @@ namespace Graphics
 	JW1::JW1(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		AssetManager<std::string, const Mesh>& fileMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
-		Airplane{surfaceShaderProgram, lightShaderProgram},
+		m_surfaceShaderProgram{surfaceShaderProgram},
+		m_lightShaderProgram{lightShaderProgram},
 		m_cone{surfaceShaderProgram, fileMeshManager.get(conePath), texturedMetal,
 			textureManager.get(camoPath)},
 		m_gun{surfaceShaderProgram, fileMeshManager.get(gunPath), texturedMetal,
@@ -125,6 +126,15 @@ namespace Graphics
 
 	void JW1::updateShaders()
 	{ }
+
+	void JW1::render() const
+	{
+		m_surfaceShaderProgram.use();
+		renderSurfaces();
+
+		m_lightShaderProgram.use();
+		renderLights();
+	}
 
 	void JW1::setCtrl(const Common::AirplaneCtrl& airplaneCtrl)
 	{

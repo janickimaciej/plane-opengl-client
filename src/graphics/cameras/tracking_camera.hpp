@@ -11,7 +11,7 @@ namespace Graphics
 	public:
 		TrackingCamera(float FoVRad, float nearPlane, float farPlane,
 			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-			const Model& model);
+			const ShaderProgram& hudShaderProgram, const Model& model);
 		virtual void updateShaders(float aspectRatio) override;
 		virtual ~TrackingCamera() = default;
 

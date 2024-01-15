@@ -23,9 +23,13 @@ namespace Graphics
 			AssetManager<std::string, const Mesh>& fileMeshManager,
 			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
+		virtual void render() const override;
 		virtual ~Airport() = default;
 
 	private:
+		const ShaderProgram& m_surfaceShaderProgram;
+		const ShaderProgram& m_lightShaderProgram;
+
 		Submodel m_ground;
 		Submodel m_runway;
 		Submodel m_apron;
@@ -36,7 +40,7 @@ namespace Graphics
 		std::vector<std::unique_ptr<SpotLight>> m_lights{};
 		std::vector<LightSubmodel> m_lightSubmodels{};
 
-		virtual void renderSurfaces() const override;
-		virtual void renderLights() const override;
+		void renderSurfaces() const;
+		void renderLights() const;
 	};
 };

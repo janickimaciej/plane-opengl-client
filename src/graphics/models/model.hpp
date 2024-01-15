@@ -15,20 +15,10 @@ namespace Graphics
 	{
 	public:
 		virtual void updateShaders() = 0;
-		void render() const;
+		virtual void render() const = 0;
 		glm::mat4 getModelMatrix() const;
 		glm::vec3 getPosition() const;
 		virtual void scale(float scaleRatio) override; // locally
 		virtual ~Model() = default;
-
-	protected:
-		bool isInitialized = false;
-
-		const ShaderProgram& m_surfaceShaderProgram;
-		const ShaderProgram& m_lightShaderProgram;
-	
-		Model(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
-		virtual void renderSurfaces() const = 0;
-		virtual void renderLights() const = 0;
 	};
 };

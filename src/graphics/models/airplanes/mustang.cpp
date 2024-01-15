@@ -43,7 +43,8 @@ namespace Graphics
 		const ShaderProgram& lightShaderProgram,
 		AssetManager<std::string, const Mesh>& fileMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
-		Airplane{surfaceShaderProgram, lightShaderProgram},
+		m_surfaceShaderProgram{surfaceShaderProgram},
+		m_lightShaderProgram{lightShaderProgram},
 		m_cap{surfaceShaderProgram, fileMeshManager.get(capPath), metal},
 		m_propeller{surfaceShaderProgram, fileMeshManager.get(propellerPath), metal},
 		m_body{surfaceShaderProgram, fileMeshManager.get(fuselagePath), texturedMetal,
@@ -82,6 +83,15 @@ namespace Graphics
 	{
 		m_leftLight.updateShaders(getMatrix());
 		m_rightLight.updateShaders(getMatrix());
+	}
+
+	void Mustang::render() const
+	{
+		m_surfaceShaderProgram.use();
+		renderSurfaces();
+
+		m_lightShaderProgram.use();
+		renderLights();
 	}
 
 	void Mustang::setCtrl(const Common::AirplaneCtrl& airplaneCtrl)

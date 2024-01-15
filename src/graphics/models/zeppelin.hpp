@@ -13,15 +13,17 @@ namespace Graphics
 	class Zeppelin : public Model
 	{
 	public:
-		Zeppelin(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		Zeppelin(const ShaderProgram& surfaceShaderProgram,
 			AssetManager<std::string, const Mesh>& fileMeshManager);
 		virtual void updateShaders() override;
+		virtual void render() const override;
 		virtual ~Zeppelin() = default;
 
 	private:
+		const ShaderProgram& m_surfaceShaderProgram;
+
 		Submodel m_body;
 
-		virtual void renderSurfaces() const override;
-		virtual void renderLights() const override;
+		void renderSurfaces() const;
 	};
 };

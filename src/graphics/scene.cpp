@@ -5,6 +5,7 @@
 #include "common/bullet_info.hpp"
 #include "common/map_name.hpp"
 #include "common/scene_info.hpp"
+#include "graphics/airplane_camera_positions.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/cameras/model_camera.hpp"
@@ -13,6 +14,7 @@
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/shader_program.hpp"
 #include "graphics/texture.hpp"
+#include "graphics/time.hpp"
 #include "graphics/world_shading.hpp"
 
 #include <cstddef>
@@ -23,30 +25,27 @@
 
 namespace Graphics
 {
+	constexpr float FoVDeg = 60;
+	constexpr float nearPlane = 4;
+	constexpr float farPlane = 20000;
+
 	Scene::Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, Common::MapName mapName) :
-		m_worldShading{m_surfaceShaderProgram, m_lightShaderProgram}
+		m_ownId{ownId},
+		m_ownAirplaneTypeName{ownAirplaneTypeName},
+		m_worldShading{m_surfaceShaderProgram, m_lightShaderProgram},
+		m_hud{m_hudShaderProgram, m_proceduralMeshManager, m_textureManager,
+			airplaneCameraPositions[Common::toSizeT(ownAirplaneTypeName)] +
+			glm::vec3{0, 0, -nearPlane - 1}}
 	{
 		m_airplanes.insert({ownId, Airplane::createAirplane(m_surfaceShaderProgram,
 			m_lightShaderProgram, m_fileMeshManager, m_textureManager, ownAirplaneTypeName)});
 
-		constexpr float FoVDeg = 60;
-		constexpr float nearPlane = 4;
-		constexpr float farPlane = 20000;
 		m_camera = std::make_unique<ModelCamera>(*m_airplanes.at(ownId), glm::radians(FoVDeg),
-			nearPlane, farPlane, m_surfaceShaderProgram, m_lightShaderProgram);
+			nearPlane, farPlane, m_surfaceShaderProgram, m_lightShaderProgram, m_hudShaderProgram);
 		constexpr float cameraPitchDeg = -10;
 		m_camera->rotatePitch(glm::radians(cameraPitchDeg));
-
-		switch (ownAirplaneTypeName)
-		{
-		case Common::AirplaneTypeName::mustang:
-			m_camera->translate(glm::vec3{0, 5, 16});
-			break;
-
-		case Common::AirplaneTypeName::jw1:
-			m_camera->translate(glm::vec3{0, 10, 25});
-			break;
-		}
+		
+		m_camera->translate(airplaneCameraPositions[Common::toSizeT(ownAirplaneTypeName)]);
 
 		m_map = Map::createMap(mapName, m_worldShading, m_surfaceShaderProgram,
 			m_lightShaderProgram, m_fileMeshManager, m_proceduralMeshManager, m_textureManager);
@@ -54,10 +53,19 @@ namespace Graphics
 
 	void Scene::update(const Common::SceneInfo& sceneInfo)
 	{
+		m_lastHUDUpdateTime += Time::getDeltaTime();
 		m_map->update(sceneInfo.day, sceneInfo.timeOfDay);
 		addAndUpdateAirplanes(sceneInfo.airplaneInfos);
 		removeAirplanes(sceneInfo.airplaneInfos);
 		updateBullets(sceneInfo.bulletInfos);
+		m_hud.setState(m_airplanes[m_ownId]->getState());
+		if (m_lastHUDUpdateTime >= 1)
+		{
+			Common::State ownAirplaneState = m_airplanes[m_ownId]->getState();
+			m_hud.update(static_cast<int>(glm::length(3.6f * ownAirplaneState.velocity)),
+				static_cast<int>(ownAirplaneState.position.y), m_airplanes[m_ownId]->getHP());
+			m_lastHUDUpdateTime = 0;
+		}
 	}
 
 	void Scene::updateShaders(float aspectRatio)
@@ -69,6 +77,7 @@ namespace Graphics
 		}
 		m_camera->updateShaders(aspectRatio);
 		m_worldShading.updateShaders();
+		m_hud.updateShaders();
 	}
 
 	void Scene::render() const
@@ -82,6 +91,7 @@ namespace Graphics
 		{
 			bullet->render();
 		}
+		m_hud.render();
 	}
 
 	void Scene::addAndUpdateAirplanes(
@@ -132,8 +142,8 @@ namespace Graphics
 
 		for (std::size_t i = m_bullets.size(); i < bulletInfos.size(); ++i)
 		{
-			m_bullets.push_back(std::make_unique<Bullet>(m_surfaceShaderProgram,
-				m_lightShaderProgram, m_proceduralMeshManager));
+			m_bullets.push_back(std::make_unique<Bullet>(m_lightShaderProgram,
+				m_proceduralMeshManager));
 		}
 
 		for (std::size_t i = 0; i < bulletInfos.size(); ++i)

@@ -12,7 +12,8 @@ namespace Graphics
 	{
 	public:
 		ModelCamera(const Model& model, float FoVRad, float nearPlane, float farPlane,
-			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram);
+			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+			const ShaderProgram& hudShaderProgram);
 		virtual ~ModelCamera() = default;
 
 	protected:

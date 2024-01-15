@@ -24,15 +24,20 @@ namespace Graphics
 		m_lightShaderProgram.use();
 		m_lightShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
 		m_lightShaderProgram.setUniform3f("cameraPosition", cameraPosition);
+
+		m_hudShaderProgram.use();
+		m_hudShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
 	}
 
 	Camera::Camera(float FoVRad, float nearPlane, float farPlane,
-		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram) :
+		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
+		const ShaderProgram& hudShaderProgram) :
 		m_FoVRad{FoVRad},
 		m_nearPlane{nearPlane},
 		m_farPlane{farPlane},
 		m_surfaceShaderProgram{surfaceShaderProgram},
-		m_lightShaderProgram{lightShaderProgram}
+		m_lightShaderProgram{lightShaderProgram},
+		m_hudShaderProgram{hudShaderProgram}
 	{ }
 
 	glm::mat4 Camera::getCameraMatrix() const

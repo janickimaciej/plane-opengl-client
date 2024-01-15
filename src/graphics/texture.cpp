@@ -40,10 +40,10 @@ namespace Graphics
 		int height{};
 		int nrOfChannels{};
 		unsigned char* textureData = stbi_load(path.c_str(), &width, &height, &nrOfChannels,
-			STBI_rgb);
+			STBI_rgb_alpha);
 		if (textureData)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE,
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 				textureData);
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}

@@ -10,8 +10,7 @@ namespace Graphics
 	{
 	public:
 		DayNightCycle(DirectionalLightModel& moon, DirectionalLightModel& sun,
-			WorldShading& worldShading, const ShaderProgram& surfaceShaderProgram,
-			const ShaderProgram& lightShaderProgram);
+			WorldShading& worldShading);
 		void updateWorldShading();
 		
 		void setDay(int day);
@@ -23,9 +22,6 @@ namespace Graphics
 		DirectionalLightModel& m_moon;
 		DirectionalLightModel& m_sun;
 		WorldShading& m_worldShading;
-
-		const ShaderProgram& m_surfaceShaderProgram;
-		const ShaderProgram& m_lightShaderProgram;
 
 		float getLightCoefficient();
 		float getFogCoefficient();
