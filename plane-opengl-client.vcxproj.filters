@@ -84,6 +84,7 @@
     <ClCompile Include="src\graphics\meshes\billboard_generator.cpp" />
     <ClCompile Include="src\graphics\text_field.cpp" />
     <ClCompile Include="src\graphics\models\hud.cpp" />
+    <ClCompile Include="src\graphics\cameras\orthographic_camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="src\graphics\models\hud.hpp" />
     <ClInclude Include="src\graphics\config.hpp" />
     <ClInclude Include="src\graphics\airplane_camera_positions.hpp" />
+    <ClInclude Include="src\graphics\cameras\orthographic_camera.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

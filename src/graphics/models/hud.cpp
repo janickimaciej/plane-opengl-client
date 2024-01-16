@@ -17,38 +17,50 @@
 
 namespace Graphics
 {
+	constexpr float smallFontSize = 0.0003f;
+	constexpr float largeFontSize = 0.0006f;
+	constexpr float topLineY = 0;
+	constexpr float bottomLineLargeFontY = -0.035;
+	constexpr float bottomLineSmallFontY = -0.055;
+	constexpr float globalY = -0.43;
+	constexpr glm::vec3 airspeedPosition{0.78, globalY, 0};
+	constexpr glm::vec3 verticalSpeedPosition{0.32, globalY, 0};
+	constexpr glm::vec3 hpPosition{-0.06, globalY, 0};
+	constexpr glm::vec3 radarAltitudePosition{-0.51, globalY, 0};
+	constexpr glm::vec3 altitudePosition{-0.96, globalY, 0};
+
 	HUD::HUD(const ShaderProgram& hudShaderProgram,
 		AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
-		AssetManager<std::string, const Texture>& textureManager, const glm::vec3& offset) :
+		AssetManager<std::string, const Texture>& textureManager) :
 		m_hudShaderProgram{hudShaderProgram},
 		m_airspeedText{hudShaderProgram, proceduralMeshManager, textureManager, "AIRSPEED",
-			offset + glm::vec3{4.5, -3.4, 0}, 0.002f},
+			airspeedPosition + glm::vec3{0.03, topLineY, 0}, smallFontSize},
 		m_airspeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "____",
-			offset + glm::vec3{4.4, -3.7, 0}, 0.004f},
+			airspeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_airspeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "KPH",
-			offset + glm::vec3{5.15, -3.82, 0}, 0.002f},
+			airspeedPosition + glm::vec3{0.12, bottomLineSmallFontY, 0}, smallFontSize},
 		m_verticalSpeedText{hudShaderProgram, proceduralMeshManager, textureManager,
-			"VERTICAL_SPEED", offset + glm::vec3{2.2, -3.4, 0}, 0.002f},
+			"VERTICAL_SPEED", verticalSpeedPosition + glm::vec3{0.01, topLineY, 0}, smallFontSize},
 		m_verticalSpeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "_____",
-			offset + glm::vec3{2.2, -3.7, 0}, 0.004f},
+			verticalSpeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_verticalSpeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "MPS",
-			offset + glm::vec3{3.15, -3.82, 0}, 0.002f},
-		m_altitudeText{hudShaderProgram, proceduralMeshManager, textureManager, "ALTITUDE",
-			offset + glm::vec3{-5.2, -3.4, 0}, 0.002f},
-		m_altitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
-			offset + glm::vec3{-5.5, -3.7, 0}, 0.004f},
-		m_altitudeUnit{hudShaderProgram, proceduralMeshManager, textureManager, "M",
-			offset + glm::vec3{-4.4, -3.82, 0}, 0.002f},
-		m_radarAltitudeText{hudShaderProgram, proceduralMeshManager, textureManager,
-			"RADAR_ALTITUDE", offset + glm::vec3{-3.45, -3.4, 0}, 0.002f},
-		m_radarAltitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
-			offset + glm::vec3{-3.5, -3.7, 0}, 0.004f},
-		m_radarAltitudeUnit{hudShaderProgram, proceduralMeshManager, textureManager, "M",
-			offset + glm::vec3{-2.4, -3.82, 0}, 0.002f},
+			verticalSpeedPosition + glm::vec3{0.15, bottomLineSmallFontY, 0}, smallFontSize},
 		m_hpNumber{hudShaderProgram, proceduralMeshManager, textureManager, "___",
-			offset + glm::vec3{-0.3, -3.7, 0}, 0.004f},
+			hpPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_hpUnit{hudShaderProgram, proceduralMeshManager, textureManager, "HP",
-			offset + glm::vec3{0.3, -3.82, 0}, 0.002f}
+			hpPosition + glm::vec3{0.1, bottomLineSmallFontY, 0}, smallFontSize},
+		m_altitudeText{hudShaderProgram, proceduralMeshManager, textureManager, "ALTITUDE",
+			altitudePosition + glm::vec3{0.045, topLineY, 0}, smallFontSize},
+		m_altitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
+			altitudePosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
+		m_altitudeUnit{hudShaderProgram, proceduralMeshManager, textureManager, "M",
+			altitudePosition + glm::vec3{0.17, bottomLineSmallFontY, 0}, smallFontSize},
+		m_radarAltitudeText{hudShaderProgram, proceduralMeshManager, textureManager,
+			"RADAR_ALTITUDE", radarAltitudePosition + glm::vec3{0.007, topLineY, 0}, smallFontSize},
+		m_radarAltitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
+			radarAltitudePosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
+		m_radarAltitudeUnit{hudShaderProgram, proceduralMeshManager, textureManager, "M",
+			radarAltitudePosition + glm::vec3{0.17, bottomLineSmallFontY, 0}, smallFontSize}
 	{
 		for (char i = '0'; i <= '9'; ++i)
 		{
@@ -67,7 +79,6 @@ namespace Graphics
 
 	void HUD::update(const Airplane& ownAirplane, const Map& map)
 	{
-		setState(ownAirplane.getState());
 		m_lastUpdateTime += Time::getDeltaTime();
 		constexpr float refreshTime = 0.5f;
 		if (m_lastUpdateTime >= refreshTime)

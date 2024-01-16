@@ -7,7 +7,7 @@
 
 namespace Graphics
 {
-	void Camera::updateShaders(float aspectRatio)
+	void Camera::use(float aspectRatio)
 	{
 		if (aspectRatio != m_aspectRatio)
 		{
@@ -29,10 +29,8 @@ namespace Graphics
 		m_hudShaderProgram.setUniformMatrix4f("projectionViewMatrix", projectionViewMatrix);
 	}
 
-	Camera::Camera(float FoVRad, float nearPlane, float farPlane,
-		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
-		const ShaderProgram& hudShaderProgram) :
-		m_FoVRad{FoVRad},
+	Camera::Camera(float nearPlane, float farPlane, const ShaderProgram& surfaceShaderProgram,
+		const ShaderProgram& lightShaderProgram, const ShaderProgram& hudShaderProgram) :
 		m_nearPlane{nearPlane},
 		m_farPlane{farPlane},
 		m_surfaceShaderProgram{surfaceShaderProgram},

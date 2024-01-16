@@ -10,18 +10,18 @@
 
 namespace Graphics
 {
-	TrackingCamera::TrackingCamera(float FoVRad, float nearPlane, float farPlane,
+	TrackingCamera::TrackingCamera(float fovRad, float nearPlane, float farPlane,
 		const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		const ShaderProgram& hudShaderProgram, const Model& model) :
-		PerspectiveCamera{FoVRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram,
+		PerspectiveCamera{fovRad, nearPlane, farPlane, surfaceShaderProgram, lightShaderProgram,
 			hudShaderProgram},
 		m_model{model}
 	{ }
 
-	void TrackingCamera::updateShaders(float aspectRatio)
+	void TrackingCamera::use(float aspectRatio)
 	{
 		aimAtModel();
-		Camera::updateShaders(aspectRatio);
+		Camera::use(aspectRatio);
 	}
 
 	void TrackingCamera::aimAtModel()

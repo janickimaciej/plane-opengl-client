@@ -1,20 +1,19 @@
 #pragma once
 
 #include "graphics/cameras/camera.hpp"
-#include "graphics/shader_program.hpp"
 
 namespace Graphics
 {
-	class PerspectiveCamera : public Camera
+	class OrthographicCamera : public Camera
 	{
 	public:
-		PerspectiveCamera(float fovRad, float nearPlane, float farPlane,
+		OrthographicCamera(float width, float nearPlane, float farPlane,
 			const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 			const ShaderProgram& hudShaderProgram);
 		virtual void updateProjectionMatrix() override;
-		virtual ~PerspectiveCamera() = default;
+		virtual ~OrthographicCamera() = default;
 
 	private:
-		float m_fovRad{};
+		float m_width{};
 	};
 };

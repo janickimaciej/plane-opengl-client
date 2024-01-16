@@ -48,7 +48,7 @@ namespace Graphics
 		m_mutex.unlock();
 
 		m_scene->update(m_buffer[index].sceneInfo);
-		m_scene->updateShaders(aspectRatio);
-		m_scene->render();
+		m_scene->updateShaders();
+		m_scene->render(aspectRatio);
 	}
 };

@@ -23,7 +23,7 @@ namespace Graphics
 	public:
 		HUD(const ShaderProgram& hudShaderProgram,
 			AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
-			AssetManager<std::string, const Texture>& textureManager, const glm::vec3& offset);
+			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
 		virtual void render() const override;
 		void update(const Airplane& ownAirplane, const Map& map);

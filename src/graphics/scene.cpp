@@ -9,6 +9,7 @@
 #include "graphics/asset_manager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/cameras/model_camera.hpp"
+#include "graphics/cameras/orthographic_camera.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
@@ -24,30 +25,37 @@
 
 namespace Graphics
 {
-	constexpr float FoVDeg = 60;
-	constexpr float nearPlane = 4;
-	constexpr float farPlane = 20000;
+	constexpr float worldCameraFOVDeg = 60;
+	constexpr float worldCameraNearPlane = 4;
+	constexpr float worldCameraFarPlane = 20000;
+
+	constexpr float hudCameraWidth = 2;
+	constexpr float hudCameraNearPlane = 0;
+	constexpr float hudCameraFarPlane = 1;
 
 	Scene::Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, Common::MapName mapName) :
 		m_ownId{ownId},
 		m_ownAirplaneTypeName{ownAirplaneTypeName},
 		m_worldShading{m_surfaceShaderProgram, m_lightShaderProgram},
-		m_hud{m_hudShaderProgram, m_proceduralMeshManager, m_textureManager,
-			airplaneCameraPositions[Common::toSizeT(ownAirplaneTypeName)] +
-			glm::vec3{0, 0, -nearPlane - 1}}
+		m_hud{m_hudShaderProgram, m_proceduralMeshManager, m_textureManager}
 	{
 		m_airplanes.insert({ownId, Airplane::createAirplane(m_surfaceShaderProgram,
 			m_lightShaderProgram, m_fileMeshManager, m_textureManager, ownAirplaneTypeName)});
 
-		m_camera = std::make_unique<ModelCamera>(*m_airplanes.at(ownId), glm::radians(FoVDeg),
-			nearPlane, farPlane, m_surfaceShaderProgram, m_lightShaderProgram, m_hudShaderProgram);
+		m_worldCamera = std::make_unique<ModelCamera>(*m_airplanes.at(ownId),
+			glm::radians(worldCameraFOVDeg), worldCameraNearPlane, worldCameraFarPlane,
+			m_surfaceShaderProgram, m_lightShaderProgram, m_hudShaderProgram);
 		constexpr float cameraPitchDeg = -10;
-		m_camera->rotatePitch(glm::radians(cameraPitchDeg));
-		
-		m_camera->translate(airplaneCameraPositions[Common::toSizeT(ownAirplaneTypeName)]);
+		m_worldCamera->rotatePitch(glm::radians(cameraPitchDeg));
+		m_worldCamera->translate(airplaneCameraPositions[Common::toSizeT(ownAirplaneTypeName)]);
+
+		m_hudCamera = std::make_unique<OrthographicCamera>(hudCameraWidth, hudCameraNearPlane,
+			hudCameraFarPlane, m_surfaceShaderProgram, m_lightShaderProgram, m_hudShaderProgram);
 
 		m_map = Map::createMap(mapName, m_worldShading, m_surfaceShaderProgram,
 			m_lightShaderProgram, m_fileMeshManager, m_proceduralMeshManager, m_textureManager);
+
+		m_hud.translate(glm::vec3{0, 0, -0.01});
 	}
 
 	void Scene::update(const Common::SceneInfo& sceneInfo)
@@ -59,20 +67,20 @@ namespace Graphics
 		m_hud.update(*m_airplanes[m_ownId], *m_map);
 	}
 
-	void Scene::updateShaders(float aspectRatio)
+	void Scene::updateShaders()
 	{
 		m_map->updateShaders();
 		for (std::pair<const int, std::unique_ptr<Airplane>>& airplane : m_airplanes)
 		{
 			airplane.second->updateShaders();
 		}
-		m_camera->updateShaders(aspectRatio);
 		m_worldShading.updateShaders();
 		m_hud.updateShaders();
 	}
 
-	void Scene::render() const
+	void Scene::render(float aspectRatio) const
 	{
+		m_worldCamera->use(aspectRatio);
 		m_map->render();
 		for (const std::pair<const int, std::unique_ptr<Airplane>>& airplane : m_airplanes)
 		{
@@ -82,6 +90,8 @@ namespace Graphics
 		{
 			bullet->render();
 		}
+
+		m_hudCamera->use(aspectRatio);
 		m_hud.render();
 	}
 

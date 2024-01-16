@@ -30,8 +30,8 @@ namespace Graphics
 	public:
 		Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, Common::MapName mapName);
 		void update(const Common::SceneInfo& sceneInfo);
-		void updateShaders(float aspectRatio);
-		void render() const;
+		void updateShaders();
+		void render(float aspectRatio) const;
 
 	private:
 		int m_ownId{};
@@ -52,7 +52,8 @@ namespace Graphics
 		std::vector<std::unique_ptr<Bullet>> m_bullets{};
 		HUD m_hud;
 
-		std::unique_ptr<Camera> m_camera{};
+		std::unique_ptr<Camera> m_worldCamera{};
+		std::unique_ptr<Camera> m_hudCamera{};
 
 		WorldShading m_worldShading;
 
