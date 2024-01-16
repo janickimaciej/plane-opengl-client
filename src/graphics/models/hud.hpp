@@ -31,6 +31,8 @@ namespace Graphics
 	private:
 		const ShaderProgram& m_hudShaderProgram;
 
+		TextField m_fpsNumber;
+		TextField m_fpsUnit;
 		TextField m_airspeedText;
 		TextField m_airspeedNumber;
 		TextField m_airspeedUnit;

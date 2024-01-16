@@ -14,7 +14,6 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
-#include <iostream>
 #include <memory>
 #include <semaphore>
 #include <string>
@@ -56,7 +55,6 @@ namespace App
 	void RenderingThread::mainLoop()
 	{
 		Graphics::Time::initialize();
-		int frameCounter = 0;
 		while (!m_exitSignal.shouldStop())
 		{
 			if (glfwWindowShouldClose(m_window))
@@ -65,13 +63,6 @@ namespace App
 				break;
 			}
 			Graphics::Time::update();
-
-			++frameCounter;
-			if (frameCounter == 60)
-			{
-				std::cout << Graphics::Time::getFPS() << " fps" << std::endl;
-				frameCounter = 0;
-			}
 
 			processInput();
 			m_renderingBuffer->updateAndRenderScene(m_windowPayload.aspectRatio);

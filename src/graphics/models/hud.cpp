@@ -22,33 +22,22 @@ namespace Graphics
 	constexpr float topLineY = 0;
 	constexpr float bottomLineLargeFontY = -0.035;
 	constexpr float bottomLineSmallFontY = -0.055;
-	constexpr float globalY = -0.43;
-	constexpr glm::vec3 airspeedPosition{0.78, globalY, 0};
-	constexpr glm::vec3 verticalSpeedPosition{0.32, globalY, 0};
-	constexpr glm::vec3 hpPosition{-0.06, globalY, 0};
-	constexpr glm::vec3 radarAltitudePosition{-0.51, globalY, 0};
-	constexpr glm::vec3 altitudePosition{-0.96, globalY, 0};
+	constexpr float indicatorsY = -0.43;
+	constexpr glm::vec3 fpsPosition{-0.97, 0.53, 0};
+	constexpr glm::vec3 altitudePosition{-0.96, indicatorsY, 0};
+	constexpr glm::vec3 radarAltitudePosition{-0.51, indicatorsY, 0};
+	constexpr glm::vec3 hpPosition{-0.06, indicatorsY, 0};
+	constexpr glm::vec3 verticalSpeedPosition{0.32, indicatorsY, 0};
+	constexpr glm::vec3 airspeedPosition{0.78, indicatorsY, 0};
 
 	HUD::HUD(const ShaderProgram& hudShaderProgram,
 		AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
 		m_hudShaderProgram{hudShaderProgram},
-		m_airspeedText{hudShaderProgram, proceduralMeshManager, textureManager, "AIRSPEED",
-			airspeedPosition + glm::vec3{0.03, topLineY, 0}, smallFontSize},
-		m_airspeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "____",
-			airspeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
-		m_airspeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "KPH",
-			airspeedPosition + glm::vec3{0.12, bottomLineSmallFontY, 0}, smallFontSize},
-		m_verticalSpeedText{hudShaderProgram, proceduralMeshManager, textureManager,
-			"VERTICAL_SPEED", verticalSpeedPosition + glm::vec3{0.01, topLineY, 0}, smallFontSize},
-		m_verticalSpeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "_____",
-			verticalSpeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
-		m_verticalSpeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "MPS",
-			verticalSpeedPosition + glm::vec3{0.15, bottomLineSmallFontY, 0}, smallFontSize},
-		m_hpNumber{hudShaderProgram, proceduralMeshManager, textureManager, "___",
-			hpPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
-		m_hpUnit{hudShaderProgram, proceduralMeshManager, textureManager, "HP",
-			hpPosition + glm::vec3{0.1, bottomLineSmallFontY, 0}, smallFontSize},
+		m_fpsNumber{hudShaderProgram, proceduralMeshManager, textureManager, "999",
+			fpsPosition + glm::vec3{0, 0, 0}, smallFontSize},
+		m_fpsUnit{hudShaderProgram, proceduralMeshManager, textureManager, "FPS",
+			fpsPosition + glm::vec3{0.05, 0, 0}, smallFontSize},
 		m_altitudeText{hudShaderProgram, proceduralMeshManager, textureManager, "ALTITUDE",
 			altitudePosition + glm::vec3{0.045, topLineY, 0}, smallFontSize},
 		m_altitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
@@ -60,12 +49,29 @@ namespace Graphics
 		m_radarAltitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
 			radarAltitudePosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_radarAltitudeUnit{hudShaderProgram, proceduralMeshManager, textureManager, "M",
-			radarAltitudePosition + glm::vec3{0.17, bottomLineSmallFontY, 0}, smallFontSize}
+			radarAltitudePosition + glm::vec3{0.17, bottomLineSmallFontY, 0}, smallFontSize},
+		m_hpNumber{hudShaderProgram, proceduralMeshManager, textureManager, "___",
+			hpPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
+		m_hpUnit{hudShaderProgram, proceduralMeshManager, textureManager, "HP",
+			hpPosition + glm::vec3{0.1, bottomLineSmallFontY, 0}, smallFontSize},
+		m_verticalSpeedText{hudShaderProgram, proceduralMeshManager, textureManager,
+			"VERTICAL_SPEED", verticalSpeedPosition + glm::vec3{0.01, topLineY, 0}, smallFontSize},
+		m_verticalSpeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "_____",
+			verticalSpeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
+		m_verticalSpeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "MPS",
+			verticalSpeedPosition + glm::vec3{0.15, bottomLineSmallFontY, 0}, smallFontSize},
+		m_airspeedText{hudShaderProgram, proceduralMeshManager, textureManager, "AIRSPEED",
+			airspeedPosition + glm::vec3{0.03, topLineY, 0}, smallFontSize},
+		m_airspeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "____",
+			airspeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
+		m_airspeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "KPH",
+			airspeedPosition + glm::vec3{0.12, bottomLineSmallFontY, 0}, smallFontSize}
 	{
 		for (char i = '0'; i <= '9'; ++i)
 		{
 			m_textureLocks.push_back(textureManager.get(texturePath("characters", std::string{i})));
 		}
+		m_textureLocks.push_back(textureManager.get(texturePath("characters", "-")));
 	}
 
 	void HUD::updateShaders()
@@ -84,34 +90,45 @@ namespace Graphics
 		if (m_lastUpdateTime >= refreshTime)
 		{
 			Common::State state = ownAirplane.getState();
-			refresh(m_airspeedNumber, static_cast<int>(3.6f * glm::length(state.velocity)), 4,
-				false);
-			refresh(m_verticalSpeedNumber, static_cast<int>((state.orientation * state.velocity).y),
-				4, true);
+			int fps = Time::getFPS();
+			refresh(m_fpsNumber, fps, 3, false);
 			refresh(m_altitudeNumber, static_cast<int>(state.position.y), 5, true);
 			refresh(m_radarAltitudeNumber, static_cast<int>(state.position.y -
 				map.getHeight(state.position.x, state.position.z)), 5, true);
 			refresh(m_hpNumber, ownAirplane.getHP(), 3, false);
+			refresh(m_verticalSpeedNumber, static_cast<int>((state.orientation * state.velocity).y),
+				4, true);
+			refresh(m_airspeedNumber, static_cast<int>(3.6f * glm::length(state.velocity)), 4,
+				false);
 			m_lastUpdateTime = 0;
 		}
 	}
 
 	void HUD::renderHUD() const
 	{
-		m_airspeedText.render(getMatrix());
-		m_airspeedNumber.render(getMatrix());
-		m_airspeedUnit.render(getMatrix());
-		m_verticalSpeedText.render(getMatrix());
-		m_verticalSpeedNumber.render(getMatrix());
-		m_verticalSpeedUnit.render(getMatrix());
-		m_altitudeText.render(getMatrix());
-		m_altitudeNumber.render(getMatrix());
-		m_altitudeUnit.render(getMatrix());
-		m_radarAltitudeText.render(getMatrix());
-		m_radarAltitudeNumber.render(getMatrix());
-		m_radarAltitudeUnit.render(getMatrix());
-		m_hpNumber.render(getMatrix());
-		m_hpUnit.render(getMatrix());
+		glm::mat4 modelMatrix = getMatrix();
+
+		m_fpsNumber.render(modelMatrix);
+		m_fpsUnit.render(modelMatrix);
+
+		m_altitudeText.render(modelMatrix);
+		m_altitudeNumber.render(modelMatrix);
+		m_altitudeUnit.render(modelMatrix);
+
+		m_radarAltitudeText.render(modelMatrix);
+		m_radarAltitudeNumber.render(modelMatrix);
+		m_radarAltitudeUnit.render(modelMatrix);
+
+		m_hpNumber.render(modelMatrix);
+		m_hpUnit.render(modelMatrix);
+
+		m_verticalSpeedText.render(modelMatrix);
+		m_verticalSpeedNumber.render(modelMatrix);
+		m_verticalSpeedUnit.render(modelMatrix);
+
+		m_airspeedText.render(modelMatrix);
+		m_airspeedNumber.render(modelMatrix);
+		m_airspeedUnit.render(modelMatrix);
 	}
 
 	void HUD::refresh(TextField& textField, int value, int numberOfDigits, bool isSigned)
@@ -128,9 +145,9 @@ namespace Graphics
 				textField.setCharacter(0, '_');
 			}
 		}
-		float eps = 0.001f;
-		std::string text =
-			std::to_string(value % static_cast<int>(std::pow(10, numberOfDigits) + eps));
+		static constexpr float eps = 0.001f;
+		int upperBound = static_cast<int>(std::pow(10, numberOfDigits) + eps);
+		std::string text = std::to_string(value >= upperBound ? upperBound - 1 : value);
 		std::size_t offset = numberOfDigits - text.size();
 		for (std::size_t i = 0; i < offset; ++i)
 		{
