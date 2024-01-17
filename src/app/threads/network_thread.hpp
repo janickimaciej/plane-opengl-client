@@ -10,6 +10,7 @@
 #include "physics/notification.hpp"
 #include "physics/simulation_buffer.hpp"
 #include "physics/simulation_clock.hpp"
+#include "physics/spawner.hpp"
 
 #include <memory>
 #include <semaphore>
@@ -36,6 +37,7 @@ namespace App
 		Physics::SimulationClock m_simulationClock{};
 		std::unique_ptr<Physics::SimulationBuffer> m_simulationBuffer{};
 		int m_ownId{};
+		Physics::Spawner m_spawner;
 
 		Physics::Notification m_notification{m_simulationClock};
 		Physics::Timestep m_frameCutoff{};

@@ -50,6 +50,7 @@
     <ClCompile Include="core\physics\simulation_buffer.cpp" />
     <ClCompile Include="core\physics\simulation_buffer_element.cpp" />
     <ClCompile Include="core\physics\simulation_clock.cpp" />
+    <ClCompile Include="core\physics\spawner.cpp" />
     <ClCompile Include="core\physics\timestamp.cpp" />
     <ClCompile Include="core\physics\timestep.cpp" />
     <ClCompile Include="dep\glad.c" />
@@ -166,6 +167,7 @@
     <ClInclude Include="core\physics\simulation_buffer_element.hpp" />
     <ClInclude Include="core\physics\simulation_buffer_player.hpp" />
     <ClInclude Include="core\physics\simulation_clock.hpp" />
+    <ClInclude Include="core\physics\spawner.hpp" />
     <ClInclude Include="core\physics\timestamp.hpp" />
     <ClInclude Include="core\physics\timestep.hpp" />
     <ClInclude Include="dep\stb_image.h" />

@@ -85,6 +85,7 @@
     <ClCompile Include="src\graphics\text_field.cpp" />
     <ClCompile Include="src\graphics\models\hud.cpp" />
     <ClCompile Include="src\graphics\cameras\orthographic_camera.cpp" />
+    <ClCompile Include="core\physics\spawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\cameras\camera.hpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="src\graphics\config.hpp" />
     <ClInclude Include="src\graphics\airplane_camera_positions.hpp" />
     <ClInclude Include="src\graphics\cameras\orthographic_camera.hpp" />
+    <ClInclude Include="core\physics\spawner.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\lightFragmentShader.glsl" />

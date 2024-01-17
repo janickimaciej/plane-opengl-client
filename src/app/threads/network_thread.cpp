@@ -10,6 +10,7 @@
 #include "common/airplane_type_name.hpp"
 #include "common/config.hpp"
 #include "common/map_name.hpp"
+#include "common/terrains/maps/maps.hpp"
 #include "graphics/rendering_buffer.hpp"
 #include "physics/airplane_definitions.hpp"
 #include "physics/notification.hpp"
@@ -34,7 +35,8 @@ namespace App
 		int serverPhysicsThreadPort, int clientNetworkThreadPort, int clientPhysicsThreadPort,
 		OwnInput& ownInput, std::unique_ptr<Graphics::RenderingBuffer>& renderingBuffer,
 		const std::shared_ptr<std::binary_semaphore>& renderingThreadSemaphore) :
-		m_exitSignal{exitSignal}
+		m_exitSignal{exitSignal},
+		m_spawner{*Common::Terrains::maps[toSizeT(mapName)]}
 	{
 		if (gameMode == GameMode::multiplayer)
 		{
@@ -147,13 +149,7 @@ namespace App
 		Physics::PlayerInfo ownInfo;
 
 		ownInfo.state.hp = Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialHP;
-		constexpr glm::vec3 initialPosition{15000, 550, 8500};
-		ownInfo.state.state.position = initialPosition;
-		const glm::quat initialOrientation =
-			glm::angleAxis(glm::radians(80.0f), glm::vec3{0, 1, 0});
-		ownInfo.state.state.orientation = initialOrientation;
-		ownInfo.state.state.velocity =
-			Physics::airplaneDefinitions[toSizeT(airplaneTypeName)].initialVelocity;
+		ownInfo.state.state = m_spawner.spawn(airplaneTypeName);
 		ownInfo.state.airplaneTypeName = airplaneTypeName;
 
 		std::unordered_map<int, Physics::PlayerInfo> playerInfos;
