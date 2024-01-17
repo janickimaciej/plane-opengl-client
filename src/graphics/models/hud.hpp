@@ -26,13 +26,15 @@ namespace Graphics
 			AssetManager<std::string, const Texture>& textureManager);
 		virtual void updateShaders() override;
 		virtual void render() const override;
-		void update(const Airplane& ownAirplane, const Map& map);
+		void update(const Airplane& ownAirplane, const Map& map, int playerCount);
 
 	private:
 		const ShaderProgram& m_hudShaderProgram;
 
 		TextField m_fpsNumber;
 		TextField m_fpsUnit;
+		TextField m_playerCountNumber;
+		TextField m_playerCountUnit;
 		TextField m_airspeedText;
 		TextField m_airspeedNumber;
 		TextField m_airspeedUnit;

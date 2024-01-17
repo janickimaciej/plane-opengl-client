@@ -24,6 +24,7 @@ namespace Graphics
 	constexpr float bottomLineSmallFontY = -0.055;
 	constexpr float indicatorsY = -0.43;
 	constexpr glm::vec3 fpsPosition{-0.97, 0.53, 0};
+	constexpr glm::vec3 playerCountPosition{0.84, 0.53, 0};
 	constexpr glm::vec3 altitudePosition{-0.96, indicatorsY, 0};
 	constexpr glm::vec3 radarAltitudePosition{-0.51, indicatorsY, 0};
 	constexpr glm::vec3 hpPosition{-0.06, indicatorsY, 0};
@@ -34,10 +35,14 @@ namespace Graphics
 		AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
 		AssetManager<std::string, const Texture>& textureManager) :
 		m_hudShaderProgram{hudShaderProgram},
-		m_fpsNumber{hudShaderProgram, proceduralMeshManager, textureManager, "999",
+		m_fpsNumber{hudShaderProgram, proceduralMeshManager, textureManager, "___",
 			fpsPosition + glm::vec3{0, 0, 0}, smallFontSize},
 		m_fpsUnit{hudShaderProgram, proceduralMeshManager, textureManager, "FPS",
 			fpsPosition + glm::vec3{0.05, 0, 0}, smallFontSize},
+		m_playerCountNumber{hudShaderProgram, proceduralMeshManager, textureManager, "__",
+			playerCountPosition + glm::vec3{0, 0, 0}, smallFontSize},
+		m_playerCountUnit{hudShaderProgram, proceduralMeshManager, textureManager, "PLAYERS",
+			playerCountPosition + glm::vec3{0.04, 0, 0}, smallFontSize},
 		m_altitudeText{hudShaderProgram, proceduralMeshManager, textureManager, "ALTITUDE",
 			altitudePosition + glm::vec3{0.045, topLineY, 0}, smallFontSize},
 		m_altitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
@@ -83,7 +88,7 @@ namespace Graphics
 		renderHUD();
 	}
 
-	void HUD::update(const Airplane& ownAirplane, const Map& map)
+	void HUD::update(const Airplane& ownAirplane, const Map& map, int playerCount)
 	{
 		m_lastUpdateTime += Time::getDeltaTime();
 		constexpr float refreshTime = 0.5f;
@@ -92,6 +97,8 @@ namespace Graphics
 			Common::State state = ownAirplane.getState();
 			int fps = Time::getFPS();
 			refresh(m_fpsNumber, fps, 3, false);
+			refresh(m_playerCountNumber, playerCount, 2, false);
+			m_playerCountUnit.setCharacter(6, playerCount == 1 ? '_' : 'S');
 			refresh(m_altitudeNumber, static_cast<int>(state.position.y), 5, true);
 			refresh(m_radarAltitudeNumber, static_cast<int>(state.position.y -
 				map.getHeight(state.position.x, state.position.z)), 5, true);
@@ -110,6 +117,9 @@ namespace Graphics
 
 		m_fpsNumber.render(modelMatrix);
 		m_fpsUnit.render(modelMatrix);
+
+		m_playerCountNumber.render(modelMatrix);
+		m_playerCountUnit.render(modelMatrix);
 
 		m_altitudeText.render(modelMatrix);
 		m_altitudeNumber.render(modelMatrix);

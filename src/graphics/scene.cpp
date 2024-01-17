@@ -64,7 +64,7 @@ namespace Graphics
 		addAndUpdateAirplanes(sceneInfo.airplaneInfos);
 		removeAirplanes(sceneInfo.airplaneInfos);
 		updateBullets(sceneInfo.bulletInfos);
-		m_hud.update(*m_airplanes[m_ownId], *m_map);
+		m_hud.update(*m_airplanes[m_ownId], *m_map, m_airplanes.size());
 	}
 
 	void Scene::updateShaders()
