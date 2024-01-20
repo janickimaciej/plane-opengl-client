@@ -1,9 +1,8 @@
 #pragma once
 
-#include "common/airplane_info.hpp"
 #include "common/airplane_type_name.hpp"
 #include "common/map_name.hpp"
-#include "graphics/rendering_buffer_element.hpp"
+#include "common/scene_info.hpp"
 #include "graphics/scene.hpp"
 
 #include <array>
@@ -22,7 +21,7 @@ namespace Graphics
 
 	private:
 		static const int bufferSize = 3;
-		std::array<RenderingBufferElement, bufferSize> m_buffer{};
+		std::array<Common::SceneInfo, bufferSize> m_buffer{};
 		int m_ownId{};
 		std::unique_ptr<Scene> m_scene{};
 

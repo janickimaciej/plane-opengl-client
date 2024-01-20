@@ -2,7 +2,6 @@
 
 #include "common/map_name.hpp"
 #include "common/scene_info.hpp"
-#include "graphics/rendering_buffer_element.hpp"
 #include "graphics/scene.hpp"
 
 #include <array>
@@ -29,7 +28,7 @@ namespace Graphics
 
 		m_mutex.unlock();
 
-		m_buffer[index].sceneInfo = sceneInfo;
+		m_buffer[index] = sceneInfo;
 
 		m_mutex.lock();
 
@@ -47,7 +46,7 @@ namespace Graphics
 
 		m_mutex.unlock();
 
-		m_scene->update(m_buffer[index].sceneInfo);
+		m_scene->update(m_buffer[index]);
 		m_scene->updateShaders();
 		m_scene->render(aspectRatio);
 	}

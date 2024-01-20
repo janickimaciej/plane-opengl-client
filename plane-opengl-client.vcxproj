@@ -198,7 +198,6 @@
     <ClInclude Include="src\graphics\meshes\procedural_mesh_name.hpp" />
     <ClInclude Include="src\graphics\submodels\light_submodel.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
-    <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\graphics\text_field.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
     <ClInclude Include="src\graphics\asset_manager.hpp" />

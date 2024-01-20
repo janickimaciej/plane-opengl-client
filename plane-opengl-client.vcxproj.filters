@@ -117,7 +117,6 @@
     <ClInclude Include="src\graphics\maps\map.hpp" />
     <ClInclude Include="src\graphics\maps\airport_map.hpp" />
     <ClInclude Include="src\graphics\rendering_buffer.hpp" />
-    <ClInclude Include="src\graphics\rendering_buffer_element.hpp" />
     <ClInclude Include="src\graphics\time.hpp" />
     <ClInclude Include="src\app\window_input.hpp" />
     <ClInclude Include="src\app\controller_type.hpp" />
