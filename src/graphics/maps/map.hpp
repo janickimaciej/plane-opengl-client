@@ -1,12 +1,12 @@
 #pragma once
 
-#include "common/map_name.hpp"
+#include "common/mapName.hpp"
 #include "common/terrains/maps/map.hpp"
-#include "graphics/asset_manager.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/meshes/mesh.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
-#include "graphics/world_shading.hpp"
+#include "graphics/worldShading.hpp"
 
 #include <memory>
 #include <string>

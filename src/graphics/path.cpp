@@ -5,7 +5,7 @@ namespace Graphics
 	std::string shaderPath(const std::string& name)
 	{
 		static const std::string prefix = "src/graphics/shaders/";
-		static const std::string suffix = "Shader.glsl";
+		static const std::string suffix = "S.glsl";
 		return prefix + name + suffix;
 	}
 

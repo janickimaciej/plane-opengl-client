@@ -3,7 +3,7 @@
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/model.hpp"
 #include "graphics/path.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/submodels/submodel.hpp"
 
 #include <string>
@@ -21,7 +21,7 @@ namespace Graphics
 		m_surfaceShaderProgram{surfaceShaderProgram},
 		m_body{surfaceShaderProgram, fileMeshManager.get(fuselagePath), canvas}
 	{
-		constexpr float zeppelinScale = 57;
+		static constexpr float zeppelinScale = 57;
 		scale(zeppelinScale);
 	}
 

@@ -1,22 +1,22 @@
 #pragma once
 
-#include "common/airplane_info.hpp"
-#include "common/airplane_type_name.hpp"
-#include "common/bullet_info.hpp"
-#include "common/map_name.hpp"
-#include "common/scene_info.hpp"
-#include "graphics/asset_manager.hpp"
+#include "common/airplaneInfo.hpp"
+#include "common/airplaneTypeName.hpp"
+#include "common/bulletInfo.hpp"
+#include "common/mapName.hpp"
+#include "common/sceneInfo.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/cameras/camera.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/meshes/mesh.hpp"
-#include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/meshes/proceduralMeshName.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/models/bullet.hpp"
 #include "graphics/models/hud.hpp"
 #include "graphics/path.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
-#include "graphics/world_shading.hpp"
+#include "graphics/worldShading.hpp"
 
 #include <memory>
 #include <string>
@@ -37,11 +37,11 @@ namespace Graphics
 		int m_ownId{};
 		Common::AirplaneTypeName m_ownAirplaneTypeName{};
 
-		const ShaderProgram m_surfaceShaderProgram{shaderPath("surfaceVertex"),
-			shaderPath("surfaceFragment")};
-		const ShaderProgram m_lightShaderProgram{shaderPath("lightVertex"),
-			shaderPath("lightFragment")};
-		const ShaderProgram m_hudShaderProgram{shaderPath("hudVertex"), shaderPath("hudFragment")};
+		const ShaderProgram m_surfaceShaderProgram{shaderPath("surfaceV"),
+			shaderPath("surfaceF")};
+		const ShaderProgram m_lightShaderProgram{shaderPath("lightV"),
+			shaderPath("lightF")};
+		const ShaderProgram m_hudShaderProgram{shaderPath("hudV"), shaderPath("hudF")};
 
 		AssetManager<std::string, const Mesh> m_fileMeshManager{};
 		AssetManager<ProceduralMeshName, const Mesh> m_proceduralMeshManager{};

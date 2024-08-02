@@ -2,9 +2,9 @@
 
 #include "common/transformable.hpp"
 #include "common/state.hpp"
-#include "graphics/asset_manager.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/meshes/mesh.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
 
 #include <glm/glm.hpp>

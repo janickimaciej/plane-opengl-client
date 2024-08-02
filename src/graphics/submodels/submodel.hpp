@@ -3,7 +3,7 @@
 #include "common/transformable.hpp"
 #include "graphics/material.hpp"
 #include "graphics/meshes/mesh.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
 
 #include <glm/glm.hpp>

@@ -1,21 +1,21 @@
 #include "graphics/scene.hpp"
 
-#include "common/airplane_info.hpp"
-#include "common/airplane_type_name.hpp"
-#include "common/bullet_info.hpp"
-#include "common/map_name.hpp"
-#include "common/scene_info.hpp"
-#include "graphics/airplane_camera_positions.hpp"
-#include "graphics/asset_manager.hpp"
+#include "common/airplaneInfo.hpp"
+#include "common/airplaneTypeName.hpp"
+#include "common/bulletInfo.hpp"
+#include "common/mapName.hpp"
+#include "common/sceneInfo.hpp"
+#include "graphics/airplaneCameraPositions.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/cameras/camera.hpp"
-#include "graphics/cameras/model_camera.hpp"
-#include "graphics/cameras/orthographic_camera.hpp"
+#include "graphics/cameras/modelCamera.hpp"
+#include "graphics/cameras/orthographicCamera.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
-#include "graphics/world_shading.hpp"
+#include "graphics/worldShading.hpp"
 
 #include <cstddef>
 #include <memory>
@@ -25,13 +25,13 @@
 
 namespace Graphics
 {
-	constexpr float worldCameraFOVDeg = 60;
-	constexpr float worldCameraNearPlane = 4;
-	constexpr float worldCameraFarPlane = 20000;
+	static constexpr float worldCameraFOVDeg = 60;
+	static constexpr float worldCameraNearPlane = 4;
+	static constexpr float worldCameraFarPlane = 20000;
 
-	constexpr float hudCameraWidth = 2;
-	constexpr float hudCameraNearPlane = 0;
-	constexpr float hudCameraFarPlane = 1;
+	static constexpr float hudCameraWidth = 2;
+	static constexpr float hudCameraNearPlane = 0;
+	static constexpr float hudCameraFarPlane = 1;
 
 	Scene::Scene(int ownId, Common::AirplaneTypeName ownAirplaneTypeName, Common::MapName mapName) :
 		m_ownId{ownId},
@@ -45,7 +45,7 @@ namespace Graphics
 		m_worldCamera = std::make_unique<ModelCamera>(*m_airplanes.at(ownId),
 			glm::radians(worldCameraFOVDeg), worldCameraNearPlane, worldCameraFarPlane,
 			m_surfaceShaderProgram, m_lightShaderProgram, m_hudShaderProgram);
-		constexpr float cameraPitchDeg = -10;
+		static constexpr float cameraPitchDeg = -10;
 		m_worldCamera->rotatePitch(glm::radians(cameraPitchDeg));
 		m_worldCamera->translate(airplaneCameraPositions[Common::toSizeT(ownAirplaneTypeName)]);
 
@@ -55,7 +55,7 @@ namespace Graphics
 		m_map = Map::createMap(mapName, m_worldShading, m_surfaceShaderProgram,
 			m_lightShaderProgram, m_fileMeshManager, m_proceduralMeshManager, m_textureManager);
 
-		m_hud.translate(glm::vec3{0, 0, -0.01});
+		m_hud.translate(glm::vec3{0, 0, -0.01f});
 	}
 
 	void Scene::update(const Common::SceneInfo& sceneInfo)
@@ -64,7 +64,7 @@ namespace Graphics
 		addAndUpdateAirplanes(sceneInfo.airplaneInfos);
 		removeAirplanes(sceneInfo.airplaneInfos);
 		updateBullets(sceneInfo.bulletInfos);
-		m_hud.update(*m_airplanes[m_ownId], *m_map, m_airplanes.size());
+		m_hud.update(*m_airplanes[m_ownId], *m_map, static_cast<int>(m_airplanes.size()));
 	}
 
 	void Scene::updateShaders()

@@ -1,8 +1,8 @@
 #include "graphics/meshes/mesh.hpp"
 
-#include "graphics/meshes/mesh_generator.hpp"
-#include "graphics/meshes/obj_parser.hpp"
-#include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/meshes/meshGenerator.hpp"
+#include "graphics/meshes/objParser.hpp"
+#include "graphics/meshes/proceduralMeshName.hpp"
 #include "graphics/meshes/vertex.hpp"
 
 #include <glad/glad.h>
@@ -29,7 +29,7 @@ namespace Graphics
 	void Mesh::render() const
 	{
 		glBindVertexArray(m_VAO);
-		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)m_vertexCount);
+		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(m_vertexCount));
 		glBindVertexArray(0);
 	}
 
@@ -43,19 +43,22 @@ namespace Graphics
 	{
 		glGenBuffers(1, &m_VBO);
 		glGenVertexArrays(1, &m_VAO);
+
 		glBindVertexArray(m_VAO);
+
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(vertices.size() * sizeof(Vertex)),
+		glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(vertices.size() * sizeof(Vertex)),
 			vertices.data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			(void*)offsetof(Vertex, position));
+			reinterpret_cast<void*>(offsetof(Vertex, position)));
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			(void*)offsetof(Vertex, texturePosition));
+			reinterpret_cast<void*>(offsetof(Vertex, texturePosition)));
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			(void*)offsetof(Vertex, normalVector));
+			reinterpret_cast<void*>(offsetof(Vertex, normalVector)));
 		glEnableVertexAttribArray(2);
+
 		glBindVertexArray(0);
 	}
 };

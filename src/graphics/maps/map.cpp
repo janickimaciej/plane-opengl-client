@@ -1,12 +1,12 @@
 #include "graphics/maps/map.hpp"
 
-#include "common/map_name.hpp"
-#include "common/terrains/maps/airport_map.hpp"
-#include "common/terrains/maps/hills_map.hpp"
+#include "common/mapName.hpp"
+#include "common/terrains/maps/airportMap.hpp"
+#include "common/terrains/maps/hillsMap.hpp"
 #include "common/terrains/maps/map.hpp"
-#include "graphics/maps/airport_map.hpp"
-#include "graphics/maps/hills_map.hpp"
-#include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/maps/airportMap.hpp"
+#include "graphics/maps/hillsMap.hpp"
+#include "graphics/meshes/proceduralMeshName.hpp"
 
 #include <memory>
 #include <string>
@@ -21,15 +21,15 @@ namespace Graphics
 	{
 		switch (mapName)
 		{
-		case Common::MapName::airport:
-			return std::make_unique<AirportMap>(worldShading, surfaceShaderProgram,
-				lightShaderProgram, fileMeshManager, textureManager,
-				std::make_unique<Common::Terrains::AirportMap>());
+			case Common::MapName::airport:
+				return std::make_unique<AirportMap>(worldShading, surfaceShaderProgram,
+					lightShaderProgram, fileMeshManager, textureManager,
+					std::make_unique<Common::Terrains::AirportMap>());
 
-		case Common::MapName::hills:
-			return std::make_unique<HillsMap>(worldShading, surfaceShaderProgram,
-				proceduralMeshManager, textureManager,
-				std::make_unique<Common::Terrains::HillsMap>());
+			case Common::MapName::hills:
+				return std::make_unique<HillsMap>(worldShading, surfaceShaderProgram,
+					proceduralMeshManager, textureManager,
+					std::make_unique<Common::Terrains::HillsMap>());
 		}
 		assert(false);
 		return nullptr;

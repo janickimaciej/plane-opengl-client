@@ -1,13 +1,13 @@
 #pragma once
 
-#include "graphics/asset_manager.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/maps/map.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/models/model.hpp"
 #include "graphics/meshes/mesh.hpp"
-#include "graphics/meshes/procedural_mesh_name.hpp"
-#include "graphics/shader_program.hpp"
-#include "graphics/text_field.hpp"
+#include "graphics/meshes/proceduralMeshName.hpp"
+#include "graphics/shaderProgram.hpp"
+#include "graphics/textField.hpp"
 #include "graphics/texture.hpp"
 
 #include <glm/glm.hpp>

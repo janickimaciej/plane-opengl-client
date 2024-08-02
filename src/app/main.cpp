@@ -1,11 +1,11 @@
-#include "app/threads/rendering_thread.hpp"
-#include "app/command_line_argument.hpp"
-#include "app/controller_type.hpp"
-#include "app/exit_code.hpp"
-#include "app/exit_signal.hpp"
-#include "app/game_mode.hpp"
-#include "common/airplane_type_name.hpp"
-#include "common/map_name.hpp"
+#include "app/threads/renderingThread.hpp"
+#include "app/commandLineArgument.hpp"
+#include "app/controllerType.hpp"
+#include "app/exitCode.hpp"
+#include "app/exitSignal.hpp"
+#include "app/gameMode.hpp"
+#include "common/airplaneTypeName.hpp"
+#include "common/mapName.hpp"
 
 #include <cstddef>
 #include <semaphore>
@@ -109,8 +109,8 @@ namespace App
 			return false;
 		}
 
-		constexpr int minPortValue = 0;
-		constexpr int maxPortValue = 1 << 16;
+		static constexpr int minPortValue = 0;
+		static constexpr int maxPortValue = 1 << 16;
 
 		serverNetworkThreadPort =
 			std::stoi(argv[toSizeT(CommandLineArgument::serverNetworkThreadPort)]);
@@ -154,7 +154,7 @@ namespace App
 				if (!fieldString.empty() && serverIPAddress[i] == '.')
 				{
 					int fieldInt = std::stoi(fieldString);
-					constexpr int maxFieldValue = 256;
+					static constexpr int maxFieldValue = 256;
 					if (fieldInt >= maxFieldValue)
 					{
 						return false;
@@ -176,7 +176,7 @@ namespace App
 		if (fieldIndex == 3 && !fieldString.empty())
 		{
 			int fieldInt = std::stoi(fieldString);
-			constexpr int maxFieldValue = 256;
+			static constexpr int maxFieldValue = 256;
 			if (fieldInt >= maxFieldValue)
 			{
 				return false;

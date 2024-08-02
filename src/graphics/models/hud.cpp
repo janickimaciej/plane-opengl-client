@@ -1,11 +1,11 @@
 #include "graphics/models/hud.hpp"
 
-#include "graphics/asset_manager.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/meshes/mesh.hpp"
-#include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/meshes/proceduralMeshName.hpp"
 #include "graphics/path.hpp"
-#include "graphics/shader_program.hpp"
-#include "graphics/text_field.hpp"
+#include "graphics/shaderProgram.hpp"
+#include "graphics/textField.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/time.hpp"
 
@@ -17,19 +17,19 @@
 
 namespace Graphics
 {
-	constexpr float smallFontSize = 0.0003f;
-	constexpr float largeFontSize = 0.0006f;
-	constexpr float topLineY = 0;
-	constexpr float bottomLineLargeFontY = -0.035;
-	constexpr float bottomLineSmallFontY = -0.055;
-	constexpr float indicatorsY = -0.43;
-	constexpr glm::vec3 fpsPosition{-0.97, 0.53, 0};
-	constexpr glm::vec3 playerCountPosition{0.84, 0.53, 0};
-	constexpr glm::vec3 altitudePosition{-0.96, indicatorsY, 0};
-	constexpr glm::vec3 radarAltitudePosition{-0.51, indicatorsY, 0};
-	constexpr glm::vec3 hpPosition{-0.06, indicatorsY, 0};
-	constexpr glm::vec3 verticalSpeedPosition{0.32, indicatorsY, 0};
-	constexpr glm::vec3 airspeedPosition{0.78, indicatorsY, 0};
+	static constexpr float smallFontSize = 0.0003f;
+	static constexpr float largeFontSize = 0.0006f;
+	static constexpr float topLineY = 0;
+	static constexpr float bottomLineLargeFontY = -0.035f;
+	static constexpr float bottomLineSmallFontY = -0.055f;
+	static constexpr float indicatorsY = -0.43f;
+	static constexpr glm::vec3 fpsPosition{-0.97f, 0.53f, 0};
+	static constexpr glm::vec3 playerCountPosition{0.84f, 0.53f, 0};
+	static constexpr glm::vec3 altitudePosition{-0.96f, indicatorsY, 0};
+	static constexpr glm::vec3 radarAltitudePosition{-0.51f, indicatorsY, 0};
+	static constexpr glm::vec3 hpPosition{-0.06f, indicatorsY, 0};
+	static constexpr glm::vec3 verticalSpeedPosition{0.32f, indicatorsY, 0};
+	static constexpr glm::vec3 airspeedPosition{0.78f, indicatorsY, 0};
 
 	HUD::HUD(const ShaderProgram& hudShaderProgram,
 		AssetManager<ProceduralMeshName, const Mesh>& proceduralMeshManager,
@@ -38,39 +38,40 @@ namespace Graphics
 		m_fpsNumber{hudShaderProgram, proceduralMeshManager, textureManager, "___",
 			fpsPosition + glm::vec3{0, 0, 0}, smallFontSize},
 		m_fpsUnit{hudShaderProgram, proceduralMeshManager, textureManager, "FPS",
-			fpsPosition + glm::vec3{0.05, 0, 0}, smallFontSize},
+			fpsPosition + glm::vec3{0.05f, 0, 0}, smallFontSize},
 		m_playerCountNumber{hudShaderProgram, proceduralMeshManager, textureManager, "__",
 			playerCountPosition + glm::vec3{0, 0, 0}, smallFontSize},
 		m_playerCountUnit{hudShaderProgram, proceduralMeshManager, textureManager, "PLAYERS",
-			playerCountPosition + glm::vec3{0.04, 0, 0}, smallFontSize},
+			playerCountPosition + glm::vec3{0.04f, 0, 0}, smallFontSize},
 		m_altitudeText{hudShaderProgram, proceduralMeshManager, textureManager, "ALTITUDE",
-			altitudePosition + glm::vec3{0.045, topLineY, 0}, smallFontSize},
+			altitudePosition + glm::vec3{0.045f, topLineY, 0}, smallFontSize},
 		m_altitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
 			altitudePosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_altitudeUnit{hudShaderProgram, proceduralMeshManager, textureManager, "M",
-			altitudePosition + glm::vec3{0.17, bottomLineSmallFontY, 0}, smallFontSize},
+			altitudePosition + glm::vec3{0.17f, bottomLineSmallFontY, 0}, smallFontSize},
 		m_radarAltitudeText{hudShaderProgram, proceduralMeshManager, textureManager,
-			"RADAR_ALTITUDE", radarAltitudePosition + glm::vec3{0.007, topLineY, 0}, smallFontSize},
+			"RADAR_ALTITUDE", radarAltitudePosition + glm::vec3{0.007f, topLineY, 0},
+			smallFontSize},
 		m_radarAltitudeNumber{hudShaderProgram, proceduralMeshManager, textureManager, "______",
 			radarAltitudePosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_radarAltitudeUnit{hudShaderProgram, proceduralMeshManager, textureManager, "M",
-			radarAltitudePosition + glm::vec3{0.17, bottomLineSmallFontY, 0}, smallFontSize},
+			radarAltitudePosition + glm::vec3{0.17f, bottomLineSmallFontY, 0}, smallFontSize},
 		m_hpNumber{hudShaderProgram, proceduralMeshManager, textureManager, "___",
 			hpPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_hpUnit{hudShaderProgram, proceduralMeshManager, textureManager, "HP",
-			hpPosition + glm::vec3{0.1, bottomLineSmallFontY, 0}, smallFontSize},
+			hpPosition + glm::vec3{0.1f, bottomLineSmallFontY, 0}, smallFontSize},
 		m_verticalSpeedText{hudShaderProgram, proceduralMeshManager, textureManager,
-			"VERTICAL_SPEED", verticalSpeedPosition + glm::vec3{0.01, topLineY, 0}, smallFontSize},
+			"VERTICAL_SPEED", verticalSpeedPosition + glm::vec3{0.01f, topLineY, 0}, smallFontSize},
 		m_verticalSpeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "_____",
 			verticalSpeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_verticalSpeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "MPS",
-			verticalSpeedPosition + glm::vec3{0.15, bottomLineSmallFontY, 0}, smallFontSize},
+			verticalSpeedPosition + glm::vec3{0.15f, bottomLineSmallFontY, 0}, smallFontSize},
 		m_airspeedText{hudShaderProgram, proceduralMeshManager, textureManager, "AIRSPEED",
-			airspeedPosition + glm::vec3{0.03, topLineY, 0}, smallFontSize},
+			airspeedPosition + glm::vec3{0.03f, topLineY, 0}, smallFontSize},
 		m_airspeedNumber{hudShaderProgram, proceduralMeshManager, textureManager, "____",
 			airspeedPosition + glm::vec3{0, bottomLineLargeFontY, 0}, largeFontSize},
 		m_airspeedUnit{hudShaderProgram, proceduralMeshManager, textureManager, "KPH",
-			airspeedPosition + glm::vec3{0.12, bottomLineSmallFontY, 0}, smallFontSize}
+			airspeedPosition + glm::vec3{0.12f, bottomLineSmallFontY, 0}, smallFontSize}
 	{
 		for (char i = '0'; i <= '9'; ++i)
 		{
@@ -91,7 +92,7 @@ namespace Graphics
 	void HUD::update(const Airplane& ownAirplane, const Map& map, int playerCount)
 	{
 		m_lastUpdateTime += Time::getDeltaTime();
-		constexpr float refreshTime = 0.5f;
+		static constexpr float refreshTime = 0.5f;
 		if (m_lastUpdateTime >= refreshTime)
 		{
 			Common::State state = ownAirplane.getState();

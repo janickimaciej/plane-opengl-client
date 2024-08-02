@@ -1,12 +1,12 @@
 #include "graphics/models/airplanes/mustang.hpp"
 
-#include "common/airplane_centers_of_mass.hpp"
-#include "common/airplane_ctrl.hpp"
-#include "graphics/asset_manager.hpp"
+#include "common/airplaneCentersOfMass.hpp"
+#include "common/airplaneCtrl.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/path.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/time.hpp"
 
@@ -16,28 +16,28 @@
 
 namespace Graphics
 {
-	const std::string modelName = "mustang";
+	static const std::string modelName = "mustang";
 	
-	const std::string capPath = meshPath(modelName, "cap");
-	const std::string propellerPath = meshPath(modelName, "propeller");
-	const std::string fuselagePath = meshPath(modelName, "body");
-	const std::string joinsPath = meshPath(modelName, "joins");
-	const std::string tiresPath = meshPath(modelName, "tires");
-	const std::string lightPath = meshPath(modelName, "light");
+	static const std::string capPath = meshPath(modelName, "cap");
+	static const std::string propellerPath = meshPath(modelName, "propeller");
+	static const std::string fuselagePath = meshPath(modelName, "body");
+	static const std::string joinsPath = meshPath(modelName, "joins");
+	static const std::string tiresPath = meshPath(modelName, "tires");
+	static const std::string lightPath = meshPath(modelName, "light");
 
-	const std::string camoPath = texturePath(modelName, "camo");
+	static const std::string camoPath = texturePath(modelName, "camo");
 
-	constexpr float lightsAttenuationQuadratic = 0.0001f;
-	constexpr float lightsAttenuationLinear = 0.0005f;
-	constexpr float lightsAttenuationConstant = 1;
-	constexpr glm::vec3 lightsColor{1, 1, 1};
-	constexpr float lightsCutoffInnerDeg = 8;
-	constexpr float lightsCutoffOuterDeg = 10;
+	static constexpr float lightsAttenuationQuadratic = 0.0001f;
+	static constexpr float lightsAttenuationLinear = 0.0005f;
+	static constexpr float lightsAttenuationConstant = 1;
+	static constexpr glm::vec3 lightsColor{1, 1, 1};
+	static constexpr float lightsCutoffInnerDeg = 8;
+	static constexpr float lightsCutoffOuterDeg = 10;
 
-	const Material texturedMetal{glm::vec3{1, 1, 1}, 0.75, 0.5, 30, true};
-	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.5, 30, true};
-	const Material rubber{glm::vec3{0.1, 0.1, 0.1}, 0.75, 0, 1, false};
-	const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1, false};
+	static const Material texturedMetal{glm::vec3{1, 1, 1}, 0.75f, 0.5f, 30, true};
+	static const Material metal{glm::vec3{0.25f, 0.25f, 0.25f}, 0.75f, 0.5f, 30, true};
+	static const Material rubber{glm::vec3{0.1f, 0.1f, 0.1f}, 0.75f, 0, 1, false};
+	static const Material whiteLightGlass{glm::vec3{1, 1, 1}, 1, 1, 1, false};
 
 	Mustang::Mustang(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram,
@@ -62,13 +62,13 @@ namespace Graphics
 		m_rightLightSubmodel{m_rightLight, lightShaderProgram, fileMeshManager.get(lightPath),
 			whiteLightGlass}
 	{
-		constexpr float lightsPositionXAbs = 2.14f;
-		constexpr float lightsPositionY = -0.474f;
-		constexpr float lightsPositionZ = 2.938f;
+		static constexpr float lightsPositionXAbs = 2.14f;
+		static constexpr float lightsPositionY = -0.474f;
+		static constexpr float lightsPositionZ = 2.938f;
 		m_leftLight.translate(glm::vec3{lightsPositionXAbs, lightsPositionY, lightsPositionZ});
 		m_rightLight.translate(glm::vec3{-lightsPositionXAbs, lightsPositionY, lightsPositionZ});
 
-		constexpr glm::vec3 nosePosition = -Common::airplaneCentersOfMass[
+		static constexpr glm::vec3 nosePosition = -Common::airplaneCentersOfMass[
 			toSizeT(Common::AirplaneTypeName::mustang)];
 		m_cap.translate(nosePosition);
 		m_propeller.translate(nosePosition);
@@ -103,7 +103,7 @@ namespace Graphics
 
 	void Mustang::setHP(int hp)
 	{
-		Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
+		static const Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
 		if (!m_isDestroyed && hp == 0)
 		{
 			m_cap.setMaterial(red);

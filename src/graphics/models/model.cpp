@@ -2,7 +2,7 @@
 
 #include "common/transformable.hpp"
 #include "common/state.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 
 #include <glm/glm.hpp>
 

@@ -1,45 +1,45 @@
 #include "graphics/models/airplanes/jw1.hpp"
 
-#include "common/airplane_centers_of_mass.hpp"
-#include "common/airplane_ctrl.hpp"
-#include "graphics/asset_manager.hpp"
+#include "common/airplaneCentersOfMass.hpp"
+#include "common/airplaneCtrl.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/airplanes/airplane.hpp"
 #include "graphics/path.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
 
 #include <string>
 
 namespace Graphics
 {
-	const std::string modelName = "jw1";
+	static const std::string modelName = "jw1";
 	
-	const std::string conePath = meshPath(modelName, "cone");
-	const std::string gunPath = meshPath(modelName, "gun");
-	const std::string cockpitPath = meshPath(modelName, "cockpit");
-	const std::string fuselagePath = meshPath(modelName, "fuselage");
-	const std::string rightEnginePath = meshPath(modelName, "rightEngine");
-	const std::string rightNozzlePath = meshPath(modelName, "rightNozzle");
-	const std::string rightNozzleGlassPath = meshPath(modelName, "rightNozzleGlass");
-	const std::string rightWingPath = meshPath(modelName, "rightWing");
-	const std::string rightVStabPath = meshPath(modelName, "rightVStab");
-	const std::string rightElevatorPath = meshPath(modelName, "rightElevator");
-	const std::string rightRudderPath = meshPath(modelName, "rightRudder");
-	const std::string rightAileronPath = meshPath(modelName, "rightAileron");
+	static const std::string conePath = meshPath(modelName, "cone");
+	static const std::string gunPath = meshPath(modelName, "gun");
+	static const std::string cockpitPath = meshPath(modelName, "cockpit");
+	static const std::string fuselagePath = meshPath(modelName, "fuselage");
+	static const std::string rightEnginePath = meshPath(modelName, "rightEngine");
+	static const std::string rightNozzlePath = meshPath(modelName, "rightNozzle");
+	static const std::string rightNozzleGlassPath = meshPath(modelName, "rightNozzleGlass");
+	static const std::string rightWingPath = meshPath(modelName, "rightWing");
+	static const std::string rightVStabPath = meshPath(modelName, "rightVStab");
+	static const std::string rightElevatorPath = meshPath(modelName, "rightElevator");
+	static const std::string rightRudderPath = meshPath(modelName, "rightRudder");
+	static const std::string rightAileronPath = meshPath(modelName, "rightAileron");
 
-	const std::string camoPath = texturePath(modelName, "camo");
-	const std::string nozzleGlassPath = texturePath(modelName, "nozzleGlass");
+	static const std::string camoPath = texturePath(modelName, "camo");
+	static const std::string nozzleGlassPath = texturePath(modelName, "nozzleGlass");
 
-	constexpr float lightsAttenuationQuadratic = 0.0001f;
-	constexpr float lightsAttenuationLinear = 0.0005f;
-	constexpr float lightsAttenuationConstant = 1;
-	constexpr glm::vec3 lightsColor{1, 1, 1};
+	static constexpr float lightsAttenuationQuadratic = 0.0001f;
+	static constexpr float lightsAttenuationLinear = 0.0005f;
+	static constexpr float lightsAttenuationConstant = 1;
+	static constexpr glm::vec3 lightsColor{1, 1, 1};
 	
-	const Material texturedMetal{glm::vec3{1, 1, 1}, 0.2f, 0.2f, 30, true};
-	const Material darkMetal{glm::vec3{0.4, 0.4, 0.4}, 0.2f, 0.2f, 30, true};
-	const Material defaultNozzleGlass{glm::vec3{0, 0, 0}, 1, 1, 1, false};
-	const Material blackGlass{glm::vec3{0, 0, 0}, 0.75, 1, 50, false};
+	static const Material texturedMetal{glm::vec3{1, 1, 1}, 0.2f, 0.2f, 30, true};
+	static const Material darkMetal{glm::vec3{0.4f, 0.4f, 0.4f}, 0.2f, 0.2f, 30, true};
+	static const Material defaultNozzleGlass{glm::vec3{0, 0, 0}, 1, 1, 1, false};
+	static const Material blackGlass{glm::vec3{0, 0, 0}, 0.75f, 1, 50, false};
 	
 	JW1::JW1(const ShaderProgram& surfaceShaderProgram, const ShaderProgram& lightShaderProgram,
 		AssetManager<std::string, const Mesh>& fileMeshManager,
@@ -93,14 +93,14 @@ namespace Graphics
 		m_leftRudder.mirrorX();
 		m_leftAileron.mirrorX();
 		
-		m_leftElevator.translate(glm::vec3{0, 0, 16.6});
-		m_rightElevator.translate(glm::vec3{0, 0, 16.6});
-		m_leftRudder.translate(glm::vec3{-1.375, 0.533, 18.92});
-		m_rightRudder.translate(glm::vec3{1.375, 0.533, 18.92});
-		m_leftAileron.translate(glm::vec3{-4.107, 0.535, 14.57});
-		m_rightAileron.translate(glm::vec3{4.107, 0.535, 14.57});
+		m_leftElevator.translate(glm::vec3{0, 0, 16.6f});
+		m_rightElevator.translate(glm::vec3{0, 0, 16.6f});
+		m_leftRudder.translate(glm::vec3{-1.375f, 0.533f, 18.92f});
+		m_rightRudder.translate(glm::vec3{1.375f, 0.533f, 18.92f});
+		m_leftAileron.translate(glm::vec3{-4.107f, 0.535f, 14.57f});
+		m_rightAileron.translate(glm::vec3{4.107f, 0.535f, 14.57f});
 
-		constexpr glm::vec3 nosePosition = -Common::airplaneCentersOfMass[
+		static constexpr glm::vec3 nosePosition = -Common::airplaneCentersOfMass[
 			toSizeT(Common::AirplaneTypeName::jw1)];
 		m_cone.translate(nosePosition);
 		m_gun.translate(nosePosition);
@@ -156,7 +156,7 @@ namespace Graphics
 		m_rightAileron.resetRotation();
 		m_rightAileron.rotate(rightElevatorAxis, -airplaneCtrl.aileronsAngleRad);
 
-		static constexpr glm::vec3 nozzleMaxColor{1, 0.8, 0};
+		static constexpr glm::vec3 nozzleMaxColor{1, 0.8f, 0};
 		Material nozzleGlass{airplaneCtrl.thrustRelative * nozzleMaxColor, 1, 1, 1, false};
 		m_leftNozzleGlass.setMaterial(nozzleGlass);
 		m_rightNozzleGlass.setMaterial(nozzleGlass);
@@ -164,7 +164,7 @@ namespace Graphics
 
 	void JW1::setHP(int hp)
 	{
-		Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
+		static const Material red{glm::vec3{1, 0, 0}, 1, 0, 1, false};
 		if (!m_isDestroyed && hp == 0)
 		{
 			m_cone.setMaterial(red);

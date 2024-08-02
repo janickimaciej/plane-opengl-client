@@ -1,11 +1,11 @@
 #include "graphics/models/airport.hpp"
 
-#include "graphics/asset_manager.hpp"
-#include "graphics/lights/spot_light.hpp"
+#include "graphics/assetManager.hpp"
+#include "graphics/lights/spotLight.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/model.hpp"
 #include "graphics/path.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/submodels/submodel.hpp"
 #include "graphics/texture.hpp"
 
@@ -18,37 +18,37 @@
 
 namespace Graphics
 {
-	const std::string modelName = "airport";
+	static const std::string modelName = "airport";
 
-	const std::string apronPath = meshPath(modelName, "apron");
-	const std::string groundPath = meshPath(modelName, "ground");
-	const std::string hangarExteriorPath = meshPath(modelName, "hangarExterior");
-	const std::string hangarInteriorPath = meshPath(modelName, "hangarInterior");
-	const std::string lightPath = meshPath(modelName, "light");
-	const std::string lightBodyPath = meshPath(modelName, "lightBody");
-	const std::string runwayPath = meshPath(modelName, "runway");
-	const std::string towerPath = meshPath(modelName, "tower");
+	static const std::string apronPath = meshPath(modelName, "apron");
+	static const std::string groundPath = meshPath(modelName, "ground");
+	static const std::string hangarExteriorPath = meshPath(modelName, "hangarExterior");
+	static const std::string hangarInteriorPath = meshPath(modelName, "hangarInterior");
+	static const std::string lightPath = meshPath(modelName, "light");
+	static const std::string lightBodyPath = meshPath(modelName, "lightBody");
+	static const std::string runwayPath = meshPath(modelName, "runway");
+	static const std::string towerPath = meshPath(modelName, "tower");
 	
-	const std::string asphaltPath = texturePath(modelName, "asphalt");
-	const std::string asphaltBrightPath = texturePath(modelName, "asphaltBright"); 
-	const std::string concretePath = texturePath(modelName, "concrete");
-	const std::string grassPath = texturePath(modelName, "grass");
-	const std::string tentPath = texturePath(modelName, "tent");
+	static const std::string asphaltPath = texturePath(modelName, "asphalt");
+	static const std::string asphaltBrightPath = texturePath(modelName, "asphaltBright"); 
+	static const std::string concretePath = texturePath(modelName, "concrete");
+	static const std::string grassPath = texturePath(modelName, "grass");
+	static const std::string tentPath = texturePath(modelName, "tent");
 
-	constexpr std::size_t hangarCount = 3;
-	constexpr float lightsAttenuationQuadratic = 0.0001f;
-	constexpr float lightsAttenuationLinear = 0.0005f;
-	constexpr float lightsAttenuationConstant = 1;
-	constexpr glm::vec3 lightsColor{1, 1, 0.6};
-	constexpr float lightsCutoffInnerDeg = 25;
-	constexpr float lightsCutoffOuterDeg = 35;
+	static constexpr std::size_t hangarCount = 3;
+	static constexpr float lightsAttenuationQuadratic = 0.0001f;
+	static constexpr float lightsAttenuationLinear = 0.0005f;
+	static constexpr float lightsAttenuationConstant = 1;
+	static constexpr glm::vec3 lightsColor{1, 1, 0.6f};
+	static constexpr float lightsCutoffInnerDeg = 25;
+	static constexpr float lightsCutoffOuterDeg = 35;
 
-	const Material ground{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
-	const Material tentExterior{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
-	const Material tentInterior{glm::vec3{0.5, 0.5, 0.5}, 0.75, 0, 10, false};
-	const Material concrete{glm::vec3{1, 1, 1}, 0.75, 0, 10, false};
-	const Material metal{glm::vec3{0.25, 0.25, 0.25}, 0.75, 0.25, 10, true};
-	const Material yellowLightGlass{glm::vec3{1, 1, 0.6}, 1, 1, 1, false};
+	static const Material ground{glm::vec3{1, 1, 1}, 0.75f, 0, 10, false};
+	static const Material tentExterior{glm::vec3{1, 1, 1}, 0.75f, 0, 10, false};
+	static const Material tentInterior{glm::vec3{0.5f, 0.5f, 0.5f}, 0.75f, 0, 10, false};
+	static const Material concrete{glm::vec3{1, 1, 1}, 0.75f, 0, 10, false};
+	static const Material metal{glm::vec3{0.25f, 0.25f, 0.25f}, 0.75f, 0.25f, 10, true};
+	static const Material yellowLightGlass{glm::vec3{1, 1, 0.6f}, 1, 1, 1, false};
 
 	Airport::Airport(const ShaderProgram& surfaceShaderProgram,
 		const ShaderProgram& lightShaderProgram,
@@ -74,7 +74,7 @@ namespace Graphics
 			m_hangarExteriors.push_back(hangarExteriorSubmodel);
 			m_hangarInteriors.push_back(hangarInteriorSubmodel);
 
-			constexpr float hangarsGapZ = 46;
+			static constexpr float hangarsGapZ = 46;
 			m_hangarExteriors[i].translate(glm::vec3{0, 0, -hangarsGapZ * static_cast<int>(i)});
 			m_hangarInteriors[i].translate(glm::vec3{0, 0, -hangarsGapZ * static_cast<int>(i)});
 		}
@@ -90,20 +90,20 @@ namespace Graphics
 			m_lightSubmodels.push_back(LightSubmodel{*m_lights[i], lightShaderProgram,
 				fileMeshManager.get(lightPath), yellowLightGlass});
 
-			constexpr float firstLightPositionX = -49;
-			constexpr float lightsGapX = 14;
-			constexpr float lightsPositionY = 7;
-			constexpr float lightsPositionZ = 250;
+			static constexpr float firstLightPositionX = -49;
+			static constexpr float lightsGapX = 14;
+			static constexpr float lightsPositionY = 7;
+			static constexpr float lightsPositionZ = 250;
 			glm::vec3 lightPosition{firstLightPositionX + lightsGapX * static_cast<int>(i),
 				lightsPositionY, lightsPositionZ};
 			m_lightBodies[i].translate(lightPosition);
 			m_lights[i]->translate(lightPosition);
 
-			constexpr float lightsRotationYawDeg = 180;
+			static constexpr float lightsRotationYawDeg = 180;
 			m_lightBodies[i].rotateYaw(glm::radians(lightsRotationYawDeg));
 			m_lights[i]->rotateYaw(glm::radians(lightsRotationYawDeg));
 
-			constexpr float lightsRotationPitchDeg = 15;
+			static constexpr float lightsRotationPitchDeg = 15;
 			m_lightBodies[i].rotatePitch(glm::radians(lightsRotationPitchDeg));
 			m_lights[i]->rotatePitch(glm::radians(lightsRotationPitchDeg));
 		}

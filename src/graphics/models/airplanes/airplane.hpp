@@ -1,11 +1,11 @@
 #pragma once
 
-#include "common/airplane_ctrl.hpp"
-#include "common/airplane_type_name.hpp"
-#include "graphics/asset_manager.hpp"
+#include "common/airplaneCtrl.hpp"
+#include "common/airplaneTypeName.hpp"
+#include "graphics/assetManager.hpp"
 #include "graphics/meshes/mesh.hpp"
 #include "graphics/models/model.hpp"
-#include "graphics/shader_program.hpp"
+#include "graphics/shaderProgram.hpp"
 #include "graphics/texture.hpp"
 
 #include <memory>

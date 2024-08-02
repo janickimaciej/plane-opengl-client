@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/meshes/procedural_mesh_name.hpp"
+#include "graphics/meshes/proceduralMeshName.hpp"
 #include "graphics/meshes/vertex.hpp"
 
 #include <cstddef>
